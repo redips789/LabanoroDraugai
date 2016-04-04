@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author ADMIN
+ * @author 
  */
 @Entity
 @Table(name = "ACCOUNT")
