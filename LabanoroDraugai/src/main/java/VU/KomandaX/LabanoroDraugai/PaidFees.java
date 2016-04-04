@@ -1,5 +1,5 @@
 /*
- *  Author: Liudas Petrelis //test
+ *  Author: Liudas Petrelis 
  */
 package VU.KomandaX.LabanoroDraugai;
 
