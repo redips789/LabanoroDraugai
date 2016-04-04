@@ -1,7 +1,5 @@
-/*
- *  Author: Liudas Petrelis
- */
-package VU.KomandaX.LabanoroDraugai;
+
+package VU.KomandaX.LabanoroDraugai.Entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -24,7 +22,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author ADMIN
+ * @author Liudas
  */
 @Entity
 @Table(name = "ACCOUNT")
@@ -41,47 +39,61 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Account.findByPassword", query = "SELECT a FROM Account a WHERE a.password = :password"),
     @NamedQuery(name = "Account.findByStatus", query = "SELECT a FROM Account a WHERE a.status = :status"),
     @NamedQuery(name = "Account.findByTimeSpentOnHoliday", query = "SELECT a FROM Account a WHERE a.timeSpentOnHoliday = :timeSpentOnHoliday")})
+
 public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    
     @Size(max = 30)
     @Column(name = "EMAIL_CONFIRMATION")
     private String emailConfirmation;
+    
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "EMAIL")
     private String email;
+    
     @Size(max = 30)
     @Column(name = "FIRST_NAME")
     private String firstName;
+    
     @Size(max = 30)
     @Column(name = "LAST_NAME")
     private String lastName;
+    
     @Column(name = "NEXT_PAYMENT")
     @Temporal(TemporalType.DATE)
     private Date nextPayment;
+    
     @Column(name = "DATE_OF_BIRTH")
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
+    
     @Column(name = "PHONE_NUM")
     private Integer phoneNum;
+    
     @Size(max = 30)
     @Column(name = "PASSWORD")
     private String password;
+    
     @Size(max = 20)
     @Column(name = "STATUS")
     private String status;
+    
     @Column(name = "TIME_SPENT_ON_HOLIDAY")
     private Integer timeSpentOnHoliday;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId")
     private List<Reservation> reservationList;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId")
     private List<PaidFees> paidFeesList;
 

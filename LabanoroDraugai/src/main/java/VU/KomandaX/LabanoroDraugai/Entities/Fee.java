@@ -1,7 +1,5 @@
-/*
- *  Author: Liudas Petrelis
- */
-package VU.KomandaX.LabanoroDraugai;
+
+package VU.KomandaX.LabanoroDraugai.Entities;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,7 +19,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author ADMIN
+ * @author Liudas
  */
 @Entity
 @Table(name = "FEE")
@@ -31,25 +29,31 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Fee.findByTitle", query = "SELECT f FROM Fee f WHERE f.title = :title"),
     @NamedQuery(name = "Fee.findByAmount", query = "SELECT f FROM Fee f WHERE f.amount = :amount"),
     @NamedQuery(name = "Fee.findByDescription", query = "SELECT f FROM Fee f WHERE f.description = :description")})
+
 public class Fee implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "TITLE")
     private String title;
+    
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "AMOUNT")
     private Double amount;
+    
     @Size(max = 254)
     @Column(name = "DESCRIPTION")
     private String description;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fee")
     private List<PaidFees> paidFeesList;
 

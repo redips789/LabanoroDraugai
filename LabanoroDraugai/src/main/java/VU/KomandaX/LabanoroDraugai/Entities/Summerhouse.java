@@ -1,7 +1,5 @@
-/*
- *  Author: Liudas Petrelis
- */
-package VU.KomandaX.LabanoroDraugai;
+
+package VU.KomandaX.LabanoroDraugai.Entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -24,7 +22,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author ADMIN
+ * @author Liudas
  */
 @Entity
 @Table(name = "SUMMERHOUSE")
@@ -36,30 +34,38 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Summerhouse.findByBeds", query = "SELECT s FROM Summerhouse s WHERE s.beds = :beds"),
     @NamedQuery(name = "Summerhouse.findByValidityStart", query = "SELECT s FROM Summerhouse s WHERE s.validityStart = :validityStart"),
     @NamedQuery(name = "Summerhouse.findByValidityEnd", query = "SELECT s FROM Summerhouse s WHERE s.validityEnd = :validityEnd")})
+
 public class Summerhouse implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "TITLE")
     private String title;
+    
     @Size(max = 30)
     @Column(name = "DESCRIPTION")
     private String description;
+    
     @Column(name = "BEDS")
     private Integer beds;
+    
     @Column(name = "VALIDITY_START")
     @Temporal(TemporalType.DATE)
     private Date validityStart;
+    
     @Column(name = "VALIDITY_END")
     @Temporal(TemporalType.DATE)
     private Date validityEnd;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "summerhouseId")
     private List<Reservation> reservationList;
 

@@ -1,7 +1,5 @@
-/*
- *  Author: Liudas Petrelis
- */
-package VU.KomandaX.LabanoroDraugai;
+
+package VU.KomandaX.LabanoroDraugai.Entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -19,7 +17,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author ADMIN
+ * @author Liudas
  */
 @Entity
 @Table(name = "SETTINGS")
@@ -33,30 +31,39 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Settings.findByCloseReservation", query = "SELECT s FROM Settings s WHERE s.closeReservation = :closeReservation"),
     @NamedQuery(name = "Settings.findByFirstGroupMaxDay", query = "SELECT s FROM Settings s WHERE s.firstGroupMaxDay = :firstGroupMaxDay"),
     @NamedQuery(name = "Settings.findBySecondGroupMaxDay", query = "SELECT s FROM Settings s WHERE s.secondGroupMaxDay = :secondGroupMaxDay")})
+
 public class Settings implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    
     @Column(name = "MAX_USERS")
     private Integer maxUsers;
+    
     @Column(name = "FIRST_RESERVATION")
     @Temporal(TemporalType.DATE)
     private Date firstReservation;
+    
     @Column(name = "SECOND_RESERVATION")
     @Temporal(TemporalType.DATE)
     private Date secondReservation;
+    
     @Column(name = "THIRD_RESERVATION")
     @Temporal(TemporalType.DATE)
     private Date thirdReservation;
+    
     @Column(name = "CLOSE_RESERVATION")
     @Temporal(TemporalType.DATE)
     private Date closeReservation;
+    
     @Column(name = "FIRST_GROUP_MAX_DAY")
     private Integer firstGroupMaxDay;
+    
     @Column(name = "SECOND_GROUP_MAX_DAY")
     private Integer secondGroupMaxDay;
 

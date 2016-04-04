@@ -1,7 +1,5 @@
-/*
- *  Author: Liudas Petrelis
- */
-package VU.KomandaX.LabanoroDraugai;
+
+package VU.KomandaX.LabanoroDraugai.Entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,7 +19,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author ADMIN
+ * @author Liudas
  */
 @Entity
 @Table(name = "RESERVATION")
@@ -30,23 +28,29 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Reservation.findById", query = "SELECT r FROM Reservation r WHERE r.id = :id"),
     @NamedQuery(name = "Reservation.findByStartDate", query = "SELECT r FROM Reservation r WHERE r.startDate = :startDate"),
     @NamedQuery(name = "Reservation.findByEndDate", query = "SELECT r FROM Reservation r WHERE r.endDate = :endDate")})
+
 public class Reservation implements Serializable {
 
     private static final long serialVersionUID = 1L;
+ 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    
     @Column(name = "START_DATE")
     @Temporal(TemporalType.DATE)
     private Date startDate;
+    
     @Column(name = "END_DATE")
     @Temporal(TemporalType.DATE)
     private Date endDate;
+    
     @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "EMAIL")
     @ManyToOne(optional = false)
     private Account accountId;
+    
     @JoinColumn(name = "SUMMERHOUSE_ID", referencedColumnName = "TITLE")
     @ManyToOne(optional = false)
     private Summerhouse summerhouseId;
