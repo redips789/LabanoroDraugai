@@ -1,5 +1,5 @@
 
-package VU.KomandaX.LabanoroDraugai.Entities;
+package VU.KomandaX.LabanoroDraugai.Entities;///////laaaaaaaaa
 
 import java.io.Serializable;
 import java.util.Date;
