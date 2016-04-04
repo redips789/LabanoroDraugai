@@ -1,14 +1,13 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *  Author: Liudas Petrelis
  */
-package com.mycompany.labanorodraugai;
+package VU.KomandaX.LabanoroDraugai;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,17 +19,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author jpovi_000
+ * @author ADMIN
  */
 @Entity
 @Table(name = "SUMMERHOUSE")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Summerhouse.findAll", query = "SELECT s FROM Summerhouse s"),
     @NamedQuery(name = "Summerhouse.findById", query = "SELECT s FROM Summerhouse s WHERE s.id = :id"),
@@ -47,7 +44,9 @@ public class Summerhouse implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @Size(max = 30)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 30)
     @Column(name = "TITLE")
     private String title;
     @Size(max = 30)
@@ -61,14 +60,19 @@ public class Summerhouse implements Serializable {
     @Column(name = "VALIDITY_END")
     @Temporal(TemporalType.DATE)
     private Date validityEnd;
-    @OneToMany(mappedBy = "summerhouseId")
-    private Collection<Reservation> reservationCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "summerhouseId")
+    private List<Reservation> reservationList;
 
     public Summerhouse() {
     }
 
     public Summerhouse(Integer id) {
         this.id = id;
+    }
+
+    public Summerhouse(Integer id, String title) {
+        this.id = id;
+        this.title = title;
     }
 
     public Integer getId() {
@@ -119,13 +123,12 @@ public class Summerhouse implements Serializable {
         this.validityEnd = validityEnd;
     }
 
-    @XmlTransient
-    public Collection<Reservation> getReservationCollection() {
-        return reservationCollection;
+    public List<Reservation> getReservationList() {
+        return reservationList;
     }
 
-    public void setReservationCollection(Collection<Reservation> reservationCollection) {
-        this.reservationCollection = reservationCollection;
+    public void setReservationList(List<Reservation> reservationList) {
+        this.reservationList = reservationList;
     }
 
     @Override
@@ -150,7 +153,7 @@ public class Summerhouse implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.labanorodraugai.Summerhouse[ id=" + id + " ]";
+        return "VU.KomandaX.LabanoroDraugai.Summerhouse[ id=" + id + " ]";
     }
     
 }

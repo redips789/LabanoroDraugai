@@ -1,14 +1,13 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *  Author: Liudas Petrelis
  */
-package com.mycompany.labanorodraugai;
+package VU.KomandaX.LabanoroDraugai;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,17 +19,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author jpovi_000
+ * @author ADMIN
  */
 @Entity
 @Table(name = "ACCOUNT")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"),
     @NamedQuery(name = "Account.findById", query = "SELECT a FROM Account a WHERE a.id = :id"),
@@ -56,7 +53,9 @@ public class Account implements Serializable {
     @Column(name = "EMAIL_CONFIRMATION")
     private String emailConfirmation;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Size(max = 30)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 30)
     @Column(name = "EMAIL")
     private String email;
     @Size(max = 30)
@@ -81,16 +80,21 @@ public class Account implements Serializable {
     private String status;
     @Column(name = "TIME_SPENT_ON_HOLIDAY")
     private Integer timeSpentOnHoliday;
-    @OneToMany(mappedBy = "accountId")
-    private Collection<Reservation> reservationCollection;
-    @OneToMany(mappedBy = "accountId")
-    private Collection<PaidFees> paidFeesCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId")
+    private List<Reservation> reservationList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId")
+    private List<PaidFees> paidFeesList;
 
     public Account() {
     }
 
     public Account(Integer id) {
         this.id = id;
+    }
+
+    public Account(Integer id, String email) {
+        this.id = id;
+        this.email = email;
     }
 
     public Integer getId() {
@@ -181,22 +185,20 @@ public class Account implements Serializable {
         this.timeSpentOnHoliday = timeSpentOnHoliday;
     }
 
-    @XmlTransient
-    public Collection<Reservation> getReservationCollection() {
-        return reservationCollection;
+    public List<Reservation> getReservationList() {
+        return reservationList;
     }
 
-    public void setReservationCollection(Collection<Reservation> reservationCollection) {
-        this.reservationCollection = reservationCollection;
+    public void setReservationList(List<Reservation> reservationList) {
+        this.reservationList = reservationList;
     }
 
-    @XmlTransient
-    public Collection<PaidFees> getPaidFeesCollection() {
-        return paidFeesCollection;
+    public List<PaidFees> getPaidFeesList() {
+        return paidFeesList;
     }
 
-    public void setPaidFeesCollection(Collection<PaidFees> paidFeesCollection) {
-        this.paidFeesCollection = paidFeesCollection;
+    public void setPaidFeesList(List<PaidFees> paidFeesList) {
+        this.paidFeesList = paidFeesList;
     }
 
     @Override
@@ -221,7 +223,7 @@ public class Account implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.labanorodraugai.Account[ id=" + id + " ]";
+        return "VU.KomandaX.LabanoroDraugai.Account[ id=" + id + " ]";
     }
     
 }

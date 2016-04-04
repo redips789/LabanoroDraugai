@@ -1,9 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *  Author: Liudas Petrelis
  */
-package com.mycompany.labanorodraugai;
+package VU.KomandaX.LabanoroDraugai;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,15 +18,13 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author jpovi_000
+ * @author ADMIN
  */
 @Entity
 @Table(name = "PAID_FEES")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PaidFees.findAll", query = "SELECT p FROM PaidFees p"),
     @NamedQuery(name = "PaidFees.findById", query = "SELECT p FROM PaidFees p WHERE p.id = :id"),
@@ -45,10 +41,10 @@ public class PaidFees implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date paidDate;
     @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "EMAIL")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Account accountId;
     @JoinColumn(name = "FEE", referencedColumnName = "TITLE")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Fee fee;
 
     public PaidFees() {
@@ -112,7 +108,7 @@ public class PaidFees implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.labanorodraugai.PaidFees[ id=" + id + " ]";
+        return "VU.KomandaX.LabanoroDraugai.PaidFees[ id=" + id + " ]";
     }
     
 }

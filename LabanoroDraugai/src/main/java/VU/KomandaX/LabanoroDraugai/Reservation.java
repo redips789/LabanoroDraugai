@@ -1,9 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *  Author: Liudas Petrelis
  */
-package com.mycompany.labanorodraugai;
+package VU.KomandaX.LabanoroDraugai;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,15 +18,13 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author jpovi_000
+ * @author ADMIN
  */
 @Entity
 @Table(name = "RESERVATION")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Reservation.findAll", query = "SELECT r FROM Reservation r"),
     @NamedQuery(name = "Reservation.findById", query = "SELECT r FROM Reservation r WHERE r.id = :id"),
@@ -49,10 +45,10 @@ public class Reservation implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date endDate;
     @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "EMAIL")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Account accountId;
     @JoinColumn(name = "SUMMERHOUSE_ID", referencedColumnName = "TITLE")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Summerhouse summerhouseId;
 
     public Reservation() {
@@ -124,7 +120,7 @@ public class Reservation implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.labanorodraugai.Reservation[ id=" + id + " ]";
+        return "VU.KomandaX.LabanoroDraugai.Reservation[ id=" + id + " ]";
     }
     
 }
