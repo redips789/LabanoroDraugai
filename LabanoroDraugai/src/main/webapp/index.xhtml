@@ -175,7 +175,7 @@
         -->
         <h:form>
         <p:remoteCommand name="passToJSFManagedBean" id="passToJSFManagedBeancmd"
-                         actionListener="#{loginBean.getParams}" />  
+                         action="#{loginBean.getParams}" />  
         </h:form>
         <img src="http://static2.keep4u.ru/2014/09/08/9dcec0e5544abce2f0.jpg" class="className"></img>
         <div class="container">
@@ -186,10 +186,6 @@
                     </a>
                 </div>
             </div>
-        </div>
-        <button onclick="tryLogOut()" value="mainPage">Press to logout</button>
-        <div id="content" class="center_content">
-            <ui:insert name="bottom"><h:outputText value="#{loginBean.id}"/></ui:insert>
         </div>
         <br />
     </h:body>

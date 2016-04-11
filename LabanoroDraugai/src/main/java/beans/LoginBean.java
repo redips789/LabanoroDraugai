@@ -30,6 +30,10 @@ public class LoginBean implements Serializable {
     
     public LoginBean() {
     }
+    
+    public String nextPage(){
+        return "mainPage?faces-redirect=true";
+    }
 
     public String getId() {
         return id;
@@ -43,7 +47,7 @@ public class LoginBean implements Serializable {
         Map map = context.getExternalContext().getRequestParameterMap();
         id = (String) map.get("id");
 
-        return "mainPage.xhtml?faces-redirect=true";
+        return "mainPage";
     }
     
     
