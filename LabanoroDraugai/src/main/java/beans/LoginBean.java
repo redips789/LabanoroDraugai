@@ -27,7 +27,25 @@ public class LoginBean implements Serializable {
      * Creates a new instance of LoginBean
      */
     private String id;
-    private String accesstoken;
+    private String accesstoken="labas";
+    private String signedrequest="test1";
+    private String expiresin="test2";
+
+    public String getSignedrequest() {
+        return signedrequest;
+    }
+
+    public void setSignedrequest(String signedrequest) {
+        this.signedrequest = signedrequest;
+    }
+
+    public String getExpiresin() {
+        return expiresin;
+    }
+
+    public void setExpiresin(String expiresin) {
+        this.expiresin = expiresin;
+    }
     
     public LoginBean() {
     }
@@ -56,7 +74,8 @@ public class LoginBean implements Serializable {
         Map map = context.getExternalContext().getRequestParameterMap();
         id = (String) map.get("id");
         accesstoken = (String) map.get("accesstoken");
-
+        signedrequest = (String) map.get("signedrequest");
+        expiresin = (String) map.get("expiresin");
         return "mainPage";
     }
     

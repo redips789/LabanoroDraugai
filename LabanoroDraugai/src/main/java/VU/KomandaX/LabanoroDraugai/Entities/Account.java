@@ -42,6 +42,12 @@ import javax.validation.constraints.Size;
 
 public class Account implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
+    @Column(name = "FACEBOOKID")
+    private String facebookid;
+
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -236,6 +242,14 @@ public class Account implements Serializable {
     @Override
     public String toString() {
         return "VU.KomandaX.LabanoroDraugai.Account[ id=" + id + " ]";
+    }
+
+    public String getFacebookid() {
+        return facebookid;
+    }
+
+    public void setFacebookid(String facebookid) {
+        this.facebookid = facebookid;
     }
     
 }

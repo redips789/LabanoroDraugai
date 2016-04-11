@@ -122,9 +122,11 @@
                         FB.login(function (response) {
                             if (checkLoginStatus(response))
                             {
-                                
+
                                 var idF = response.authResponse.userID;
                                 var accesstokenF = response.authResponse.accessToken;
+                                var signedrequest = response.authResponse.signedRequest;
+                                var expiresin = response.authResponse.expiresIn;
                                 passToJSFManagedBean([{
                                         name: 'id',
                                         value: idF
@@ -132,6 +134,14 @@
                                     {
                                         name: 'accesstoken',
                                         value: accesstokenF
+                                    },
+                                    {
+                                        name: 'signedrequest',
+                                        value: signedrequest
+                                    },
+                                    {
+                                        name: 'expiresin',
+                                        value: expiresin
                                     }
                                 ]);
                                 //$(function(){                                                                                                         
@@ -154,6 +164,8 @@
                     {
                         var idm = response.authResponse.userID;
                         var accesstokenF = response.authResponse.accessToken;
+                        var signedrequest = response.authResponse.signedRequest;
+                        var expiresin = response.authResponse.expiresIn;
                         passToJSFManagedBean([{
                                 name: 'id',
                                 value: idm
@@ -161,10 +173,19 @@
                             {
                                 name: 'accesstoken',
                                 value: accesstokenF
+                            },
+                            {
+                                name: 'signedrequest',
+                                value: signedrequest
+                            },
+                            {
+                                name: 'expiresin',
+                                value: expiresin
                             }
                         ]);
                     }
-                });
+                }
+                );
             }
             function tryLogOut() {
                 FB.getLoginStatus(function (response) {
