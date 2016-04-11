@@ -4,7 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-          
+
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
@@ -122,10 +122,16 @@
                         FB.login(function (response) {
                             if (checkLoginStatus(response))
                             {
-                                var idm = response.authResponse.userID;
+                                
+                                var idF = response.authResponse.userID;
+                                var accesstokenF = response.authResponse.accessToken;
                                 passToJSFManagedBean([{
                                         name: 'id',
-                                        value: idm
+                                        value: idF
+                                    },
+                                    {
+                                        name: 'accesstoken',
+                                        value: accesstokenF
                                     }
                                 ]);
                                 //$(function(){                                                                                                         
@@ -147,11 +153,16 @@
                     } else
                     {
                         var idm = response.authResponse.userID;
-                                passToJSFManagedBean([{
-                                        name: 'id',
-                                        value: idm
-                                    }
-                                ]);
+                        var accesstokenF = response.authResponse.accessToken;
+                        passToJSFManagedBean([{
+                                name: 'id',
+                                value: idm
+                            },
+                            {
+                                name: 'accesstoken',
+                                value: accesstokenF
+                            }
+                        ]);
                     }
                 });
             }
@@ -174,8 +185,8 @@
           http://static2.keep4u.ru/2014/09/08/9dcec0e5544abce2f0.jpg
         -->
         <h:form>
-        <p:remoteCommand name="passToJSFManagedBean" id="passToJSFManagedBeancmd"
-                         action="#{loginBean.getParams}" />  
+            <p:remoteCommand name="passToJSFManagedBean" id="passToJSFManagedBeancmd"
+                             action="#{loginBean.getParams}" />  
         </h:form>
         <img src="http://static2.keep4u.ru/2014/09/08/9dcec0e5544abce2f0.jpg" class="className"></img>
         <div class="container">

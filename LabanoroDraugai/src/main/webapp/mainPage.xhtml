@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet library="css" name="default.css"/>
@@ -14,8 +15,11 @@
         <div id="top" class="top">
             <ui:insert name="top">Labanoro draugai</ui:insert>
         </div>
-        <div id="content" class="center_content">
+        <div id="content1" class="center_content">
             <ui:insert name="bottom"><h:outputText value="#{loginBean.id}"/></ui:insert>
+        </div>
+        <div id="content2" class="center_content">
+            <ui:insert name="bottom"><h:outputText value="#{loginBean.accesstoken}"/></ui:insert>
         </div>
     </h:body>
 </html>

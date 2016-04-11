@@ -26,9 +26,18 @@ public class LoginBean implements Serializable {
     /**
      * Creates a new instance of LoginBean
      */
-    private String id = "test";
+    private String id;
+    private String accesstoken;
     
     public LoginBean() {
+    }
+
+    public String getAccesstoken() {
+        return accesstoken;
+    }
+
+    public void setAccesstoken(String accesstoken) {
+        this.accesstoken = accesstoken;
     }
     
     public String nextPage(){
@@ -46,6 +55,7 @@ public class LoginBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         Map map = context.getExternalContext().getRequestParameterMap();
         id = (String) map.get("id");
+        accesstoken = (String) map.get("accesstoken");
 
         return "mainPage";
     }
