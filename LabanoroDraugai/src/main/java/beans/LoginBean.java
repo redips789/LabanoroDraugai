@@ -5,9 +5,14 @@
  */
 package beans;
 
+import java.io.Serializable;
+import java.util.Map;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -16,12 +21,13 @@ import javax.faces.bean.SessionScoped;
 @Named(value = "loginBean")
 @ManagedBean
 @SessionScoped
-public class LoginBean {
+public class LoginBean implements Serializable {
 
     /**
      * Creates a new instance of LoginBean
      */
-    private String id;
+    private String id = "test";
+    
     public LoginBean() {
     }
 
@@ -31,6 +37,13 @@ public class LoginBean {
 
     public void setId(String id) {
         this.id = id;
+    }
+    public String getParams() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Map map = context.getExternalContext().getRequestParameterMap();
+        id = (String) map.get("id");
+
+        return "mainPage.xhtml?faces-redirect=true";
     }
     
     

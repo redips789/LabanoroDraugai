@@ -71,7 +71,8 @@ public class LoginServlet extends HttpServlet {
         String id= map.get("id");
         LoginBean loginBean = new LoginBean();
         loginBean.setId(id);
-        request.getSession().setAttribute("login", loginBean);
+        out.printf(id);
+        request.getSession().setAttribute("login2", loginBean);
         getServletContext().getRequestDispatcher("/mainPage.html").forward(request, response);
         }
     }
