@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package VU.KomandaX.LabanoroDraugai.Entities;
 
 import java.io.Serializable;
@@ -14,13 +18,15 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Liudas
+ * @author darbas
  */
 @Entity
-@Table(name = "SETTINGS")
+@Table(name = "SETTINGS", catalog = "", schema = "LABANORASDB")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Settings.findAll", query = "SELECT s FROM Settings s"),
     @NamedQuery(name = "Settings.findById", query = "SELECT s FROM Settings s WHERE s.id = :id"),
@@ -31,39 +37,30 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Settings.findByCloseReservation", query = "SELECT s FROM Settings s WHERE s.closeReservation = :closeReservation"),
     @NamedQuery(name = "Settings.findByFirstGroupMaxDay", query = "SELECT s FROM Settings s WHERE s.firstGroupMaxDay = :firstGroupMaxDay"),
     @NamedQuery(name = "Settings.findBySecondGroupMaxDay", query = "SELECT s FROM Settings s WHERE s.secondGroupMaxDay = :secondGroupMaxDay")})
-
 public class Settings implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    
     @Column(name = "MAX_USERS")
     private Integer maxUsers;
-    
     @Column(name = "FIRST_RESERVATION")
     @Temporal(TemporalType.DATE)
     private Date firstReservation;
-    
     @Column(name = "SECOND_RESERVATION")
     @Temporal(TemporalType.DATE)
     private Date secondReservation;
-    
     @Column(name = "THIRD_RESERVATION")
     @Temporal(TemporalType.DATE)
     private Date thirdReservation;
-    
     @Column(name = "CLOSE_RESERVATION")
     @Temporal(TemporalType.DATE)
     private Date closeReservation;
-    
     @Column(name = "FIRST_GROUP_MAX_DAY")
     private Integer firstGroupMaxDay;
-    
     @Column(name = "SECOND_GROUP_MAX_DAY")
     private Integer secondGroupMaxDay;
 
@@ -160,7 +157,7 @@ public class Settings implements Serializable {
 
     @Override
     public String toString() {
-        return "VU.KomandaX.LabanoroDraugai.Settings[ id=" + id + " ]";
+        return "VU.KomandaX.LabanoroDraugai.Entities.Settings[ id=" + id + " ]";
     }
     
 }

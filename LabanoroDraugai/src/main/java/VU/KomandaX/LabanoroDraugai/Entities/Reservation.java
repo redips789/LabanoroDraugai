@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package VU.KomandaX.LabanoroDraugai.Entities;
 
 import java.io.Serializable;
@@ -16,42 +20,38 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Liudas
+ * @author darbas
  */
 @Entity
-@Table(name = "RESERVATION")
+@Table(name = "RESERVATION", catalog = "", schema = "LABANORASDB")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Reservation.findAll", query = "SELECT r FROM Reservation r"),
     @NamedQuery(name = "Reservation.findById", query = "SELECT r FROM Reservation r WHERE r.id = :id"),
     @NamedQuery(name = "Reservation.findByStartDate", query = "SELECT r FROM Reservation r WHERE r.startDate = :startDate"),
     @NamedQuery(name = "Reservation.findByEndDate", query = "SELECT r FROM Reservation r WHERE r.endDate = :endDate")})
-
 public class Reservation implements Serializable {
 
     private static final long serialVersionUID = 1L;
- 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    
     @Column(name = "START_DATE")
     @Temporal(TemporalType.DATE)
     private Date startDate;
-    
     @Column(name = "END_DATE")
     @Temporal(TemporalType.DATE)
     private Date endDate;
-    
-    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "EMAIL")
+    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Account accountId;
-    
-    @JoinColumn(name = "SUMMERHOUSE_ID", referencedColumnName = "TITLE")
+    @JoinColumn(name = "SUMMERHOUSE_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Summerhouse summerhouseId;
 
@@ -124,7 +124,7 @@ public class Reservation implements Serializable {
 
     @Override
     public String toString() {
-        return "VU.KomandaX.LabanoroDraugai.Reservation[ id=" + id + " ]";
+        return "VU.KomandaX.LabanoroDraugai.Entities.Reservation[ id=" + id + " ]";
     }
     
 }

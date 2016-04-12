@@ -1,9 +1,13 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package VU.KomandaX.LabanoroDraugai.Entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,13 +23,16 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Liudas
+ * @author darbas
  */
 @Entity
-@Table(name = "SUMMERHOUSE")
+@Table(name = "SUMMERHOUSE", catalog = "", schema = "LABANORASDB")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Summerhouse.findAll", query = "SELECT s FROM Summerhouse s"),
     @NamedQuery(name = "Summerhouse.findById", query = "SELECT s FROM Summerhouse s WHERE s.id = :id"),
@@ -34,40 +41,32 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Summerhouse.findByBeds", query = "SELECT s FROM Summerhouse s WHERE s.beds = :beds"),
     @NamedQuery(name = "Summerhouse.findByValidityStart", query = "SELECT s FROM Summerhouse s WHERE s.validityStart = :validityStart"),
     @NamedQuery(name = "Summerhouse.findByValidityEnd", query = "SELECT s FROM Summerhouse s WHERE s.validityEnd = :validityEnd")})
-
 public class Summerhouse implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "TITLE")
     private String title;
-    
     @Size(max = 30)
     @Column(name = "DESCRIPTION")
     private String description;
-    
     @Column(name = "BEDS")
     private Integer beds;
-    
     @Column(name = "VALIDITY_START")
     @Temporal(TemporalType.DATE)
     private Date validityStart;
-    
     @Column(name = "VALIDITY_END")
     @Temporal(TemporalType.DATE)
     private Date validityEnd;
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "summerhouseId")
-    private List<Reservation> reservationList;
+    private Collection<Reservation> reservationCollection;
 
     public Summerhouse() {
     }
@@ -129,12 +128,13 @@ public class Summerhouse implements Serializable {
         this.validityEnd = validityEnd;
     }
 
-    public List<Reservation> getReservationList() {
-        return reservationList;
+    @XmlTransient
+    public Collection<Reservation> getReservationCollection() {
+        return reservationCollection;
     }
 
-    public void setReservationList(List<Reservation> reservationList) {
-        this.reservationList = reservationList;
+    public void setReservationCollection(Collection<Reservation> reservationCollection) {
+        this.reservationCollection = reservationCollection;
     }
 
     @Override
@@ -159,7 +159,7 @@ public class Summerhouse implements Serializable {
 
     @Override
     public String toString() {
-        return "VU.KomandaX.LabanoroDraugai.Summerhouse[ id=" + id + " ]";
+        return "VU.KomandaX.LabanoroDraugai.Entities.Summerhouse[ id=" + id + " ]";
     }
     
 }

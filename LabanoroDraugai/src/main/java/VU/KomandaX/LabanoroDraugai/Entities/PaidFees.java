@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package VU.KomandaX.LabanoroDraugai.Entities;
 
 import java.io.Serializable;
@@ -16,37 +20,34 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Liudas
+ * @author darbas
  */
 @Entity
-@Table(name = "PAID_FEES")
+@Table(name = "PAID_FEES", catalog = "", schema = "LABANORASDB")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PaidFees.findAll", query = "SELECT p FROM PaidFees p"),
     @NamedQuery(name = "PaidFees.findById", query = "SELECT p FROM PaidFees p WHERE p.id = :id"),
     @NamedQuery(name = "PaidFees.findByPaidDate", query = "SELECT p FROM PaidFees p WHERE p.paidDate = :paidDate")})
-
 public class PaidFees implements Serializable {
 
     private static final long serialVersionUID = 1L;
-   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    
     @Column(name = "PAID_DATE")
     @Temporal(TemporalType.DATE)
     private Date paidDate;
-    
-    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "EMAIL")
+    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Account accountId;
-    
-    @JoinColumn(name = "FEE", referencedColumnName = "TITLE")
+    @JoinColumn(name = "FEE", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Fee fee;
 
@@ -111,7 +112,7 @@ public class PaidFees implements Serializable {
 
     @Override
     public String toString() {
-        return "VU.KomandaX.LabanoroDraugai.PaidFees[ id=" + id + " ]";
+        return "VU.KomandaX.LabanoroDraugai.Entities.PaidFees[ id=" + id + " ]";
     }
     
 }
