@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package beans;
+package BusinessLogic.EJB;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -77,7 +77,7 @@ public class LoginBean implements Serializable {
     }
     
     public String nextPage(){
-        return "mainPage?faces-redirect=true";
+        return "home?faces-redirect=true";
     }
 
     public String getId() {
@@ -95,14 +95,14 @@ public class LoginBean implements Serializable {
         signedrequest = (String) map.get("signedrequest");
         expiresin = (String) map.get("expiresin");
         isloggedin=true;
-        return "mainPage";
+        return "home";
     }
     
     public String checkPageStage(){
         if(isloggedin)
-            return "mainPage";
+            return "home";
         else
-            return "index";
+            return "login";
     }
     
     
