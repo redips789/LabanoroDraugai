@@ -27,9 +27,27 @@ public class LoginBean implements Serializable {
      * Creates a new instance of LoginBean
      */
     private String id;
-    private String accesstoken="labas";
-    private String signedrequest="test1";
-    private String expiresin="test2";
+    private String accesstoken;
+    private String signedrequest;
+    private String expiresin;
+    private boolean isloggedin=false;
+    private boolean isregistered=false;
+
+    public boolean isIsloggedin() {
+        return isloggedin;
+    }
+
+    public void setIsloggedin(boolean isloggedin) {
+        this.isloggedin = isloggedin;
+    }
+
+    public boolean isIsregistered() {
+        return isregistered;
+    }
+
+    public void setIsregistered(boolean isregistered) {
+        this.isregistered = isregistered;
+    }
 
     public String getSignedrequest() {
         return signedrequest;
@@ -76,7 +94,15 @@ public class LoginBean implements Serializable {
         accesstoken = (String) map.get("accesstoken");
         signedrequest = (String) map.get("signedrequest");
         expiresin = (String) map.get("expiresin");
+        isloggedin=true;
         return "mainPage";
+    }
+    
+    public String checkPageStage(){
+        if(isloggedin)
+            return "mainPage";
+        else
+            return "index";
     }
     
     
