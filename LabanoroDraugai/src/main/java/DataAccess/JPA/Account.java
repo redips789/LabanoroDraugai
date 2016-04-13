@@ -4,6 +4,7 @@ package DataAccess.JPA;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -24,6 +26,7 @@ import javax.validation.constraints.Size;
  *
  * @author Liudas 
  */
+
 @Entity
 @Table(name = "ACCOUNT")
 @NamedQueries({
@@ -41,59 +44,81 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Account.findByCity", query = "SELECT a FROM Account a WHERE a.city = :city"),
     @NamedQuery(name = "Account.findByDescription", query = "SELECT a FROM Account a WHERE a.description = :description"),
     @NamedQuery(name = "Account.findByPhoto", query = "SELECT a FROM Account a WHERE a.photo = :photo"),
-    @NamedQuery(name = "Account.findByFacebookid", query = "SELECT a FROM Account a WHERE a.facebookid = :facebookid")})
+    @NamedQuery(name = "Account.findByFacebookid", query = "SELECT a FROM Account a WHERE a.facebookid = :facebookid"),
+    @NamedQuery(name = "Account.findByVersion", query = "SELECT a FROM Account a WHERE a.version = :version")})
+
 public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "EMAIL")
     private String email;
+    
     @Size(max = 30)
     @Column(name = "FIRST_NAME")
     private String firstName;
+    
     @Size(max = 30)
     @Column(name = "LAST_NAME")
     private String lastName;
+    
     @Column(name = "NEXT_PAYMENT")
     @Temporal(TemporalType.DATE)
     private Date nextPayment;
+    
     @Column(name = "DATE_OF_BIRTH")
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
+    
     @Size(max = 20)
     @Column(name = "PHONE_NUM")
     private String phoneNum;
+    
     @Size(max = 20)
     @Column(name = "STATUS")
     private String status;
+    
     @Column(name = "POINTS")
     private Integer points;
+    
     @Column(name = "TIME_SPENT_ON_HOLIDAY")
     private Integer timeSpentOnHoliday;
+    
     @Size(max = 50)
     @Column(name = "CITY")
     private String city;
+    
     @Size(max = 250)
     @Column(name = "DESCRIPTION")
     private String description;
+    
     @Size(max = 254)
     @Column(name = "PHOTO")
     private String photo;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "FACEBOOKID")
     private String facebookid;
+    
+    @Column(name = "VERSION")
+    @Version
+    private Integer version;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId")
     private List<Reservation> reservationList;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId")
     private List<PaidFees> paidFeesList;
 
@@ -222,6 +247,14 @@ public class Account implements Serializable {
         this.facebookid = facebookid;
     }
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
     public List<Reservation> getReservationList() {
         return reservationList;
     }
@@ -240,23 +273,30 @@ public class Account implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.facebookid);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Account)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Account other = (Account) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Account other = (Account) obj;
+        if (!Objects.equals(this.facebookid, other.facebookid)) {
             return false;
         }
         return true;
     }
+
+    
 
     @Override
     public String toString() {

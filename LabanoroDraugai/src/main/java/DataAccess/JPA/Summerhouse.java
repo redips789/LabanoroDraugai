@@ -4,6 +4,7 @@ package DataAccess.JPA;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -24,6 +26,7 @@ import javax.validation.constraints.Size;
  *
  * @author Liudas 
  */
+
 @Entity
 @Table(name = "SUMMERHOUSE")
 @NamedQueries({
@@ -35,36 +38,51 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Summerhouse.findByValidityStart", query = "SELECT s FROM Summerhouse s WHERE s.validityStart = :validityStart"),
     @NamedQuery(name = "Summerhouse.findByValidityEnd", query = "SELECT s FROM Summerhouse s WHERE s.validityEnd = :validityEnd"),
     @NamedQuery(name = "Summerhouse.findByCost", query = "SELECT s FROM Summerhouse s WHERE s.cost = :cost"),
-    @NamedQuery(name = "Summerhouse.findByPhoto", query = "SELECT s FROM Summerhouse s WHERE s.photo = :photo")})
+    @NamedQuery(name = "Summerhouse.findByPhoto", query = "SELECT s FROM Summerhouse s WHERE s.photo = :photo"),
+    @NamedQuery(name = "Summerhouse.findByVersion", query = "SELECT s FROM Summerhouse s WHERE s.version = :version")})
+
 public class Summerhouse implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "TITLE")
     private String title;
+    
     @Size(max = 250)
     @Column(name = "DESCRIPTION")
     private String description;
+    
     @Column(name = "BEDS")
     private Integer beds;
+    
     @Column(name = "VALIDITY_START")
     @Temporal(TemporalType.DATE)
     private Date validityStart;
+    
     @Column(name = "VALIDITY_END")
     @Temporal(TemporalType.DATE)
     private Date validityEnd;
+    
     @Column(name = "COST")
     private Integer cost;
+    
     @Size(max = 254)
     @Column(name = "PHOTO")
     private String photo;
+    
+    @Column(name = "VERSION")
+    @Version
+    private Integer version;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "summerhouseId")
     private List<Reservation> reservationList;
 
@@ -144,6 +162,14 @@ public class Summerhouse implements Serializable {
         this.photo = photo;
     }
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
     public List<Reservation> getReservationList() {
         return reservationList;
     }
@@ -154,23 +180,30 @@ public class Summerhouse implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 19 * hash + Objects.hashCode(this.title);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Summerhouse)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Summerhouse other = (Summerhouse) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Summerhouse other = (Summerhouse) obj;
+        if (!Objects.equals(this.title, other.title)) {
             return false;
         }
         return true;
     }
+
+    
 
     @Override
     public String toString() {
