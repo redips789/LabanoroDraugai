@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DataAccess.JPA;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,16 +19,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author darbas
+ * @author Liudas 
  */
 @Entity
-@Table(name = "ACCOUNT", catalog = "", schema = "LABANORASDB")
-@XmlRootElement
+@Table(name = "ACCOUNT")
 @NamedQueries({
     @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"),
     @NamedQuery(name = "Account.findById", query = "SELECT a FROM Account a WHERE a.id = :id"),
@@ -42,10 +35,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Account.findByNextPayment", query = "SELECT a FROM Account a WHERE a.nextPayment = :nextPayment"),
     @NamedQuery(name = "Account.findByDateOfBirth", query = "SELECT a FROM Account a WHERE a.dateOfBirth = :dateOfBirth"),
     @NamedQuery(name = "Account.findByPhoneNum", query = "SELECT a FROM Account a WHERE a.phoneNum = :phoneNum"),
-    @NamedQuery(name = "Account.findByPassword", query = "SELECT a FROM Account a WHERE a.password = :password"),
     @NamedQuery(name = "Account.findByStatus", query = "SELECT a FROM Account a WHERE a.status = :status"),
     @NamedQuery(name = "Account.findByPoints", query = "SELECT a FROM Account a WHERE a.points = :points"),
     @NamedQuery(name = "Account.findByTimeSpentOnHoliday", query = "SELECT a FROM Account a WHERE a.timeSpentOnHoliday = :timeSpentOnHoliday"),
+    @NamedQuery(name = "Account.findByCity", query = "SELECT a FROM Account a WHERE a.city = :city"),
+    @NamedQuery(name = "Account.findByDescription", query = "SELECT a FROM Account a WHERE a.description = :description"),
+    @NamedQuery(name = "Account.findByPhoto", query = "SELECT a FROM Account a WHERE a.photo = :photo"),
     @NamedQuery(name = "Account.findByFacebookid", query = "SELECT a FROM Account a WHERE a.facebookid = :facebookid")})
 public class Account implements Serializable {
 
@@ -58,7 +53,7 @@ public class Account implements Serializable {
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 30)
+    @Size(min = 1, max = 50)
     @Column(name = "EMAIL")
     private String email;
     @Size(max = 30)
@@ -73,11 +68,9 @@ public class Account implements Serializable {
     @Column(name = "DATE_OF_BIRTH")
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
+    @Size(max = 20)
     @Column(name = "PHONE_NUM")
-    private Integer phoneNum;
-    @Size(max = 30)
-    @Column(name = "PASSWORD")
-    private String password;
+    private String phoneNum;
     @Size(max = 20)
     @Column(name = "STATUS")
     private String status;
@@ -85,15 +78,24 @@ public class Account implements Serializable {
     private Integer points;
     @Column(name = "TIME_SPENT_ON_HOLIDAY")
     private Integer timeSpentOnHoliday;
+    @Size(max = 50)
+    @Column(name = "CITY")
+    private String city;
+    @Size(max = 250)
+    @Column(name = "DESCRIPTION")
+    private String description;
+    @Size(max = 254)
+    @Column(name = "PHOTO")
+    private String photo;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "FACEBOOKID")
     private String facebookid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId")
-    private Collection<Reservation> reservationCollection;
+    private List<Reservation> reservationList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId")
-    private Collection<PaidFees> paidFeesCollection;
+    private List<PaidFees> paidFeesList;
 
     public Account() {
     }
@@ -156,20 +158,12 @@ public class Account implements Serializable {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Integer getPhoneNum() {
+    public String getPhoneNum() {
         return phoneNum;
     }
 
-    public void setPhoneNum(Integer phoneNum) {
+    public void setPhoneNum(String phoneNum) {
         this.phoneNum = phoneNum;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getStatus() {
@@ -196,6 +190,30 @@ public class Account implements Serializable {
         this.timeSpentOnHoliday = timeSpentOnHoliday;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
     public String getFacebookid() {
         return facebookid;
     }
@@ -204,22 +222,20 @@ public class Account implements Serializable {
         this.facebookid = facebookid;
     }
 
-    @XmlTransient
-    public Collection<Reservation> getReservationCollection() {
-        return reservationCollection;
+    public List<Reservation> getReservationList() {
+        return reservationList;
     }
 
-    public void setReservationCollection(Collection<Reservation> reservationCollection) {
-        this.reservationCollection = reservationCollection;
+    public void setReservationList(List<Reservation> reservationList) {
+        this.reservationList = reservationList;
     }
 
-    @XmlTransient
-    public Collection<PaidFees> getPaidFeesCollection() {
-        return paidFeesCollection;
+    public List<PaidFees> getPaidFeesList() {
+        return paidFeesList;
     }
 
-    public void setPaidFeesCollection(Collection<PaidFees> paidFeesCollection) {
-        this.paidFeesCollection = paidFeesCollection;
+    public void setPaidFeesList(List<PaidFees> paidFeesList) {
+        this.paidFeesList = paidFeesList;
     }
 
     @Override
@@ -244,7 +260,7 @@ public class Account implements Serializable {
 
     @Override
     public String toString() {
-        return "VU.KomandaX.LabanoroDraugai.Entities.Account[ id=" + id + " ]";
+        return "DataAccess.JPA.Account[ id=" + id + " ]";
     }
-    
+
 }

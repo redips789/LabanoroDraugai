@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DataAccess.JPA;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,16 +19,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author darbas
+ * @author Liudas 
  */
 @Entity
-@Table(name = "SUMMERHOUSE", catalog = "", schema = "LABANORASDB")
-@XmlRootElement
+@Table(name = "SUMMERHOUSE")
 @NamedQueries({
     @NamedQuery(name = "Summerhouse.findAll", query = "SELECT s FROM Summerhouse s"),
     @NamedQuery(name = "Summerhouse.findById", query = "SELECT s FROM Summerhouse s WHERE s.id = :id"),
@@ -40,7 +33,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Summerhouse.findByDescription", query = "SELECT s FROM Summerhouse s WHERE s.description = :description"),
     @NamedQuery(name = "Summerhouse.findByBeds", query = "SELECT s FROM Summerhouse s WHERE s.beds = :beds"),
     @NamedQuery(name = "Summerhouse.findByValidityStart", query = "SELECT s FROM Summerhouse s WHERE s.validityStart = :validityStart"),
-    @NamedQuery(name = "Summerhouse.findByValidityEnd", query = "SELECT s FROM Summerhouse s WHERE s.validityEnd = :validityEnd")})
+    @NamedQuery(name = "Summerhouse.findByValidityEnd", query = "SELECT s FROM Summerhouse s WHERE s.validityEnd = :validityEnd"),
+    @NamedQuery(name = "Summerhouse.findByCost", query = "SELECT s FROM Summerhouse s WHERE s.cost = :cost"),
+    @NamedQuery(name = "Summerhouse.findByPhoto", query = "SELECT s FROM Summerhouse s WHERE s.photo = :photo")})
 public class Summerhouse implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,7 +49,7 @@ public class Summerhouse implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "TITLE")
     private String title;
-    @Size(max = 30)
+    @Size(max = 250)
     @Column(name = "DESCRIPTION")
     private String description;
     @Column(name = "BEDS")
@@ -65,8 +60,13 @@ public class Summerhouse implements Serializable {
     @Column(name = "VALIDITY_END")
     @Temporal(TemporalType.DATE)
     private Date validityEnd;
+    @Column(name = "COST")
+    private Integer cost;
+    @Size(max = 254)
+    @Column(name = "PHOTO")
+    private String photo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "summerhouseId")
-    private Collection<Reservation> reservationCollection;
+    private List<Reservation> reservationList;
 
     public Summerhouse() {
     }
@@ -128,13 +128,28 @@ public class Summerhouse implements Serializable {
         this.validityEnd = validityEnd;
     }
 
-    @XmlTransient
-    public Collection<Reservation> getReservationCollection() {
-        return reservationCollection;
+    public Integer getCost() {
+        return cost;
     }
 
-    public void setReservationCollection(Collection<Reservation> reservationCollection) {
-        this.reservationCollection = reservationCollection;
+    public void setCost(Integer cost) {
+        this.cost = cost;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public List<Reservation> getReservationList() {
+        return reservationList;
+    }
+
+    public void setReservationList(List<Reservation> reservationList) {
+        this.reservationList = reservationList;
     }
 
     @Override
@@ -159,7 +174,7 @@ public class Summerhouse implements Serializable {
 
     @Override
     public String toString() {
-        return "VU.KomandaX.LabanoroDraugai.Entities.Summerhouse[ id=" + id + " ]";
+        return "DataAccess.JPA.Summerhouse[ id=" + id + " ]";
     }
-    
+
 }

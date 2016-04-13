@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DataAccess.JPA;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,16 +16,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author darbas
+ * @author Liudas 
  */
 @Entity
-@Table(name = "FEE", catalog = "", schema = "LABANORASDB")
-@XmlRootElement
+@Table(name = "FEE")
 @NamedQueries({
     @NamedQuery(name = "Fee.findAll", query = "SELECT f FROM Fee f"),
     @NamedQuery(name = "Fee.findById", query = "SELECT f FROM Fee f WHERE f.id = :id"),
@@ -56,7 +49,7 @@ public class Fee implements Serializable {
     @Column(name = "DESCRIPTION")
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fee")
-    private Collection<PaidFees> paidFeesCollection;
+    private List<PaidFees> paidFeesList;
 
     public Fee() {
     }
@@ -102,13 +95,12 @@ public class Fee implements Serializable {
         this.description = description;
     }
 
-    @XmlTransient
-    public Collection<PaidFees> getPaidFeesCollection() {
-        return paidFeesCollection;
+    public List<PaidFees> getPaidFeesList() {
+        return paidFeesList;
     }
 
-    public void setPaidFeesCollection(Collection<PaidFees> paidFeesCollection) {
-        this.paidFeesCollection = paidFeesCollection;
+    public void setPaidFeesList(List<PaidFees> paidFeesList) {
+        this.paidFeesList = paidFeesList;
     }
 
     @Override
@@ -133,7 +125,7 @@ public class Fee implements Serializable {
 
     @Override
     public String toString() {
-        return "VU.KomandaX.LabanoroDraugai.Entities.Fee[ id=" + id + " ]";
+        return "DataAccess.JPA.Fee[ id=" + id + " ]";
     }
-    
+
 }

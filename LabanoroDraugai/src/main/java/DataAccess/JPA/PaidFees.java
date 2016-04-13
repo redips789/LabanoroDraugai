@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DataAccess.JPA;
 
 import java.io.Serializable;
@@ -20,15 +16,13 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author darbas
+ * @author Liudas 
  */
 @Entity
-@Table(name = "PAID_FEES", catalog = "", schema = "LABANORASDB")
-@XmlRootElement
+@Table(name = "PAID_FEES")
 @NamedQueries({
     @NamedQuery(name = "PaidFees.findAll", query = "SELECT p FROM PaidFees p"),
     @NamedQuery(name = "PaidFees.findById", query = "SELECT p FROM PaidFees p WHERE p.id = :id"),
@@ -112,7 +106,7 @@ public class PaidFees implements Serializable {
 
     @Override
     public String toString() {
-        return "VU.KomandaX.LabanoroDraugai.Entities.PaidFees[ id=" + id + " ]";
+        return "DataAccess.JPA.PaidFees[ id=" + id + " ]";
     }
-    
+
 }

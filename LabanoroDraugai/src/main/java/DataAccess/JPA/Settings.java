@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DataAccess.JPA;
 
 import java.io.Serializable;
@@ -18,15 +14,13 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author darbas
+ * @author Liudas 
  */
 @Entity
-@Table(name = "SETTINGS", catalog = "", schema = "LABANORASDB")
-@XmlRootElement
+@Table(name = "SETTINGS")
 @NamedQueries({
     @NamedQuery(name = "Settings.findAll", query = "SELECT s FROM Settings s"),
     @NamedQuery(name = "Settings.findById", query = "SELECT s FROM Settings s WHERE s.id = :id"),
@@ -34,9 +28,14 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Settings.findByFirstReservation", query = "SELECT s FROM Settings s WHERE s.firstReservation = :firstReservation"),
     @NamedQuery(name = "Settings.findBySecondReservation", query = "SELECT s FROM Settings s WHERE s.secondReservation = :secondReservation"),
     @NamedQuery(name = "Settings.findByThirdReservation", query = "SELECT s FROM Settings s WHERE s.thirdReservation = :thirdReservation"),
+    @NamedQuery(name = "Settings.findByAllReservation", query = "SELECT s FROM Settings s WHERE s.allReservation = :allReservation"),
     @NamedQuery(name = "Settings.findByCloseReservation", query = "SELECT s FROM Settings s WHERE s.closeReservation = :closeReservation"),
-    @NamedQuery(name = "Settings.findByFirstGroupMaxDay", query = "SELECT s FROM Settings s WHERE s.firstGroupMaxDay = :firstGroupMaxDay"),
-    @NamedQuery(name = "Settings.findBySecondGroupMaxDay", query = "SELECT s FROM Settings s WHERE s.secondGroupMaxDay = :secondGroupMaxDay")})
+    @NamedQuery(name = "Settings.findByMaxReservationDays", query = "SELECT s FROM Settings s WHERE s.maxReservationDays = :maxReservationDays"),
+    @NamedQuery(name = "Settings.findByMembershipFee", query = "SELECT s FROM Settings s WHERE s.membershipFee = :membershipFee"),
+    @NamedQuery(name = "Settings.findByMaxRecommendations", query = "SELECT s FROM Settings s WHERE s.maxRecommendations = :maxRecommendations"),
+    @NamedQuery(name = "Settings.findByMinRecommendations", query = "SELECT s FROM Settings s WHERE s.minRecommendations = :minRecommendations"),
+    @NamedQuery(name = "Settings.findByRecommendationsValidity", query = "SELECT s FROM Settings s WHERE s.recommendationsValidity = :recommendationsValidity"),
+    @NamedQuery(name = "Settings.findByCancellationTime", query = "SELECT s FROM Settings s WHERE s.cancellationTime = :cancellationTime")})
 public class Settings implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,13 +55,25 @@ public class Settings implements Serializable {
     @Column(name = "THIRD_RESERVATION")
     @Temporal(TemporalType.DATE)
     private Date thirdReservation;
+    @Column(name = "ALL_RESERVATION")
+    @Temporal(TemporalType.DATE)
+    private Date allReservation;
     @Column(name = "CLOSE_RESERVATION")
     @Temporal(TemporalType.DATE)
     private Date closeReservation;
-    @Column(name = "FIRST_GROUP_MAX_DAY")
-    private Integer firstGroupMaxDay;
-    @Column(name = "SECOND_GROUP_MAX_DAY")
-    private Integer secondGroupMaxDay;
+    @Column(name = "MAX_RESERVATION_DAYS")
+    private Integer maxReservationDays;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "MEMBERSHIP_FEE")
+    private Double membershipFee;
+    @Column(name = "MAX_RECOMMENDATIONS")
+    private Integer maxRecommendations;
+    @Column(name = "MIN_RECOMMENDATIONS")
+    private Integer minRecommendations;
+    @Column(name = "RECOMMENDATIONS_VALIDITY")
+    private Integer recommendationsValidity;
+    @Column(name = "CANCELLATION_TIME")
+    private Integer cancellationTime;
 
     public Settings() {
     }
@@ -111,6 +122,14 @@ public class Settings implements Serializable {
         this.thirdReservation = thirdReservation;
     }
 
+    public Date getAllReservation() {
+        return allReservation;
+    }
+
+    public void setAllReservation(Date allReservation) {
+        this.allReservation = allReservation;
+    }
+
     public Date getCloseReservation() {
         return closeReservation;
     }
@@ -119,20 +138,52 @@ public class Settings implements Serializable {
         this.closeReservation = closeReservation;
     }
 
-    public Integer getFirstGroupMaxDay() {
-        return firstGroupMaxDay;
+    public Integer getMaxReservationDays() {
+        return maxReservationDays;
     }
 
-    public void setFirstGroupMaxDay(Integer firstGroupMaxDay) {
-        this.firstGroupMaxDay = firstGroupMaxDay;
+    public void setMaxReservationDays(Integer maxReservationDays) {
+        this.maxReservationDays = maxReservationDays;
     }
 
-    public Integer getSecondGroupMaxDay() {
-        return secondGroupMaxDay;
+    public Double getMembershipFee() {
+        return membershipFee;
     }
 
-    public void setSecondGroupMaxDay(Integer secondGroupMaxDay) {
-        this.secondGroupMaxDay = secondGroupMaxDay;
+    public void setMembershipFee(Double membershipFee) {
+        this.membershipFee = membershipFee;
+    }
+
+    public Integer getMaxRecommendations() {
+        return maxRecommendations;
+    }
+
+    public void setMaxRecommendations(Integer maxRecommendations) {
+        this.maxRecommendations = maxRecommendations;
+    }
+
+    public Integer getMinRecommendations() {
+        return minRecommendations;
+    }
+
+    public void setMinRecommendations(Integer minRecommendations) {
+        this.minRecommendations = minRecommendations;
+    }
+
+    public Integer getRecommendationsValidity() {
+        return recommendationsValidity;
+    }
+
+    public void setRecommendationsValidity(Integer recommendationsValidity) {
+        this.recommendationsValidity = recommendationsValidity;
+    }
+
+    public Integer getCancellationTime() {
+        return cancellationTime;
+    }
+
+    public void setCancellationTime(Integer cancellationTime) {
+        this.cancellationTime = cancellationTime;
     }
 
     @Override
@@ -157,7 +208,7 @@ public class Settings implements Serializable {
 
     @Override
     public String toString() {
-        return "VU.KomandaX.LabanoroDraugai.Entities.Settings[ id=" + id + " ]";
+        return "DataAccess.JPA.Settings[ id=" + id + " ]";
     }
-    
+
 }
