@@ -1,0 +1,45 @@
+body {
+    display: block;
+    background-color: ivory;
+    padding: 0em;
+    margin: 0em;
+}
+
+#header-container {
+    text-align: center;
+    padding: 10px;
+    background-image: url(../img/lab1.jpg);
+    background-size: cover;
+    border: 2px;
+}
+
+#head {
+    font-size: 2em;
+    letter-spacing: 0.5em;
+    color: whitesmoke;
+}
+
+#content-container {
+}
+
+#content {
+}
+
+#footer-container {
+    clear: both;
+    padding: 1px;
+    margin-top: 3px;
+    text-align: center;
+    background-image: url(../img/Banner.jpg);
+    font-size: 1.2em;
+    color: whitesmoke;
+}
+
+#menu {
+    font-size: 1.3em;
+}
+
+#button {
+    margin: 0 auto;
+    text-align: center;
+}
