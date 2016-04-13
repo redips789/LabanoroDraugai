@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Author: Liudas Petrelis
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <head>
+        <title>Vasarnamiai</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div>Vasarnamių sąrašas</div>
+      
+        <h:dataTable value="#{summerhouseBean.summerhouses}" var="summerhouse" frame="box" rules="all">
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Pavadinimas" />
+                </f:facet>
+                <h:outputText value="#{summerhouse.title}" />
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Aprašymas"/>
+                </f:facet>
+                <h:outputText value="#{summerhouse.description}" />
+            </h:column>
+
+        </h:dataTable>
+    </body>
+</html>
