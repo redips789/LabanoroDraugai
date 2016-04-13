@@ -4,8 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui" class="full">
 
     <h:head>
         <title>Labanoro draugai</title>
@@ -21,16 +20,12 @@
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"></link>
-        <!--<link rel="stylesheet" href="social.css"></link>-->
-        <h:outputStylesheet library="css" name="default.css"/>
-        <h:outputStylesheet library="css" name="cssLayout.css"/>
+        <!--<h:outputStylesheet library="css" name="default.css"/>
+        <h:outputStylesheet library="css" name="cssLayout.css"/>-->
         <h:outputStylesheet library="css" name="social.css"/>
     </h:head>
     <h:body>
         <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-        <div id="top" class="top">
-            <ui:insert name="top">Labanoro draugai</ui:insert>
-        </div>
         <script>
             window.fbAsyncInit = function () {
                 FB.init({
@@ -114,6 +109,7 @@
 
 
         </script>
+
         <f:metadata>
             <f:viewParam name="token" value="#{loginBean.isloggedin}" />
             <f:viewAction action="#{loginBean.checkPageStage}" />
@@ -215,17 +211,15 @@
             <p:remoteCommand name="passToJSFManagedBean" id="passToJSFManagedBeancmd"
                              action="#{loginBean.getParams}" />  
         </h:form>
-        <img src="http://static2.keep4u.ru/2014/09/08/9dcec0e5544abce2f0.jpg" class="className"></img>
-        <div class="container">
-            <div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
-                <div class="social-sizes">
-                    <a class="btn btn-block btn-social btn-lg btn-facebook Login" onclick="tryLogin()">
-                        <span class="fa fa-facebook"></span> Prisijungti su facebook
-                    </a>
-                </div>
+        <!--<div class="container-fluid">
+            <div class ="full">
+            <img src="http://static2.keep4u.ru/2014/09/08/9dcec0e5544abce2f0.jpg" class="image-responsive" alt="Responsive image"></img>
+        </div>-->
+            <div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 vcenter">
+                <a class="btn btn-block btn-social btn-lg btn-facebook vcenter" onclick="tryLogin()">
+                    <span class="fa fa-facebook vcenter"></span> Prisijungti su facebook
+                </a>
             </div>
-        </div>
-        <br />
     </h:body>
 </html>
 
