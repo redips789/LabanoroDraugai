@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+    
+    <h:head>
+        <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>            
+        <div id="menu" style="color: red;"> 
+            <p:growl id="messages"/>
+ 
+            <p:menubar>
+                <p:submenu label="Vasarnamiai">
+                    <p:menuitem value="Mano rezervuoti" url="#" />
+                    <p:menuitem value="Visi" url="#" />
+                </p:submenu>
+
+                <p:menuitem value="Klubo nariai" url="#" />
+                <p:menuitem value="Rekomendacijos" url="#" />
+
+                <p:submenu label="Nustatymai" >
+                    <p:menuitem value="Paskyra" actionListener="#{menuView.save}" update="messages"/>
+                    <p:menuitem value="Mano taškai" actionListener="#{menuView.update}" update="messages"/>
+                    <p:menuitem value="Išsiregistruoti" actionListener="#{menuView.delete}" update="messages" ajax="false"/>
+                </p:submenu>
+
+                <f:facet name="options">
+                    <p:commandButton type="button" value="Atsijungti" icon="ui-icon-extlink" />
+                </f:facet>
+            </p:menubar>
+        </div>
+    </h:body>
+</html>
