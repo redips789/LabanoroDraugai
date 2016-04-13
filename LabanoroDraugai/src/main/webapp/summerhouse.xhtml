@@ -1,33 +1,62 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Author: Liudas Petrelis
--->
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
-    <head>
-        <title>Vasarnamiai</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>Vasarnamių sąrašas</div>
-      
-        <h:dataTable value="#{summerhouseBean.summerhouses}" var="summerhouse" frame="box" rules="all">
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="Pavadinimas" />
-                </f:facet>
-                <h:outputText value="#{summerhouse.title}" />
-            </h:column>
+<html lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+    
+    <h:head>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>Labanoro draugai</title>
+        </f:facet>
+        <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    
+    <h:body>
+        <h:form id="form">     
+            <div id="page">
+                <div id="header-container">
+                    <ui:include src="header.xhtml" />         
+                </div>
 
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="Aprašymas"/>
-                </f:facet>
-                <h:outputText value="#{summerhouse.description}" />
-            </h:column>
+                <div id="menu-container">
+                    <ui:include src="menu.xhtml" />
+                </div>
+                    čia bus filtravimas
+                <div id="content-container">
+                    
+                    
+                    <h:form> 
+                        <p:dataScroller value="#{summerhouseBean.summerhouses}" var="summerhouse" chunkSize="10">
+                            <f:facet name="header">
+                                Skrolink žemyn, kad pamatytum daugiau vasarnamių
+                            </f:facet>
 
-        </h:dataTable>
-    </body>
+                            <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+<!--                                <p:graphicImage name="demo/images/car/#-big.gif" /> -->
+
+                                <p:outputPanel>
+                                    <h:panelGrid columns="2" cellpadding="5">
+                                        <h:outputText value="Pavadinimas:" />
+                                        <h:outputText value="#{summerhouse.title}" style="font-weight: bold"/>
+
+                                        <h:outputText value="Aprašymas:" />
+                                        <h:outputText value="#{summerhouse.description}" style="font-weight: bold"/>
+
+                                    </h:panelGrid>
+                                </p:outputPanel>
+                            </h:panelGrid>
+                        </p:dataScroller>
+                    </h:form>
+                     
+                </div>
+
+                <div id="footer-container" >
+                    <ui:include src="footer.xhtml" />
+                </div>
+            </div>    
+        </h:form> 
+    </h:body>
 </html>
