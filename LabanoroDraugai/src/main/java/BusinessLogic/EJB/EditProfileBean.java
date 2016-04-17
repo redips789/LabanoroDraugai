@@ -42,25 +42,17 @@ public class EditProfileBean implements Serializable {
     
     String fbId;
     
-    String name;
-    
-    //private Date birthday;
-    
     //construct
     
     @PostConstruct
     public void init() {
-       // System.out.println("inicializuoju");
-       fbId = "987654321123"; // kazkaip reiks gauti is sesijos
+       fbId = "987654321123"; // kazkaip REIKS gauti is sesijos
        account = accountEjb.findAccount(fbId);
-      // setName(account.getFirstName());
-       System.out.println(this.getName()+ " pirmas");
+       System.out.println(this.account.getFirstName()+ " inicijuota");
     }
     
      //get set
     
-   
-
     public Account getAccount() {
         return account;
     }
@@ -68,23 +60,6 @@ public class EditProfileBean implements Serializable {
     public void setAccount(Account account) {
         this.account = account;
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-        System.out.println(this.getName()+ " nussetintas");
-    }
-
-//    public Date getBirthday() {
-//        return birthday;
-//    }
-//
-//    public void setBirthday(Date birthday) {
-//        this.birthday = birthday;
-//    }
     
      //business  
     public String saveAccountChanges(){
@@ -96,10 +71,9 @@ public class EditProfileBean implements Serializable {
         System.out.println(this.getAccount().getCity()+ "Pradedu city");
         System.out.println(this.getAccount().getDescription()+ "Pradedu description");
         Account a = new Account();
-        a = accountEjb.updateAccount(this.getAccount());
-        System.out.println(a.getLastName()+ " BAIGTAA");
+        a = accountEjb.updateAccount(this.getAccount());    //LUŠ kai updatins į esantį email
+        System.out.println(a.getLastName()+ " BAIGTA");
         return "myProfile";
-    
     }
     
     
