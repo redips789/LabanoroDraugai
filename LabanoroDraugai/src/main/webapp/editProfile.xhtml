@@ -26,32 +26,44 @@
             </div>
             
             <div id="content-container" class="editProfile">
-                <h:form>
-                        <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
-                            <h:outputLabel for="name" value="VARDAS:" />
-                                    <p:inputText id="name" value="#{editProfileBean.account.firstName}" required="true" maxlength="29"/>
-                                    
-                            <h:outputLabel value="PAVARDĖ:" />
-                                    <p:inputText value="#{editProfileBean.account.lastName}" required="true" maxlength="29"/> 
+                <h:form id="editProfile">
+                        <h:panelGrid columns="3" columnClasses="column" cellpadding="5">
+                            <p:outputLabel value="VARDAS:" />
+                            <p:inputText id="name" value="#{editProfileBean.account.firstName}" size="30" required="true" requiredMessage="Įrašykite vardą" maxlength="29"/>
+                            <p:message for="name" display="icon" />
+                                        
+                            <p:outputLabel value="PAVARDĖ:" />
+                            <p:inputText id="lastname" value="#{editProfileBean.account.lastName}" size="30" required="true" requiredMessage="Įrašykite pavardę" maxlength="29"/>
+                            <p:message for="lastname" display="icon" />
                             
-                            <p:outputLabel for="birthday" value="Gimimo data: " />
-                            <p:calendar id="birthday" value="#{editProfileBean.account.dateOfBirth}" locale="de" navigator="true" pattern="yyyy-MMM-dd" />
+                            <p:outputLabel for="birthday" value="GIMIMO DATA: " />
+                            <p:calendar id="birthday" yearRange="c-100:c"  value="#{editProfileBean.account.dateOfBirth}" size="30" requiredMessage="Įrašykite gimimo datą" locale="de" navigator="true" pattern="yyyy-MMM-dd" />
+                            <p:message for="birthday" display="icon" />
                             
-                            <h:outputLabel value="MIESTAS:" />
-                            <p:inputText value="#{editProfileBean.account.city}" required="true" maxlength="49"/>
-                                    
-                            <h:outputLabel value="EL. PAŠTAS:" />
-                            <p:inputText value="#{editProfileBean.account.email}" required="true" maxlength="49"/>
-                                    
-                            <h:outputLabel value="TEL. NR:" />
-                            <p:inputText value="#{editProfileBean.account.phoneNum}" required="true" onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;" maxlength="9"/>        
+                            <p:outputLabel value="MIESTAS:" />
+                            <p:inputText id="city" value="#{editProfileBean.account.city}" size="30" required="true" requiredMessage="Įrašykite miestą" maxlength="49"/>
+                            <p:message for="city" display="icon" />
                             
-                            <h:outputLabel value="APIE SAVE:" />
-                            <p:inputTextarea rows="5" cols="30" value="#{editProfileBean.account.description}" counter="display" required="true" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
-                            <h:outputLabel value=" "/>
+                            <p:outputLabel value="EL. PAŠTAS:" />
+                            <p:inputText id="email" value="#{editProfileBean.account.email}" size="30" required="true" requiredMessage="Įrašykite el. paštą" validatorMessage="Įrašykite teisingą el. paštą" maxlength="49">
+                            <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                            </p:inputText>
+                            <p:message for="email" display="icon" />
+                            
+                            <p:outputLabel value="TEL. NR: (+370)"/>
+                            <p:inputText id="phonenumber" value="#{editProfileBean.account.phoneNum}" size="30" required="true" validatorMessage="Įrašykite tel. nr. po (+370) kodo" requiredMessage="Įrašykite tel. nr." onkeyup="this.value=this.value.replace(/[^\d]/,'')" maxlength="8" label="phonenumber">
+                                <f:validateLength minimum="8"  for="phonenumber"/>
+                            </p:inputText>      
+                            <p:message for="phonenumber" display="icon" />
+                            
+                            <p:outputLabel value="APIE SAVE:" />
+                            <p:inputTextarea id="description" rows="10" cols="30" value="#{editProfileBean.account.description}" counter="display" required="true" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
+                            <p:message for="description" display="icon" />
+                            <p:outputLabel value=" "/>
                             <h:outputText id="display" />
+                            <p:outputLabel value=" "/>
                             
-                            <p:commandButton type="submit" value="Išsaugoti" id="withIcon" actionListener="#{editProfileBean.saveAccountChanges()}" action="myProfile.xhtml" icon="ui-icon-disk" />
+                            <p:commandButton type="submit" ajax="false" value="Išsaugoti" id="withIcon" actionListener="#{editProfileBean.saveAccountChanges()}" validateClient="true" action="myProfile.xhtml" icon="ui-icon-disk" />
                             <p:button value="Atšaukti"  outcome="myProfile.xhtml" />
                             
                             
