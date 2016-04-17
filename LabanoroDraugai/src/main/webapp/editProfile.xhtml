@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+    
+    <h:head>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>Labanoro draugai</title>
+        </f:facet>
+        <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            
+            <div id="page">
+            <div id="header-container">
+                <ui:include src="header.xhtml" />         
+            </div>
+                
+            <div id="menu-container">
+                <ui:include src="menu.xhtml" />
+            </div>
+            
+            <div id="content-container" class="editProfile">
+                <h:form>
+                        <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
+                            <h:outputLabel for="name" value="VARDAS:" />
+                                    <p:inputText id="name" value="#{editProfileBean.account.firstName}" required="true" maxlength="29"/>
+                                    
+                            <h:outputLabel value="PAVARDĖ:" />
+                                    <p:inputText value="#{editProfileBean.account.lastName}" required="true" maxlength="29"/> 
+                            
+                            <p:outputLabel for="birthday" value="Gimimo data: " />
+                            <p:calendar id="birthday" value="#{editProfileBean.account.dateOfBirth}" locale="de" navigator="true" pattern="yyyy-MMM-dd" />
+                            
+                            <h:outputLabel value="MIESTAS:" />
+                            <p:inputText value="#{editProfileBean.account.city}" required="true" maxlength="49"/>
+                                    
+                            <h:outputLabel value="EL. PAŠTAS:" />
+                            <p:inputText value="#{editProfileBean.account.email}" required="true" maxlength="49"/>
+                                    
+                            <h:outputLabel value="TEL. NR:" />
+                            <p:inputText value="#{editProfileBean.account.phoneNum}" required="true" onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;" maxlength="9"/>        
+                            
+                            <h:outputLabel value="APIE SAVE:" />
+                            <p:inputTextarea rows="5" cols="30" value="#{editProfileBean.account.description}" counter="display" required="true" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
+                            <h:outputLabel value=" "/>
+                            <h:outputText id="display" />
+                            
+                            <p:commandButton type="submit" value="Išsaugoti" id="withIcon" actionListener="#{editProfileBean.saveAccountChanges()}" action="myProfile.xhtml" icon="ui-icon-disk" />
+                            <p:button value="Atšaukti"  outcome="myProfile.xhtml" />
+                            
+                            
+                        </h:panelGrid>
+</h:form>
+                
+            </div>
+                       
+            <div id="footer-container" >
+                <ui:include src="footer.xhtml" />
+            </div>
+            
+        </div>
+        
+        </h:form>
+    </h:body>
+</html>
