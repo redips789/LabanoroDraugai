@@ -9,6 +9,8 @@ import DataAccess.EJB.AccountDao;
 import DataAccess.JPA.Account;
 import java.beans.*;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Locale;
 //import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -42,6 +44,9 @@ public class EditProfileBean implements Serializable {
     
     String fbId;
     
+    private int accountAge;
+    private String accountPhoneNumber;
+    
     //construct
     
     @PostConstruct
@@ -60,6 +65,17 @@ public class EditProfileBean implements Serializable {
     public void setAccount(Account account) {
         this.account = account;
     }
+
+    public String getAccountAge() {
+        estimateAge();
+        return accountAge +"  metų,  ";
+    }
+
+    public String getAccountPhoneNumber() {
+        return "+370 " + this.account.getPhoneNum();
+    }
+    
+    
     
      //business  
     public String saveAccountChanges(){
@@ -76,5 +92,15 @@ public class EditProfileBean implements Serializable {
         return "myProfile";
     }
     
-    
+    private void estimateAge(){
+        Calendar dob = Calendar.getInstance();
+        dob.setTime(this.account.getDateOfBirth());
+        Calendar today = Calendar.getInstance();
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+        if (today.get(Calendar.DAY_OF_YEAR) <= dob.get(Calendar.DAY_OF_YEAR))
+        {age--;}
+        System.out.println(this.account.getDateOfBirth().getDate() + " seni geri metai" + today.get(Calendar.DAY_OF_MONTH)+ " mėn" + today.get(Calendar.DAY_OF_WEEK_IN_MONTH) + " diena" + today.get(Calendar.DAY_OF_WEEK) + " ssav diena");
+        this.accountAge = age;
+    }
+        
 }
