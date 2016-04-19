@@ -185,7 +185,7 @@ public class RegistrationBean {
         account.setFirstName(first_name);
         account.setLastName(last_name);
         account.setPhoneNum(phone);
-        account.setPhoto(phone);
+        account.setPhoto(picture);
         account.setPoints(0);
         account.setStatus("kandidatas");
         loginAuthBean.addAccount(account);
