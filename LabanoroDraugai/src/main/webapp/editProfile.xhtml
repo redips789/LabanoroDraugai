@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+    
+    <h:head>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>Labanoro draugai</title>
+        </f:facet>
+        <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            
+            <div id="page">
+            <div id="header-container">
+                <ui:include src="header.xhtml" />         
+            </div>
+                
+            <div id="menu-container">
+                <ui:include src="menu.xhtml" />
+            </div>
+            
+            <div id="content-container" class="editProfile">
+                <h:form id="editProfile">
+                        <h:panelGrid columns="3" columnClasses="column" cellpadding="5">
+                            <p:outputLabel value="VARDAS:" />
+                            <p:inputText id="name" value="#{editProfileBean.account.firstName}" size="30" required="true" requiredMessage="Įrašykite vardą" maxlength="29"/>
+                            <p:message for="name" display="icon" />
+                                        
+                            <p:outputLabel value="PAVARDĖ:" />
+                            <p:inputText id="lastname" value="#{editProfileBean.account.lastName}" size="30" required="true" requiredMessage="Įrašykite pavardę" maxlength="29"/>
+                            <p:message for="lastname" display="icon" />
+                            
+                            <p:outputLabel for="birthday" value="GIMIMO DATA: " />
+                            <p:calendar id="birthday" yearRange="c-100:c"  value="#{editProfileBean.account.dateOfBirth}" size="30" requiredMessage="Įrašykite gimimo datą" locale="de" navigator="true" pattern="yyyy-MMM-dd" />
+                            <p:message for="birthday" display="icon" />
+                            
+                            <p:outputLabel value="MIESTAS:" />
+                            <p:inputText id="city" value="#{editProfileBean.account.city}" size="30" required="true" requiredMessage="Įrašykite miestą" maxlength="49"/>
+                            <p:message for="city" display="icon" />
+                            
+                            <p:outputLabel value="EL. PAŠTAS:" />
+                            <p:inputText id="email" value="#{editProfileBean.account.email}" size="30" required="true" requiredMessage="Įrašykite el. paštą" validatorMessage="Įrašykite teisingą el. paštą" maxlength="49">
+                            <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                            </p:inputText>
+                            <p:message for="email" display="icon" />
+                            
+                            <p:outputLabel value="TEL. NR: (+370)"/>
+                            <p:inputText id="phonenumber" value="#{editProfileBean.account.phoneNum}" size="30" required="true" validatorMessage="Įrašykite tel. nr. po (+370) kodo" requiredMessage="Įrašykite tel. nr." onkeyup="this.value=this.value.replace(/[^\d]/,'')" maxlength="8" label="phonenumber">
+                                <f:validateLength minimum="8"  for="phonenumber"/>
+                            </p:inputText>      
+                            <p:message for="phonenumber" display="icon" />
+                            
+                            <p:outputLabel value="APIE SAVE:" />
+                            <p:inputTextarea id="description" rows="10" cols="30" value="#{editProfileBean.account.description}" counter="display" required="true" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
+                            <p:message for="description" display="icon" />
+                            <p:outputLabel value=" "/>
+                            <h:outputText id="display" />
+                            <p:outputLabel value=" "/>
+                            
+                            <p:commandButton type="submit" ajax="false" value="Išsaugoti" id="withIcon" actionListener="#{editProfileBean.saveAccountChanges()}" validateClient="true" action="myProfile.xhtml" icon="ui-icon-disk" />
+                            <p:button value="Atšaukti"  outcome="myProfile.xhtml" />
+                            
+                            
+                        </h:panelGrid>
+</h:form>
+                
+            </div>
+                       
+            <div id="footer-container" >
+                <ui:include src="footer.xhtml" />
+            </div>
+            
+        </div>
+        
+        </h:form>
+    </h:body>
+</html>

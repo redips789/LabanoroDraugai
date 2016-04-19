@@ -36,10 +36,15 @@ body {
 }
 
 #menu {
-    font-size: 1.3em;
+    font-size: 0.9em;
 }
 
 #button {
     margin: 0 auto;
     text-align: center;
+}
+
+.editProfile{
+    width:200px;
+    margin:auto;
 }
