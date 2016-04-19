@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+    
+    <h:head>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>Registracija</title>
+        </f:facet>
+        <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script>
+            window.fbAsyncInit = function () {
+                FB.init({
+                    appId: '876888315753324',
+                    xfbml: true,
+                    version: 'v2.5'
+                });
+            };
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {
+                    return;
+                }
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+            </script>
+        <div id="fb-root"></div>
+            <script>
+            window.fbAsyncInit = function () {
+                FB.init({
+                    appId: '876888315753324',
+                    cookie: true, // enable cookies to allow the server to access 
+                    // the session
+                    xfbml: true, // parse social plugins on this page
+                    version: 'v2.5' // use graph api version 2.5
+                });
+
+                // Now that we've initialized the JavaScript SDK, we call 
+                // FB.getLoginStatus().  This function gets the state of the
+                // person visiting this page and can return one of three states to
+                // the callback you provide.  They can be:
+                //
+                // 1. Logged into your app ('connected')
+                // 2. Logged into Facebook, but not your app ('not_authorized')
+                // 3. Not logged into Facebook and can't tell if they are logged into
+                //    your app or not.
+                //
+                // These three cases are handled in the callback function.
+
+            };
+            // Load the SDK asynchronously
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id))
+                    return;
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <script type ="text/javascript">
+        function test(){
+            FB.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+            FB.api(
+            '/me',
+            'GET',
+             {"fields":"id,name,first_name,last_name,email,birthday,picture"},
+             function(response) {
+             var id = response.id;
+             var first_name = response.first_name;
+             var last_name = response.last_name;
+             var email = response.email;
+             var birthday = response.birthday;          
+             var picture = response.picture.data.url;
+             console.log(response);
+             console.log(id);
+             console.log(first_name);
+             console.log(last_name);
+             console.log(email);
+             console.log(birthday);
+             console.log(picture);
+             
+             ToJSFManagedBean([{
+                                        name: 'id',
+                                        value: id
+                                    },
+                                    {
+                                        name: 'first_name',
+                                        value: first_name
+                                    },
+                                    {
+                                        name: 'last_name',
+                                        value: last_name
+                                    },
+                                    {
+                                        name: 'email',
+                                        value: email
+                                    },
+                                    {
+                                        name: 'birthday',
+                                        value: birthday
+                                    },
+                                    {
+                                        name: 'picture',
+                                        value: picture
+                                    }
+                                ]);
+                          
+             
+             });
+        } else if (response.status === 'not_authorized') {
+            // the user is logged in to Facebook,
+            // console.log(response); 
+            // but has not authenticated your app
+        } else {
+            console.log(response);
+         // the user isn't logged in to Facebook.
+        }
+ });
+        }
+         
+        </script>
+        <h:form>
+            <p:remoteCommand name="ToJSFManagedBean" id="ToJSFManagedBean"
+                             action="#{registrationBean.takeDataFromFacebook}" />  
+         </h:form> 
+    </h:head>
+    <h:body>
+        
+        
+        <h:form id="form">
+            
+            <div id="page">
+            <div id="header-container">
+                <ui:include src="header.xhtml" />         
+            </div>
+                
+            <div id="menu-container">
+                <ui:include src="menu.xhtml" />
+            </div>
+            
+            <div id="content-container" >
+                
+                
+                
+            <f:view>  
+                <h:form id="registerForm">  
+                    <table>  
+                     <tr>  
+                    <td><h:outputText value="Įveskite miestą:" /></td>  
+                    <td><h:inputText id="city" value="#{registrationBean.city}" onclick="test()"  
+                            required="true" requiredMessage="Miestas neįvestas" /></td>    
+                </tr>  
+                <tr>  
+                    <td><h:outputText value="Įveskite telefono numerį:" /></td>  
+                    <td><h:inputText id="phone" value="#{registrationBean.phone}"  
+                            required="true" requiredMessage="Telefono numeris neįvestas" /></td>    
+                </tr> 
+                <tr>  
+                    <td><h:outputText value="Įveskite informaciją apie save :" /></td>  
+                    <td><h:inputTextarea rows="10" cols="40" id="description" value="#{registrationBean.description}"  
+                            required="true" requiredMessage="Trūksta informacijos apie save" /></td>    
+                </tr>  
+                <tr>  
+                    <td />  
+                    <td><h:commandButton value="Registruotis" action="registrationconfirm?faces-redirect=true"/></td>
+                </tr>  
+            </table>  
+        </h:form>  
+    </f:view> 
+          
+        
+               
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </div>
+                       
+            <div id="footer-container" >
+                <ui:include src="footer.xhtml" />
+            </div>
+            
+        </div>
+        
+        </h:form>
+        
+    </h:body>
+</html>
+

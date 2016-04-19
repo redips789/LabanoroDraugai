@@ -145,23 +145,11 @@
                                         name: 'expiresin',
                                         value: expiresin
                                     }
-                                ]);
-                                //$(function(){                                                                                                         
-                                //     var dataString ={id: idm};
-                                //    console.log(dataString);
-                                //    $.ajax({
-                                //        type: "POST",
-                                //        url: "LoginServlet",
-                                //         data: dataString,
-                                //          success: function(data){  
-                                //               console.log('Add');
-                                //               $('body').html(data);
-                                //           }
-                                //        });  
+                                ]); 
 
 
                             }
-                        });
+                        }, {scope: 'public_profile,email,user_birthday'});
                     } else
                     {
                         var idm = response.authResponse.userID;
@@ -186,8 +174,7 @@
                             }
                         ]);
                     }
-                }
-                );
+                }, {scope: 'public_profile,email,user_birthday'});
             }
             function tryLogOut() {
                 FB.getLoginStatus(function (response) {

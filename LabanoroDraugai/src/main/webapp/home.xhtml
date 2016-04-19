@@ -9,24 +9,49 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet library="css" name="default.css"/>
         <h:outputStylesheet library="css" name="cssLayout.css"/>
-        <title>Labanoro draugai</title>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>Labanoro draugai</title>
+        </f:facet>
+        <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
     </h:head>
     <h:body>
-        <div id="top" class="top">
-            <ui:insert name="top">Labanoro draugai</ui:insert>
+        <h:form id="form">
+            
+            <div id="page">
+            <div id="header-container">
+                <ui:include src="header.xhtml" />         
+            </div>
+                
+            <div id="menu-container">
+                <ui:include src="menu.xhtml" />
+            </div>
+            
+            <div id="content-container">
+               
+
+            #{loginBean.id}
+
+
+            #{loginBean.accesstoken}
+
+
+            #{loginBean.signedrequest}
+
+
+            #{loginBean.expiresin}
+
+                 
+            </div>
+                       
+            <div id="footer-container" >
+                <ui:include src="footer.xhtml" />
+            </div>
+            
         </div>
-        <div id="content1" class="center_content">
-            <ui:insert name="bottom"><h:outputText value="#{loginBean.id}"/></ui:insert>
-        </div>
-        <div id="content2" class="center_content">
-            <ui:insert name="bottom"><h:outputText value="#{loginBean.accesstoken}"/></ui:insert>
-        </div>
-        <div id="content3" class="center_content">
-            <ui:insert name="bottom"><h:outputText value="#{loginBean.signedrequest}"/></ui:insert>
-        </div>
-        <div id="content4" class="center_content">
-            <ui:insert name="bottom"><h:outputText value="#{loginBean.expiresin}"/></ui:insert>
-        </div>
+        
+        </h:form>
+        
     </h:body>
 </html>
 
