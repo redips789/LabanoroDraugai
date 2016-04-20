@@ -155,31 +155,28 @@
                 
                 
                 
-            <f:view>  
-                <h:form id="registerForm">  
-                    <table>  
-                     <tr>  
-                    <td><h:outputText value="Įveskite miestą:" /></td>  
-                    <td><h:inputText id="city" value="#{registrationBean.city}" onclick="test()"  
-                            required="true" requiredMessage="Miestas neįvestas" /></td>    
-                </tr>  
-                <tr>  
-                    <td><h:outputText value="Įveskite telefono numerį:" /></td>  
-                    <td><h:inputText id="phone" value="#{registrationBean.phone}"  
-                            required="true" requiredMessage="Telefono numeris neįvestas" /></td>    
-                </tr> 
-                <tr>  
-                    <td><h:outputText value="Įveskite informaciją apie save :" /></td>  
-                    <td><h:inputTextarea rows="10" cols="40" id="description" value="#{registrationBean.description}"  
-                            required="true" requiredMessage="Trūksta informacijos apie save" /></td>    
-                </tr>  
-                <tr>  
-                    <td />  
-                    <td><h:commandButton value="Registruotis" action="registrationconfirm?faces-redirect=true"/></td>
-                </tr>  
-            </table>  
+                <h:form id="registerForm">
+                    <h:panelGrid columns="3" columnClasses="column" cellpadding="5">
+                    <p:outputLabel value="MIESTAS:" />
+                    <p:inputText id="city" value="#{registrationBean.city}" size="30" required="true" requiredMessage="Įrašykite miestą" maxlength="49" onclick="test()"/>
+                    <p:message for="city" display="icon" />
+                  
+                    <p:outputLabel value="TEL. NR: (+370)"/>
+                    <p:inputText id="phonenumber" value="#{registrationBean.phone}" size="30" required="true" validatorMessage="Įrašykite tel. nr. po (+370) kodo" requiredMessage="Įrašykite tel. nr." onkeyup="this.value=this.value.replace(/[^\d]/,'')" maxlength="8" label="phonenumber">
+                    <f:validateLength minimum="8"  for="phonenumber"/>
+                    </p:inputText>      
+                    <p:message for="phonenumber" display="icon" />
+                            
+                    <p:outputLabel value="APIE SAVE:" />
+                    <p:inputTextarea id="description" rows="10" cols="30" value="#{registrationBean.description}" counter="display" required="true" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
+                    <p:message for="description" display="icon" />
+                    <p:outputLabel value=" "/>
+                    <h:outputText id="display" />
+                    <p:outputLabel value=" "/>
+                    
+                    <p:commandButton value="Registruotis" action="registrationconfirm?faces-redirect=true" validateClient="true" icon="ui-icon-disk"/>
+                    </h:panelGrid>
         </h:form>  
-    </f:view> 
           
         
                

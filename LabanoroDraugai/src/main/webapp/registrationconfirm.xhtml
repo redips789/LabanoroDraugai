@@ -32,49 +32,57 @@
                 
                 
                 
-            <f:view>  
-                <h:form id="registerForm">  
-                    <table>
-                <tr>  
-                    <td><h:outputText value="Vardas :" /></td>  
-                    <td><h:inputText id="first_name" value="#{registrationBean.first_name}" 
-                            required="true" requiredMessage="Vardas neįvestas arba įvestas blogai" /></td>    
-                </tr>
+             
+                <h:form id="registerForm"> 
+                    <h:panelGrid columns="3" columnClasses="column" cellpadding="5">
+                   
+                  
+                    <p:outputLabel value="VARDAS:" />  
+                    <p:inputText id="name" value="#{registrationBean.first_name}" size="30" required="true" requiredMessage="Įrašykite vardą" maxlength="29"/>    
+                    <p:message for="name" display="icon" />
                         
-                <tr>  
-                    <td><h:outputText value="Pavardė :" /></td>  
-                    <td><h:inputText id="last_name" value="#{registrationBean.last_name}" 
-                            required="true" requiredMessage="Pavardė neįvesta arba įvesta blogai" /></td>    
-                </tr>
-                <tr>  
-                    <td><h:outputText value="Gimimo data :" /></td>  
-                    <td><h:inputText id="birthday" value="#{registrationBean.birthday}" 
-                                     required="true" requiredMessage="Gimimo data neįvesta arba įvesta blogai" >
-                            <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
-                        </h:inputText></td>    
-                </tr>
-                <tr>  
-                    <td><h:outputText value="Miestas:" /></td>  
-                    <td><h:inputText id="city" value="#{registrationBean.city}" 
-                            required="true" requiredMessage="Miestas neįvestas arba įvestas blogai" /></td>    
-                </tr>  
-                <tr>  
-                    <td><h:outputText value="Telefono numeris:" /></td>  
-                    <td><h:inputText id="phone" value="#{registrationBean.phone}"  
-                            required="true" requiredMessage="Telefono numeris neįvestas arba įvestas blogai" /></td>    
-                </tr> 
-                <tr>  
-                    <td><h:outputText value="Iformacija apie save :" /></td>  
-                    <td><h:inputTextarea rows="10" cols="40" id="description" value="#{registrationBean.description}"  
-                            required="true" requiredMessage="Trūksta informacijos apie save" /></td>    
-                </tr>  
-                <tr>  
-                    <td />  
-                    <td><h:commandButton value="Patvirtinti registraciją" action="#{registrationBean.register()}"/></td>
-                </tr>  
-            </table>  
+                  
+                    <p:outputLabel value="PAVARDĖ:" />  
+                    <p:inputText id="lastname" value="#{registrationBean.last_name}" size="30" required="true" requiredMessage="Įrašykite pavardę" maxlength="29"/>   
+                    <p:message for="lastname" display="icon" />
+                  
+                    <p:outputLabel value="GIMIMO DATA:" />  
+                    <p:calendar id="birthday" yearRange="c-100:c" value="#{registrationBean.birthday}" 
+                                     size="30" required="true" requiredMessage="Įrašykite gimimo datą" locale="de" navigator="true" pattern="yyyy-MMM-dd"  >
+                        </p:calendar>
+                    <p:message for="birthday" display="icon" />
+                
+                  
+                    <p:outputLabel value="MIESTAS:" />
+                    <p:inputText id="city" value="#{registrationBean.city}" size="30" required="true" requiredMessage="Įrašykite miestą" maxlength="49"/>
+                    <p:message for="city" display="icon" />
+                    
+                    <p:outputLabel value="EL. PAŠTAS:" />
+                    <p:inputText id="email" value="#{registrationBean.email}" size="30" required="true" requiredMessage="Įrašykite el. paštą" validatorMessage="Įrašykite teisingą el. paštą" maxlength="49">
+                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                    </p:inputText>
+                    <p:message for="email" display="icon" />
+                  
+                    <p:outputLabel value="TEL. NR: (+370)"/>
+                    <p:inputText id="phonenumber" value="#{registrationBean.phone}" size="30" required="true" validatorMessage="Įrašykite tel. nr. po (+370) kodo" requiredMessage="Įrašykite tel. nr." onkeyup="this.value=this.value.replace(/[^\d]/,'')" maxlength="8" label="phonenumber">
+                    <f:validateLength minimum="8"  for="phonenumber"/>
+                    </p:inputText>      
+                    <p:message for="phonenumber" display="icon" />
+                            
+                    <p:outputLabel value="APIE SAVE:" />
+                    <p:inputTextarea id="description" rows="10" cols="30" value="#{registrationBean.description}" counter="display" required="true" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
+                    <p:message for="description" display="icon" />
+                    <p:outputLabel value=" "/>
+                    <h:outputText id="display" />
+                    <p:outputLabel value=" "/>    
+                  
+                  
+                      
+                    <p:commandButton value="Patvirtinti registraciją" action="#{registrationBean.register()}" validateClient="true" icon="ui-icon-disk"/>
+                        </h:panelGrid>
+                  
+              
         </h:form>  
-    </f:view> 
            
             </div>
                        
@@ -83,7 +91,6 @@
             </div>
             
         </div>
-        
         </h:form>
     </h:body>
 </html>
