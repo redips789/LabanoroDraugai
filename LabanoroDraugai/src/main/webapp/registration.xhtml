@@ -155,7 +155,7 @@
                 
                 
                 
-                <h:form id="registerForm">
+                <h:form id="registerForm" class="editProfile">
                     <h:panelGrid columns="3" columnClasses="column" cellpadding="5">
                     <p:outputLabel value="MIESTAS:" />
                     <p:inputText id="city" value="#{registrationBean.city}" size="30" required="true" requiredMessage="Įrašykite miestą" maxlength="49" onclick="test()"/>
@@ -174,7 +174,7 @@
                     <h:outputText id="display" />
                     <p:outputLabel value=" "/>
                     
-                    <p:commandButton value="Registruotis" action="registrationconfirm?faces-redirect=true" validateClient="true" icon="ui-icon-disk"/>
+                    <p:commandButton value="Registruotis" action="registrationconfirm?faces-redirect=true" id="withIcon" type="submit" ajax="false" validateClient="true" icon="ui-icon-disk"/>
                     </h:panelGrid>
         </h:form>  
           

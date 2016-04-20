@@ -51,7 +51,7 @@ public class EditProfileBean implements Serializable {
     
     @PostConstruct
     public void init() {
-       fbId = "987654321123"; // kazkaip REIKS gauti is sesijos
+       fbId = "579849092162769"; // kazkaip REIKS gauti is sesijos
        account = accountEjb.findAccount(fbId);
        System.out.println(this.account.getFirstName()+ " inicijuota");
     }

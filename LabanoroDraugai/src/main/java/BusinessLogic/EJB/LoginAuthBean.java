@@ -52,22 +52,28 @@ public class LoginAuthBean {
 
     } 
     
-    public String accountExistString(String id) {
+    
+    
+    public Account accountExistAccount(String id) {
         try{
             Query query = em.createQuery("SELECT s FROM Account s WHERE s.facebookid = "+id);
             
             List<Account> accounts = (List<Account>) query.getResultList();
             if(accounts.isEmpty())
             {
-                return "Empty";
+                return null;
             }
-            return accounts.get(0).getFacebookid();
+            return accounts.get(0);
         }
         catch(Exception ex){
-            return "Error"+ex.getMessage();
+            return null;
         }
 
-    } 
+    }
+    
+    public void deleteAccount(Account account){
+        em.remove(em.merge(account));
+    }
     
     public boolean accountExistBoolean(String id) {
         try{

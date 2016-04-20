@@ -25,7 +25,13 @@
                 <p:submenu label="Nustatymai" >
                     <p:menuitem value="Paskyra" actionListener="#{menuView.save}" update="messages"/>
                     <p:menuitem value="Mano taškai" actionListener="#{menuView.update}" update="messages"/>
-                    <p:menuitem value="Išsiregistruoti" actionListener="#{menuView.delete}" update="messages" ajax="false"/>
+                    <p:menuitem >
+                        <p:commandLink styleClass="ui-menuitem-link" action="#{loginBean.leaveForever()}" ajax="false">
+                        <p:outputLabel styleClass="ui-menuitem-icon ui-icon ui-icon-close" />
+                        <p:outputLabel styleClass="ui-menuitem-text" value="Išsiregistruoti" />
+                        <p:confirm header="Patvirtinimas" message="Ar tikrai norite išsiregistruoti?" icon="ui-icon-alert" />
+                        </p:commandLink>
+                    </p:menuitem>
                 </p:submenu>
 
                 <f:facet name="options">
@@ -33,5 +39,11 @@
                 </f:facet>
             </p:menubar>
         </div>
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" widgetVar="deleteDialog" >
+            <div>
+            <p:commandButton value="Taip" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onclick="deleteDialog.hide()" ajax="false" />
+            <p:commandButton value="Ne" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="deleteDialog.hide()" ajax="false" />
+            </div>
+        </p:confirmDialog>
     </h:body>
 </html>

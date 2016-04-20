@@ -173,40 +173,15 @@ public class LoginBean implements Serializable {
         return redirecdedPage;
     }
     
-    public String takeDataFromFacebook(){
-        FacesContext context = FacesContext.getCurrentInstance();
-        Map map = context.getExternalContext().getRequestParameterMap();
-        try{
-        id = (String) map.get("id");
-        }catch(Exception ex){
-            errorCounter++;
+    public String leaveForever(){
+        Account account = loginAuthBean.accountExistAccount(id);
+        if(account==null){
+            return "";
+        }else{
+            loginAuthBean.deleteAccount(account);
+            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+            return "login?faces-redirect=true";
         }
-        try{
-        first_name = (String) map.get("first_name");
-        }catch(Exception ex){
-            errorCounter++;
-        }
-        try{
-        last_name = (String) map.get("last_name");
-        }catch(Exception ex){
-            errorCounter++;
-        }
-        try{
-        email = (String) map.get("email");
-        }catch(Exception ex){
-            errorCounter++;
-        }
-        try{
-        birthday = (Date) map.get("birthday");
-        }catch(Exception ex){
-            errorCounter++;
-        }
-        try{
-        picture = (String) map.get("picture");
-        }catch(Exception ex){
-            errorCounter++;
-        }
-        return "homeafr";
     }
     
     public String checkPageStage(){

@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui" class="full">
+        xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
         <f:facet name="first">
             <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
@@ -33,7 +33,7 @@
                 
                 
              
-                <h:form id="registerForm"> 
+                <h:form id="registerForm" class="editProfile"> 
                     <h:panelGrid columns="3" columnClasses="column" cellpadding="5">
                    
                   
@@ -47,9 +47,7 @@
                     <p:message for="lastname" display="icon" />
                   
                     <p:outputLabel value="GIMIMO DATA:" />  
-                    <p:calendar id="birthday" yearRange="c-100:c" value="#{registrationBean.birthday}" 
-                                     size="30" required="true" requiredMessage="Įrašykite gimimo datą" locale="de" navigator="true" pattern="yyyy-MMM-dd"  >
-                        </p:calendar>
+                    <p:calendar id="birthday" yearRange="c-100:c" value="#{registrationBean.birthday}" size="30" required="true" requiredMessage="Įrašykite gimimo datą" locale="de" navigator="true" pattern="yyyy-MMM-dd"  />
                     <p:message for="birthday" display="icon" />
                 
                   
@@ -78,7 +76,7 @@
                   
                   
                       
-                    <p:commandButton value="Patvirtinti registraciją" action="#{registrationBean.register()}" validateClient="true" icon="ui-icon-disk"/>
+                    <p:commandButton value="Patvirtinti registraciją" action="#{registrationBean.register()}" id="withIcon" type="submit" ajax="false" validateClient="true" icon="ui-icon-disk"/>
                         </h:panelGrid>
                   
               
