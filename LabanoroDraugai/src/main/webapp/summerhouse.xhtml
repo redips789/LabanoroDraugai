@@ -24,27 +24,43 @@
                 <div id="menu-container">
                     <ui:include src="menu.xhtml" />
                 </div>
-                    čia bus filtravimas
+  
                 <div id="content-container">
-                    
-                    
                     <h:form> 
-                        <p:dataScroller value="#{summerhouseBean.summerhouses}" var="summerhouse" chunkSize="10">
+                        
+                        <h:panelGrid columns="7"  style="margin-bottom:10px" cellpadding="10">
+                            <p:inputText placeholder="Kaina nuo" type="text" size="8"/>
+                            <p:inputText  placeholder="Kaina iki" type="text" size="8"/>
+                            <p:inputText  placeholder="Vietų nuo" type="number" size="5" maxlength="3"/>
+                            <p:inputText  placeholder="Vietų iki" type="number" size="5"/>
+                            <p:calendar placeholder="Laisvas nuo"/>
+                            <p:calendar placeholder="Laisvas iki"/>
+                            
+                        </h:panelGrid>
+                        
+                        <p:dataScroller value="#{summerhouseBean.summerhouses}" var="summerhouse" chunkSize="5">
                             <f:facet name="header">
-                                Skrolink žemyn, kad pamatytum daugiau vasarnamių
+                                Eikite žemyn, kad pamatytumėte daugiau vasarnamių
                             </f:facet>
 
                             <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-<!--                                <p:graphicImage name="demo/images/car/#-big.gif" /> -->
+                                <p:graphicImage value="#{summerhouse.photo}" />
 
                                 <p:outputPanel>
                                     <h:panelGrid columns="2" cellpadding="5">
                                         <h:outputText value="Pavadinimas:" />
                                         <h:outputText value="#{summerhouse.title}" style="font-weight: bold"/>
 
-                                        <h:outputText value="Aprašymas:" />
-                                        <h:outputText value="#{summerhouse.description}" style="font-weight: bold"/>
-
+                                        <h:outputText value="Miegamų vietų skaičius:" />
+                                        <h:outputText value="#{summerhouse.beds}" style="font-weight: bold"/>
+                                        
+                                        <h:outputText value="Kaina (tšk):" />
+                                        <h:outputText value="#{summerhouse.cost}" style="font-weight: bold"/>
+                                        
+                                        <p:button outcome="summerhouseMoreDetails" value="Plačiau" icon="ui-icon-star">
+                                            <f:param name="title" value="#{summerhouse.title}" />
+                                        </p:button>
+                                        
                                     </h:panelGrid>
                                 </p:outputPanel>
                             </h:panelGrid>
