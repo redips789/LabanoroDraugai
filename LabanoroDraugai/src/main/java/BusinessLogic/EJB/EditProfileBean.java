@@ -23,14 +23,13 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.IOUtils;
-import org.primefaces.event.FileUploadEvent;
 
 /**
  *
  * @author Laurute
  */
 //@Named
-//@SessionScoped
+
 //@Stateful
 @ManagedBean
 @RequestScoped
@@ -80,14 +79,11 @@ public class EditProfileBean implements Serializable {
 
     //business  
     public String saveAccountChanges() {
-        System.out.println(this.getAccount().getLastName() + "Pradedu last");
-        System.out.println(this.getAccount().getFirstName() + "Pradedu first");
-        System.out.println(this.getAccount().getDateOfBirth() + "Pradedu bday");
-        System.out.println(this.getAccount().getEmail() + "Pradedu email");
-        System.out.println(this.getAccount().getPhoneNum() + "Pradedu phone");
-        System.out.println(this.getAccount().getCity() + "Pradedu city");
-        System.out.println(this.getAccount().getDescription() + "Pradedu description");
-        System.out.print(this.getAccount().getPhotoBlob() + "Pridedu nuotrauką");
+        try {
+            this.getAccount().setPhotoBlob(IOUtils.toByteArray(this.file.getInputstream()));
+        } catch (IOException ex) {
+            Logger.getLogger(EditProfileBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Account a = new Account();
         a = accountEjb.updateAccount(this.getAccount());    //LUŠ kai updatins į esantį email
         System.out.println(a.getLastName() + " BAIGTA");
@@ -112,23 +108,6 @@ public class EditProfileBean implements Serializable {
         }
         System.out.println(this.account.getDateOfBirth().getDate() + " seni geri metai" + today.get(Calendar.DAY_OF_MONTH) + " mėn" + today.get(Calendar.DAY_OF_WEEK_IN_MONTH) + " diena" + today.get(Calendar.DAY_OF_WEEK) + " ssav diena");
         this.accountAge = age;
-    }
-
-    public void upload(FileUploadEvent event) {
-        UploadedFile file = event.getFile();
-        System.out.println(file.getFileName());
-
-        byte[] foto;
-        try {
-            this.account.setPhotoBlob(IOUtils.toByteArray(file.getInputstream()));
-            accountEjb.updateAccount(this.getAccount());
-        } catch (IOException ex) {
-            Logger.getLogger(EditProfileBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println("pavyko");
-
-        //System.out.println(foto);
-        //newPerson.setPhoto(foto);
     }
 
 }
