@@ -14,7 +14,7 @@
         <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
     </h:head>
     <h:body>
-        <h:form id="form">
+        <h:form id="form" enctype="multipart/form-data">
 
             <div id="page">
                 <div id="header-container">
@@ -56,6 +56,10 @@
                             </p:inputText>      
                             <p:message for="phonenumber" display="icon" />
 
+                            <p:outputLabel value="NUOTRAUKA:"/>
+                            <p:fileUpload value="#{editProfileBean.file}" mode="simple" label="Įkelti" dragDropSupport="true"/>
+                            <p:outputLabel value=" "/>
+
                             <p:outputLabel value="APIE SAVE:" />
                             <p:inputTextarea id="description" rows="10" cols="30" value="#{editProfileBean.account.description}" counter="display" required="true" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
                             <p:message for="description" display="icon" />
@@ -63,13 +67,6 @@
                             <h:outputText id="display" />
                             <p:outputLabel value=" "/>
 
-                            <h:form enctype="multipart/form-data">
-                                <p:fileUpload fileUploadListener="#{editProfileBean.upload}" auto="true" />
-
-                                <p:graphicImage value="#{accountbean.image}">
-                                    <f:param name="id" value="#{someBean.imageId}" />
-                                </p:graphicImage>
-                            </h:form>
 
                             <p:commandButton type="submit" ajax="false" value="Išsaugoti" id="withIcon" actionListener="#{editProfileBean.saveAccountChanges()}" validateClient="true" action="myProfile.xhtml" icon="ui-icon-disk" />
                             <p:button value="Atšaukti"  outcome="myProfile.xhtml" />
