@@ -26,25 +26,27 @@
                 </div>
   
                 <div id="content-container">
-                    <h:form> 
-                        
-                        <h:panelGrid columns="7"  style="margin-bottom:10px" cellpadding="10">
-                            <p:inputText placeholder="Kaina nuo" type="text" size="8"/>
-                            <p:inputText  placeholder="Kaina iki" type="text" size="8"/>
-                            <p:inputText  placeholder="Vietų nuo" type="number" size="5" maxlength="3"/>
-                            <p:inputText  placeholder="Vietų iki" type="number" size="5"/>
-                            <p:calendar placeholder="Laisvas nuo"/>
-                            <p:calendar placeholder="Laisvas iki"/>
-                            
+                    <h:form>                       
+                        <h:panelGrid columns="8" style="margin-bottom:10px" cellpadding="10">
+                            <p:commandButton value="Atšaukti" icon="ui-icon-cancel" action="#{summerhouseBean.recoverSummerhouses()}" update=":form:sh:list"/>
+                            <p:inputText value="#{summerhouseBean.priceFrom}" placeholder="Kaina nuo"  style="width: 100px"/>
+                            <p:inputText value="#{summerhouseBean.priceTo}" placeholder="Kaina iki" style="width: 100px"/>
+                            <p:inputText value="#{summerhouseBean.bedsFrom}" placeholder="Vietų nuo" type="number" style="width: 100px"/>
+                            <p:inputText value="#{summerhouseBean.bedsTo}" placeholder="Vietų iki" type="number" style="width: 100px"/>                        
+                            <p:calendar value="#{summerhouseBean.availableFrom}" placeholder="Laisvas nuo" size="10"/>
+                            <p:calendar value="#{summerhouseBean.availableTo}" placeholder="Laisvas iki" size="10"/>
+                            <p:commandButton value="Filtruoti" icon="ui-icon-search" action="#{summerhouseBean.filterSummerhouses()}" update=":form:sh:list" />
                         </h:panelGrid>
-                        
-                        <p:dataScroller value="#{summerhouseBean.summerhouses}" var="summerhouse" chunkSize="5">
+                    </h:form>
+                    
+                    <h:form id="sh">
+                        <p:dataScroller id="list" value="#{summerhouseBean.summerhouses}" var="summerhouse" chunkSize="5">
                             <f:facet name="header">
                                 Eikite žemyn, kad pamatytumėte daugiau vasarnamių
                             </f:facet>
 
                             <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-                                <p:graphicImage value="#{summerhouse.photo}" />
+                                <p:graphicImage value="../img/lab.jpg" />
 
                                 <p:outputPanel>
                                     <h:panelGrid columns="2" cellpadding="5">
@@ -65,8 +67,7 @@
                                 </p:outputPanel>
                             </h:panelGrid>
                         </p:dataScroller>
-                    </h:form>
-                     
+                    </h:form>     
                 </div>
 
                 <div id="footer-container" >
@@ -74,5 +75,17 @@
                 </div>
             </div>    
         </h:form> 
+        <p id="demo">a</p>
     </h:body>
+    
+    <script type="text/javascript">
+//        var summerhouses = '<h:outputText value="{summerhouseBean.summerhouses}" />';
+        demoP = document.getElementById("demo");
+        function filterSummerhouses(summerhouses) {
+            demoP.innerHTML = demoP.innerHTML + summerhouses;
+        }
+        
+        
+    </script>
+    
 </html>
