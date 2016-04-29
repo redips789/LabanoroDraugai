@@ -22,6 +22,8 @@ import org.primefaces.model.UploadedFile;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.bean.ManagedProperty;
+import javax.inject.Inject;
 import org.apache.commons.io.IOUtils;
 
 /**
@@ -39,23 +41,34 @@ public class EditProfileBean implements Serializable {
     AccountDao accountEjb;
 
     // @PersistenceContext(type=PersistenceContextType.EXTENDED)veliau suzinosiu
-    @PersistenceContext
-    private EntityManager em;
+   // @PersistenceContext
+   // private EntityManager em;
 
+    @ManagedProperty(value="#{loginBean}")
+    LoginBean loginBean;
+
+    public LoginBean getLoginBean() {
+        return loginBean;
+    }
+
+    public void setLoginBean(LoginBean loginBean) {
+        this.loginBean = loginBean;
+    }
+    
     private Account account;
 
-    String fbId;
+   // String fbId;
 
     private int accountAge;
     private String accountPhoneNumber;
 
     private UploadedFile file;
+    private String vardas;
 
     //construct
     @PostConstruct
     public void init() {
-        fbId = "1371566362869682"; // kazkaip REIKS gauti is sesijos
-        account = accountEjb.findAccount(fbId);
+        account=accountEjb.findAccount(loginBean.getId());
         System.out.println(this.account.getFirstName() + " inicijuota");
     }
 
@@ -65,7 +78,10 @@ public class EditProfileBean implements Serializable {
     }
 
     public void setAccount(Account account) {
-        this.account = account;
+        this.account=account;
+    }
+    public String getVardas(){
+        return this.account.getFirstName();
     }
 
     public String getAccountAge() {
@@ -74,18 +90,18 @@ public class EditProfileBean implements Serializable {
     }
 
     public String getAccountPhoneNumber() {
-        return "+370 " + this.account.getPhoneNum();
+        return "+370 " + account.getPhoneNum();
     }
 
     //business  
     public String saveAccountChanges() {
         try {
-            this.getAccount().setPhotoBlob(IOUtils.toByteArray(this.file.getInputstream()));
+           account.setPhotoBlob(IOUtils.toByteArray(this.file.getInputstream()));
         } catch (IOException ex) {
             Logger.getLogger(EditProfileBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         Account a = new Account();
-        a = accountEjb.updateAccount(this.getAccount());    //LUŠ kai updatins į esantį email
+        a = accountEjb.updateAccount(account);    //LUŠ kai updatins į esantį email
         System.out.println(a.getLastName() + " BAIGTA");
         return "myProfile";
     }
@@ -100,13 +116,13 @@ public class EditProfileBean implements Serializable {
 
     private void estimateAge() {
         Calendar dob = Calendar.getInstance();
-        dob.setTime(this.account.getDateOfBirth());
+        dob.setTime(account.getDateOfBirth());
         Calendar today = Calendar.getInstance();
         int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
         if (today.get(Calendar.DAY_OF_YEAR) <= dob.get(Calendar.DAY_OF_YEAR)) {
             age--;
         }
-        System.out.println(this.account.getDateOfBirth().getDate() + " seni geri metai" + today.get(Calendar.DAY_OF_MONTH) + " mėn" + today.get(Calendar.DAY_OF_WEEK_IN_MONTH) + " diena" + today.get(Calendar.DAY_OF_WEEK) + " ssav diena");
+        //System.out.println(account.getDateOfBirth().getDate() + " seni geri metai" + today.get(Calendar.DAY_OF_MONTH) + " mėn" + today.get(Calendar.DAY_OF_WEEK_IN_MONTH) + " diena" + today.get(Calendar.DAY_OF_WEEK) + " ssav diena");
         this.accountAge = age;
     }
 

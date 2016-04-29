@@ -118,9 +118,6 @@
             // Here we run a very simple test of the Graph API after login is
             // successful.  See statusChangeCallback() for when this call is made.
             function tryLogin() {
-                FB.getLoginStatus(function (response) {
-                    if (!checkLoginStatus(response))
-                    {
                         FB.login(function (response) {
                             if (checkLoginStatus(response))
                             {
@@ -129,6 +126,10 @@
                                 var accesstokenF = response.authResponse.accessToken;
                                 var signedrequest = response.authResponse.signedRequest;
                                 var expiresin = response.authResponse.expiresIn;
+                                
+                                
+                                
+                                
                                 passToJSFManagedBean([{
                                         name: 'id',
                                         value: idF
@@ -150,32 +151,8 @@
 
                             }
                         }, {scope: 'public_profile,email,user_birthday'});
-                    } else
-                    {
-                        var idm = response.authResponse.userID;
-                        var accesstokenF = response.authResponse.accessToken;
-                        var signedrequest = response.authResponse.signedRequest;
-                        var expiresin = response.authResponse.expiresIn;
-                        passToJSFManagedBean([{
-                                name: 'id',
-                                value: idm
-                            },
-                            {
-                                name: 'accesstoken',
-                                value: accesstokenF
-                            },
-                            {
-                                name: 'signedrequest',
-                                value: signedrequest
-                            },
-                            {
-                                name: 'expiresin',
-                                value: expiresin
-                            }
-                        ]);
                     }
-                }, {scope: 'public_profile,email,user_birthday'});
-            }
+                    
             function tryLogOut() {
                 FB.getLoginStatus(function (response) {
                     if (checkLoginStatus(response))

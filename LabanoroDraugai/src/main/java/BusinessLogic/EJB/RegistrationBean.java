@@ -5,6 +5,7 @@
  */
 package BusinessLogic.EJB;
 
+import DataAccess.EJB.AccountDao;
 import DataAccess.JPA.Account;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -26,7 +27,7 @@ import javax.inject.Named;
 public class RegistrationBean {
 
     @Inject
-    private LoginAuthBean loginAuthBean;
+    private AccountDao loginAuthBean;
     
     private String id;
     private String first_name;
@@ -39,6 +40,16 @@ public class RegistrationBean {
     private String description;
     private String city;
     private int errorCounter = 0;
+    private boolean rendered = false;
+
+    public boolean isRendered() {
+        return rendered;
+    }
+
+    public void setRendered(boolean rendered) {
+        this.rendered = rendered;
+    }
+    
 
     public String getPhone() {
         return phone;
@@ -161,7 +172,7 @@ public class RegistrationBean {
         try{
         bday = (String) map.get("birthday");
         DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        DateFormat dateFormatNeeded = new SimpleDateFormat("yyyy-mm-dd");
+        DateFormat dateFormatNeeded = new SimpleDateFormat("yyyy-MMM-dd");
         Date b = sdf.parse(bday);
         String tempdate = dateFormatNeeded.format(b);
         birthday = dateFormatNeeded.parse(tempdate);
@@ -173,6 +184,7 @@ public class RegistrationBean {
         }catch(Exception ex){
             errorCounter++;
         }
+        rendered=true;
     }
     
     public String register(){
@@ -192,6 +204,7 @@ public class RegistrationBean {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "login?faces-redirect=true";
     }
+    
     
     
 }

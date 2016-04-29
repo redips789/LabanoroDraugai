@@ -5,15 +5,12 @@
  */
 package BusinessLogic.EJB;
 
+import DataAccess.EJB.AccountDao;
 import DataAccess.JPA.Account;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
-import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -28,7 +25,7 @@ import javax.inject.Inject;
 public class LoginBean implements Serializable {
 
     @Inject
-    private LoginAuthBean loginAuthBean;
+    private AccountDao loginAuthBean;
 
     /**
      * Creates a new instance of LoginBean
@@ -40,52 +37,52 @@ public class LoginBean implements Serializable {
     private boolean isloggedin=false;
     private boolean isregistered=false;
     private String redirecdedPage = "login";
-    private String first_name;
-    private String last_name;
-    private String email;
-    private Date birthday;
-    private String picture;
+//    private String first_name;
+//    private String last_name;
+//    private String email;
+//    private Date birthday;
+//    private String picture;
     private int errorCounter = 0;
 
-    public String getFirst_name() {
-        return first_name;
-    }
-
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
-    }
-
-    public String getLast_name() {
-        return last_name;
-    }
-
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
+//    public String getFirst_name() {
+//        return first_name;
+//    }
+//
+//    public void setFirst_name(String first_name) {
+//        this.first_name = first_name;
+//    }
+//
+//    public String getLast_name() {
+//        return last_name;
+//    }
+//
+//    public void setLast_name(String last_name) {
+//        this.last_name = last_name;
+//    }
+//
+//    public String getEmail() {
+//        return email;
+//    }
+//
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
+//
+//    public Date getBirthday() {
+//        return birthday;
+//    }
+//
+//    public void setBirthday(Date birthday) {
+//        this.birthday = birthday;
+//    }
+//
+//    public String getPicture() {
+//        return picture;
+//    }
+//
+//    public void setPicture(String picture) {
+//        this.picture = picture;
+//    }
 
     public int getErrorCounter() {
         return errorCounter;

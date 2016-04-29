@@ -1,31 +1,31 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package BusinessLogic.EJB;
 
 import DataAccess.EJB.AccountDao;
 import DataAccess.JPA.Account;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 
 /**
  *
- * @author Kristaliukas
+ * @author darbas
  */
-
-@ManagedBean(name = "accountBean")
-@SessionScoped
-public class AccountBean {
-
+@ManagedBean(name = "accountsBean")
+@RequestScoped
+public class AccountsBean {
+    
     @EJB
     AccountDao accountEjb;
-
-    private List<Account> accountList = new ArrayList<>();
-    private Account account = new Account();
-    private int[] age;
+   private List<Account> accountList = new ArrayList<>();
 
     public List<Account> getAccountList() {
         this.loadAccounts();
@@ -36,15 +36,7 @@ public class AccountBean {
         this.accountList = accountList;
     }
 
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
     public void loadAccounts() {
         this.accountList = accountEjb.findAllAccounts();
-    }
+    } 
 }
