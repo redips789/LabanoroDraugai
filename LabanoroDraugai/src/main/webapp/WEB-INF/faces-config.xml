@@ -10,7 +10,7 @@
         </resource-bundle>
     </application>
     <render-kit>
-        <renderer>
+            <renderer>
             <component-family>org.primefaces.component</component-family>
             <renderer-type>org.primefaces.component.FileUploadRenderer</renderer-type>
             <renderer-class>BusinessLogic.CDI.MyFileUploadRenderer</renderer-class>

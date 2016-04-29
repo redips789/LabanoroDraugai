@@ -102,6 +102,11 @@ public class AccountDao {
             setError(ex.getMessage());
             return true;
         }
+    }
+
+
+    public byte[] findAccountPhoto(String id) { //foto vaizdavimui
+        return (byte[]) ac.find(Account.class, id).getPhotoBlob();
 
     }
 }

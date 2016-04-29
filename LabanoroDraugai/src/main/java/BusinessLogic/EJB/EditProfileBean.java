@@ -69,7 +69,7 @@ public class EditProfileBean implements Serializable {
     @PostConstruct
     public void init() {
         account=accountEjb.findAccount(loginBean.getId());
-        System.out.println(this.account.getFirstName() + " inicijuota");
+        
     }
 
     //get set

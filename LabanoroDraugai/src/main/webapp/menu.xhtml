@@ -23,7 +23,7 @@
                 <p:menuitem value="Rekomendacijos" url="#" />
 
                 <p:submenu label="Nustatymai" >
-                    <p:menuitem value="Paskyra" actionListener="#{menuView.save}" update="messages"/>
+                    <p:menuitem value="Paskyra" actionListener="#{menuView.save}" update="messages" action="myProfile?faces-redirect=true" ajax="false"/>
                     <p:menuitem value="Mano taškai" actionListener="#{menuView.update}" update="messages"/>
                     <p:menuitem >
                         <p:commandLink styleClass="ui-menuitem-link" action="#{loginBean.leaveForever()}" ajax="false">

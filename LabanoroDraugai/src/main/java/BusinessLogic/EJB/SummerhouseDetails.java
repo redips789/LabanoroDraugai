@@ -6,7 +6,6 @@ import DataAccess.JPA.Summerhouse;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 
 /**
  *
@@ -17,8 +16,7 @@ import javax.faces.bean.RequestScoped;
 //@SessionScoped
 public class SummerhouseDetails implements Serializable {
     
-    private String title;
-    
+    private String title;   
     private Summerhouse detailedSummerhouse;
     
     @EJB SummerhouseCRUD summerhouseCRUD;
@@ -39,9 +37,4 @@ public class SummerhouseDetails implements Serializable {
     public void setDetailedSummerhouse(Summerhouse detailedSummerhouse) {
         this.detailedSummerhouse = detailedSummerhouse;
     }
-    
-    
-    
-    
-
 }
