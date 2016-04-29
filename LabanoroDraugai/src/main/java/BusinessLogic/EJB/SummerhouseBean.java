@@ -113,10 +113,10 @@ public class SummerhouseBean implements Serializable {
         for (Summerhouse summerhouse : summerhouses) {
             //System.out.println("cia turi but isspausdinti visi pavadinimai"+summerhouse.getTitle());
            
-            if ((summerhouse.getCost() >= priceFrom) 
-                    && (priceTo > 0 && summerhouse.getCost() <= priceTo) 
+            if (summerhouse.getCost() >= priceFrom 
+                    && ((priceTo > 0 && summerhouse.getCost() <= priceTo) || priceTo==0)
                     && (summerhouse.getBeds() >= bedsFrom) 
-                    && (bedsTo > 0 && summerhouse.getBeds() <= bedsTo)) {
+                    && ((bedsTo > 0 && summerhouse.getBeds() <= bedsTo) || bedsTo==0)) {
                // System.out.println("remove because pricefrom" + priceFrom + summerhouse.getTitle());
                 filteredSummerhouses.add(summerhouse);
             }
