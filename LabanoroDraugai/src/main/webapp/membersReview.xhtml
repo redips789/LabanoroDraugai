@@ -26,6 +26,16 @@
             </div>
             
             <div id="content-container">
+                <h:panelGrid columns="1" columnClasses="columns" cellpadding="5" width="350">
+                    <p:dataTable value="#{accountBean.accountList}" var="item">
+                        <p:column>
+                            <p:graphicImage value="#{imageStreamer.image}">
+                                <f:param name="id" value="#{item.facebookid}" />
+                            </p:graphicImage>
+                        </p:column>
+                    </p:dataTable>
+                        
+                    </h:panelGrid> 
                
                 <p:dataTable style="font-size:15px;" var="account"
 				value="#{accountBean.accountList}" rows="10" paginator="true"

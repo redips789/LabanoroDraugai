@@ -27,28 +27,35 @@
             
             <div id="content-container" class="editProfile">
                 <h:form>
-                    <h:panelGrid columns="2" columnClasses="column" cellpadding="5" width="350">
-                            
-                            <p:outputLabel value="#{editProfileBean.account.firstName}"/>
-                            <p:outputLabel value="#{editProfileBean.account.lastName}"/>
-                            
-                            <p:outputLabel value="#{editProfileBean.accountAge}"/>
-                            <p:outputLabel value="#{editProfileBean.account.city}"/>
-                            
-                            <p:outputLabel value="Narys nuo " />
-                            <p:outputLabel value="TRŪKSTA DB LAUKO" />
-                            
-                            <i class="icon-phone"></i>
-                            <i><p:outputLabel value="#{editProfileBean.accountPhoneNumber}"/></i>
-                            
-                            <i class="icon-mail-alt"></i>
-                            <p:outputLabel value="#{editProfileBean.account.email}"/>
-                    </h:panelGrid>
-                        <p:outputLabel value="Apie save:"  />
-                        <p:scrollPanel mode="native" style="width:300px;height:80px">
-                                #{editProfileBean.account.description}
-                        </p:scrollPanel>
-                    
+                    <p:layout style="min-width:400px;min-height:200px;">
+                        <p:layoutUnit position="west" resizable="true" size="100" minSize="40" maxSize="200">
+                                <p:graphicImage value="#{imageStreamer.oneImage}">
+                                    <f:param name="id" value="#{editProfileBean.account.facebookid}" />
+                                </p:graphicImage> 
+                        </p:layoutUnit>
+                        <p:layoutUnit position="center">
+                            <h:panelGrid columns="2" columnClasses="column" cellpadding="5" width="350">
+                                    <p:outputLabel value="#{editProfileBean.account.firstName}"/>
+                                    <p:outputLabel value="#{editProfileBean.account.lastName}"/>
+
+                                    <p:outputLabel value="#{editProfileBean.accountAge}"/>
+                                    <p:outputLabel value="#{editProfileBean.account.city}"/>
+
+                                    <p:outputLabel value="Narys nuo " />
+                                    <p:outputLabel value="TRŪKSTA DB LAUKO" />
+
+                                    <i class="icon-phone"></i>
+                                    <i><p:outputLabel value="#{editProfileBean.accountPhoneNumber}"/></i>
+
+                                    <i class="icon-mail-alt"></i>
+                                    <p:outputLabel value="#{editProfileBean.account.email}"/>
+                            </h:panelGrid>
+                                <p:outputLabel value="Apie save:"  />
+                                <p:scrollPanel mode="native" style="width:300px;height:80px">
+                                        #{editProfileBean.account.description}
+                                </p:scrollPanel>
+                        </p:layoutUnit>
+                    </p:layout>
                     <h:panelGrid columns="2" columnClasses="column" cellpadding="5" width="350">
                             <p:button value="Atgal" outcome="myProfile.xhtml" icon="ui-icon-arrowrefresh-1-w" />
                             <p:button value="Redaguoti"  outcome="editProfile.xhtml" />              

@@ -40,4 +40,7 @@ public class AccountDao {
        ac.flush();
        return b;
     }
+    public byte[] findAccountPhoto(String id) { //foto vaizdavimui
+        return (byte[]) ac.find(Account.class, id).getPhotoBlob();
+    }
 }
