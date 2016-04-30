@@ -14,13 +14,14 @@
             <p:growl id="messages"/>
  
             <p:menubar>
-                <p:submenu label="Vasarnamiai">
+                <p:submenu label="Vasarnamiai" rendered="#{accountBean.notCandidate}">
                     <p:menuitem value="Mano rezervuoti" url="#" />
                     <p:menuitem value="Visi" outcome="summerhouse" />
                 </p:submenu>
 
-                <p:menuitem value="Klubo nariai" outcome="membersReview" />
-                <p:menuitem value="Rekomendacijos" url="#" />
+                <p:menuitem value="Klubo nariai" outcome="membersReview" rendered="#{accountBean.notCandidate}" />
+                <p:menuitem value="Rekomendacijos" url="#" rendered="#{accountBean.notCandidate}"/>
+                <p:menuitem value="Rekomendacijos" url="#" rendered="#{accountBean.candidate}"/>
 
                 <p:submenu label="Nustatymai" >
                     <p:menuitem value="Paskyra" actionListener="#{menuView.save}" update="messages" action="myProfile?faces-redirect=true" ajax="false"/>
