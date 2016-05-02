@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en"
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:p="http://primefaces.org/ui"
@@ -24,18 +26,16 @@
             <div id="menu-container">
                 <ui:include src="menu.xhtml" />
             </div>
-            
-            <div id="content-container" class="editProfile">
-                <h:form>
-                    <p:layout style="min-width:400px;min-height:200px;">
-                        <p:layoutUnit position="west" resizable="true" size="100" minSize="40" maxSize="200">
-                                <p:graphicImage value="#{imageStreamer.oneImage}">
+            <h:form>
+            <div id="profile-wrapper">
+                <div id="profile-container">
+                        <h:panelGrid columns="2" columnClasses="column" cellpadding="15" >
+                                <p:graphicImage value="#{imageStreamer.oneImage}" class="profile-image-container" >
                                     <f:param name="id" value="#{editProfileBean.account.facebookid}" />
                                 </p:graphicImage> 
-                        </p:layoutUnit>
-                        <p:layoutUnit position="center">
-                            <h:panelGrid columns="2" columnClasses="column" cellpadding="5" width="350">
-                                    <p:outputLabel value="#{editProfileBean.account.firstName}"/>
+                        
+                            <h:panelGrid columns="2" columnClasses="column" cellpadding="5" >
+                                    <p:outputLabel id="profile-column-2" value="#{editProfileBean.account.firstName}"/>
                                     <p:outputLabel value="#{editProfileBean.account.lastName}"/>
 
                                     <p:outputLabel value="#{editProfileBean.accountAge}"/>
@@ -49,22 +49,18 @@
 
                                     <i class="icon-mail-alt"></i>
                                     <p:outputLabel value="#{editProfileBean.account.email}"/>
-                            </h:panelGrid>
+                            
                                 <p:outputLabel value="Apie save:"  />
-                                <p:scrollPanel mode="native" style="width:300px;height:80px">
+                                <p:scrollPanel mode="native" class="profile-description">
                                         #{editProfileBean.account.description}
                                 </p:scrollPanel>
-                        </p:layoutUnit>
-                    </p:layout>
-                    <h:panelGrid columns="2" columnClasses="column" cellpadding="5" width="350">
-                            <p:button value="Atgal" outcome="myProfile.xhtml" icon="ui-icon-arrowrefresh-1-w" />
-                            <p:button value="Redaguoti"  outcome="editProfile.xhtml" />              
+                            </h:panelGrid>
+                            <div></div>
+                            <p:button value="Redaguoti"  outcome="editProfile.xhtml" class="align-on-right" />
                         </h:panelGrid>
-                    
-</h:form>
-                
+                </div>     
             </div>
-                       
+ </h:form>                      
             <div id="footer-container" >
                 <ui:include src="footer.xhtml" />
             </div>
