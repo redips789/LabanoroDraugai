@@ -25,8 +25,9 @@
                     <ui:include src="menu.xhtml" />
                 </div>
 
-                <div id="content-container" class="editProfile">
-                    <h:form id="editProfile">
+                    <h:form>
+                    <div id="profile-wrapper">
+                    <div id="profile-container">
                         <h:panelGrid columns="3" columnClasses="column" cellpadding="5">
                             <p:outputLabel value="VARDAS:" />
                             <p:inputText id="name" value="#{editProfileBean.account.firstName}" size="30" required="true" requiredMessage="Įrašykite vardą" maxlength="29"/>
@@ -66,16 +67,16 @@
                             <p:outputLabel value=" "/>
                             <h:outputText id="display" />
                             <p:outputLabel value=" "/>
-
-
-                            <p:commandButton type="submit" ajax="false" value="Išsaugoti" id="withIcon" actionListener="#{editProfileBean.saveAccountChanges()}" validateClient="true" action="myProfile.xhtml" icon="ui-icon-disk" />
-                            <p:button value="Atšaukti"  outcome="myProfile.xhtml" />
-
-
+                            <p:outputLabel value=" "/>
+    
+                            <h:panelGrid columns="2" columnClasses="column" cellpadding="11">
+                                <p:commandButton class="edit-profile-button-width" type="submit" ajax="false" value="Išsaugoti" id="withIcon" actionListener="#{editProfileBean.saveAccountChanges()}" validateClient="true" action="myProfile.xhtml" icon="ui-icon-disk" />
+                                <p:button class="edit-profile-button-width" value="Atšaukti"  outcome="myProfile.xhtml" />
+                            </h:panelGrid>
                         </h:panelGrid>
+                    </div>     
+                    </div>
                     </h:form>
-
-                </div>
 
                 <div id="footer-container" >
                     <ui:include src="footer.xhtml" />
