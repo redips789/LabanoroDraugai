@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+    
+    <h:head>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>Registracija</title>
+        </f:facet>
+        <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        
+    </h:head>
+    <h:body>
+        <h:form id="form" enctype="multipart/form-data">
+            <div id="page">
+            <div id="header-container">
+                <ui:include src="header.xhtml" />         
+            </div>
+                
+            <div id="menu-container">
+                <ui:include src="menu.xhtml" />
+            </div>
+                
+                    
+                
+            <div id="content-container" class="editProfile">
+                <h:form id="editProfile">
+                        <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="point">
+                            <p:outputLabel style="font-weight:bold" value="MANO TAŠKAI:" />
+                            <p:outputLabel id="points" value="#{pointsBean.points}"/>
+                        </h:panelGrid>
+                    
+                </h:form>
+                
+                <h:form id="editProfile2">
+                    <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="bb">
+                            <p:outputLabel style="font-weight:bold" value="NARYSTĖ BAIGIA GALIOTI:" />
+                            <p:outputLabel id="points" value="#{pointsBean.membership}"/>
+                        </h:panelGrid>
+                </h:form>
+                <p:commandButton ajax="true" value="Prideti 1 taska" actionListener="#{pointsBean.add1Point()}" update="editProfile:point"/>
+            </div>
+                       
+            <div id="footer-container" >
+                <ui:include src="footer.xhtml" />
+            </div>
+            
+        </div>
+        
+        </h:form>
+        
+    </h:body>
+</html>
+

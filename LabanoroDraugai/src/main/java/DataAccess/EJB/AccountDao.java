@@ -34,7 +34,8 @@ public class AccountDao {
     }
     
     public Account findAccount(String fbId){
-        return (Account) ac.createNamedQuery("Account.findByFacebookid").setParameter("facebookid", fbId).getResultList().get(0); // nes bus vienintelis
+        Account b =(Account) ac.createNamedQuery("Account.findByFacebookid").setParameter("facebookid", fbId).getResultList().get(0); // nes bus vienintelis
+        return b;
     }
     
     public Account updateAccount(Account changedAccount){
