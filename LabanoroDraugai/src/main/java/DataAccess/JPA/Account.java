@@ -16,6 +16,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -92,11 +94,14 @@ public class Account implements Serializable {
     @Size(min = 1, max = 20)
     @Column(name = "FACEBOOKID")
     private String facebookid;
+    @Version
     @Column(name = "VERSION")
     private Integer version;
     @Lob
     @Column(name = "PHOTO_BLOB")
     private Serializable photoBlob;
+    @Transient
+    private int age;
 
     public Account() {
     }
@@ -237,6 +242,14 @@ public class Account implements Serializable {
 
     public void setPhotoBlob(Serializable photoBlob) {
         this.photoBlob = photoBlob;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     @Override

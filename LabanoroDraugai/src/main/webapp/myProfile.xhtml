@@ -35,25 +35,32 @@
                                 </p:graphicImage> 
                         
                             <h:panelGrid columns="2" columnClasses="column" cellpadding="5" >
-                                    <p:outputLabel id="profile-column-2" value="#{editProfileBean.account.firstName}"/>
+                                    <p:outputLabel id="profile-column-2" value="#{editProfileBean.account.firstName}" />
                                     <p:outputLabel value="#{editProfileBean.account.lastName}"/>
 
-                                    <p:outputLabel value="#{editProfileBean.accountAge}"/>
                                     <p:outputLabel value="#{editProfileBean.account.city}"/>
+                                    <p:outputLabel value=""/>
+                                    
+                                    <p:outputLabel value="Narys nuo: " />
+                                    <p:outputLabel id="bday"  value="#{editProfileBean.account.dateOfBirth}">
+                                        <f:convertDateTime pattern="yyyy-mm-dd" />
+                                    </p:outputLabel>
+                                        
+                                    <p:outputLabel value="Gimimo data: " />
+                                    <p:outputLabel value="#{editProfileBean.account.dateOfBirth}">
+                                        <f:convertDateTime pattern="yyyy-mm-dd" />
+                                    </p:outputLabel>
+       
+                                    <p:outputLabel value="Tel. nr.: " class="icon-phone"/>
+                                    <p:outputLabel value="+370 #{editProfileBean.account.phoneNum}"/>
 
-                                    <p:outputLabel value="Narys nuo " />
-                                    <p:outputLabel value="TRŪKSTA DB LAUKO" />
-
-                                    <i class="icon-phone"></i>
-                                    <i><p:outputLabel value="#{editProfileBean.accountPhoneNumber}"/></i>
-
-                                    <i class="icon-mail-alt"></i>
+                                    <p:outputLabel value="El. paštas: " class="icon-mail-alt"/>
                                     <p:outputLabel value="#{editProfileBean.account.email}"/>
                             
-                                <p:outputLabel value="Apie save:"  />
-                                <p:scrollPanel mode="native" class="profile-description">
-                                        #{editProfileBean.account.description}
-                                </p:scrollPanel>
+                                    <p:outputLabel value="Apie save:"  />
+                                    <p:scrollPanel mode="native" class="profile-description">
+                                            #{editProfileBean.account.description}
+                                    </p:scrollPanel>
                             </h:panelGrid>
                             <div></div>
                             <p:button value="Redaguoti"  outcome="editProfile.xhtml" class="align-on-right" />
@@ -68,5 +75,6 @@
         </div>
         
         </h:form>
+
     </h:body>
 </html>

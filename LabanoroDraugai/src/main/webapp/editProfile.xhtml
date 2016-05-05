@@ -29,39 +29,41 @@
                     <div id="profile-wrapper">
                     <div id="profile-container">
                         <h:panelGrid columns="3" columnClasses="column" cellpadding="5">
-                            <p:outputLabel value="VARDAS:" />
+                            <p:outputLabel value="Vardas:" />
                             <p:inputText id="name" value="#{editProfileBean.account.firstName}" size="30" required="true" requiredMessage="Įrašykite vardą" maxlength="29"/>
                             <p:message for="name" display="icon" />
 
-                            <p:outputLabel value="PAVARDĖ:" />
+                            <p:outputLabel value="Pavardė:" />
                             <p:inputText id="lastname" value="#{editProfileBean.account.lastName}" size="30" required="true" requiredMessage="Įrašykite pavardę" maxlength="29"/>
                             <p:message for="lastname" display="icon" />
 
-                            <p:outputLabel for="birthday" value="GIMIMO DATA: " />
-                            <p:calendar id="birthday" yearRange="c-100:c"  value="#{editProfileBean.account.dateOfBirth}" size="30" requiredMessage="Įrašykite gimimo datą" locale="de" navigator="true" pattern="yyyy-MMM-dd" />
+                            <p:outputLabel for="birthday" value="Gimimo data: " />
+                            <p:calendar id="birthday" yearRange="c-100:c"  value="#{editProfileBean.account.dateOfBirth}" size="30" requiredMessage="Įrašykite gimimo datą" locale="de" navigator="true" pattern="yyyy-mm-dd">
+                               
+                            </p:calendar>
                             <p:message for="birthday" display="icon" />
 
-                            <p:outputLabel value="MIESTAS:" />
+                            <p:outputLabel value="Miestas:" />
                             <p:inputText id="city" value="#{editProfileBean.account.city}" size="30" required="true" requiredMessage="Įrašykite miestą" maxlength="49"/>
                             <p:message for="city" display="icon" />
 
-                            <p:outputLabel value="EL. PAŠTAS:" />
+                            <p:outputLabel value="El. paštas:" />
                             <p:inputText id="email" value="#{editProfileBean.account.email}" size="30" required="true" requiredMessage="Įrašykite el. paštą" validatorMessage="Įrašykite teisingą el. paštą" maxlength="49">
                                 <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
                             </p:inputText>
                             <p:message for="email" display="icon" />
 
-                            <p:outputLabel value="TEL. NR: (+370)"/>
+                            <p:outputLabel value="Tel. nr: (+370)"/>
                             <p:inputText id="phonenumber" value="#{editProfileBean.account.phoneNum}" size="30" required="true" validatorMessage="Įrašykite tel. nr. po (+370) kodo" requiredMessage="Įrašykite tel. nr." onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="8" label="phonenumber">
                                 <f:validateLength minimum="8"  for="phonenumber"/>
                             </p:inputText>      
                             <p:message for="phonenumber" display="icon" />
 
-                            <p:outputLabel value="NUOTRAUKA:"/>
+                            <p:outputLabel value="Nuotrauka:"/>
                             <p:fileUpload value="#{editProfileBean.file}" mode="simple" label="Įkelti" dragDropSupport="true"/>
                             <p:outputLabel value=" "/>
 
-                            <p:outputLabel value="APIE SAVE:" />
+                            <p:outputLabel value="Apie save:" />
                             <p:inputTextarea id="description" rows="10" cols="30" value="#{editProfileBean.account.description}" counter="display" required="true" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
                             <p:message for="description" display="icon" />
                             <p:outputLabel value=" "/>
