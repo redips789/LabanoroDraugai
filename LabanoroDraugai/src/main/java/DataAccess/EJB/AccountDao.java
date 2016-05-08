@@ -3,6 +3,7 @@ package DataAccess.EJB;
 
 import DataAccess.JPA.Account;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
@@ -34,6 +35,7 @@ public class AccountDao {
     }
     
     public Account findAccount(String fbId){
+        System.out.println("--vol 2------------------ "+ fbId);
         return (Account) ac.createNamedQuery("Account.findByFacebookid").setParameter("facebookid", fbId).getResultList().get(0); // nes bus vienintelis
     }
     

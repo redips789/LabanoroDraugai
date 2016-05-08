@@ -80,21 +80,50 @@ body {
     text-align: center;
 }
 
-.editProfile{
-    width:200px;
-    margin:auto;
-}
-#main-wrap {
-    /* overflow to handle inner floating block */
-    overflow: hidden;
-}
-
-#sidebar {
-    float: left;
-    width: 30%;
+.profile-image-container {
+    max-width: 350px;
+    min-width: 100px;
+    max-height: 400px;
+    min-height: 150px;
+    overflow:hidden;
+    /*margin-left: -76px*/
 }
 
-#content-wrap {
+#profile-wrapper{ 
+    clear: left; 
+    float: left; 
+    position: relative; 
+    left: 50%; 
+}
+
+#profile-container { 
+    display: block; 
+    float: left; 
+    position: relative; 
+    right: 50%; 
+}
+#profile-column-1{ /*foto vaizdavimui, bet trint galima*/
+    width: 350px;
+    height: 500px;
+}
+
+#profile-column-2{
+    width: 100px;
+}
+
+.profile-description{
+    width:300px;
+    height:120px
+}
+
+.align-on-right{
     float: right;
-    width: 70%;
+}
+
+.align-on-center{
+    float: inside;
+}
+
+.edit-profile-button-width{
+    width: 150px;
 }

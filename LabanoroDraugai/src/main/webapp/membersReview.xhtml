@@ -25,40 +25,78 @@
                 <ui:include src="menu.xhtml" />
             </div>
             
-            <div id="content-container">
-                <h:panelGrid columns="1" columnClasses="columns" cellpadding="5" width="350">
-                    <p:dataTable value="#{accountBean.accountList}" var="item">
-                        <p:column>
-                            <p:graphicImage value="#{imageStreamer.image}">
-                                <f:param name="id" value="#{item.facebookid}" />
-                            </p:graphicImage>
-                        </p:column>
-                    </p:dataTable>
-                        
-                    </h:panelGrid> 
-               
-                <p:dataTable style="font-size:15px;" var="account"
-				value="#{accountBean.accountList}" rows="10" paginator="true"
+            <div id="content-container">     
+                    
+                <p:growl id="msgs" showDetail="true" />
+                    <p:dataTable id="basicDT" var="account" value="#{accountBean.accountList}" rows="10" paginator="true"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="5,10,15">
+				rowsPerPageTemplate="5,10,15" style="text-align: center">
+                    
+                    <p:column headerText="Vardas Pavardė">
+                        <h:outputText value="#{account.firstName} #{account.lastName}" />
+                    </p:column>
+                    <p:column headerText="Statusas">
+                        <h:outputText value="#{account.status}" />
+                    </p:column>
+                    <p:column headerText="Amžius">
+                        <h:outputText value="#{account.age}" />
+                    </p:column>
+                    <p:column headerText="Miestas">
+                        <h:outputText value="#{account.city}" />
+                    </p:column>
+                    <p:column style="width:60px">
+                         <p:commandButton id="thistableid"  update=":form:accountDetail" oncomplete="PF('accountDialog').show()" icon="ui-icon-search" title="Peržiūrėti">
+                             <f:setPropertyActionListener value="#{account}" target="#{accountBean.selectedAccount}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+                 
+                <p:dialog header="Detali informacija"  widgetVar="accountDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+        <p:outputPanel id="accountDetail">
+            <h:form>
+            <div id="profile-wrapper">
+                <div id="profile-container">
+                        <h:panelGrid columns="2" columnClasses="column" cellpadding="15" >
+<!--                                <p:graphicImage value="#{imageStreamer.oneImage}" class="profile-image-container" >
+                                    <f:param name="id" value="#{accountBean.selectedAccount.facebookid}" />
+                                </p:graphicImage> -->
+                        
+                            <h:panelGrid columns="2" columnClasses="column" cellpadding="5" >
+                                    <p:outputLabel id="profile-column-2" value="#{accountBean.selectedAccount.firstName}"/>
+                                    <p:outputLabel value="#{accountBean.selectedAccount.lastName}"/>
 
+                                    <p:outputLabel value="#{accountBean.selectedAccount.city}"/>
+                                    <p:outputLabel value=""/>
+                                       
+                                    <p:outputLabel value="Narys nuo: " />
+                                    <p:outputLabel value="#{accountBean.selectedAccount.dateOfBirth}">
+                                         <f:convertDateTime pattern="yyyy-mm-dd" />
+                                    </p:outputLabel>
+                                    
+                                    <p:outputLabel value="Gimimo data: " />
+                                    <p:outputLabel value="#{accountBean.selectedAccount.dateOfBirth}">
+                                         <f:convertDateTime pattern="yyyy-mm-dd" />
+                                    </p:outputLabel>
 
-				<p:column headerText="Vardas">
-					<h:outputText value="#{account.firstName}" />
-				</p:column>
+                                    <p:outputLabel value="Tel. nr.: " class="icon-phone"/>
+                                    <p:outputLabel value="+370 #{accountBean.selectedAccount.phoneNum}"/>
 
-				<p:column headerText="Pavardė">
-					<h:outputText value="#{account.lastName}" />
-				</p:column>
-
-				<p:column headerText="Gimimo data">
-                                    <h:outputText value="#{account.dateOfBirth}" />
-				</p:column>
-
-				<p:column headerText="Miestas">
-					<h:outputText value="#{account.city}" />
-				</p:column>
-			</p:dataTable>
+                                    <p:outputLabel value="El. paštas: " class="icon-mail-alt"/>
+                                    <p:outputLabel value="#{accountBean.selectedAccount.email}"/>
+                            
+                                    <p:outputLabel value="Apie save:"  />
+                                    <p:scrollPanel mode="native" class="profile-description">
+                                            #{accountBean.selectedAccount.description}
+                                    </p:scrollPanel>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                </div>     
+            </div>
+ </h:form> 
+        </p:outputPanel>
+    </p:dialog>
+ 
+          
                 
             </div>
                        
