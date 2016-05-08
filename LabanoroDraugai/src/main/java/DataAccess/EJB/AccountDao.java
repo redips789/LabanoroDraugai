@@ -43,6 +43,13 @@ public class AccountDao {
        return b;
     }
     
+    public void updateAccountStatus(String fbid){
+        Account acc = findAccount(fbid);
+        acc.setStatus("Neaktyvus");
+        ac.persist(acc);
+	ac.flush();
+    }
+    
     private String error="none";
 
     public String getError() {
