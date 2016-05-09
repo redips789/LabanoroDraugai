@@ -3,6 +3,7 @@ package DataAccess.EJB;
 
 import DataAccess.JPA.Account;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
@@ -34,14 +35,22 @@ public class AccountDao {
     }
     
     public Account findAccount(String fbId){
-        Account b =(Account) ac.createNamedQuery("Account.findByFacebookid").setParameter("facebookid", fbId).getResultList().get(0); // nes bus vienintelis
-        return b;
+
+        System.out.println("--vol 2------------------ "+ fbId);
+        return (Account) ac.createNamedQuery("Account.findByFacebookid").setParameter("facebookid", fbId).getResultList().get(0); // nes bus vienintelis
     }
     
     public Account updateAccount(Account changedAccount){
        Account b = ac.merge(changedAccount); // reference to another object than the one passed in when the object was already loaded in the current context.
        ac.flush();
        return b;
+    }
+    
+    public void updateAccountStatus(String fbid){
+        Account acc = findAccount(fbid);
+        acc.setStatus("Neaktyvus");
+        ac.persist(acc);
+	ac.flush();
     }
     
     private String error="none";

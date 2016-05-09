@@ -39,7 +39,8 @@ public class EditProfileBean implements Serializable {
 
     @EJB
     AccountDao accountEjb;
-
+    private Account account;
+    private UploadedFile file;
     // @PersistenceContext(type=PersistenceContextType.EXTENDED)veliau suzinosiu
    // @PersistenceContext
    // private EntityManager em;
@@ -55,21 +56,10 @@ public class EditProfileBean implements Serializable {
         this.loginBean = loginBean;
     }
     
-    private Account account;
-
-   // String fbId;
-
-    private int accountAge;
-    private String accountPhoneNumber;
-
-    private UploadedFile file;
-    private String vardas;
-
     //construct
     @PostConstruct
     public void init() {
-        account=accountEjb.findAccount(loginBean.getId());
-        
+        account=accountEjb.findAccount(loginBean.getId()); //randa pagal sesijos FbId
     }
 
     //get set
@@ -79,18 +69,6 @@ public class EditProfileBean implements Serializable {
 
     public void setAccount(Account account) {
         this.account=account;
-    }
-    public String getVardas(){
-        return this.account.getFirstName();
-    }
-
-    public String getAccountAge() {
-        estimateAge();
-        return accountAge + "  metų,  ";
-    }
-
-    public String getAccountPhoneNumber() {
-        return "+370 " + account.getPhoneNum();
     }
 
     //business  
@@ -113,17 +91,4 @@ public class EditProfileBean implements Serializable {
     public void setFile(UploadedFile file) {
         this.file = file;
     }
-
-    private void estimateAge() {
-        Calendar dob = Calendar.getInstance();
-        dob.setTime(account.getDateOfBirth());
-        Calendar today = Calendar.getInstance();
-        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
-        if (today.get(Calendar.DAY_OF_YEAR) <= dob.get(Calendar.DAY_OF_YEAR)) {
-            age--;
-        }
-        //System.out.println(account.getDateOfBirth().getDate() + " seni geri metai" + today.get(Calendar.DAY_OF_MONTH) + " mėn" + today.get(Calendar.DAY_OF_WEEK_IN_MONTH) + " diena" + today.get(Calendar.DAY_OF_WEEK) + " ssav diena");
-        this.accountAge = age;
-    }
-
 }

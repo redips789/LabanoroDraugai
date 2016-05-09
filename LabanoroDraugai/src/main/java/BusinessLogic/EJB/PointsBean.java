@@ -6,7 +6,9 @@
 package BusinessLogic.EJB;
 
 import DataAccess.EJB.AccountDao;
+import DataAccess.EJB.SettingsDao;
 import DataAccess.JPA.Account;
+import DataAccess.JPA.Settings;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,16 +36,31 @@ public class PointsBean {
     @EJB
     AccountDao accountEjb;
     
+    /*@EJB
+    SettingsDao settingsEjb;*/
+    
     @ManagedProperty(value="#{loginBean}")
     LoginBean loginBean;
     
     private Account account;
     
+    private Settings settings;
+    
     private int points;
+    
+    private int price;
     
     private Date membership;
     
     private boolean feeIsPaid = true;
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
 
     public boolean isFeeIsPaid() {
         return feeIsPaid;
@@ -90,6 +107,9 @@ public class PointsBean {
         account=accountEjb.findAccount(loginBean.getId());
         points=account.getPoints();
         membership=account.getNextPayment();
+        /*settings = settingsEjb.findSettings();*/
+       /* double a = settings.getMembershipFee();*/
+       /* price = (int) a;*/
         
     }
 

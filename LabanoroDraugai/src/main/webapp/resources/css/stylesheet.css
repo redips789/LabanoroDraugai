@@ -19,10 +19,46 @@ body {
     color: whitesmoke;
 }
 
-#content-container {
+#content-container-rec {
+    padding: 1.5em 8em;
 }
 
-#content {
+.recTable {
+    width: 70%;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+    padding-top: 0.5em;
+}
+
+.recInfo {
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+    float: right;
+    width: 20%;
+}
+
+.button {
+    width: 7em;
+    text-align: center;
+}
+
+.buttonCenter {
+    display: block; 
+    margin: 0 auto;
+}
+
+.check {
+    width: 16px;
+    text-align: center;
+}
+
+.centerColumn {
+    width: 8em;
+    text-align: center;
+}
+
+.leftColumn {
+    width: 10em;
 }
 
 #footer-container {
