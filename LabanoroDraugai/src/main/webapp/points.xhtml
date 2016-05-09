@@ -1,5 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html lang="en"
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:p="http://primefaces.org/ui"
@@ -8,45 +7,56 @@
 	xmlns:f="http://java.sun.com/jsf/core">
     
     <h:head>
-        <f:facet name="first">
+        <f:facet name="notfirst">
             <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
-            <title>Registracija</title>
+            <title>Labanoro draugai</title>
         </f:facet>
         <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
         
     </h:head>
     <h:body>
         <h:form id="form" enctype="multipart/form-data">
+            
             <div id="page">
+                
             <div id="header-container">
                 <ui:include src="header.xhtml" />         
             </div>
                 
-            <div id="menu-container">
+            <div id="menu-container" >
                 <ui:include src="menu.xhtml" />
             </div>
                 
                     
                 
-            <div id="content-container" class="editProfile">
-                <h:form id="editProfile">
-                        <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="point">
-                            <p:outputLabel style="font-weight:bold" value="MANO TAŠKAI:" />
-                            <p:outputLabel id="points" value="#{pointsBean.points}"/>
-                        </h:panelGrid>
-                    
-                </h:form>
+            <div id="content-container">
+                    <div id="profile-wrapper">
+                    <div id="profile-container">
                 
-                <h:form id="editProfile2">
+                    <p:spacer width="180" height="180" />
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="point">
+                        <p:outputLabel style="font-weight:bold" value="Jūsų taškų likutis:" />
+                        <p:inputText disabled="true" size="15" id="profile-column-2" value="#{pointsBean.points}"/>
+                        <p:button value="Papildyti" style="width:150px;height:35px" outcome="home.xhtml" />
+                    </h:panelGrid>    
+                
+                
+                    <p:spacer width="100" height="100" />
+                    <div></div>
+                    <div></div>
+                    <div></div>
                     <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="bb">
-                            <p:outputLabel style="font-weight:bold" value="NARYSTĖ BAIGIA GALIOTI:" />
-                            <p:outputLabel id="points" value="#{pointsBean.membership}"/>
-                        </h:panelGrid>
-                </h:form>
-                <p:commandButton ajax="true" value="Prideti 1 taska" actionListener="#{pointsBean.add1Point()}" update="editProfile:point"/>
-            </div>
+                        <p:outputLabel style="font-weight:bold" value="Metinis mokestis:" />
+                        <p:inputText disabled="true" size="15" id="profile-column-2" value="#{pointsBean.membership}"/>
+                        <p:button value="Mokėti" style="width:150px;height:35px" outcome="payMembershipFee" disabled="#{pointsBean.feeIsPaid}" />
+                    </h:panelGrid>
+                    <p:spacer width="200" height="200" />
+                </div>
+                </div>
+                </div>
                        
             <div id="footer-container" >
                 <ui:include src="footer.xhtml" />

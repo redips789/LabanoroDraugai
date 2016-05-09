@@ -165,7 +165,10 @@
                 
                     
                 
-            <div id="content-container" class="editProfile">
+            <div id="content-container">
+                <h:form>
+                    <div id="profile-wrapper">
+                        <div id="profile-container">
                 <p:outputPanel autoUpdate="true">
                 <p:graphicImage url="#{registrationBean.picture}"   />
                 </p:outputPanel>
@@ -186,7 +189,7 @@
                   
                     <p:outputLabel value="GIMIMO DATA:" /> 
                     <p:outputPanel autoUpdate="true">
-                        <p:calendar id="birthday"  value="#{registrationBean.birthday}" size="30" requiredMessage="Įrašykite gimimo datą" locale="de" navigator="true" pattern="yyyy-MMM-dd"  />
+                        <p:calendar id="birthday"  value="#{registrationBean.birthday}" size="30" requiredMessage="Įrašykite gimimo datą" locale="de" navigator="true" pattern="yyyy-MM-dd"  />
                     </p:outputPanel>
                     <p:message for="birthday" display="icon" />
                 
@@ -222,6 +225,9 @@
                     <p:commandButton value="Registruotis" action="#{registrationBean.register()}" id="withIcon" type="submit" ajax="false" validateClient="true" icon="ui-icon-disk"/>
                     </h:panelGrid>
         </h:form>  
+                            </div>
+                        </div>
+                    </h:form>
           
         
                

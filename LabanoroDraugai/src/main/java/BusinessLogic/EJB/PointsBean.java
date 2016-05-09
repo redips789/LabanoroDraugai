@@ -15,6 +15,7 @@ import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 
 /**
@@ -22,7 +23,7 @@ import javax.faces.bean.ViewScoped;
  * @author darbas
  */
 @Named(value = "pointsBean")
-@ViewScoped
+@RequestScoped
 @ManagedBean
 public class PointsBean {
 
@@ -41,7 +42,17 @@ public class PointsBean {
     private int points;
     
     private Date membership;
+    
+    private boolean feeIsPaid = true;
 
+    public boolean isFeeIsPaid() {
+        return feeIsPaid;
+    }
+
+    public void setFeeIsPaid(boolean feeIsPaid) {
+        this.feeIsPaid = feeIsPaid;
+    }
+    
     public int getPoints() {
         return points;
     }
@@ -52,16 +63,18 @@ public class PointsBean {
 
     public String getMembership() {
         if(membership==null){
-            return "Dar nebuvote narys";
+            feeIsPaid=false;
+            return "Nesumokėtas";
         }
-        DateFormat dateFormatNeeded = new SimpleDateFormat("yyyy-MMM-dd");
+        DateFormat dateFormatNeeded = new SimpleDateFormat("yyyy-MM-dd");
         String tempdate = dateFormatNeeded.format(membership);
+        feeIsPaid=true;
         return tempdate;
     }
     
 
     public void setMembership(String membership){
-        DateFormat dateFormatNeeded = new SimpleDateFormat("yyyy-MMM-dd");
+        DateFormat dateFormatNeeded = new SimpleDateFormat("yyyy-MM-dd");
         try{
         this.membership = dateFormatNeeded.parse(membership);
         }catch(Exception ex){
