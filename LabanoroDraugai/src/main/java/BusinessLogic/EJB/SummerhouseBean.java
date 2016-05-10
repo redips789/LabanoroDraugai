@@ -4,6 +4,7 @@ package BusinessLogic.EJB;
 import DataAccess.EJB.SummerhouseCRUD;
 import DataAccess.JPA.Summerhouse;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -38,7 +39,30 @@ public class SummerhouseBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        filteredSummerhouses = summerhouseCRUD.findAllSummerhouses();
+        filteredSummerhouses = new ArrayList();
+        summerhouses = summerhouseCRUD.findAllSummerhouses();
+    }
+    
+    public void setFilteredSummerhouses(List<Summerhouse> filteredSummerhouses) {
+        this.filteredSummerhouses = filteredSummerhouses;
+    }
+    
+    public void filterSummerhouses() {
+        filteredSummerhouses.clear();       
+        for (Summerhouse summerhouse : summerhouses) {
+            if (summerhouse.getCost() >= priceFrom 
+                    && ((priceTo > 0 && summerhouse.getCost() <= priceTo) || priceTo == 0)
+                    && (summerhouse.getBeds() >= bedsFrom) 
+                    && ((bedsTo > 0 && summerhouse.getBeds() <= bedsTo) || bedsTo == 0)
+                    && (availableFrom == null || summerhouse.getValidityStart().after(availableFrom))
+                    && (availableTo == null || summerhouse.getValidityEnd().before(availableTo))) {            
+                filteredSummerhouses.add(summerhouse);
+            }
+        }
+        summerhouses = filteredSummerhouses;
+    }
+    
+    public void recoverSummerhouses() {
         summerhouses = summerhouseCRUD.findAllSummerhouses();
     }
     
@@ -101,65 +125,5 @@ public class SummerhouseBean implements Serializable {
     public List<Summerhouse> getFilteredSummerhouses() {
         return filteredSummerhouses;
     }
-
-    public void setFilteredSummerhouses(List<Summerhouse> filteredSummerhouses) {
-        this.filteredSummerhouses = filteredSummerhouses;
-    }
-    
-    
-    
-    public void filterSummerhouses() {
-        filteredSummerhouses.clear();       
-        for (Summerhouse summerhouse : summerhouses) {
-            //System.out.println("cia turi but isspausdinti visi pavadinimai"+summerhouse.getTitle());
-           
-            if (summerhouse.getCost() >= priceFrom 
-                    && ((priceTo > 0 && summerhouse.getCost() <= priceTo) || priceTo==0)
-                    && (summerhouse.getBeds() >= bedsFrom) 
-                    && ((bedsTo > 0 && summerhouse.getBeds() <= bedsTo) || bedsTo==0)) {
-               // System.out.println("remove because pricefrom" + priceFrom + summerhouse.getTitle());
-                filteredSummerhouses.add(summerhouse);
-            }
-        }
-        summerhouses = filteredSummerhouses;
-    }
-    
-    public void recoverSummerhouses() {
-        summerhouses = summerhouseCRUD.findAllSummerhouses();
-    }
-      
+        
 }
-
-//for (Summerhouse summerhouse : summerhouses) {
-//            System.out.println("cia turi but isspausdinti visi pavadinimai"+summerhouse.getTitle());
-//            if (summerhouse.getCost() < priceFrom) {
-//                System.out.println("remove because pricefrom" + priceFrom + summerhouse.getTitle());
-//                summerhouses.remove(summerhouse);
-//            }
-//            if (priceTo > 0 && summerhouse.getCost() > priceTo) {
-//                System.out.println("remove because priceTo" + priceTo + summerhouse.getTitle());
-//                summerhouses.remove(summerhouse);
-//            }
-//            if (summerhouse.getBeds() < bedsFrom) {
-//                System.out.println("remove because bedsfrom" + bedsFrom + summerhouse.getTitle());
-//                summerhouses.remove(summerhouse);
-//            }
-//            if (bedsTo > 0 && summerhouse.getBeds() > bedsTo) {
-//                System.out.println("remove because bedsTo" + bedsTo + summerhouse.getTitle());
-//                summerhouses.remove(summerhouse);
-//            }
-//        }
-
-
-
-
-//System.out.println("atejo i metoda");
-//        for (int i = 0; i < summerhouses.size(); i++) {
-//            System.out.println("cia turi but isspausdinti visi pavadinimai"+summerhouses.get(i).getTitle());
-//            if ((summerhouses.get(i).getCost() < priceFrom) || (priceTo > 0 && summerhouses.get(i).getCost() > priceTo) 
-//                    || (summerhouses.get(i).getBeds() < bedsFrom) || (bedsTo > 0 && summerhouses.get(i).getBeds() > bedsTo)) {
-//                //System.out.println("remove because pricefrom" + priceFrom + summerhouses.get(i).getTitle());
-//                summerhouses.remove(i);
-//                i--;
-//            }
-//        }
