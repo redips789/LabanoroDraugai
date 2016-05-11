@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DataAccess.JPA;
 
 import java.io.Serializable;
@@ -23,7 +19,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author Povilas
+ * @author Liudas 
  */
 @Entity
 @Table(name = "PAID_FEES")
@@ -31,20 +27,25 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "PaidFees.findAll", query = "SELECT p FROM PaidFees p"),
     @NamedQuery(name = "PaidFees.findById", query = "SELECT p FROM PaidFees p WHERE p.id = :id"),
     @NamedQuery(name = "PaidFees.findByPaidDate", query = "SELECT p FROM PaidFees p WHERE p.paidDate = :paidDate")})
+
 public class PaidFees implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    
     @Column(name = "PAID_DATE")
     @Temporal(TemporalType.DATE)
     private Date paidDate;
+    
     @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Account accountId;
+    
     @JoinColumn(name = "FEE", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Fee fee;
@@ -112,5 +113,5 @@ public class PaidFees implements Serializable {
     public String toString() {
         return "DataAccess.JPA.PaidFees[ id=" + id + " ]";
     }
-    
+
 }

@@ -140,5 +140,4 @@ public class LoginBean implements Serializable {
         return redirecdedPage;
     }
     
-    
 }

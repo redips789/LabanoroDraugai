@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DataAccess.JPA;
 
 import java.io.Serializable;
@@ -24,7 +20,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Povilas
+ * @author Liudas 
  */
 @Entity
 @Table(name = "PAYMENT")
@@ -159,10 +155,10 @@ public class Payment implements Serializable {
         this.methodName = methodName;
     }
 
-        @Override
+    @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 23 * hash + Objects.hashCode(this.paymentNumber);
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.paymentNumber);
         return hash;
     }
 
@@ -184,9 +180,11 @@ public class Payment implements Serializable {
         return true;
     }
 
+    
+
     @Override
     public String toString() {
         return "DataAccess.JPA.Payment[ id=" + id + " ]";
     }
-    
+
 }

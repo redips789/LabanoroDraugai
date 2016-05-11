@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DataAccess.JPA;
 
 import java.io.Serializable;
@@ -24,7 +20,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Povilas
+ * @author Liudas 
  */
 @Entity
 @Table(name = "FEE")
@@ -35,6 +31,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Fee.findByAmount", query = "SELECT f FROM Fee f WHERE f.amount = :amount"),
     @NamedQuery(name = "Fee.findByDescription", query = "SELECT f FROM Fee f WHERE f.description = :description"),
     @NamedQuery(name = "Fee.findByVersion", query = "SELECT f FROM Fee f WHERE f.version = :version")})
+
 public class Fee implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,19 +40,24 @@ public class Fee implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "TITLE")
     private String title;
+    
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "AMOUNT")
     private Double amount;
+    
     @Size(max = 254)
     @Column(name = "DESCRIPTION")
     private String description;
+    
     @Column(name = "VERSION")
     private Integer version;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fee")
     private List<PaidFees> paidFeesList;
 
@@ -121,8 +123,8 @@ public class Fee implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 97 * hash + Objects.hashCode(this.title);
+        int hash = 7;
+        hash = 17 * hash + Objects.hashCode(this.title);
         return hash;
     }
 
@@ -144,9 +146,11 @@ public class Fee implements Serializable {
         return true;
     }
 
+    
+
     @Override
     public String toString() {
         return "DataAccess.JPA.Fee[ id=" + id + " ]";
     }
-    
+
 }

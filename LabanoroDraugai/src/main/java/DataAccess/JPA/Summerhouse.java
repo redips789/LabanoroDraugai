@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DataAccess.JPA;
 
 import java.io.Serializable;
@@ -16,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -27,7 +25,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Povilas
+ * @author Liudas 
  */
 @Entity
 @Table(name = "SUMMERHOUSE")
@@ -40,7 +38,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Summerhouse.findByValidityStart", query = "SELECT s FROM Summerhouse s WHERE s.validityStart = :validityStart"),
     @NamedQuery(name = "Summerhouse.findByValidityEnd", query = "SELECT s FROM Summerhouse s WHERE s.validityEnd = :validityEnd"),
     @NamedQuery(name = "Summerhouse.findByCost", query = "SELECT s FROM Summerhouse s WHERE s.cost = :cost"),
-    @NamedQuery(name = "Summerhouse.findByPhoto", query = "SELECT s FROM Summerhouse s WHERE s.photo = :photo"),
     @NamedQuery(name = "Summerhouse.findByVersion", query = "SELECT s FROM Summerhouse s WHERE s.version = :version")})
 public class Summerhouse implements Serializable {
 
@@ -68,13 +65,13 @@ public class Summerhouse implements Serializable {
     private Date validityEnd;
     @Column(name = "COST")
     private Integer cost;
-    @Size(max = 254)
-    @Column(name = "PHOTO")
-    private String photo;
     @Column(name = "VERSION")
     private Integer version;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "summerhouseId")
     private List<Reservation> reservationList;
+    @JoinColumn(name = "PHOTO_IMAGEID", referencedColumnName = "ID")
+    @ManyToOne
+    private Image photoImageid;
 
     public Summerhouse() {
     }
@@ -144,14 +141,6 @@ public class Summerhouse implements Serializable {
         this.cost = cost;
     }
 
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
     public Integer getVersion() {
         return version;
     }
@@ -168,10 +157,18 @@ public class Summerhouse implements Serializable {
         this.reservationList = reservationList;
     }
 
+    public Image getPhotoImageid() {
+        return photoImageid;
+    }
+
+    public void setPhotoImageid(Image photoImageid) {
+        this.photoImageid = photoImageid;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 19 * hash + Objects.hashCode(this.title);
+        int hash = 5;
+        hash = 67 * hash + Objects.hashCode(this.title);
         return hash;
     }
 
@@ -193,9 +190,11 @@ public class Summerhouse implements Serializable {
         return true;
     }
 
+    
+
     @Override
     public String toString() {
         return "DataAccess.JPA.Summerhouse[ id=" + id + " ]";
     }
-    
+
 }

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DataAccess.JPA;
 
 import java.io.Serializable;
@@ -21,24 +17,28 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Povilas
+ * @author Liudas 
  */
 @Entity
 @Table(name = "IMAGE")
 @NamedQueries({
     @NamedQuery(name = "Image.findAll", query = "SELECT i FROM Image i"),
     @NamedQuery(name = "Image.findById", query = "SELECT i FROM Image i WHERE i.id = :id")})
+
 public class Image implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    
     @Lob
     @Column(name = "CONTENT")
     private Serializable content;
+    
     @OneToMany(mappedBy = "photoImageid")
     private List<Account> accountList;
 
@@ -97,5 +97,5 @@ public class Image implements Serializable {
     public String toString() {
         return "DataAccess.JPA.Image[ id=" + id + " ]";
     }
-    
+
 }
