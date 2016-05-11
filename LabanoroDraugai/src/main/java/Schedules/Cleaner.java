@@ -3,7 +3,7 @@ package Schedules;
 
 import DataAccess.EJB.RecommendationDao;
 import DataAccess.EJB.SettingsDao;
-import DataAccess.JPA.Recomendation;
+import DataAccess.JPA.Recommendation;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -42,7 +42,7 @@ public class Cleaner {
             now.add(Calendar.DATE, -validity_date);
             Date dat = now.getTime();
 
-            List<Recomendation> deleteList = recommendationEjb.findOldDate(dat);
+            List<Recommendation> deleteList = recommendationEjb.findOldDate(dat);
 
             for (int i=0; i<deleteList.size(); i++){
                 recommendationEjb.deleteRecommendation(deleteList.get(i));

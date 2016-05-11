@@ -1,7 +1,7 @@
 
 package DataAccess.EJB;
 
-import DataAccess.JPA.Recomendation;
+import DataAccess.JPA.Recommendation;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -19,49 +19,50 @@ public class RecommendationDao {
     @PersistenceContext
     EntityManager rm;
     
-    public void addRecommendation(Recomendation rec){
+    public void addRecommendation(Recommendation rec){
 	rm.persist(rec);
 	rm.flush();
     }
     
-    public void updateRecommendation(Recomendation rec){
-        Recomendation r = findByBoth(rec.getRecomendationPK().getReceiverFbid(), rec.getRecomendationPK().getGiverFbid());
+    public void updateRecommendation(Recommendation rec){
+        Recommendation r = findByBoth(rec.getRecommendationPK().getReceiverAccountid(), rec.getRecommendationPK().getGiverAccountid());
         r.setIsGiven(Boolean.TRUE);
         rm.persist(r);
 	rm.flush();
     }
     
-    public void deleteRecommendation(Recomendation rec) {
-        Recomendation rcm = findByBoth(rec.getRecomendationPK().getReceiverFbid(), rec.getRecomendationPK().getGiverFbid());
-	rm.remove(rcm);
+    public void deleteRecommendation(Recommendation rec) {
+        Recommendation rcm = findByBoth(rec.getRecommendationPK().getReceiverAccountid(), rec.getRecommendationPK().getGiverAccountid());
+	System.out.println("Sudeliiiiiiiiis");
+        rm.remove(rcm);
         rm.flush();
     }
     
-    public void deleteRecommendations(String fbid){
-        int deletedCount = rm.createNamedQuery("Recomendation.deleteByFbid").setParameter("receiverFbid", fbid).executeUpdate();
+    public void deleteRecommendations(int id){
+        int deletedCount = rm.createNamedQuery("Recommendation.deleteById").setParameter("receiverAccountid", id).executeUpdate();
     }
     
-    public List<Recomendation> findRecByReceiver(String fbId){
-        List<Recomendation> rec = rm.createNamedQuery("Recomendation.findByReceiverFbid").setParameter("receiverFbid", fbId).getResultList();
+    public List<Recommendation> findRecByReceiver(int id){
+        List<Recommendation> rec = rm.createNamedQuery("Recommendation.findByReceiverAccountid").setParameter("receiverAccountid", id).getResultList();
         return rec;
     }
     
-    public List<Recomendation> findForConfirm(String fbId, boolean status){
-        List<Recomendation> rec = rm.createNamedQuery("Recomendation.findForConfirm").setParameter("giverFbid", fbId).setParameter("isGiven", status).getResultList();
+    public List<Recommendation> findForConfirm(int id, boolean status){
+        List<Recommendation> rec = rm.createNamedQuery("Recommendation.findForConfirm").setParameter("giverAccountid", id).setParameter("isGiven", status).getResultList();
         return rec;
     }
     
-    public Recomendation findByBoth(String rec_fbId, String giv_fbId){
-        return (Recomendation) rm.createNamedQuery("Recomendation.findByBothFbid").setParameter("receiverFbid", rec_fbId).setParameter("giverFbid", giv_fbId).getSingleResult();
+    public Recommendation findByBoth(int rec_id, int giv_id){
+        return (Recommendation) rm.createNamedQuery("Recommendation.findByBothId").setParameter("receiverAccountid", rec_id).setParameter("giverAccountid", giv_id).getSingleResult();
     }
     
-    public List<Recomendation> findAllRecommendations(){
-        List<Recomendation> rec = rm.createNamedQuery("Recomendation.findAll").getResultList();
+    public List<Recommendation> findAllRecommendations(){
+        List<Recommendation> rec = rm.createNamedQuery("Recommendation.findAll").getResultList();
         return rec;
     }
     
-    public List<Recomendation> findOldDate(Date dat){
-        List<Recomendation> rec = rm.createNamedQuery("Recomendation.findByOldRecDate").setParameter("recDate", dat).getResultList();
+    public List<Recommendation> findOldDate(Date dat){
+        List<Recommendation> rec = rm.createNamedQuery("Recommendation.findByOldRecDate").setParameter("sendDate", dat).getResultList();
         return rec;
     }
 }

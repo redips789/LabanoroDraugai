@@ -30,10 +30,11 @@ public class LoginBean implements Serializable {
     /**
      * Creates a new instance of LoginBean
      */
-    private String id;
+    private String fbid;
     private String accesstoken;
     private String signedrequest;
     private String expiresin;
+    private int id;
     private boolean isloggedin=false;
     private boolean isregistered=false;
     private String redirecdedPage = "login";
@@ -97,26 +98,37 @@ public class LoginBean implements Serializable {
     public void setAccesstoken(String accesstoken) {
         this.accesstoken = accesstoken;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getFbid() {
+        return fbid;
+    }
+
+    public void setFbid(String fbid) {
+        this.fbid = fbid;
+    }
     
     public String nextPage(){
         return "home?faces-redirect=true";
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
     public String getParams() {
         FacesContext context = FacesContext.getCurrentInstance();
         Map map = context.getExternalContext().getRequestParameterMap();
-        id = (String) map.get("id");
+        fbid = (String) map.get("id");
         accesstoken = (String) map.get("accesstoken");
         signedrequest = (String) map.get("signedrequest");
-        expiresin = (String) map.get("expiresin");
-        if(loginAuthBean.accountExistBoolean(id)){
+        expiresin = (String) map.get("expiresin");    
+        Account acc = loginAuthBean.findAccount(fbid);
+        id = acc.getId();
+        if(loginAuthBean.accountExistBoolean(fbid)){
             redirecdedPage = "home?faces-redirect=true";
         }
         else{
@@ -126,7 +138,7 @@ public class LoginBean implements Serializable {
     }
     
     public String leaveForever(){
-        Account account = loginAuthBean.accountExistAccount(id);
+        Account account = loginAuthBean.accountExistAccount(fbid);
         if(account==null){
             return "";
         }else{
@@ -139,6 +151,5 @@ public class LoginBean implements Serializable {
     public String checkPageStage(){
         return redirecdedPage;
     }
-    
     
 }

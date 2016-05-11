@@ -2,8 +2,9 @@
 package BusinessLogic.EJB;
 
 import DataAccess.EJB.AccountDao;
+import DataAccess.EJB.ImageCrud;
 import DataAccess.JPA.Account;
-import java.awt.Image;
+import DataAccess.JPA.Image;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import javax.ejb.EJB;
@@ -27,7 +28,7 @@ import org.primefaces.model.StreamedContent;
 public class ImageStreamer {
 
     @EJB
-    private AccountDao service;
+    private ImageCrud service;
 
     public StreamedContent getOneImage() throws IOException {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -38,9 +39,8 @@ public class ImageStreamer {
         } else {
             // So, browser is requesting the image. Return a real StreamedContent with the image bytes.
             String imageId = context.getExternalContext().getRequestParameterMap().get("id"); //accountId/StudentId????
-            Account account = service.findAccount(imageId); // pagal save keista
-           // Account account=service.findAccount(loginBean.getId()); sitas veiktu
-            return new DefaultStreamedContent(new ByteArrayInputStream((byte[]) account.getPhotoBlob()));
+            Image image = service.findImage(imageId); // pagal save keista
+            return new DefaultStreamedContent(new ByteArrayInputStream((byte[]) image.getContent()));
         }
     }
 }

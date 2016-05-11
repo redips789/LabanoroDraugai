@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import static javax.persistence.PersistenceContextType.TRANSACTION;
 import javax.persistence.Query;
 import static javax.persistence.SynchronizationType.UNSYNCHRONIZED;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -20,6 +21,12 @@ public class SummerhouseCRUD {
     
     @PersistenceContext(type=TRANSACTION, synchronization=UNSYNCHRONIZED)
     private EntityManager em;
+    
+    public Summerhouse findById(int id) {
+        Query query = em.createNamedQuery("Summerhouse.findById", Summerhouse.class).
+                setParameter("id", id);
+        return (Summerhouse) query.getSingleResult();
+    }
     
     public List<Summerhouse> findAllSummerhouses() {
         Query query = em.createQuery("SELECT s FROM Summerhouse s");
@@ -47,6 +54,5 @@ public class SummerhouseCRUD {
         Query query = em.createQuery("SELECT s FROM Summerhouse s WHERE s.cost <= :priceTo").setParameter("priceTo", priceTo);
         return (List<Summerhouse>) query.getResultList();
     }
-        
         
 }

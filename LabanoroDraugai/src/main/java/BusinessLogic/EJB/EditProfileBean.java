@@ -6,7 +6,9 @@
 package BusinessLogic.EJB;
 
 import DataAccess.EJB.AccountDao;
+import DataAccess.EJB.ImageCrud;
 import DataAccess.JPA.Account;
+import DataAccess.JPA.Image;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -31,7 +33,6 @@ import org.apache.commons.io.IOUtils;
  * @author Laurute
  */
 //@Named
-
 //@Stateful
 @ManagedBean
 @RequestScoped
@@ -41,11 +42,14 @@ public class EditProfileBean implements Serializable {
     AccountDao accountEjb;
     private Account account;
     private UploadedFile file;
-    // @PersistenceContext(type=PersistenceContextType.EXTENDED)veliau suzinosiu
-   // @PersistenceContext
-   // private EntityManager em;
 
-    @ManagedProperty(value="#{loginBean}")
+    @EJB
+    ImageCrud imagesEjb;
+    // @PersistenceContext(type=PersistenceContextType.EXTENDED)veliau suzinosiu
+    // @PersistenceContext
+    // private EntityManager em;
+
+    @ManagedProperty(value = "#{loginBean}")
     LoginBean loginBean;
 
     public LoginBean getLoginBean() {
@@ -55,11 +59,11 @@ public class EditProfileBean implements Serializable {
     public void setLoginBean(LoginBean loginBean) {
         this.loginBean = loginBean;
     }
-    
+
     //construct
     @PostConstruct
     public void init() {
-        account=accountEjb.findAccount(loginBean.getId()); //randa pagal sesijos FbId
+        account = accountEjb.findAccountById(loginBean.getId()); //randa pagal sesijos FbId
     }
 
     //get set
@@ -68,13 +72,17 @@ public class EditProfileBean implements Serializable {
     }
 
     public void setAccount(Account account) {
-        this.account=account;
+        this.account = account;
     }
 
     //business  
     public String saveAccountChanges() {
         try {
-           account.setPhotoBlob(IOUtils.toByteArray(this.file.getInputstream()));
+            //account.setPhotoBlob(IOUtils.toByteArray(this.file.getInputstream()));
+            Image image = new Image();
+            image.setContent(IOUtils.toByteArray(this.file.getInputstream()));
+            Integer imageId = imagesEjb.addImage(image);
+            account.setPhotoImageid(image);
         } catch (IOException ex) {
             Logger.getLogger(EditProfileBean.class.getName()).log(Level.SEVERE, null, ex);
         }
