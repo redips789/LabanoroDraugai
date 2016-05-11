@@ -27,7 +27,7 @@ public class Cleaner {
     @EJB
     SettingsDao settingsEjb;
     
-    @Schedule(second = "0", minute = "0", hour = "3", dayOfWeek = "*")
+    @Schedule(second = "0", minute = "59", hour = "14", dayOfWeek = "*")
     public void cleanRecommendationDatabase() {
         Calendar now = Calendar.getInstance();
         Date today = new Date();
