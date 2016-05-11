@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package DataAccess.JPA;
 
 import java.io.Serializable;
@@ -13,24 +17,18 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Kristaliukas
+ * @author Povilas
  */
 @Entity
 @Table(name = "RECOMENDATION")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Recomendation.deleteByFbid", query = "DELETE FROM Recomendation r WHERE r.recomendationPK.receiverFbid = :receiverFbid"),
     @NamedQuery(name = "Recomendation.findAll", query = "SELECT r FROM Recomendation r"),
-    @NamedQuery(name = "Recomendation.findByBothFbid", query = "SELECT r FROM Recomendation r WHERE r.recomendationPK.receiverFbid = :receiverFbid and r.recomendationPK.giverFbid = :giverFbid"),
-    @NamedQuery(name = "Recomendation.findForConfirm", query = "SELECT r FROM Recomendation r WHERE r.recomendationPK.giverFbid = :giverFbid and r.isGiven = :isGiven"),
     @NamedQuery(name = "Recomendation.findByReceiverFbid", query = "SELECT r FROM Recomendation r WHERE r.recomendationPK.receiverFbid = :receiverFbid"),
     @NamedQuery(name = "Recomendation.findByGiverFbid", query = "SELECT r FROM Recomendation r WHERE r.recomendationPK.giverFbid = :giverFbid"),
     @NamedQuery(name = "Recomendation.findByIsGiven", query = "SELECT r FROM Recomendation r WHERE r.isGiven = :isGiven"),
-    @NamedQuery(name = "Recomendation.findByOldRecDate", query = "SELECT r FROM Recomendation r WHERE r.recDate <= :recDate"),
     @NamedQuery(name = "Recomendation.findByRecDate", query = "SELECT r FROM Recomendation r WHERE r.recDate = :recDate")})
 public class Recomendation implements Serializable {
 
@@ -112,5 +110,5 @@ public class Recomendation implements Serializable {
     public String toString() {
         return "DataAccess.JPA.Recomendation[ recomendationPK=" + recomendationPK + " ]";
     }
-
+    
 }

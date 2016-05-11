@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package DataAccess.JPA;
 
 import java.io.Serializable;
@@ -15,15 +19,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Liudas 
+ * @author Povilas
  */
-
 @Entity
 @Table(name = "FEE")
 @NamedQueries({
@@ -33,35 +35,27 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Fee.findByAmount", query = "SELECT f FROM Fee f WHERE f.amount = :amount"),
     @NamedQuery(name = "Fee.findByDescription", query = "SELECT f FROM Fee f WHERE f.description = :description"),
     @NamedQuery(name = "Fee.findByVersion", query = "SELECT f FROM Fee f WHERE f.version = :version")})
-
 public class Fee implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "TITLE")
     private String title;
-    
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "AMOUNT")
     private Double amount;
-    
     @Size(max = 254)
     @Column(name = "DESCRIPTION")
     private String description;
-    
     @Column(name = "VERSION")
-    @Version
     private Integer version;
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fee")
     private List<PaidFees> paidFeesList;
 
@@ -150,11 +144,9 @@ public class Fee implements Serializable {
         return true;
     }
 
-    
-
     @Override
     public String toString() {
         return "DataAccess.JPA.Fee[ id=" + id + " ]";
     }
-
+    
 }

@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package DataAccess.JPA;
 
 import java.io.Serializable;
@@ -18,15 +22,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Liudas 
+ * @author Povilas
  */
-
 @Entity
 @Table(name = "SUMMERHOUSE")
 @NamedQueries({
@@ -40,49 +42,37 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Summerhouse.findByCost", query = "SELECT s FROM Summerhouse s WHERE s.cost = :cost"),
     @NamedQuery(name = "Summerhouse.findByPhoto", query = "SELECT s FROM Summerhouse s WHERE s.photo = :photo"),
     @NamedQuery(name = "Summerhouse.findByVersion", query = "SELECT s FROM Summerhouse s WHERE s.version = :version")})
-
 public class Summerhouse implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "TITLE")
     private String title;
-    
     @Size(max = 250)
     @Column(name = "DESCRIPTION")
     private String description;
-    
     @Column(name = "BEDS")
     private Integer beds;
-    
     @Column(name = "VALIDITY_START")
     @Temporal(TemporalType.DATE)
     private Date validityStart;
-    
     @Column(name = "VALIDITY_END")
     @Temporal(TemporalType.DATE)
     private Date validityEnd;
-    
     @Column(name = "COST")
     private Integer cost;
-    
     @Size(max = 254)
     @Column(name = "PHOTO")
     private String photo;
-    
     @Column(name = "VERSION")
-    @Version
     private Integer version;
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "summerhouseId")
     private List<Reservation> reservationList;
 
@@ -203,11 +193,9 @@ public class Summerhouse implements Serializable {
         return true;
     }
 
-    
-
     @Override
     public String toString() {
         return "DataAccess.JPA.Summerhouse[ id=" + id + " ]";
     }
-
+    
 }

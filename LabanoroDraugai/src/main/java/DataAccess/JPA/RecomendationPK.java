@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package DataAccess.JPA;
 
 import java.io.Serializable;
@@ -10,7 +14,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Kristaliukas
+ * @author Povilas
  */
 @Embeddable
 public class RecomendationPK implements Serializable {
@@ -78,5 +82,5 @@ public class RecomendationPK implements Serializable {
     public String toString() {
         return "DataAccess.JPA.RecomendationPK[ receiverFbid=" + receiverFbid + ", giverFbid=" + giverFbid + " ]";
     }
-
+    
 }

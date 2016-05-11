@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package DataAccess.JPA;
 
 import java.io.Serializable;
@@ -22,9 +26,8 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Liudas 
+ * @author Povilas
  */
-
 @Entity
 @Table(name = "RESERVATION")
 @NamedQueries({
@@ -33,35 +36,28 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Reservation.findByReservationNumber", query = "SELECT r FROM Reservation r WHERE r.reservationNumber = :reservationNumber"),
     @NamedQuery(name = "Reservation.findByStartDate", query = "SELECT r FROM Reservation r WHERE r.startDate = :startDate"),
     @NamedQuery(name = "Reservation.findByEndDate", query = "SELECT r FROM Reservation r WHERE r.endDate = :endDate")})
-
 public class Reservation implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "RESERVATION_NUMBER")
     private String reservationNumber;
-    
     @Column(name = "START_DATE")
     @Temporal(TemporalType.DATE)
     private Date startDate;
-    
     @Column(name = "END_DATE")
     @Temporal(TemporalType.DATE)
     private Date endDate;
-    
     @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Account accountId;
-    
     @JoinColumn(name = "SUMMERHOUSE_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Summerhouse summerhouseId;
@@ -151,11 +147,9 @@ public class Reservation implements Serializable {
         return true;
     }
 
-    
-
     @Override
     public String toString() {
         return "DataAccess.JPA.Reservation[ id=" + id + " ]";
     }
-
+    
 }

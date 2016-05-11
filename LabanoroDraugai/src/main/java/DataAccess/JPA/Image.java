@@ -6,32 +6,29 @@
 package DataAccess.JPA;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
  * @author Povilas
  */
 @Entity
-@Table(name = "PAID_FEES")
+@Table(name = "IMAGE")
 @NamedQueries({
-    @NamedQuery(name = "PaidFees.findAll", query = "SELECT p FROM PaidFees p"),
-    @NamedQuery(name = "PaidFees.findById", query = "SELECT p FROM PaidFees p WHERE p.id = :id"),
-    @NamedQuery(name = "PaidFees.findByPaidDate", query = "SELECT p FROM PaidFees p WHERE p.paidDate = :paidDate")})
-public class PaidFees implements Serializable {
+    @NamedQuery(name = "Image.findAll", query = "SELECT i FROM Image i"),
+    @NamedQuery(name = "Image.findById", query = "SELECT i FROM Image i WHERE i.id = :id")})
+public class Image implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -39,20 +36,16 @@ public class PaidFees implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @Column(name = "PAID_DATE")
-    @Temporal(TemporalType.DATE)
-    private Date paidDate;
-    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
-    private Account accountId;
-    @JoinColumn(name = "FEE", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
-    private Fee fee;
+    @Lob
+    @Column(name = "CONTENT")
+    private Serializable content;
+    @OneToMany(mappedBy = "photoImageid")
+    private List<Account> accountList;
 
-    public PaidFees() {
+    public Image() {
     }
 
-    public PaidFees(Integer id) {
+    public Image(Integer id) {
         this.id = id;
     }
 
@@ -64,28 +57,20 @@ public class PaidFees implements Serializable {
         this.id = id;
     }
 
-    public Date getPaidDate() {
-        return paidDate;
+    public Serializable getContent() {
+        return content;
     }
 
-    public void setPaidDate(Date paidDate) {
-        this.paidDate = paidDate;
+    public void setContent(Serializable content) {
+        this.content = content;
     }
 
-    public Account getAccountId() {
-        return accountId;
+    public List<Account> getAccountList() {
+        return accountList;
     }
 
-    public void setAccountId(Account accountId) {
-        this.accountId = accountId;
-    }
-
-    public Fee getFee() {
-        return fee;
-    }
-
-    public void setFee(Fee fee) {
-        this.fee = fee;
+    public void setAccountList(List<Account> accountList) {
+        this.accountList = accountList;
     }
 
     @Override
@@ -98,10 +83,10 @@ public class PaidFees implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PaidFees)) {
+        if (!(object instanceof Image)) {
             return false;
         }
-        PaidFees other = (PaidFees) object;
+        Image other = (Image) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -110,7 +95,7 @@ public class PaidFees implements Serializable {
 
     @Override
     public String toString() {
-        return "DataAccess.JPA.PaidFees[ id=" + id + " ]";
+        return "DataAccess.JPA.Image[ id=" + id + " ]";
     }
     
 }

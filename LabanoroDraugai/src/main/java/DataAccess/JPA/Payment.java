@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package DataAccess.JPA;
 
 import java.io.Serializable;
@@ -20,9 +24,8 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Liudas 
+ * @author Povilas
  */
-
 @Entity
 @Table(name = "PAYMENT")
 @NamedQueries({
@@ -36,48 +39,38 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Payment.findByStatus", query = "SELECT p FROM Payment p WHERE p.status = :status"),
     @NamedQuery(name = "Payment.findByClassName", query = "SELECT p FROM Payment p WHERE p.className = :className"),
     @NamedQuery(name = "Payment.findByMethodName", query = "SELECT p FROM Payment p WHERE p.methodName = :methodName")})
-
 public class Payment implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "PAYMENT_NUMBER")
     private String paymentNumber;
-    
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 30)
     @Column(name = "EMAIL")
     private String email;
-    
     @Size(max = 30)
     @Column(name = "FIRST_NAME")
     private String firstName;
-    
     @Size(max = 30)
     @Column(name = "LAST_NAME")
     private String lastName;
-    
     @Column(name = "DATE_TIME")
     @Temporal(TemporalType.DATE)
     private Date dateTime;
-    
     @Size(max = 20)
     @Column(name = "STATUS")
     private String status;
-    
     @Size(max = 40)
     @Column(name = "CLASS_NAME")
     private String className;
-    
     @Size(max = 40)
     @Column(name = "METHOD_NAME")
     private String methodName;
@@ -166,7 +159,7 @@ public class Payment implements Serializable {
         this.methodName = methodName;
     }
 
-    @Override
+        @Override
     public int hashCode() {
         int hash = 7;
         hash = 23 * hash + Objects.hashCode(this.paymentNumber);
@@ -191,11 +184,9 @@ public class Payment implements Serializable {
         return true;
     }
 
-    
-
     @Override
     public String toString() {
         return "DataAccess.JPA.Payment[ id=" + id + " ]";
     }
-
+    
 }

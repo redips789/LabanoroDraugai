@@ -1,29 +1,36 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package DataAccess.JPA;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Povilas <your.name at your.org>
+ * @author Povilas
  */
 @Entity
 @Table(name = "ACCOUNT")
@@ -94,15 +101,18 @@ public class Account implements Serializable {
     @Size(min = 1, max = 20)
     @Column(name = "FACEBOOKID")
     private String facebookid;
-    @Version
     @Column(name = "VERSION")
     private Integer version;
-    @Lob
-    @Column(name = "PHOTO_BLOB")
-    private Serializable photoBlob;
+    @JoinColumn(name = "PHOTO_IMAGEID", referencedColumnName = "ID")
+    @ManyToOne
+    private Image photoImageid;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId")
+    private List<Reservation> reservationList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId")
+    private List<PaidFees> paidFeesList;
     @Transient
     private int age;
-
+    
     public Account() {
     }
 
@@ -236,12 +246,28 @@ public class Account implements Serializable {
         this.version = version;
     }
 
-    public Serializable getPhotoBlob() {
-        return photoBlob;
+    public Image getPhotoImageid() {
+        return photoImageid;
     }
 
-    public void setPhotoBlob(Serializable photoBlob) {
-        this.photoBlob = photoBlob;
+    public void setPhotoImageid(Image photoImageid) {
+        this.photoImageid = photoImageid;
+    }
+
+    public List<Reservation> getReservationList() {
+        return reservationList;
+    }
+
+    public void setReservationList(List<Reservation> reservationList) {
+        this.reservationList = reservationList;
+    }
+
+    public List<PaidFees> getPaidFeesList() {
+        return paidFeesList;
+    }
+
+    public void setPaidFeesList(List<PaidFees> paidFeesList) {
+        this.paidFeesList = paidFeesList;
     }
 
     public int getAge() {
@@ -251,8 +277,8 @@ public class Account implements Serializable {
     public void setAge(int age) {
         this.age = age;
     }
-
-    @Override
+    
+     @Override
     public int hashCode() {
         int hash = 7;
         hash = 53 * hash + Objects.hashCode(this.facebookid);
@@ -277,11 +303,9 @@ public class Account implements Serializable {
         return true;
     }
 
-    
-
     @Override
     public String toString() {
         return "DataAccess.JPA.Account[ id=" + id + " ]";
     }
-
+    
 }
