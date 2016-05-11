@@ -27,7 +27,7 @@ public class Cleaner {
     @EJB
     SettingsDao settingsEjb;
     
-    @Schedule(second = "0", minute = "0", hour = "3", dayOfWeek = "*")
+    @Schedule(second = "0", minute = "45", hour = "11", dayOfWeek = "*")
     public void cleanRecommendationDatabase() {
         Calendar now = Calendar.getInstance();
         Date today = new Date();
@@ -35,6 +35,7 @@ public class Cleaner {
         now.set(Calendar.HOUR_OF_DAY, 0);
         now.set(Calendar.MINUTE, 0);
         now.set(Calendar.SECOND, 0);
+        System.out.println("Patikrinimas, ar veikia");
         
         try{
             int validity_date = settingsEjb.findSettings().getRecommendationsValidity();
@@ -47,7 +48,7 @@ public class Cleaner {
                 recommendationEjb.deleteRecommendation(deleteList.get(i));
             }
             
-            // System.out.println("Patikrinimas, ar vykdo");
+            System.out.println("Patikrinimas, ar vykdo");
 
         } catch(Exception e) {
             System.out.println("Klaida automatiškai vykdomame metode: "+e);
