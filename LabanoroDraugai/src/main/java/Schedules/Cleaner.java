@@ -7,10 +7,10 @@ import DataAccess.JPA.Recommendation;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
-import javax.faces.bean.ManagedBean;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 
 /**
@@ -19,15 +19,15 @@ import javax.faces.bean.ManagedBean;
  */
 
 @Stateless
-@ManagedBean
+@Named
 public class Cleaner {
     
-    @EJB
+    @Inject
     RecommendationDao recommendationEjb;
-    @EJB
+    @Inject
     SettingsDao settingsEjb;
     
-    @Schedule(second = "0", minute = "45", hour = "11", dayOfWeek = "*")
+    @Schedule(second = "0", minute = "58", hour = "11", dayOfWeek = "*", persistent = false)
     public void cleanRecommendationDatabase() {
         Calendar now = Calendar.getInstance();
         Date today = new Date();

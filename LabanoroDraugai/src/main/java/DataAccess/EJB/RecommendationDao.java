@@ -33,7 +33,6 @@ public class RecommendationDao {
     
     public void deleteRecommendation(Recommendation rec) {
         Recommendation rcm = findByBoth(rec.getRecommendationPK().getReceiverAccountid(), rec.getRecommendationPK().getGiverAccountid());
-	System.out.println("Sudeliiiiiiiiis");
         rm.remove(rcm);
         rm.flush();
     }
