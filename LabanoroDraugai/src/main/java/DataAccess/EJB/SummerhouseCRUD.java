@@ -66,4 +66,9 @@ public class SummerhouseCRUD {
        sh.flush();
        return b;
     }
+    
+    public void deleteSummerhouse(Summerhouse summerhouse){
+        sh.remove(sh.merge(summerhouse));
+        sh.flush();
+    }
 }

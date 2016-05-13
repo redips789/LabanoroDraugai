@@ -11,11 +11,14 @@ import DataAccess.JPA.Image;
 import DataAccess.JPA.Summerhouse;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import org.apache.commons.io.IOUtils;
 import org.primefaces.model.UploadedFile;
 
@@ -74,6 +77,11 @@ public class EditSummerhouseBean implements Serializable {
         return "settings";
     }
 
+    public void deleteSummerhouse(ActionEvent event){
+        String summerhouseTitle=(String)event.getComponent().getAttributes().get("title");
+        Summerhouse sh =summerhouseCRUD.findByTitle(summerhouseTitle);
+        summerhouseCRUD.deleteSummerhouse(sh);
+    }
     public UploadedFile getFile() {
         return file;
     }

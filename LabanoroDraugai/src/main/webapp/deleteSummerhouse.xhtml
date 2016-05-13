@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>Labanoro draugai</title>
+        </f:facet>
+        <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <h:form id="form" enctype="multipart/form-data">
+
+            <div id="page">
+                <div id="header-container">
+                    <ui:include src="header.xhtml" />         
+                </div>
+
+                <div id="menu-container">
+                    <ui:include src="menu.xhtml" />
+                </div>
+                <h:form>
+                    <div id="profile-wrapper">
+                        <div id="profile-container">
+                            <h:form id="sh">
+                                <p:dataScroller id="list" value="#{summerhouseBean.summerhouses}" var="summerhouse" chunkSize="5">
+                                    <f:facet name="header">
+                                        Eikite žemyn, kad pamatytumėte daugiau vasarnamių
+                                    </f:facet>
+
+                                    <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                                        <p:graphicImage value="../img/lab.jpg" />
+
+                                        <p:outputPanel>
+                                            <h:panelGrid columns="2" cellpadding="5">
+                                                <h:outputText value="Pavadinimas:" />
+                                                <h:outputText value="#{summerhouse.title}" style="font-weight: bold"/>
+
+                                                <h:outputText value="Miegamų vietų skaičius:" />
+                                                <h:outputText value="#{summerhouse.beds}" style="font-weight: bold"/>
+
+                                                <h:outputText value="Kaina (tšk):" />
+                                                <h:outputText value="#{summerhouse.cost}" style="font-weight: bold"/>
+
+                                                <h:panelGrid columns="2" columnClasses="column" cellpadding="11">
+                                                    <p:commandButton class="edit-profile-button-width" type="submit" ajax="false" value="Ištrinti" id="withIcon" actionListener="#{editSummerhouseBean.deleteSummerhouse}" validateClient="true" action="deleteSummerhouse.xhtml" icon="ui-icon-disk" >
+                                                        <f:attribute name="title" value="#{summerhouse.title}" />
+                                                    </p:commandButton>
+                                                </h:panelGrid>
+
+                                            </h:panelGrid>
+                                        </p:outputPanel>
+                                    </h:panelGrid>
+                                </p:dataScroller>
+                            </h:form> 
+
+                        </div>
+                    </div>
+                </h:form>
+                <div id="footer-container" >
+                    <ui:include src="footer.xhtml" />
+                </div>
+
+            </div>
+
+        </h:form>
+    </h:body>
+</html>
+
+
+
