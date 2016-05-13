@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>Labanoro draugai</title>
+        </f:facet>
+        <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <h:form id="form" enctype="multipart/form-data">
+
+            <div id="page">
+                <div id="header-container">
+                    <ui:include src="header.xhtml" />         
+                </div>
+
+                <div id="menu-container">
+                    <ui:include src="menu.xhtml" />
+                </div>
+                <h:form>
+                    <div id="profile-wrapper">
+                        <div id="profile-container">
+                            <h:panelGrid columns="3" columnClasses="column" cellpadding="5">
+                                <p:outputLabel value="Didžiausias vartotojų skaičius:" />
+                                <p:inputText id="maxUsers" value="#{editSettingsBean.settings.maxUsers}" size="30" required="true" requiredMessage="Įrašykite maksimalų vartotojų skaičių" maxlength="29"/>
+                                <p:message for="maxUsers" display="icon" />
+
+                                <p:outputLabel value="Pirma rezervacija:" />
+                                <p:calendar id="firstReservation" yearRange="c-100:c"  value="#{editSettingsBean.settings.firstReservation}" size="30" requiredMessage="Įrašykite pirmos rezervacijos datą" locale="de" navigator="true" pattern="yyyy-mm-dd">
+                                </p:calendar>
+                                <p:message for="firstReservation" display="icon" />
+
+                                <p:outputLabel value="Antra rezervacija:" />
+                                <p:calendar id="secondReservation" yearRange="c-100:c"  value="#{editSettingsBean.settings.secondReservation}" size="30" requiredMessage="Įrašykite pirmos rezervacijos datą" locale="de" navigator="true" pattern="yyyy-mm-dd">
+                                </p:calendar>
+                                <p:message for="secondReservation" display="icon" />
+
+                                <p:outputLabel value="Visos rezervacijos:" />
+                                <p:calendar id="allReservation" yearRange="c-100:c"  value="#{editSettingsBean.settings.allReservation}" size="30" requiredMessage="Įrašykite pirmos rezervacijos datą" locale="de" navigator="true" pattern="yyyy-mm-dd">
+                                </p:calendar>
+                                <p:message for="allReservation" display="icon" />
+
+                                <p:outputLabel value="Rezervacijų uždarymas:" />
+                                <p:calendar id="closeReservation" yearRange="c-100:c"  value="#{editSettingsBean.settings.closeReservation}" size="30" requiredMessage="Įrašykite pirmos rezervacijos datą" locale="de" navigator="true" pattern="yyyy-mm-dd">
+                                </p:calendar>
+                                <p:message for="closeReservation" display="icon" />
+
+                                <p:outputLabel value="Maksimalus rezervuojamų dienų skaičius:" />
+                                <p:inputText id="maxReservationDays" value="#{editSettingsBean.settings.maxReservationDays}" size="30" required="true" requiredMessage="Įrašykite maksimalų rezervacijos laiką" maxlength="29"/>
+                                <p:message for="maxReservationDays" display="icon" />
+
+                                <p:outputLabel value="Nario mokestis:" />
+                                <p:inputText id="membershipFee" value="#{editSettingsBean.settings.membershipFee}" size="30" required="true" requiredMessage="Įrašykite nario mokestį" maxlength="29"/>
+                                <p:message for="membershipFee" display="icon" />
+
+                                <p:outputLabel value="Maksimalus rekomendacijų skaičius:" />
+                                <p:inputText id="maxRecommendations" value="#{editSettingsBean.settings.maxRecommendations}" size="30" required="true" requiredMessage="Įrašykite maksimalų rekomendacijų skaičių" maxlength="29"/>
+                                <p:message for="maxRecommendations" display="icon" />
+
+                                <p:outputLabel value="Minimalus rekomendacijų skaičius:" />
+                                <p:inputText id="minRecommendations" value="#{editSettingsBean.settings.minRecommendations}" size="30" required="true" requiredMessage="Įrašykite minimalų rekomendacijų skaičių" maxlength="29"/>
+                                <p:message for="minRecommendations" display="icon" />
+
+                                <p:outputLabel value="Rekomendacijų galiojimo laikas:" />
+                                <p:inputText id="recommendationsValidity" value="#{editSettingsBean.settings.recommendationsValidity}" size="30" required="true" requiredMessage="Įrašykite rekomendacijos galiojimo laiką" maxlength="29"/>
+                                <p:message for="recommendationsValidity" display="icon" />
+
+                                <p:outputLabel value="Atšaukimo laikas:" />
+                                <p:inputText id="cancellationTime" value="#{editSettingsBean.settings.cancellationTime}" size="30" required="true" requiredMessage="Įrašykite atšaukimo laiką" maxlength="29"/>
+                                <p:message for="cancellationTime" display="icon" />
+
+                                <h:panelGrid columns="2" columnClasses="column" cellpadding="11">
+                                    <p:commandButton class="edit-profile-button-width" type="submit" ajax="false" value="Išsaugoti" id="withIcon" actionListener="#{editSettingsBean.saveSettingsChanges()}" validateClient="true" action="settings.xhtml" icon="ui-icon-disk" />
+                                    <p:button class="edit-profile-button-width" value="Atšaukti"  outcome="settings.xhtml" />
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </div>
+                    </div>
+                </h:form>
+                <div id="footer-container" >
+                    <ui:include src="footer.xhtml" />
+                </div>
+
+            </div>
+
+        </h:form>
+    </h:body>
+</html>
+
