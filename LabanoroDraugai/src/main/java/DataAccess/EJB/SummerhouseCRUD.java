@@ -22,6 +22,9 @@ public class SummerhouseCRUD {
     @PersistenceContext(type=TRANSACTION, synchronization=UNSYNCHRONIZED)
     private EntityManager em;
     
+    @PersistenceContext
+    EntityManager sh;
+    
     public Summerhouse findById(int id) {
         Query query = em.createNamedQuery("Summerhouse.findById", Summerhouse.class).
                 setParameter("id", id);
@@ -54,5 +57,9 @@ public class SummerhouseCRUD {
         Query query = em.createQuery("SELECT s FROM Summerhouse s WHERE s.cost <= :priceTo").setParameter("priceTo", priceTo);
         return (List<Summerhouse>) query.getResultList();
     }
-        
+    
+    public void addSummerhouse(Summerhouse summerhouse){
+	sh.persist(summerhouse);
+	sh.flush();
+    }
 }
