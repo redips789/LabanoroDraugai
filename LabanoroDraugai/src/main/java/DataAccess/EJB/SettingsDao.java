@@ -29,4 +29,10 @@ public class SettingsDao {
             return null;
 	}			
     }
+    
+    public Settings updateSettings(Settings changedSettings){
+       Settings b = st.merge(changedSettings); // reference to another object than the one passed in when the object was already loaded in the current context.
+       st.flush();
+       return b;
+    }
 }
