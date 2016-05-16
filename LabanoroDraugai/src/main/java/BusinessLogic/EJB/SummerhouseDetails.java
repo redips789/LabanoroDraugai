@@ -5,14 +5,12 @@ import DataAccess.EJB.SummerhouseCRUD;
 import DataAccess.JPA.Summerhouse;
 import java.io.Serializable;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
 
 /**
  *
  * @author Liudas 
  */
 
-@ManagedBean
 //@SessionScoped
 public class SummerhouseDetails implements Serializable {
     

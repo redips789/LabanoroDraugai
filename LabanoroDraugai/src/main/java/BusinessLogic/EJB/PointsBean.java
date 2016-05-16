@@ -16,14 +16,12 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
+import javax.enterprise.context.RequestScoped;
 import java.util.Calendar;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
+import javax.inject.Inject;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 import org.primefaces.context.RequestContext;
@@ -33,8 +31,7 @@ import org.primefaces.context.RequestContext;
  * @author darbas
  */
 @Named(value = "pointsBean")
-@ViewScoped
-@ManagedBean
+@RequestScoped
 public class PointsBean {
 
     /**
@@ -47,7 +44,7 @@ public class PointsBean {
     @EJB
     SettingsDao settingsEjb;
     
-    @ManagedProperty(value="#{loginBean}")
+    @Inject
     LoginBean loginBean;
     
     private Account account;
@@ -165,7 +162,8 @@ public class PointsBean {
         d.add(Calendar.YEAR, 1);
         Date date = d.getTime();
         
-        account.setNextPayment(date);    
+        account.setNextPayment(date); 
+        account.setStatus("aktyvus");
         try{
          accountEjb.updateAccount(account);
           
