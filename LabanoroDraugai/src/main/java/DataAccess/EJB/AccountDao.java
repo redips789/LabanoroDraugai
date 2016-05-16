@@ -2,6 +2,7 @@
 package DataAccess.EJB;
 
 import DataAccess.JPA.Account;
+import Messages.MessageUtil;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -42,7 +43,6 @@ public class AccountDao {
     
     public Account updateAccount(Account changedAccount){
        Account b = ac.merge(changedAccount); // reference to another object than the one passed in when the object was already loaded in the current context.
-       ac.flush();
        return b;
     }
     

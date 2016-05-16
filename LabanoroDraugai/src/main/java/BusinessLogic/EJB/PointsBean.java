@@ -9,6 +9,7 @@ import DataAccess.EJB.AccountDao;
 import DataAccess.EJB.SettingsDao;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Settings;
+import Messages.MessageUtil;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,13 +20,20 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
+import java.util.Calendar;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
+import javax.persistence.OptimisticLockException;
+import javax.persistence.PersistenceException;
+import org.primefaces.context.RequestContext;
 
 /**
  *
  * @author darbas
  */
 @Named(value = "pointsBean")
-@RequestScoped
+@ViewScoped
 @ManagedBean
 public class PointsBean {
 
@@ -36,8 +44,8 @@ public class PointsBean {
     @EJB
     AccountDao accountEjb;
     
-    /*@EJB
-    SettingsDao settingsEjb;*/
+    @EJB
+    SettingsDao settingsEjb;
     
     @ManagedProperty(value="#{loginBean}")
     LoginBean loginBean;
@@ -51,6 +59,36 @@ public class PointsBean {
     private int price;
     
     private Date membership;
+    private boolean lackOfPoints = false;
+    
+    private String confirmationMessage;
+    
+    private String redirectingToPage;
+
+    public String getConfirmationMessage() {
+        return confirmationMessage;
+    }
+
+    public void setConfirmationMessage(String confirmationMessage) {
+        this.confirmationMessage = confirmationMessage;
+    }
+
+    public String getRedirectingToPage() {
+        return redirectingToPage;
+    }
+
+    public void setRedirectingToPage(String redirectingToPage) {
+        this.redirectingToPage = redirectingToPage;
+    }
+
+    public boolean isLackOfPoints() {
+        return lackOfPoints;
+    }
+
+    public void setLackOfPoints(boolean lackOfPoints) {
+        this.lackOfPoints = lackOfPoints;
+    }
+    
     
     private boolean feeIsPaid = true;
 
@@ -83,9 +121,14 @@ public class PointsBean {
             feeIsPaid=false;
             return "Nesumokėtas";
         }
+        if(membership.before(Calendar.getInstance().getTime())){
+            feeIsPaid=false;
+        }
+        else{
+            feeIsPaid=true;
+        }
         DateFormat dateFormatNeeded = new SimpleDateFormat("yyyy-MM-dd");
         String tempdate = dateFormatNeeded.format(membership);
-        feeIsPaid=true;
         return tempdate;
     }
     
@@ -107,10 +150,51 @@ public class PointsBean {
         account=accountEjb.findAccount(loginBean.getId());
         points=account.getPoints();
         membership=account.getNextPayment();
-        /*settings = settingsEjb.findSettings();*/
-       /* double a = settings.getMembershipFee();*/
-       /* price = (int) a;*/
+        settings = settingsEjb.findSettings();
+       double a = settings.getMembershipFee();
+       price = (int) a;
+       if(points-price<0){
+           lackOfPoints=true;
+       }
         
+    }
+    
+    public String payWithPoints(){
+        account.setPoints(points-price);
+        Calendar d = Calendar.getInstance();
+        d.add(Calendar.YEAR, 1);
+        Date date = d.getTime();
+        
+        account.setNextPayment(date);    
+        try{
+         accountEjb.updateAccount(account);
+          
+         confirmationMessage="Mokėjimas atliktas sėkmingai";
+         redirectingToPage="points?faces-redirect=true";
+         MessageUtil.addSuccessMessage(confirmationMessage);
+         
+        return "points?faces-redirect=true";
+        }catch(org.eclipse.persistence.exceptions.OptimisticLockException oex){
+            confirmationMessage="Įvyko klaida! Nespėjote! Bandykite dar kartą!";
+            redirectingToPage="points?faces-redirect=true";
+            MessageUtil.addErrorMessage(confirmationMessage);
+            System.out.println("gkfdhjfbjft*gfhgf*******");
+             return null;
+                 }
+        catch(PersistenceException pex){
+            confirmationMessage="Įvyko persistent klaida! Bandykite dar kartą!";
+            redirectingToPage="points?faces-redirect=true";
+            MessageUtil.addErrorMessage(confirmationMessage);
+             return null;
+                 }
+        catch(Exception ex){
+            confirmationMessage=ex.getMessage();
+            redirectingToPage="points?faces-redirect=true";
+            MessageUtil.addErrorMessage(confirmationMessage);
+            ex.printStackTrace();
+            return null;
+        }
+       //return "points?faces-redirect=true";
     }
 
     public LoginBean getLoginBean() {
@@ -130,12 +214,5 @@ public class PointsBean {
     }
     
     public PointsBean() {
-    }
-    
-    public void add1Point(){
-        points=points+1;
-    }
-    
-    
-    
+    }   
 }
