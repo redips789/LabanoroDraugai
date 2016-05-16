@@ -13,48 +13,39 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import Messages.MessageUtil;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author Kristaliukas
  */
 
-@ManagedBean
 @RequestScoped
+@Named
 public class RecommendationBean implements Serializable { 
     
-    @EJB
+    @Inject
     RecommendationDao recommendationEjb;
-    @EJB
+    @Inject
     SettingsDao settingsEjb;
-    @EJB
+    @Inject
     AccountDao accountEjb;
     
-    @ManagedProperty(value="#{loginBean}")
+    @Inject
     LoginBean loginBean;
     
     public LoginBean getLoginBean() {
         return loginBean;
     }
-
-    public void setLoginBean(LoginBean loginBean) {
-        this.loginBean = loginBean;
-    }
     
-    @ManagedProperty(value="#{accountBean}")
+    @Inject
     AccountBean accountBean;
     
     public AccountBean getAccountBean() {
         return accountBean;
-    }
-
-    public void setAccountBean(AccountBean accountBean) {
-        this.accountBean = accountBean;
     }
     
     private Recommendation rec = new Recommendation();
@@ -122,11 +113,6 @@ public class RecommendationBean implements Serializable {
 
     public void setPK(RecommendationPK PK) {
         this.PK = PK;
-    }
-    
-    public void clearRecommendation() {
-	this.fullname = "";
-	this.rec = new Recommendation();
     }
 
     public String addRecommendation() {

@@ -9,9 +9,8 @@ import DataAccess.EJB.AccountDao;
 import DataAccess.JPA.Account;
 import java.io.Serializable;
 import java.util.Map;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
@@ -20,7 +19,6 @@ import javax.inject.Inject;
  * @author darbas
  */
 @Named(value = "loginBean")
-@ManagedBean
 @SessionScoped
 public class LoginBean implements Serializable {
 
