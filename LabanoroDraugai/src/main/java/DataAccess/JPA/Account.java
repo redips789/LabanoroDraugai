@@ -21,6 +21,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -113,6 +114,7 @@ public class Account implements Serializable {
     @Column(name = "FACEBOOKID")
     private String facebookid;
     
+    @Version
     @Column(name = "VERSION")
     private Integer version;
     

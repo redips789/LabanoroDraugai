@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -47,28 +48,38 @@ public class Summerhouse implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "TITLE")
     private String title;
+    
     @Size(max = 250)
     @Column(name = "DESCRIPTION")
     private String description;
+    
     @Column(name = "BEDS")
     private Integer beds;
+    
     @Column(name = "VALIDITY_START")
     @Temporal(TemporalType.DATE)
     private Date validityStart;
+    
     @Column(name = "VALIDITY_END")
     @Temporal(TemporalType.DATE)
     private Date validityEnd;
+    
     @Column(name = "COST")
     private Integer cost;
+    
+    @Version
     @Column(name = "VERSION")
     private Integer version;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "summerhouseId")
     private List<Reservation> reservationList;
+    
     @JoinColumn(name = "PHOTO_IMAGEID", referencedColumnName = "ID")
     @ManyToOne
     private Image photoImageid;

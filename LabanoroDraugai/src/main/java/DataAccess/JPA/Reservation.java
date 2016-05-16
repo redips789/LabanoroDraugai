@@ -17,6 +17,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -36,27 +37,35 @@ import javax.validation.constraints.Size;
 public class Reservation implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "RESERVATION_NUMBER")
     private String reservationNumber;
+    
     @Column(name = "START_DATE")
     @Temporal(TemporalType.DATE)
     private Date startDate;
+    
     @Column(name = "END_DATE")
     @Temporal(TemporalType.DATE)
     private Date endDate;
+    
+    @Version
     @Column(name = "VERSION")
     private Integer version;
+    
     @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Account accountId;
+    
     @JoinColumn(name = "SUMMERHOUSE_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Summerhouse summerhouseId;
