@@ -19,7 +19,7 @@ import java.util.Calendar;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.primefaces.model.UploadedFile;
@@ -28,13 +28,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
+import javax.inject.Named;
 import org.apache.commons.io.IOUtils;
 
 /**
  *
  * @author Laurute
  */
-//@Named
+@Named
 //@Stateful
 @RequestScoped
 public class EditSettingsBean implements Serializable {
