@@ -16,7 +16,7 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.faces.bean.ViewScoped;
+import javax.enterprise.context.RequestScoped;
 import java.util.Calendar;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -31,7 +31,7 @@ import org.primefaces.context.RequestContext;
  * @author darbas
  */
 @Named(value = "pointsBean")
-@ViewScoped
+@RequestScoped
 public class PointsBean {
 
     /**
@@ -162,7 +162,8 @@ public class PointsBean {
         d.add(Calendar.YEAR, 1);
         Date date = d.getTime();
         
-        account.setNextPayment(date);    
+        account.setNextPayment(date); 
+        account.setStatus("aktyvus");
         try{
          accountEjb.updateAccount(account);
           

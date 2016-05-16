@@ -10,11 +10,13 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author Kristaliukas
  */
+@Named
 @RequestScoped
 public class AccountBean {
     @EJB
