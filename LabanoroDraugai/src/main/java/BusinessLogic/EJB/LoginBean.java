@@ -124,9 +124,9 @@ public class LoginBean implements Serializable {
         accesstoken = (String) map.get("accesstoken");
         signedrequest = (String) map.get("signedrequest");
         expiresin = (String) map.get("expiresin");    
-        Account acc = loginAuthBean.findAccount(fbid);
-        id = acc.getId();
         if(loginAuthBean.accountExistBoolean(fbid)){
+            Account acc = loginAuthBean.findAccount(fbid);
+            id = acc.getId();
             redirecdedPage = "home?faces-redirect=true";
         }
         else{
