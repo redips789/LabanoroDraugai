@@ -4,8 +4,8 @@ package BusinessLogic.EJB;
 import DataAccess.EJB.AccountDao;
 import DataAccess.EJB.RecommendationDao;
 import DataAccess.EJB.SettingsDao;
-import DataAccess.JPA.Recomendation;
-import DataAccess.JPA.RecomendationPK;
+import DataAccess.JPA.Recommendation;
+import DataAccess.JPA.RecommendationPK;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,56 +13,47 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import Messages.MessageUtil;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author Kristaliukas
  */
 
-@ManagedBean
 @RequestScoped
+@Named
 public class RecommendationBean implements Serializable { 
     
-    @EJB
+    @Inject
     RecommendationDao recommendationEjb;
-    @EJB
+    @Inject
     SettingsDao settingsEjb;
-    @EJB
+    @Inject
     AccountDao accountEjb;
     
-    @ManagedProperty(value="#{loginBean}")
+    @Inject
     LoginBean loginBean;
     
     public LoginBean getLoginBean() {
         return loginBean;
     }
-
-    public void setLoginBean(LoginBean loginBean) {
-        this.loginBean = loginBean;
-    }
     
-    @ManagedProperty(value="#{accountBean}")
+    @Inject
     AccountBean accountBean;
     
     public AccountBean getAccountBean() {
         return accountBean;
     }
-
-    public void setAccountBean(AccountBean accountBean) {
-        this.accountBean = accountBean;
-    }
     
-    private Recomendation rec = new Recomendation();
-    private RecomendationPK PK = new RecomendationPK();
+    private Recommendation rec = new Recommendation();
+    private RecommendationPK PK = new RecommendationPK();
     private String fullname = null;
-    private List<Recomendation> receiverList;
-    private List<Recomendation> giverList;  //sąrašas rekomendacijų, kurias tavęs prašo patvirtinti ir tu dar jų nepatvirtinai
-    private List<Recomendation> selectedCandidates;
+    private List<Recommendation> receiverList;
+    private List<Recommendation> giverList;  //sąrašas rekomendacijų, kurias tavęs prašo patvirtinti ir tu dar jų nepatvirtinai
+    private List<Recommendation> selectedCandidates;
     private int validity_day;
     private int min_rec;
     private int max_rec;
@@ -74,29 +65,29 @@ public class RecommendationBean implements Serializable {
         max_rec = settingsEjb.findSettings().getMaxRecommendations();
     }
     
-    public List<Recomendation> getReceiverList() {
+    public List<Recommendation> getReceiverList() {
         this.setReceiverList(recommendationEjb.findRecByReceiver(loginBean.getId()));
         return receiverList;
     }
 
-    public void setReceiverList(List<Recomendation> receiverList) {
+    public void setReceiverList(List<Recommendation> receiverList) {
         this.receiverList = receiverList;
     }
 
-    public List<Recomendation> getGiverList() {
+    public List<Recommendation> getGiverList() {
         this.setGiverList(recommendationEjb.findForConfirm(loginBean.getId(), Boolean.FALSE)); //kolkas hardkodinam
         return giverList;
     }
 
-    public void setGiverList(List<Recomendation> giverList) {
+    public void setGiverList(List<Recommendation> giverList) {
         this.giverList = giverList;
     }
 
-    public List<Recomendation> getSelectedCandidates() {
+    public List<Recommendation> getSelectedCandidates() {
         return selectedCandidates;
     }
 
-    public void setSelectedCandidates(List<Recomendation> selectedCandidates) {
+    public void setSelectedCandidates(List<Recommendation> selectedCandidates) {
         this.selectedCandidates = selectedCandidates;
     }
 	  
@@ -108,25 +99,20 @@ public class RecommendationBean implements Serializable {
 	this.fullname = fullname;
     }
 
-    public Recomendation getRec() {
+    public Recommendation getRec() {
         return rec;
     }
 
-    public void setRec(Recomendation rec) {
+    public void setRec(Recommendation rec) {
         this.rec = rec;
     }
 
-    public RecomendationPK getPK() {
+    public RecommendationPK getPK() {
         return PK;
     }
 
-    public void setPK(RecomendationPK PK) {
+    public void setPK(RecommendationPK PK) {
         this.PK = PK;
-    }
-    
-    public void clearRecommendation() {
-	this.fullname = "";
-	this.rec = new Recomendation();
     }
 
     public String addRecommendation() {
@@ -139,11 +125,11 @@ public class RecommendationBean implements Serializable {
             else {
                 try {
                     int id = Integer.parseInt(arr[0].substring(0, 1));
-                    this.PK.setReceiverFbid(loginBean.getId());
-                    this.PK.setGiverFbid(this.accountBean.getMemberList().get(id-1).getFacebookid());
-                    this.rec.setRecomendationPK(this.PK);
+                    this.PK.setReceiverAccountid(loginBean.getId());
+                    this.PK.setGiverAccountid(this.accountBean.getMemberList().get(id-1).getId());
+                    this.rec.setRecommendationPK(this.PK);
                     this.rec.setIsGiven(Boolean.FALSE);
-                    this.rec.setRecDate(Calendar.getInstance().getTime());
+                    this.rec.setSendDate(Calendar.getInstance().getTime());
                     recommendationEjb.addRecommendation(this.rec);
                     MessageUtil.addSuccessMessage("Rekomendacija sėkmingai išsiųsta!");
                     return "";
@@ -162,7 +148,7 @@ public class RecommendationBean implements Serializable {
         try {
             for (int i=0; i<this.selectedCandidates.size(); i++) {
                 recommendationEjb.updateRecommendation(this.selectedCandidates.get(i));
-                checkBecomingMember(this.selectedCandidates.get(i).getRecomendationPK().getReceiverFbid());
+                checkBecomingMember(this.selectedCandidates.get(i).getRecommendationPK().getReceiverAccountid());
             }
             if (this.selectedCandidates.size() == 1) MessageUtil.addSuccessMessage("Rekomendacija sėkmingai patvirtinta!");
             else if (this.selectedCandidates.size() > 1) MessageUtil.addSuccessMessage("Rekomendacijos sėkmingai patvirtintos!");
@@ -189,16 +175,16 @@ public class RecommendationBean implements Serializable {
         }  
     }
     
-    public String checkBecomingMember(String fbid) {
+    public String checkBecomingMember(int id) {
         try {
-            List<Recomendation> recList = recommendationEjb.findRecByReceiver(fbid);
+            List<Recommendation> recList = recommendationEjb.findRecByReceiver(id);
             int confirmAmount = 0;
             for (int i=0; i<recList.size(); i++) {
                 if (Objects.equals(recList.get(i).getIsGiven(), Boolean.TRUE)) confirmAmount++;
             }
             if (confirmAmount >= this.min_rec) {
-                accountEjb.updateAccountStatus(fbid);
-                recommendationEjb.deleteRecommendations(fbid);
+                accountEjb.updateAccountStatus(id);
+                recommendationEjb.deleteRecommendations(id);
             }
             return "";
         } catch (Exception e) {

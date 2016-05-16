@@ -21,7 +21,6 @@ import javax.persistence.TemporalType;
  *
  * @author Liudas 
  */
-
 @Entity
 @Table(name = "PAID_FEES")
 @NamedQueries({

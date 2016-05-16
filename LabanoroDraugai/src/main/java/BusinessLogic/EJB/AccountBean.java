@@ -29,8 +29,6 @@ public class AccountBean {
     
     private Account account;
     
-    private String fbid = "579849092162769 ";            /// kolkas įhardkodinu, kad galėčiau testuoti
-    
     @ManagedProperty(value="#{loginBean}")
     LoginBean loginBean;
 
@@ -106,20 +104,17 @@ public class AccountBean {
     }
     
     public boolean isCandidate() {
-        //account=accountEjb.findAccount(fbid);    //paskui pakeisti i tikra id
-        account=accountEjb.findAccount(loginBean.getId());
+        account=accountEjb.findAccountById(loginBean.getId());
         return "Kandidatas".toLowerCase().equals(account.getStatus().toLowerCase());
     }
     
     public boolean isNotCandidate() {
-        //account=accountEjb.findAccount(fbid);    //paskui pakeisti i tikra id
-        account=accountEjb.findAccount(loginBean.getId());
+        account=accountEjb.findAccountById(loginBean.getId());
         return !"Kandidatas".toLowerCase().equals(account.getStatus().toLowerCase());
     }
     
     public boolean isAdmin() {
-        //account=accountEjb.findAccount(fbid);    //paskui pakeisti i tikra id
-        account=accountEjb.findAccount(loginBean.getId());
+        account=accountEjb.findAccountById(loginBean.getId());
         return "Administratorius".toLowerCase().equals(account.getStatus().toLowerCase());
     }
     
@@ -132,8 +127,8 @@ public class AccountBean {
         return show;
     }
     
-    public String findMember(String fbid) {
-        Account acc = accountEjb.findAccount(fbid);
+    public String findMember(int id) {
+        Account acc = accountEjb.findAccountById(id);
         return acc.getFirstName()+" "+acc.getLastName();
     }
 }

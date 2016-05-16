@@ -147,7 +147,7 @@ public class PointsBean {
     
     @PostConstruct
     public void init() {
-        account=accountEjb.findAccount(loginBean.getId());
+        account=accountEjb.findAccount(loginBean.getFbid());
         points=account.getPoints();
         membership=account.getNextPayment();
         settings = settingsEjb.findSettings();

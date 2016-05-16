@@ -12,13 +12,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -26,7 +27,6 @@ import javax.validation.constraints.Size;
  *
  * @author Liudas 
  */
-
 @Entity
 @Table(name = "SUMMERHOUSE")
 @NamedQueries({
@@ -38,53 +38,40 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Summerhouse.findByValidityStart", query = "SELECT s FROM Summerhouse s WHERE s.validityStart = :validityStart"),
     @NamedQuery(name = "Summerhouse.findByValidityEnd", query = "SELECT s FROM Summerhouse s WHERE s.validityEnd = :validityEnd"),
     @NamedQuery(name = "Summerhouse.findByCost", query = "SELECT s FROM Summerhouse s WHERE s.cost = :cost"),
-    @NamedQuery(name = "Summerhouse.findByPhoto", query = "SELECT s FROM Summerhouse s WHERE s.photo = :photo"),
     @NamedQuery(name = "Summerhouse.findByVersion", query = "SELECT s FROM Summerhouse s WHERE s.version = :version")})
-
 public class Summerhouse implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "TITLE")
     private String title;
-    
     @Size(max = 250)
     @Column(name = "DESCRIPTION")
     private String description;
-    
     @Column(name = "BEDS")
     private Integer beds;
-    
     @Column(name = "VALIDITY_START")
     @Temporal(TemporalType.DATE)
     private Date validityStart;
-    
     @Column(name = "VALIDITY_END")
     @Temporal(TemporalType.DATE)
     private Date validityEnd;
-    
     @Column(name = "COST")
     private Integer cost;
-    
-    @Size(max = 254)
-    @Column(name = "PHOTO")
-    private String photo;
-    
     @Column(name = "VERSION")
-    @Version
     private Integer version;
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "summerhouseId")
     private List<Reservation> reservationList;
+    @JoinColumn(name = "PHOTO_IMAGEID", referencedColumnName = "ID")
+    @ManyToOne
+    private Image photoImageid;
 
     public Summerhouse() {
     }
@@ -154,14 +141,6 @@ public class Summerhouse implements Serializable {
         this.cost = cost;
     }
 
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
     public Integer getVersion() {
         return version;
     }
@@ -178,10 +157,18 @@ public class Summerhouse implements Serializable {
         this.reservationList = reservationList;
     }
 
+    public Image getPhotoImageid() {
+        return photoImageid;
+    }
+
+    public void setPhotoImageid(Image photoImageid) {
+        this.photoImageid = photoImageid;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 19 * hash + Objects.hashCode(this.title);
+        int hash = 5;
+        hash = 67 * hash + Objects.hashCode(this.title);
         return hash;
     }
 

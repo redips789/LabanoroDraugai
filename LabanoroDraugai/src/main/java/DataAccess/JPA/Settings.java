@@ -19,7 +19,6 @@ import javax.persistence.TemporalType;
  *
  * @author Liudas 
  */
-
 @Entity
 @Table(name = "SETTINGS")
 @NamedQueries({
@@ -38,59 +37,44 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Settings.findByRecommendationsValidity", query = "SELECT s FROM Settings s WHERE s.recommendationsValidity = :recommendationsValidity"),
     @NamedQuery(name = "Settings.findByCancellationTime", query = "SELECT s FROM Settings s WHERE s.cancellationTime = :cancellationTime"),
     @NamedQuery(name = "Settings.findByVersion", query = "SELECT s FROM Settings s WHERE s.version = :version")})
-
 public class Settings implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    
     @Column(name = "MAX_USERS")
     private Integer maxUsers;
-    
     @Column(name = "FIRST_RESERVATION")
     @Temporal(TemporalType.DATE)
     private Date firstReservation;
-    
     @Column(name = "SECOND_RESERVATION")
     @Temporal(TemporalType.DATE)
     private Date secondReservation;
-    
     @Column(name = "THIRD_RESERVATION")
     @Temporal(TemporalType.DATE)
     private Date thirdReservation;
-    
     @Column(name = "ALL_RESERVATION")
     @Temporal(TemporalType.DATE)
     private Date allReservation;
-    
     @Column(name = "CLOSE_RESERVATION")
     @Temporal(TemporalType.DATE)
     private Date closeReservation;
-    
     @Column(name = "MAX_RESERVATION_DAYS")
     private Integer maxReservationDays;
-    
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "MEMBERSHIP_FEE")
     private Double membershipFee;
-    
     @Column(name = "MAX_RECOMMENDATIONS")
     private Integer maxRecommendations;
-    
     @Column(name = "MIN_RECOMMENDATIONS")
     private Integer minRecommendations;
-    
     @Column(name = "RECOMMENDATIONS_VALIDITY")
     private Integer recommendationsValidity;
-    
     @Column(name = "CANCELLATION_TIME")
     private Integer cancellationTime;
-    
     @Column(name = "VERSION")
     private Integer version;
 

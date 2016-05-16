@@ -7,8 +7,12 @@ package BusinessLogic.EJB;
 
 import DataAccess.EJB.AccountDao;
 import DataAccess.EJB.ImageCrud;
+import DataAccess.EJB.SettingsDao;
+import DataAccess.EJB.SummerhouseCRUD;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Image;
+import DataAccess.JPA.Settings;
+import DataAccess.JPA.Summerhouse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -36,60 +40,43 @@ import org.apache.commons.io.IOUtils;
 //@Stateful
 @ManagedBean
 @RequestScoped
-public class EditProfileBean implements Serializable {
+public class AddSummerhouseBean implements Serializable {
 
     @EJB
-    AccountDao accountEjb;
-    private Account account;
+    SummerhouseCRUD summerhouseCRUD;
+    
+    private Summerhouse summerhouse;
+    
     private UploadedFile file;
-
+    
     @EJB
     ImageCrud imagesEjb;
-    // @PersistenceContext(type=PersistenceContextType.EXTENDED)veliau suzinosiu
-    // @PersistenceContext
-    // private EntityManager em;
 
-    @ManagedProperty(value = "#{loginBean}")
-    LoginBean loginBean;
-
-    public LoginBean getLoginBean() {
-        return loginBean;
-    }
-
-    public void setLoginBean(LoginBean loginBean) {
-        this.loginBean = loginBean;
-    }
-
-    //construct
     @PostConstruct
     public void init() {
-        account = accountEjb.findAccountById(loginBean.getId()); //randa pagal sesijos FbId
+        summerhouse = new Summerhouse();
     }
 
-    //get set
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    //business  
-    public String saveAccountChanges() {
+    public String saveSummerhouse (){
         try {
             //account.setPhotoBlob(IOUtils.toByteArray(this.file.getInputstream()));
             Image image = new Image();
             image.setContent(IOUtils.toByteArray(this.file.getInputstream()));
             Integer imageId = imagesEjb.addImage(image);
-            account.setPhotoImageid(image);
+            summerhouse.setPhotoImageid(image);
         } catch (IOException ex) {
-            Logger.getLogger(EditProfileBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddSummerhouseBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Account a = new Account();
-        a = accountEjb.updateAccount(account);    //LUŠ kai updatins į esantį email
-        System.out.println(a.getLastName() + " BAIGTA");
-        return "myProfile";
+        summerhouseCRUD.addSummerhouse(summerhouse);
+        return "summerhouse";
+    }
+
+    public Summerhouse getSummerhouse() {
+        return summerhouse;
+    }
+
+    public void setSummerhouse(Summerhouse summerhouse) {
+        this.summerhouse = summerhouse;
     }
 
     public UploadedFile getFile() {

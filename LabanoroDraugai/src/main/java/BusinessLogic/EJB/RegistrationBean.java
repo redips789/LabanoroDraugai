@@ -201,6 +201,7 @@ public class RegistrationBean {
         account.setPoints(0);
         account.setStatus("kandidatas");
         account.setVersion(0);
+        account.setTimeSpentOnHoliday(0);
         loginAuthBean.addAccount(account);
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "login?faces-redirect=true";

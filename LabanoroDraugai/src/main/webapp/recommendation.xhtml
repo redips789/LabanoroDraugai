@@ -15,7 +15,6 @@
     </h:head>
     <h:body>
         <h:form id="form">
-            <f:event listener="#{recommendationBean.clearRecommendation()}" type="preRenderView"></f:event>
             <div id="page">
             <div id="header-container">
                 <ui:include src="header.xhtml" />         
@@ -45,13 +44,13 @@
                 <p:dataTable id="display" styleClass="recTable" var="receiver" value="#{recommendationBean.receiverList}" rendered="#{accountBean.candidate}" >
                     <f:facet name="header">Išsiųsti rekomendacijų prašymai</f:facet>
                     <p:column headerText="Klubo narys">
-                        <h:outputText value="#{accountBean.findMember(receiver.recomendationPK.giverFbid)}" />
+                        <h:outputText value="#{accountBean.findMember(receiver.recommendationPK.giverAccountid)}" />
                     </p:column>
                     <p:column headerText="Išsiųsta" styleClass="centerColumn">
-                        <h:outputText value="#{recommendationBean.showDate(receiver.recDate)}" />
+                        <h:outputText value="#{recommendationBean.showDate(receiver.sendDate)}" />
                     </p:column>
                     <p:column headerText="Galioja iki" styleClass="centerColumn">
-                        <h:outputText value="#{recommendationBean.showEndDate(receiver.recDate)}" />
+                        <h:outputText value="#{recommendationBean.showEndDate(receiver.sendDate)}" />
                     </p:column>
                     <p:column headerText="Patvirtinta" styleClass="centerColumn">
                         <h:outputText value="#{recommendationBean.showStatus(receiver.isGiven)}" />
@@ -60,13 +59,13 @@
                     </f:facet>
                 </p:dataTable>     
                 
-                <p:dataTable id="checkboxDT" var="giver" styleClass="recTable" value="#{recommendationBean.giverList}" selection="#{recommendationBean.selectedCandidates}" rowKey="#{giver.recomendationPK.receiverFbid}" rendered="#{accountBean.notCandidate}">
+                <p:dataTable id="checkboxDT" var="giver" styleClass="recTable" value="#{recommendationBean.giverList}" selection="#{recommendationBean.selectedCandidates}" rowKey="#{giver.recommendationPK.receiverAccountid}" rendered="#{accountBean.notCandidate}">
                     <f:facet name="header">Gauti rekomendacijų prašymai</f:facet>
                     <p:column headerText="Kandidatas" styleClass="leftColumn">
-                        <h:outputText value="#{accountBean.findMember(giver.recomendationPK.receiverFbid)}"/>
+                        <h:outputText value="#{accountBean.findMember(giver.recommendationPK.receiverAccountid)}"/>
                     </p:column>
                     <p:column headerText="Gauta" styleClass="centerColumn">
-                        <h:outputText value="#{recommendationBean.showDate(giver.recDate)}"/>
+                        <h:outputText value="#{recommendationBean.showDate(giver.sendDate)}"/>
                     </p:column>
                     <p:column  styleClass="check" selectionMode="multiple"/>
                     <f:facet name="footer">

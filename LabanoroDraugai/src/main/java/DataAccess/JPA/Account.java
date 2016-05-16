@@ -3,27 +3,30 @@ package DataAccess.JPA;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Povilas <your.name at your.org>
+ * @author Liudas 
  */
 @Entity
 @Table(name = "ACCOUNT")
@@ -43,7 +46,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Account.findByDescription", query = "SELECT a FROM Account a WHERE a.description = :description"),
     @NamedQuery(name = "Account.findByPhoto", query = "SELECT a FROM Account a WHERE a.photo = :photo"),
     @NamedQuery(name = "Account.findByFacebookid", query = "SELECT a FROM Account a WHERE a.facebookid = :facebookid"),
-    @NamedQuery(name = "Account.findByVersion", query = "SELECT a FROM Account a WHERE a.version = :version")})
+    @NamedQuery(name = "Account.findByVersion", query = "SELECT a FROM Account a WHERE a.version = :version"),
+    @NamedQuery(name = "Account.findByMemberSince", query = "SELECT a FROM Account a WHERE a.memberSince = :memberSince")})
+
 public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,60 +57,92 @@ public class Account implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "EMAIL")
     private String email;
+    
     @Size(max = 30)
     @Column(name = "FIRST_NAME")
     private String firstName;
+    
     @Size(max = 30)
     @Column(name = "LAST_NAME")
     private String lastName;
+    
     @Column(name = "NEXT_PAYMENT")
     @Temporal(TemporalType.DATE)
     private Date nextPayment;
+    
     @Column(name = "DATE_OF_BIRTH")
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
+    
     @Size(max = 20)
     @Column(name = "PHONE_NUM")
     private String phoneNum;
+    
     @Size(max = 20)
     @Column(name = "STATUS")
     private String status;
+    
     @Column(name = "POINTS")
     private Integer points;
+    
     @Column(name = "TIME_SPENT_ON_HOLIDAY")
     private Integer timeSpentOnHoliday;
+    
     @Size(max = 50)
     @Column(name = "CITY")
     private String city;
+    
     @Size(max = 250)
     @Column(name = "DESCRIPTION")
     private String description;
+    
     @Size(max = 254)
     @Column(name = "PHOTO")
     private String photo;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "FACEBOOKID")
     private String facebookid;
-    @Version
+    
     @Column(name = "VERSION")
     private Integer version;
-    @Lob
-    @Column(name = "PHOTO_BLOB")
-    private Serializable photoBlob;
+    
+    @Column(name = "MEMBER_SINCE")
+    @Temporal(TemporalType.DATE)
+    private Date memberSince;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "inviterAccountid")
+    private List<Invitation> invitationList;
+    
+    @JoinColumn(name = "PHOTO_IMAGEID", referencedColumnName = "ID")
+    @ManyToOne
+    private Image photoImageid;
+    
     @Transient
     private int age;
 
     public Account() {
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+    
+    
+    
     public Account(Integer id) {
         this.id = id;
     }
@@ -236,26 +273,34 @@ public class Account implements Serializable {
         this.version = version;
     }
 
-    public Serializable getPhotoBlob() {
-        return photoBlob;
+    public Date getMemberSince() {
+        return memberSince;
     }
 
-    public void setPhotoBlob(Serializable photoBlob) {
-        this.photoBlob = photoBlob;
+    public void setMemberSince(Date memberSince) {
+        this.memberSince = memberSince;
     }
 
-    public int getAge() {
-        return age;
+    public List<Invitation> getInvitationList() {
+        return invitationList;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setInvitationList(List<Invitation> invitationList) {
+        this.invitationList = invitationList;
+    }
+
+    public Image getPhotoImageid() {
+        return photoImageid;
+    }
+
+    public void setPhotoImageid(Image photoImageid) {
+        this.photoImageid = photoImageid;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.facebookid);
+        hash = 79 * hash + Objects.hashCode(this.facebookid);
         return hash;
     }
 

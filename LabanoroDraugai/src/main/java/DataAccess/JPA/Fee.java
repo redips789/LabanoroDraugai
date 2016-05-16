@@ -15,7 +15,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -23,7 +22,6 @@ import javax.validation.constraints.Size;
  *
  * @author Liudas 
  */
-
 @Entity
 @Table(name = "FEE")
 @NamedQueries({
@@ -37,7 +35,6 @@ import javax.validation.constraints.Size;
 public class Fee implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -59,7 +56,6 @@ public class Fee implements Serializable {
     private String description;
     
     @Column(name = "VERSION")
-    @Version
     private Integer version;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fee")
@@ -127,8 +123,8 @@ public class Fee implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 97 * hash + Objects.hashCode(this.title);
+        int hash = 7;
+        hash = 17 * hash + Objects.hashCode(this.title);
         return hash;
     }
 

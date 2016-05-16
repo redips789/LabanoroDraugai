@@ -41,13 +41,17 @@ public class AccountDao {
         return (Account) ac.createNamedQuery("Account.findByFacebookid").setParameter("facebookid", fbId).getResultList().get(0); // nes bus vienintelis
     }
     
+    public Account findAccountById(int id){
+        return (Account) ac.createNamedQuery("Account.findById").setParameter("id", id).getSingleResult();
+    }
+    
     public Account updateAccount(Account changedAccount){
        Account b = ac.merge(changedAccount); // reference to another object than the one passed in when the object was already loaded in the current context.
        return b;
     }
     
-    public void updateAccountStatus(String fbid){
-        Account acc = findAccount(fbid);
+    public void updateAccountStatus(int id){
+        Account acc = findAccountById(id);
         acc.setStatus("Neaktyvus");
         ac.persist(acc);
 	ac.flush();
@@ -115,8 +119,8 @@ public class AccountDao {
     }
 
 
-    public byte[] findAccountPhoto(String id) { //foto vaizdavimui
-        return (byte[]) ac.find(Account.class, id).getPhotoBlob();
-
-    }
+//    public byte[] findAccountPhoto(String id) { //foto vaizdavimui
+//        return (byte[]) ac.find(Account.class, id).getPhotoBlob();
+//
+//    }
 }

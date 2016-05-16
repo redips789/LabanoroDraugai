@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en"
-        xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
-    
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
     <h:head>
         <f:facet name="first">
             <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
@@ -17,63 +17,63 @@
     </h:head>
     <h:body>
         <h:form id="form">
-            
+
             <div id="page">
-            <div id="header-container">
-                <ui:include src="header.xhtml" />         
-            </div>
-                
-            <div id="menu-container">
-                <ui:include src="menu.xhtml" />
-            </div>
-            <h:form>
-            <div id="profile-wrapper">
-                <div id="profile-container">
-                        <h:panelGrid columns="2" columnClasses="column" cellpadding="15" >
+                <div id="header-container">
+                    <ui:include src="header.xhtml" />         
+                </div>
+
+                <div id="menu-container">
+                    <ui:include src="menu.xhtml" />
+                </div>
+                <h:form>
+                    <div id="profile-wrapper">
+                        <div id="profile-container">
+                            <h:panelGrid columns="2" columnClasses="column" cellpadding="15" >
                                 <p:graphicImage value="#{imageStreamer.oneImage}" class="profile-image-container" >
-                                    <f:param name="id" value="#{editProfileBean.account.facebookid}" />
+                                    <f:param name="id" value="#{editProfileBean.account.photoImageid.id}" />
                                 </p:graphicImage> 
-                        
-                            <h:panelGrid columns="2" columnClasses="column" cellpadding="5" >
+
+                                <h:panelGrid columns="2" columnClasses="column" cellpadding="5" >
                                     <p:outputLabel id="profile-column-2" value="#{editProfileBean.account.firstName}" />
                                     <p:outputLabel value="#{editProfileBean.account.lastName}"/>
 
                                     <p:outputLabel value="#{editProfileBean.account.city}"/>
                                     <p:outputLabel value=""/>
-                                    
+
                                     <p:outputLabel value="Narys nuo: " />
                                     <p:outputLabel id="bday"  value="#{editProfileBean.account.dateOfBirth}">
                                         <f:convertDateTime pattern="yyyy-mm-dd" />
                                     </p:outputLabel>
-                                        
+
                                     <p:outputLabel value="Gimimo data: " />
                                     <p:outputLabel value="#{editProfileBean.account.dateOfBirth}">
                                         <f:convertDateTime pattern="yyyy-mm-dd" />
                                     </p:outputLabel>
-       
+
                                     <p:outputLabel value="Tel. nr.: " class="icon-phone"/>
                                     <p:outputLabel value="+370 #{editProfileBean.account.phoneNum}"/>
 
                                     <p:outputLabel value="El. paštas: " class="icon-mail-alt"/>
                                     <p:outputLabel value="#{editProfileBean.account.email}"/>
-                            
+
                                     <p:outputLabel value="Apie save:"  />
                                     <p:scrollPanel mode="native" class="profile-description">
-                                            #{editProfileBean.account.description}
+                                        #{editProfileBean.account.description}
                                     </p:scrollPanel>
+                                </h:panelGrid>
+                                <div></div>
+                                <p:button value="Redaguoti"  outcome="editProfile.xhtml" class="align-on-right" />
                             </h:panelGrid>
-                            <div></div>
-                            <p:button value="Redaguoti"  outcome="editProfile.xhtml" class="align-on-right" />
-                        </h:panelGrid>
-                </div>     
+                        </div>     
+                    </div>
+                </h:form>                      
+                <div id="footer-container" >
+                    <ui:include src="footer.xhtml" />
+                </div>
+
             </div>
- </h:form>                      
-            <div id="footer-container" >
-                <ui:include src="footer.xhtml" />
-            </div>
-            
-        </div>
-        
+
         </h:form>
 
     </h:body>

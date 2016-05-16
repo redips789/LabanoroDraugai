@@ -24,7 +24,6 @@ import javax.validation.constraints.Size;
  *
  * @author Liudas 
  */
-
 @Entity
 @Table(name = "RESERVATION")
 @NamedQueries({
@@ -32,36 +31,32 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Reservation.findById", query = "SELECT r FROM Reservation r WHERE r.id = :id"),
     @NamedQuery(name = "Reservation.findByReservationNumber", query = "SELECT r FROM Reservation r WHERE r.reservationNumber = :reservationNumber"),
     @NamedQuery(name = "Reservation.findByStartDate", query = "SELECT r FROM Reservation r WHERE r.startDate = :startDate"),
-    @NamedQuery(name = "Reservation.findByEndDate", query = "SELECT r FROM Reservation r WHERE r.endDate = :endDate")})
-
+    @NamedQuery(name = "Reservation.findByEndDate", query = "SELECT r FROM Reservation r WHERE r.endDate = :endDate"),
+    @NamedQuery(name = "Reservation.findByVersion", query = "SELECT r FROM Reservation r WHERE r.version = :version")})
 public class Reservation implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "RESERVATION_NUMBER")
     private String reservationNumber;
-    
     @Column(name = "START_DATE")
     @Temporal(TemporalType.DATE)
     private Date startDate;
-    
     @Column(name = "END_DATE")
     @Temporal(TemporalType.DATE)
     private Date endDate;
-    
+    @Column(name = "VERSION")
+    private Integer version;
     @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Account accountId;
-    
     @JoinColumn(name = "SUMMERHOUSE_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Summerhouse summerhouseId;
@@ -110,6 +105,14 @@ public class Reservation implements Serializable {
         this.endDate = endDate;
     }
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
     public Account getAccountId() {
         return accountId;
     }
@@ -129,7 +132,7 @@ public class Reservation implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.reservationNumber);
+        hash = 17 * hash + Objects.hashCode(this.reservationNumber);
         return hash;
     }
 
