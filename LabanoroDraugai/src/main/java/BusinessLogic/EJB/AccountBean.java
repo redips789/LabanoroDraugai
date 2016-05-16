@@ -67,9 +67,15 @@ public class AccountBean {
     }  
 
     public void loadAccounts() {
-        this.accountList = accountEjb.findAllAccounts();
-        for(Account item : accountList){
-		item.setAge(estimateAge(item.getDateOfBirth()));
+        List<Account> tempList = accountEjb.findAllAccounts();
+        for(Account item : tempList){
+                
+                if (item.getStatus().equals("Kandidatas")|| item.getStatus().equals("Administratorius") || item.getFacebookid().equals(loginBean.getFbid())){}
+                else {
+                    item.setAge(estimateAge(item.getDateOfBirth()));
+                    this.accountList.add(item);
+                }
+                
 	}
     } 
     

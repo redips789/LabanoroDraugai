@@ -35,8 +35,10 @@
                     <p:column headerText="Vardas Pavardė">
                         <h:outputText value="#{account.firstName} #{account.lastName}" />
                     </p:column>
-                    <p:column headerText="Statusas">
-                        <h:outputText value="#{account.status}" />
+                    <p:column headerText="Narys nuo">
+                        <h:outputText value="#{account.memberSince}">
+                            <f:convertDateTime pattern="yyyy-MM-dd"/>                        
+                        </h:outputText> 
                     </p:column>
                     <p:column headerText="Amžius">
                         <h:outputText value="#{account.age}" />
@@ -53,9 +55,10 @@
                  
                 <p:dialog header="Detali informacija"  widgetVar="accountDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
         <p:outputPanel id="accountDetail">
-            <h:form>
+            
             <div id="profile-wrapper">
                 <div id="profile-container">
+                    <h:form>
                         <h:panelGrid columns="2" columnClasses="column" cellpadding="15" >
                                 <p:graphicImage value="#{imageStreamer.oneImage}" class="profile-image-container" >
                                     <f:param name="id" value="#{accountBean.selectedAccount.photoImageid.id}" />
@@ -90,9 +93,10 @@
                                     </p:scrollPanel>
                             </h:panelGrid>
                         </h:panelGrid>
+                        </h:form> 
                 </div>     
             </div>
- </h:form> 
+ 
         </p:outputPanel>
     </p:dialog>
  
