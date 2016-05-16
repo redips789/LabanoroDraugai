@@ -7,12 +7,13 @@ package BusinessLogic.EJB;
 
 import DataAccess.EJB.AccountDao;
 import DataAccess.JPA.Account;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -22,9 +23,8 @@ import javax.inject.Named;
  * @author darbas
  */
 @Named(value = "registrationBean")
-@ManagedBean
 @SessionScoped
-public class RegistrationBean {
+public class RegistrationBean implements Serializable {
 
     @Inject
     private AccountDao loginAuthBean;
@@ -188,6 +188,8 @@ public class RegistrationBean {
     }
     
     public String register(){
+        Calendar d = Calendar.getInstance();
+        Date date = d.getTime();
         Account account = new Account();
         account.setFacebookid(id);
         account.setCity(city);
@@ -202,6 +204,7 @@ public class RegistrationBean {
         account.setStatus("kandidatas");
         account.setVersion(0);
         account.setTimeSpentOnHoliday(0);
+        account.setMemberSince(date);
         loginAuthBean.addAccount(account);
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "login?faces-redirect=true";

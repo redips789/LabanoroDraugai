@@ -20,7 +20,6 @@ import java.util.Calendar;
 //import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -38,7 +37,6 @@ import org.apache.commons.io.IOUtils;
  */
 //@Named
 //@Stateful
-@ManagedBean
 @RequestScoped
 public class AddSummerhouseBean implements Serializable {
 

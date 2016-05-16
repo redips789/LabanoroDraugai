@@ -9,14 +9,12 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
+import javax.inject.Inject;
 
 /**
  *
  * @author Kristaliukas
  */
-@ManagedBean
 @RequestScoped
 public class AccountBean {
     @EJB
@@ -29,7 +27,7 @@ public class AccountBean {
     
     private Account account;
     
-    @ManagedProperty(value="#{loginBean}")
+    @Inject
     LoginBean loginBean;
 
     public LoginBean getLoginBean() {

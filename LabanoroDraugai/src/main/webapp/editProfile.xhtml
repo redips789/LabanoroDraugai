@@ -39,13 +39,11 @@
 
 
                             <p:outputLabel for="birthday" value="Gimimo data: " />
-                            <p:calendar id="birthday" yearRange="c-100:c"  value="#{editProfileBean.account.dateOfBirth}" size="30" requiredMessage="Įrašykite gimimo datą" locale="de" navigator="true" pattern="yyyy-mm-dd">
+                            <p:calendar id="birthday" yearRange="c-100:c"  value="#{editProfileBean.account.dateOfBirth}" size="30" requiredMessage="Įrašykite gimimo datą" locale="de" navigator="true" pattern="yyyy-MM-dd">
                                
                             </p:calendar>
                             <p:message for="birthday" display="icon" />
 
-                                </p:calendar>
-                                <p:message for="birthday" display="icon" />
 
                                 <p:outputLabel value="Miestas:" />
                                 <p:inputText id="city" value="#{editProfileBean.account.city}" size="30" required="true" requiredMessage="Įrašykite miestą" maxlength="49"/>

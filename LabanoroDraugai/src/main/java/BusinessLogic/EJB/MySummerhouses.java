@@ -6,28 +6,25 @@ import DataAccess.EJB.SummerhouseCRUD;
 import DataAccess.JPA.Reservation;
 import DataAccess.JPA.Summerhouse;
 import java.io.Serializable;
-import static java.lang.System.in;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
+import javax.inject.Inject;
 
 /**
  *
  * @author Liudas 
  */
 
-@ManagedBean
 @RequestScoped
 public class MySummerhouses implements Serializable {
     
     @EJB SummerhouseCRUD summerhouseCRUD;
     @EJB ReservationCRUD reservationCRUD;
     
-    @ManagedProperty(value="#{loginBean}")
+    @Inject
     LoginBean loginBean;
     
     private String accountId;

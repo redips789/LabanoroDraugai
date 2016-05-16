@@ -36,7 +36,6 @@ import org.apache.commons.io.IOUtils;
  */
 //@Named
 //@Stateful
-@ManagedBean
 @RequestScoped
 public class EditSettingsBean implements Serializable {
 

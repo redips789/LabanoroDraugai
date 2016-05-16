@@ -27,7 +27,6 @@ import org.primefaces.model.UploadedFile;
  * @author Liudas 
  */
 
-@ManagedBean
 //@SessionScoped
 public class EditSummerhouseBean implements Serializable {
     

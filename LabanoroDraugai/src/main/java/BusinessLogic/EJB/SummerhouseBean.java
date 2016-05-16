@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,7 +19,6 @@ import javax.persistence.PersistenceContext;
  */
 
 @Named
-@ManagedBean
 public class SummerhouseBean implements Serializable {
     
     @PersistenceContext
