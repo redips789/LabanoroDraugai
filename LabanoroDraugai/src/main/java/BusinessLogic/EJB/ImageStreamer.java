@@ -23,6 +23,7 @@ import org.primefaces.model.StreamedContent;
  *
  * @author Laurute
  */
+@Named
 @ApplicationScoped // veikia ir request, hm
 public class ImageStreamer {
 
