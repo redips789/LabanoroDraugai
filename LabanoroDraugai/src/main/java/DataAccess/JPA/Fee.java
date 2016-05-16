@@ -15,6 +15,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -55,6 +56,7 @@ public class Fee implements Serializable {
     @Column(name = "DESCRIPTION")
     private String description;
     
+    @Version
     @Column(name = "VERSION")
     private Integer version;
     
