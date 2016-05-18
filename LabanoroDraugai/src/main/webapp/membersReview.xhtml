@@ -29,14 +29,16 @@
                     
                 <p:growl id="msgs" showDetail="true" />
                     <p:dataTable id="basicDT" var="account" value="#{accountBean.accountList}" rows="10" paginator="true"
-				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="5,10,15" style="text-align: center">
                     
                     <p:column headerText="Vardas Pavardė">
                         <h:outputText value="#{account.firstName} #{account.lastName}" />
                     </p:column>
-                    <p:column headerText="Statusas">
-                        <h:outputText value="#{account.status}" />
+                    <p:column headerText="Narys nuo">
+                        <h:outputText value="#{account.memberSince}">
+                            <f:convertDateTime pattern="yyyy-MM-dd"/>                        
+                        </h:outputText> 
                     </p:column>
                     <p:column headerText="Amžius">
                         <h:outputText value="#{account.age}" />
@@ -53,14 +55,15 @@
                  
                 <p:dialog header="Detali informacija"  widgetVar="accountDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
         <p:outputPanel id="accountDetail">
-            <h:form>
+            
             <div id="profile-wrapper">
                 <div id="profile-container">
+                    <h:form>
                         <h:panelGrid columns="2" columnClasses="column" cellpadding="15" >
-<!--                                <p:graphicImage value="#{imageStreamer.oneImage}" class="profile-image-container" >
-                                    <f:param name="id" value="#{accountBean.selectedAccount.facebookid}" />
-                                </p:graphicImage> -->
-                        
+                                <p:graphicImage value="#{imageStreamer.oneImage}" class="profile-image-container" >
+                                    <f:param name="id" value="#{accountBean.selectedAccount.photoImageid.id}" />
+                                </p:graphicImage>
+                                                    
                             <h:panelGrid columns="2" columnClasses="column" cellpadding="5" >
                                     <p:outputLabel id="profile-column-2" value="#{accountBean.selectedAccount.firstName}"/>
                                     <p:outputLabel value="#{accountBean.selectedAccount.lastName}"/>
@@ -69,13 +72,13 @@
                                     <p:outputLabel value=""/>
                                        
                                     <p:outputLabel value="Narys nuo: " />
-                                    <p:outputLabel value="#{accountBean.selectedAccount.dateOfBirth}">
-                                         <f:convertDateTime pattern="yyyy-mm-dd" />
+                                    <p:outputLabel value="#{accountBean.selectedAccount.memberSince}">
+                                         <f:convertDateTime pattern="yyyy-MM-dd"/>
                                     </p:outputLabel>
                                     
                                     <p:outputLabel value="Gimimo data: " />
                                     <p:outputLabel value="#{accountBean.selectedAccount.dateOfBirth}">
-                                         <f:convertDateTime pattern="yyyy-mm-dd" />
+                                         <f:convertDateTime pattern="yyyy-MM-dd"/>
                                     </p:outputLabel>
 
                                     <p:outputLabel value="Tel. nr.: " class="icon-phone"/>
@@ -90,9 +93,10 @@
                                     </p:scrollPanel>
                             </h:panelGrid>
                         </h:panelGrid>
+                        </h:form> 
                 </div>     
             </div>
- </h:form> 
+ 
         </p:outputPanel>
     </p:dialog>
  
