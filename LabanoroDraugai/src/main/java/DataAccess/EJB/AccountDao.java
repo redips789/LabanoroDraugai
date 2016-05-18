@@ -5,6 +5,7 @@ import DataAccess.JPA.Account;
 import Messages.MessageUtil;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
@@ -52,7 +53,15 @@ public class AccountDao {
     
     public void updateAccountStatus(int id){
         Account acc = findAccountById(id);
-        acc.setStatus("Neaktyvus");
+        acc.setStatus("Narys");
+        Calendar now = Calendar.getInstance();
+        Date today = new Date();
+        now.setTime(today);
+        now.set(Calendar.HOUR_OF_DAY, 0);
+        now.set(Calendar.MINUTE, 0);
+        now.set(Calendar.SECOND, 0);
+        acc.setMemberSince(now.getTime());
+        acc.setNextPayment(now.getTime());
         ac.persist(acc);
 	ac.flush();
     }

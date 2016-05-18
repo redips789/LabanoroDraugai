@@ -201,7 +201,7 @@ public class RegistrationBean implements Serializable {
         account.setPhoneNum(phone);
         account.setPhoto(picture);
         account.setPoints(0);
-        account.setStatus("kandidatas");
+        account.setStatus("Kandidatas");
         account.setVersion(0);
         account.setTimeSpentOnHoliday(0);
         account.setMemberSince(date);
