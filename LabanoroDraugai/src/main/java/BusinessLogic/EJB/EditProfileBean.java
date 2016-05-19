@@ -31,12 +31,12 @@ import org.apache.commons.io.IOUtils;
 @RequestScoped
 public class EditProfileBean implements Serializable {
 
-    @EJB
+    @Inject
     AccountDao accountEjb;
     private Account account;
     private UploadedFile file;
 
-    @EJB
+    @Inject
     ImageCrud imagesEjb;
     // @PersistenceContext(type=PersistenceContextType.EXTENDED)veliau suzinosiu
     // @PersistenceContext
