@@ -152,7 +152,7 @@ public class PointsBean {
        MessageUtil.addSuccessMessage("Mokėjimas sėkmingai atliktas!");
        return "points?faces-redirect=true";
         } catch (OptimisticLockException ole) {
-            MessageUtil.addWarningMessage("Apmokėjimas jau buvo atliktas");
+            MessageUtil.addWarningMessage("Mokėjimas jau buvo atliktas.");
             return "points?faces-redirect=true";
         } catch (PersistenceException pe) {
             MessageUtil.addErrorMessage("Nesijaudinkite, bet įvyko klaida ir mokėjimas nebuvo atliktas. Bandykite dar kartą.");
