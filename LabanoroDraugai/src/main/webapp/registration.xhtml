@@ -170,11 +170,15 @@
             
                 <div id="profile-wrapper">
                 <div id="profile-container">
-                    
-                <p:outputPanel autoUpdate="true">
-                <p:graphicImage url="#{registrationBean.picture}"   />
-                </p:outputPanel>
+                        
+                
                 <h:form id="registerForm" class="editProfile">
+                    <p:messages id="messages" closable="true" />
+                    
+                    <p:outputPanel autoUpdate="true">
+                        <p:graphicImage url="#{registrationBean.picture}"   />
+                    </p:outputPanel>
+                    
                     <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="test123">
                     <p:outputLabel value="Vardas:" /> 
                     <p:outputPanel autoUpdate="true">
@@ -219,7 +223,7 @@
                     <p:message for="phonenumber" display="icon" />
                             
                     <p:outputLabel value="Apie save:" />
-                    <p:inputTextarea id="description" rows="10" cols="30" value="#{registrationBean.description}" counter="display" required="true" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
+                    <p:inputTextarea id="description" rows="10" cols="32" value="#{registrationBean.description}" counter="display" required="true" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
                     <p:message for="description" display="icon" />
                     <p:outputLabel value=" "/>
                     <h:outputText id="display" />
@@ -227,13 +231,15 @@
                     
                     <p:outputLabel value="Pakvietimo kodas: "/>
                     <p:outputPanel autoUpdate="true">
-                        <p:inputText id="code" value="#{registrationBean.code}" />
+                        <p:inputText id="code" value="#{registrationBean.code}" size="30" />
                     </p:outputPanel>
+                    <p:outputLabel value=" "/>                   
                       
                     
-                    <p:commandButton value="Registruotis" action="#{registrationBean.register()}" id="withIcon" type="submit" ajax="false" validateClient="true" icon="ui-icon-disk"/>
+                    <p:commandButton styleClass="buttonRight" value="Registruotis" action="#{registrationBean.register()}" id="withIcon" type="submit" ajax="false" validateClient="true" icon="ui-icon-disk"/>
                     </h:panelGrid>
-                    </h:form>
+                    
+                </h:form>
                 </div>
                 </div>
 

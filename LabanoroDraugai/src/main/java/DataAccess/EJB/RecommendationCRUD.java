@@ -15,7 +15,7 @@ import javax.persistence.Query;
  */
 
 @Stateless
-public class RecommendationDao {
+public class RecommendationCRUD {
     @PersistenceContext
     EntityManager rm;
     
@@ -47,8 +47,12 @@ public class RecommendationDao {
     }
     
     public List<Recommendation> findForConfirm(int id, boolean status){
-        List<Recommendation> rec = rm.createNamedQuery("Recommendation.findForConfirm").setParameter("giverAccountid", id).setParameter("isGiven", status).getResultList();
-        return rec;
+        try{
+            List<Recommendation> rec = rm.createNamedQuery("Recommendation.findForConfirm").setParameter("giverAccountid", id).setParameter("isGiven", status).getResultList();
+            return rec;
+        } catch (Exception e) {
+            return null;
+        }
     }
     
     public Recommendation findByBoth(int rec_id, int giv_id){

@@ -10,14 +10,10 @@ import DataAccess.JPA.Image;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.servlet.http.Part;
 
 /**
  *
@@ -25,8 +21,7 @@ import javax.servlet.http.Part;
  */
 
 @Stateless
-@LocalBean
-public class ImageCrud {
+public class ImageCRUD {
     @PersistenceContext
     EntityManager img;
    
@@ -49,6 +44,7 @@ public class ImageCrud {
         return null;
     }
     
+    //@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Image updateImage(Image changedImage){
        Image b = img.merge(changedImage); // reference to another object than the one passed in when the object was already loaded in the current context.
        img.flush();
@@ -69,6 +65,8 @@ public class ImageCrud {
     public void init() {
        // System.out.println("inicializuoju");
     }
+    
+    //@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public int addImage(Image image){
         img.persist(image);
         img.flush();

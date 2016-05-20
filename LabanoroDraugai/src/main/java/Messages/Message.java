@@ -9,7 +9,7 @@ import javax.faces.context.FacesContext;
  * @author Kristaliukas
  */
 
-public class MessageUtil {
+public class Message {
 	/**
 	 * 
 	 * @param msg

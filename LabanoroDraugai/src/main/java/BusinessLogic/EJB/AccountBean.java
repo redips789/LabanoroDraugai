@@ -1,7 +1,7 @@
 
 package BusinessLogic.EJB;
 
-import DataAccess.EJB.AccountDao;
+import DataAccess.EJB.AccountCRUD;
 import DataAccess.JPA.Account;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,7 +27,7 @@ public class AccountBean {
     LoginBean loginBean;
     
     @EJB
-    AccountDao accountEjb;
+    AccountCRUD accountEjb;
     private List<Account> accountList = new ArrayList<>();
     
     private List<Account> memberList = new ArrayList<>();

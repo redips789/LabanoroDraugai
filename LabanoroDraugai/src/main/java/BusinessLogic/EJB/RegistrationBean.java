@@ -5,14 +5,14 @@
  */
 package BusinessLogic.EJB;
 
-import DataAccess.EJB.AccountDao;
+import DataAccess.EJB.AccountCRUD;
 import DataAccess.EJB.InvitationCRUD;
-import DataAccess.EJB.RecommendationDao;
+import DataAccess.EJB.RecommendationCRUD;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Invitation;
 import DataAccess.JPA.Recommendation;
 import DataAccess.JPA.RecommendationPK;
-import Messages.MessageUtil;
+import Messages.Message;
 import Services.Encryption;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -34,13 +34,13 @@ import javax.inject.Named;
 public class RegistrationBean implements Serializable {
 
     @Inject
-    private AccountDao loginAuthBean;
+    private AccountCRUD loginAuthBean;
     
     @Inject
     private InvitationCRUD InvitationEjb;
     
     @Inject
-    private RecommendationDao recommendationEjb;
+    private RecommendationCRUD recommendationEjb;
     
     private String id;
     private String first_name;
@@ -251,16 +251,16 @@ public class RegistrationBean implements Serializable {
                         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
                         return "login?faces-redirect=true";                          
                     } catch (Exception e) {
-                        MessageUtil.addErrorMessage("Sistemos klaida. Apgailestaujame.");
+                        Message.addErrorMessage("Sistemos klaida. Apgailestaujame.");
                         return "registration?faces-redirect=true";
                     }                                   
                 }
                 else {
-                    MessageUtil.addErrorMessage("Toks kodas neegzistuoja. Įveskite teisingą pakvietimo kodą arba palikite lauką tuščią!");
+                    Message.addErrorMessage("Toks kodas neegzistuoja. Įveskite teisingą pakvietimo kodą arba palikite lauką tuščią!");
                     return "registration?faces-redirect=true";
                 }             
             } catch (Exception e) {
-                MessageUtil.addErrorMessage("Sistemos klaida. Apgailestaujame.");
+                Message.addErrorMessage("Sistemos klaida. Apgailestaujame.");
                 return "registration?faces-redirect=true";
             }    
         }

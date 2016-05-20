@@ -5,9 +5,9 @@
  */
 package BusinessLogic.EJB;
 
-import DataAccess.EJB.AccountDao;
-import DataAccess.EJB.ImageCrud;
-import DataAccess.EJB.SettingsDao;
+import DataAccess.EJB.AccountCRUD;
+import DataAccess.EJB.ImageCRUD;
+import DataAccess.EJB.SettingsCRUD;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Image;
 import DataAccess.JPA.Settings;
@@ -41,7 +41,7 @@ import org.apache.commons.io.IOUtils;
 public class EditSettingsBean implements Serializable {
 
     @EJB
-    SettingsDao settingsEjb;
+    SettingsCRUD settingsEjb;
     
     private Settings settings;
 

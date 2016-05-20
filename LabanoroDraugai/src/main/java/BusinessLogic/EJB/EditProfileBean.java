@@ -5,8 +5,8 @@
  */
 package BusinessLogic.EJB;
 
-import DataAccess.EJB.AccountDao;
-import DataAccess.EJB.ImageCrud;
+import DataAccess.EJB.AccountCRUD;
+import DataAccess.EJB.ImageCRUD;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Image;
 import java.io.IOException;
@@ -27,24 +27,24 @@ import org.apache.commons.io.IOUtils;
  * @author Laurute
  */
 @Named
-@Stateful
+//@Stateful
 @RequestScoped
 public class EditProfileBean implements Serializable {
 
-    @EJB
-    AccountDao accountEjb;
+    @Inject
+    AccountCRUD accountEjb;
     private Account account;
     private UploadedFile file;
 
-    @EJB
-    ImageCrud imagesEjb;
+    @Inject
+    ImageCRUD imagesEjb;
     // @PersistenceContext(type=PersistenceContextType.EXTENDED)veliau suzinosiu
     // @PersistenceContext
     // private EntityManager em;
 
     @Inject
     LoginBean loginBean;
-
+    
     public LoginBean getLoginBean() {
         return loginBean;
     }
@@ -56,7 +56,7 @@ public class EditProfileBean implements Serializable {
     //construct
     @PostConstruct
     public void init() {
-        account = accountEjb.findAccountById(loginBean.getId()); //randa pagal sesijos FbId
+        account = accountEjb.findAccountById(loginBean.getId()); 
     }
 
     //get set
@@ -72,10 +72,12 @@ public class EditProfileBean implements Serializable {
     public String saveAccountChanges() {
         try {
             //account.setPhotoBlob(IOUtils.toByteArray(this.file.getInputstream()));
-            Image image = new Image();
-            image.setContent(IOUtils.toByteArray(this.file.getInputstream()));
-            Integer imageId = imagesEjb.addImage(image);
-            account.setPhotoImageid(image);
+            if (this.file.getFileName() == null){
+                Image image = new Image();
+                image.setContent(IOUtils.toByteArray(this.file.getInputstream()));
+                Integer imageId = imagesEjb.addImage(image);
+                account.setPhotoImageid(image);
+            }     
         } catch (IOException ex) {
             Logger.getLogger(EditProfileBean.class.getName()).log(Level.SEVERE, null, ex);
         }

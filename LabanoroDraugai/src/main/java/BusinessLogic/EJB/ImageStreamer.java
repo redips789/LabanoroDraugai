@@ -1,8 +1,8 @@
 
 package BusinessLogic.EJB;
 
-import DataAccess.EJB.AccountDao;
-import DataAccess.EJB.ImageCrud;
+import DataAccess.EJB.AccountCRUD;
+import DataAccess.EJB.ImageCRUD;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Image;
 import java.io.ByteArrayInputStream;
@@ -28,7 +28,7 @@ import org.primefaces.model.StreamedContent;
 public class ImageStreamer {
 
     @EJB
-    private ImageCrud service;
+    private ImageCRUD service;
 
     public StreamedContent getOneImage() throws IOException {
         FacesContext context = FacesContext.getCurrentInstance();

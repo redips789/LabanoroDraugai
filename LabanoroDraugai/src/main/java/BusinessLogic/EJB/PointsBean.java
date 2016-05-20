@@ -1,48 +1,52 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package BusinessLogic.EJB;
 
-import DataAccess.EJB.AccountDao;
-import DataAccess.EJB.SettingsDao;
+import DataAccess.EJB.AccountCRUD;
+import DataAccess.EJB.SettingsCRUD;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Settings;
-import Messages.MessageUtil;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import Messages.Message;
 import java.util.Date;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
 import java.util.Calendar;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.faces.context.Flash;
+import javax.ejb.Stateful;
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.PersistenceException;
-import org.primefaces.context.RequestContext;
+import javax.persistence.SynchronizationType;
 
 /**
  *
  * @author darbas
  */
-@Named(value = "pointsBean")
-@RequestScoped
+@Named 
+@ConversationScoped
+@Stateful
 public class PointsBean {
 
     /**
      * Creates a new instance of PointsBean
      */
+    //Turėtų būti Extended(jei keliuose languose reiktų tos pačios info), BET tada AccountCRUD ir ImageCrud metodai, kuriuose yra flush(), turi būti REQUIRED_NEW.
+    //Kaip suprantu neleidžia: Extended->Extended(old) - anose klasėse anksčiau sukuria PersistentContext, o čia vėliau injectina. ESMĖ - lūžta anose klasėse, tai gal čia anksčiau sukuria? :D
+    //TAD kad mažiau keitimų būtų kitur, čia darau TRANSACTIONAL, nes dabar vis tiek transakcija tesiasi per 2 langus, bet info naudojama viename.
+    //Tiesa, šitam atvejy veiktų ir su SYNCHRONIZED
+    @PersistenceContext(type=PersistenceContextType.TRANSACTION, synchronization=SynchronizationType.UNSYNCHRONIZED) 
+    private EntityManager em;
     
-    @EJB
-    AccountDao accountEjb;
+    @Inject
+    private Conversation conversation;
     
-    @EJB
-    SettingsDao settingsEjb;
+    @Inject
+    AccountCRUD accountEjb;
+    
+    @Inject
+    SettingsCRUD settingsEjb;
     
     @Inject
     LoginBean loginBean;
@@ -51,150 +55,9 @@ public class PointsBean {
     
     private Settings settings;
     
-    private int points;
-    
     private int price;
     
-    private Date membership;
-    private boolean lackOfPoints = false;
     
-    private String confirmationMessage;
-    
-    private String redirectingToPage;
-
-    public String getConfirmationMessage() {
-        return confirmationMessage;
-    }
-
-    public void setConfirmationMessage(String confirmationMessage) {
-        this.confirmationMessage = confirmationMessage;
-    }
-
-    public String getRedirectingToPage() {
-        return redirectingToPage;
-    }
-
-    public void setRedirectingToPage(String redirectingToPage) {
-        this.redirectingToPage = redirectingToPage;
-    }
-
-    public boolean isLackOfPoints() {
-        return lackOfPoints;
-    }
-
-    public void setLackOfPoints(boolean lackOfPoints) {
-        this.lackOfPoints = lackOfPoints;
-    }
-    
-    
-    private boolean feeIsPaid = true;
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public boolean isFeeIsPaid() {
-        return feeIsPaid;
-    }
-
-    public void setFeeIsPaid(boolean feeIsPaid) {
-        this.feeIsPaid = feeIsPaid;
-    }
-    
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
-    public String getMembership() {
-        if(membership==null){
-            feeIsPaid=false;
-            return "Nesumokėtas";
-        }
-        if(membership.before(Calendar.getInstance().getTime())){
-            feeIsPaid=false;
-        }
-        else{
-            feeIsPaid=true;
-        }
-        DateFormat dateFormatNeeded = new SimpleDateFormat("yyyy-MM-dd");
-        String tempdate = dateFormatNeeded.format(membership);
-        return tempdate;
-    }
-    
-
-    public void setMembership(String membership){
-        DateFormat dateFormatNeeded = new SimpleDateFormat("yyyy-MM-dd");
-        try{
-        this.membership = dateFormatNeeded.parse(membership);
-        }catch(Exception ex){
-            this.membership=null;
-        }
-    }
-    
-    
-    
-    
-    @PostConstruct
-    public void init() {
-        account=accountEjb.findAccount(loginBean.getFbid());
-        points=account.getPoints();
-        membership=account.getNextPayment();
-        settings = settingsEjb.findSettings();
-       double a = settings.getMembershipFee();
-       price = (int) a;
-       if(points-price<0){
-           lackOfPoints=true;
-       }
-        
-    }
-    
-    public String payWithPoints(){
-        account.setPoints(points-price);
-        Calendar d = Calendar.getInstance();
-        d.add(Calendar.YEAR, 1);
-        Date date = d.getTime();
-        
-        account.setNextPayment(date); 
-        account.setStatus("aktyvus");
-        try{
-         accountEjb.updateAccount(account);
-          
-         confirmationMessage="Mokėjimas atliktas sėkmingai";
-         redirectingToPage="points?faces-redirect=true";
-         MessageUtil.addSuccessMessage(confirmationMessage);
-         
-        return "points?faces-redirect=true";
-        }catch(org.eclipse.persistence.exceptions.OptimisticLockException oex){
-            confirmationMessage="Įvyko klaida! Nespėjote! Bandykite dar kartą!";
-            redirectingToPage="points?faces-redirect=true";
-            MessageUtil.addErrorMessage(confirmationMessage);
-            System.out.println("gkfdhjfbjft*gfhgf*******");
-             return null;
-                 }
-        catch(PersistenceException pex){
-            confirmationMessage="Įvyko persistent klaida! Bandykite dar kartą!";
-            redirectingToPage="points?faces-redirect=true";
-            MessageUtil.addErrorMessage(confirmationMessage);
-             return null;
-                 }
-        catch(Exception ex){
-            confirmationMessage=ex.getMessage();
-            redirectingToPage="points?faces-redirect=true";
-            MessageUtil.addErrorMessage(confirmationMessage);
-            ex.printStackTrace();
-            return null;
-        }
-       //return "points?faces-redirect=true";
-    }
-
     public LoginBean getLoginBean() {
         return loginBean;
     }
@@ -212,5 +75,99 @@ public class PointsBean {
     }
     
     public PointsBean() {
+    }
+
+    public boolean isLackOfPoints() {
+         settings = settingsEjb.findSettings();
+       if(this.account.getPoints()-this.price<0){
+          return true;
+       }
+       else { return false;
+       }
+    }
+
+    public int getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public boolean isFeeIsPaid() {
+        if (account.getNextPayment().before(Calendar.getInstance().getTime())){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+
+    public String getMembership() {
+        if (account.getNextPayment().before(Calendar.getInstance().getTime())){
+            return "Nesumokėtas";
+        }
+        else{
+            return "Sumokėtas";
+        }
     }   
+
+
+    @PostConstruct
+    public void init() {
+        
+        account=accountEjb.findAccount(loginBean.getFbid());
+        settings = settingsEjb.findSettings();
+        double a = settings.getMembershipFee();
+        this.price = (int) a;
+    }
+    
+    public String startPaying(){
+        if (!conversation.isTransient()) {
+            conversation.end();
+    }
+        conversation.begin();
+        
+        return "payMembershipFee?faces-redirect=true";
+    }
+    
+    public String payWithPoints(){
+        double a = settings.getMembershipFee();
+        int b = (int) a;
+        this.account.setPoints(this.account.getPoints()-b);
+        
+        Calendar d = Calendar.getInstance();
+        d.add(Calendar.YEAR, 1);
+        Date date = d.getTime();
+        
+        this.account.setNextPayment(date); 
+        //this.account.setStatus("aktyvus");                                      // nebereikia
+        try{
+        this.account = em.merge(this.account);
+        conversation.end();
+        em.joinTransaction();
+        em.flush();
+        
+       Message.addSuccessMessage("Mokėjimas sėkmingai atliktas!");
+       return "points?faces-redirect=true";
+        } catch (OptimisticLockException ole) {
+            Message.addWarningMessage("Mokėjimas jau buvo atliktas.");
+            return "points?faces-redirect=true";
+        } catch (PersistenceException pe) {
+            Message.addErrorMessage("Nesijaudinkite, bet įvyko klaida ir mokėjimas nebuvo atliktas. Bandykite dar kartą.");
+            return "points?faces-redirect=true";
+        }
+        catch (Exception pe) {
+            Message.addErrorMessage("Nesijaudinkite, bet įvyko nežinoma klaida. Bandykite dar kartą.");
+            return "points?faces-redirect=true";
+        } 
+    }
+    
+    public String goBack (){
+       if (!conversation.isTransient()) {          
+            conversation.end();
+        }
+       return "points?faces-redirect=true";
+   }
 }

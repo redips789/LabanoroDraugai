@@ -2,6 +2,7 @@ package Filters;
 
 import BusinessLogic.EJB.LoginBean;
 import java.io.IOException;
+import javax.faces.application.ResourceHandler;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.Filter;
@@ -12,6 +13,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -23,44 +25,48 @@ public class LoginFilter implements Filter {
     public void init(FilterConfig fc) throws ServletException {
     }
 
+
+    private static final String AJAX_REDIRECT_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        + "<partial-response><redirect url=\"%s\"></redirect></partial-response>";
+
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse resp = (HttpServletResponse) response;
-        LoginBean session = (LoginBean) req.getSession().getAttribute("loginBean");
-        String url = req.getRequestURI();
-        
-        if(session== null){
-            int i = 1;
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws ServletException, IOException {    
+        HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) res;
+        HttpSession session = request.getSession(false);
+        String reqURI = request.getRequestURI();
+        String loginURL = request.getContextPath() + "/login.xhtml";
+        String logoutURI = request.getContextPath() + "/logout.xhtml";
+
+        boolean loggedIn = (session != null) ;//&& (session.getAttribute("user") != null);
+        boolean loginRequest = request.getRequestURI().equals(loginURL);
+        boolean logoutRequest = request.getRequestURI().equals(logoutURI);
+        boolean resourceRequest = request.getRequestURI().startsWith(request.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER + "/");
+        boolean ajaxRequest = "partial/ajax".equals(request.getHeader("Faces-Request"));
+
+        if ((loggedIn || loginRequest || resourceRequest) && !logoutRequest) {
+            if (!resourceRequest) { // Prevent browser from caching restricted resources. See also http://stackoverflow.com/q/4194207/157882
+                response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+                response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+                response.setDateHeader("Expires", 0); // Proxies.
+            }
+
+            chain.doFilter(request, response); // So, just continue request.
         }
-        
-        if (url.indexOf("logout") >= 0) {
-            //ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            //ec.invalidateSession();
-            //ec.redirect(ec.getRequestContextPath() + "/login.xhtml");
-            req.getSession().removeAttribute("loginBean");
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/login.xhtml");
+        else if (loggedIn && logoutRequest){
+            request.getSession().removeAttribute("loginBean");
+            response.sendRedirect(loginURL);
         }
-        else{
-            String test = req.getServletContext().getContextPath();
-            //resp.sendRedirect(req.getServletContext().getContextPath()+"/login.xhtml");
-            chain.doFilter(request, response);
+        else if (ajaxRequest) {
+            response.setContentType("text/xml");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().printf(AJAX_REDIRECT_XML, loginURL); // So, return special XML response instructing JSF ajax to send a redirect.
         }
-//        if (session == null) {
-//            if (url.indexOf("manohome.xhtml") >= 0 || url.indexOf("logout.xhtml") >= 0) {
-//                resp.sendRedirect(req.getServletContext().getContextPath() + "/login.xhtml");
-//            } else {
-//                chain.doFilter(request, response);
-//            }
-//        } else if (url.indexOf("login.xhtml") >= 0) {
-//            resp.sendRedirect(req.getServletContext().getContextPath() + "/manohome.xhtml");
-//        } else if (url.indexOf("logout.xhtml") >= 0) {
-//            req.getSession().removeAttribute("loginBean");
-//            resp.sendRedirect(req.getServletContext().getContextPath() + "/login.xhtml");
-//        } else {
-//            chain.doFilter(request, response);
-//        }
+        else {
+            response.sendRedirect(loginURL); // So, just perform standard synchronous redirect.
+        }
     }
+
 
     @Override
     public void destroy() {

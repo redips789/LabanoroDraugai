@@ -1,8 +1,8 @@
 
 package Schedules;
 
-import DataAccess.EJB.RecommendationDao;
-import DataAccess.EJB.SettingsDao;
+import DataAccess.EJB.RecommendationCRUD;
+import DataAccess.EJB.SettingsCRUD;
 import DataAccess.JPA.Recommendation;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,9 +23,9 @@ import javax.inject.Named;
 public class Cleaner {
     
     @Inject
-    RecommendationDao recommendationEjb;
+    RecommendationCRUD recommendationEjb;
     @Inject
-    SettingsDao settingsEjb;
+    SettingsCRUD settingsEjb;
     
     @Schedule(second = "0", minute = "58", hour = "11", dayOfWeek = "*", persistent = false)
     public void cleanRecommendationDatabase() {

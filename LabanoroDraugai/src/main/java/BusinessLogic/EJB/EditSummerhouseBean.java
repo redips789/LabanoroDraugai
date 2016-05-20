@@ -5,7 +5,7 @@
  */
 package BusinessLogic.EJB;
 
-import DataAccess.EJB.ImageCrud;
+import DataAccess.EJB.ImageCRUD;
 import DataAccess.EJB.SummerhouseCRUD;
 import DataAccess.JPA.Image;
 import DataAccess.JPA.Summerhouse;
@@ -36,7 +36,7 @@ public class EditSummerhouseBean implements Serializable {
     @EJB SummerhouseCRUD summerhouseCRUD;
     
     @EJB
-    ImageCrud imagesEjb;
+    ImageCRUD imagesEjb;
 
     @PostConstruct
     public void init() {

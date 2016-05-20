@@ -5,9 +5,9 @@
  */
 package BusinessLogic.EJB;
 
-import DataAccess.EJB.AccountDao;
-import DataAccess.EJB.ImageCrud;
-import DataAccess.EJB.SettingsDao;
+import DataAccess.EJB.AccountCRUD;
+import DataAccess.EJB.ImageCRUD;
+import DataAccess.EJB.SettingsCRUD;
 import DataAccess.EJB.SummerhouseCRUD;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Image;
@@ -49,7 +49,7 @@ public class AddSummerhouseBean implements Serializable {
     private UploadedFile file;
     
     @EJB
-    ImageCrud imagesEjb;
+    ImageCRUD imagesEjb;
 
     @PostConstruct
     public void init() {

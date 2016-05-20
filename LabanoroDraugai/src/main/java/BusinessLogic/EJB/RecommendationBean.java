@@ -1,10 +1,10 @@
 
 package BusinessLogic.EJB;
 
-import DataAccess.EJB.AccountDao;
+import DataAccess.EJB.AccountCRUD;
 import DataAccess.EJB.InvitationCRUD;
-import DataAccess.EJB.RecommendationDao;
-import DataAccess.EJB.SettingsDao;
+import DataAccess.EJB.RecommendationCRUD;
+import DataAccess.EJB.SettingsCRUD;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Invitation;
 import DataAccess.JPA.Recommendation;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import Messages.MessageUtil;
+import Messages.Message;
 import Services.CodeGenerator;
 import Services.Email;
 import Services.Encryption;
@@ -34,20 +34,16 @@ import javax.inject.Named;
 public class RecommendationBean implements Serializable { 
     
     @Inject
-    RecommendationDao recommendationEjb;
-    
+    RecommendationCRUD recommendationEjb;   
     @Inject
-    SettingsDao settingsEjb;
-    
+    SettingsCRUD settingsEjb;  
     @Inject
-    AccountDao accountEjb;
-    
+    AccountCRUD accountEjb;  
     @Inject
     InvitationCRUD invitationEjb;
     
     @Inject
-    LoginBean loginBean;
-    
+    LoginBean loginBean; 
     @Inject
     AccountBean accountBean;
     
@@ -89,7 +85,7 @@ public class RecommendationBean implements Serializable {
     }
 
     public List<Recommendation> getGiverList() {
-        this.setGiverList(recommendationEjb.findForConfirm(loginBean.getId(), Boolean.FALSE)); //kolkas hardkodinam
+        this.setGiverList(recommendationEjb.findForConfirm(loginBean.getId(), Boolean.FALSE));
         return giverList;
     }
 
@@ -149,7 +145,7 @@ public class RecommendationBean implements Serializable {
         try {
             String[] arr = this.getFullname().split(" ");
             if (this.receiverList.size()>=this.max_rec){
-                MessageUtil.addErrorMessage("Maksimalus išsiųstų rekomendacijų prašymų limitas pasiektas! Prašome laukti, kol rekomendacijos bus patvirtinots arba baigsis jų galiojimo laikas.");
+                Message.addErrorMessage("Maksimalus išsiųstų rekomendacijų prašymų limitas pasiektas! Prašome laukti, kol rekomendacijos bus patvirtinots arba baigsis jų galiojimo laikas.");
                 return "";
             }
             else {
@@ -162,16 +158,16 @@ public class RecommendationBean implements Serializable {
                     this.rec.setIsGiven(Boolean.FALSE);
                     this.rec.setSendDate(Calendar.getInstance().getTime());
                     recommendationEjb.addRecommendation(this.rec);
-                    MessageUtil.addSuccessMessage("Rekomendacija sėkmingai išsiųsta!");
+                    Message.addSuccessMessage("Rekomendacija sėkmingai išsiųsta!");
                     Email.emailReceivedRecommendation(acc.getFirstName()+" "+acc.getLastName(), this.accountBean.getMemberList().get(id-1).getEmail());
                     return "";
                 } catch (Exception e) {
-                    MessageUtil.addErrorMessage("Šiam žmogui rekomendacija jau buvo išsiųsta anksčiau. Pasirinkite kitą klubo narį!");
+                    Message.addErrorMessage("Šiam žmogui rekomendacija jau buvo išsiųsta anksčiau. Pasirinkite kitą klubo narį!");
                     return "";
                 }	
             }
         } catch (NullPointerException e) {
-            MessageUtil.addErrorMessage("Norėdami išsiųsti rekomendacijos prašymą, privalote pasirinkti kurį nors klubo narį!");
+            Message.addErrorMessage("Norėdami išsiųsti rekomendacijos prašymą, privalote pasirinkti kurį nors klubo narį!");
             return "";
         }			
     }
@@ -185,12 +181,12 @@ public class RecommendationBean implements Serializable {
                 Email.emailConfirmedRecommendation(acc.getFirstName()+" "+acc.getLastName(), candidate.getEmail());
                 checkBecomingMember(candidate.getId());
             }
-            if (this.selectedCandidates.size() == 1) MessageUtil.addSuccessMessage("Rekomendacija sėkmingai patvirtinta!");
-            else if (this.selectedCandidates.size() > 1) MessageUtil.addSuccessMessage("Rekomendacijos sėkmingai patvirtintos!");
-            else MessageUtil.addWarningMessage("Norėdami patvirtinti, privalote pasrinkti bent vieną rekomendacijos prašymą!");
+            if (this.selectedCandidates.size() == 1) Message.addSuccessMessage("Rekomendacija sėkmingai patvirtinta!");
+            else if (this.selectedCandidates.size() > 1) Message.addSuccessMessage("Rekomendacijos sėkmingai patvirtintos!");
+            else Message.addWarningMessage("Norėdami patvirtinti, privalote pasrinkti bent vieną rekomendacijos prašymą!");
             return "";
         } catch (Exception e) {
-            MessageUtil.addErrorMessage("Įvyko nenumatyta klaida!");
+            Message.addErrorMessage("Įvyko nenumatyta klaida!");
             return "";
         }    
     }
@@ -203,12 +199,12 @@ public class RecommendationBean implements Serializable {
                 Email.emailConfirmedRecommendation(acc.getFirstName()+" "+acc.getLastName(), candidate.getEmail());
                 recommendationEjb.deleteRecommendation(this.selectedCandidates.get(i));
             }
-            if (this.selectedCandidates.size() == 1) MessageUtil.addSuccessMessage("Rekomendacija sėkmingai atmesta!");
-            else if (this.selectedCandidates.size() > 1) MessageUtil.addSuccessMessage("Rekomendacijos sėkmingai atmestos!");
-            else MessageUtil.addWarningMessage("Norėdami atmesti, privalote pasrinkti bent vieną rekomendacijos prašymą!");
+            if (this.selectedCandidates.size() == 1) Message.addSuccessMessage("Rekomendacija sėkmingai atmesta!");
+            else if (this.selectedCandidates.size() > 1) Message.addSuccessMessage("Rekomendacijos sėkmingai atmestos!");
+            else Message.addWarningMessage("Norėdami atmesti, privalote pasrinkti bent vieną rekomendacijos prašymą!");
             return "";
         } catch (Exception e) {
-            MessageUtil.addErrorMessage("Įvyko nenumatyta klaida!");
+            Message.addErrorMessage("Įvyko nenumatyta klaida!");
             return "";
         }  
     }
@@ -263,11 +259,6 @@ public class RecommendationBean implements Serializable {
         return message;
     }
     
-    public boolean isNotEmptyGiverList() {
-         if (this.giverList.isEmpty()) return Boolean.FALSE;
-         else return Boolean.TRUE;
-    }
-    
     public void inviteFriend() {
         Account acc = accountEjb.findAccountById(loginBean.getId());
         
@@ -284,19 +275,19 @@ public class RecommendationBean implements Serializable {
                     invitationEjb.addInvitation(this.invitation);                    
               
                     Email.emailInviteFriend(acc.getFirstName()+" "+acc.getLastName(), email, code);
-                    MessageUtil.addSuccessMessage("Pakvietimas sėkmingai išsiųstas!");
+                    Message.addSuccessMessage("Pakvietimas sėkmingai išsiųstas!");
                     
                 } catch (Exception e) {
-                    MessageUtil.addErrorMessage("Įvyko kažkas keisto!");
+                    Message.addErrorMessage("Įvyko kažkas keisto!");
                 }
                 this.email = "";
            /* }
             else {
-                MessageUtil.addErrorMessage("Šio žmogaus nereikia kviesti, jis jau naudojasi mūsų sistema!");
+                Message.addErrorMessage("Šio žmogaus nereikia kviesti, jis jau naudojasi mūsų sistema!");
             }*/
         }
         else {
-            MessageUtil.addErrorMessage("Įveskite el. pašto adresą!");
+            Message.addErrorMessage("Įveskite el. pašto adresą!");
         }
     }
 }

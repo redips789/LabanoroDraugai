@@ -5,7 +5,7 @@
  */
 package BusinessLogic.EJB;
 
-import DataAccess.EJB.AccountDao;
+import DataAccess.EJB.AccountCRUD;
 import DataAccess.JPA.Account;
 import java.io.Serializable;
 import java.util.Map;
@@ -23,7 +23,7 @@ import javax.enterprise.context.SessionScoped;
 public class LoginBean implements Serializable {
 
     @Inject
-    private AccountDao loginAuthBean;
+    private AccountCRUD loginAuthBean;
 
     /**
      * Creates a new instance of LoginBean
@@ -33,8 +33,8 @@ public class LoginBean implements Serializable {
     private String signedrequest;
     private String expiresin;
     private int id;
-    private boolean isloggedin=false;
-    private boolean isregistered=false;
+    private boolean isloggedin = false;
+    private boolean isregistered = false;
     private String redirecdedPage = "login";
     private int errorCounter = 0;
 
@@ -85,7 +85,7 @@ public class LoginBean implements Serializable {
     public void setExpiresin(String expiresin) {
         this.expiresin = expiresin;
     }
-    
+
     public LoginBean() {
     }
 
@@ -112,8 +112,8 @@ public class LoginBean implements Serializable {
     public void setFbid(String fbid) {
         this.fbid = fbid;
     }
-    
-    public String nextPage(){
+
+    public String nextPage() {
         return "home?faces-redirect=true";
     }
 
@@ -123,31 +123,34 @@ public class LoginBean implements Serializable {
         fbid = (String) map.get("id");
         accesstoken = (String) map.get("accesstoken");
         signedrequest = (String) map.get("signedrequest");
-        expiresin = (String) map.get("expiresin");    
-        if(loginAuthBean.accountExistBoolean(fbid)){
+        expiresin = (String) map.get("expiresin");
+        if (loginAuthBean.accountExistBoolean(fbid)) {
             Account acc = loginAuthBean.findAccount(fbid);
             id = acc.getId();
             redirecdedPage = "home?faces-redirect=true";
-        }
-        else{
+        } else {
             redirecdedPage = "registration?faces-redirect=true";
         }
         return redirecdedPage;
     }
-    
-    public String leaveForever(){
+
+    public String leaveForever() {
         Account account = loginAuthBean.accountExistAccount(fbid);
-        if(account==null){
+        if (account == null) {
             return "";
-        }else{
+        } else {
             loginAuthBean.deleteAccount(account);
             FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
             return "login?faces-redirect=true";
         }
     }
-    
-    public String checkPageStage(){
+
+    public String checkPageStage() {
         return redirecdedPage;
     }
-    
+
+    public String logout() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "/login.xhtml?faces-redirect=true";
+    }
 }

@@ -2,20 +2,15 @@
 package DataAccess.EJB;
 
 import DataAccess.JPA.Account;
-import Messages.MessageUtil;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.servlet.http.Part;
 
 /**
  *
@@ -23,8 +18,7 @@ import javax.servlet.http.Part;
  */
 
 @Stateless
-@LocalBean
-public class AccountDao {
+public class AccountCRUD {
 
     @PersistenceContext
     EntityManager ac;
@@ -60,6 +54,7 @@ public class AccountDao {
        return b;
     }
     
+    //@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void updateAccountStatus(int id){
         Account acc = findAccountById(id);
         acc.setStatus("Narys");

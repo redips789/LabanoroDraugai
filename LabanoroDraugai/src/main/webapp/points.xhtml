@@ -30,25 +30,22 @@
                 <h:form>
                     <p:messages id="messages" autoUpdate="true" closable="true" />
                 </h:form>
-                <h:form id="test1">
-                 <p:spacer width="180" height="180" />
+                 <p:spacer height="40" />
                     
                     <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="taskuLikutis">
-                        <p:outputLabel style="font-weight:bold" value="Jūsų taškų likutis:" />
-                        <p:inputText disabled="true" size="15" id="profile-column-2" value="#{pointsBean.points}"/>
-                        <p:button value="Papildyti" style="width:150px;height:35px" outcome="home.xhtml" />
+                        <p:outputLabel value="Jūsų taškų likutis:" />
+                        <p:inputText disabled="true" size="13" value="#{pointsBean.account.points}" style="text-align: center"/>
+                        <p:button value="Papildyti" class="edit-profile-button-width" outcome="home.xhtml" />
                     </h:panelGrid>    
-                </h:form>
                 
-                    <p:spacer width="100" height="100" />
-                 <h:form id="test2">
+                    <p:spacer height="40" />
+                
                     <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="metinisMokestis">
-                        <p:outputLabel style="font-weight:bold" value="Metinis mokestis:" />
-                        <p:inputText disabled="true" size="15" id="profile-column-2" value="#{pointsBean.membership}"/>
-                        <p:button value="Mokėti" style="width:150px;height:35px" outcome="payMembershipFee" disabled="#{pointsBean.feeIsPaid}" />
+                        <p:outputLabel value="Metinis mokestis:" />
+                        <p:inputText disabled="true" size="13"  value="#{pointsBean.membership}" style="text-align: center"/>
+                        <p:commandButton value="Mokėti" ajax="true" class="edit-profile-button-width" action="#{pointsBean.startPaying()}" disabled="#{pointsBean.feeIsPaid}"/>
                     </h:panelGrid>
-                    <p:spacer width="200" height="200" />
-                </h:form>
+                    <p:spacer height="60" />
                </div>
                </div>
             </div>
@@ -62,4 +59,3 @@
         </h:form>
     </h:body>
 </html>
-

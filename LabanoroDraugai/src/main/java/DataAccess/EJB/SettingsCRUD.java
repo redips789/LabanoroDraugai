@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
 
 @Stateless
 @LocalBean
-public class SettingsDao {
+public class SettingsCRUD {
     
     @PersistenceContext
     EntityManager st;
