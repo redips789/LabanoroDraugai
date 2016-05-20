@@ -6,7 +6,14 @@
 package BusinessLogic.EJB;
 
 import DataAccess.EJB.AccountDao;
+import DataAccess.EJB.InvitationCRUD;
+import DataAccess.EJB.RecommendationDao;
 import DataAccess.JPA.Account;
+import DataAccess.JPA.Invitation;
+import DataAccess.JPA.Recommendation;
+import DataAccess.JPA.RecommendationPK;
+import Messages.MessageUtil;
+import Services.Encryption;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -29,6 +36,12 @@ public class RegistrationBean implements Serializable {
     @Inject
     private AccountDao loginAuthBean;
     
+    @Inject
+    private InvitationCRUD InvitationEjb;
+    
+    @Inject
+    private RecommendationDao recommendationEjb;
+    
     private String id;
     private String first_name;
     private String last_name;
@@ -41,6 +54,8 @@ public class RegistrationBean implements Serializable {
     private String city;
     private int errorCounter = 0;
     private boolean rendered = false;
+    
+    private String code = "";
 
     public boolean isRendered() {
         return rendered;
@@ -130,9 +145,7 @@ public class RegistrationBean implements Serializable {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
-    }
-
-    
+    }  
 
     public String getPicture() {
         return picture;
@@ -141,11 +154,21 @@ public class RegistrationBean implements Serializable {
     public void setPicture(String picture) {
         this.picture = picture;
     }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+   
     /**
      * Creates a new instance of RegistrationBean
      */
     public RegistrationBean() {
     }
+    
     public void takeDataFromFacebook(){
         FacesContext context = FacesContext.getCurrentInstance();
         Map map = context.getExternalContext().getRequestParameterMap();
@@ -204,10 +227,48 @@ public class RegistrationBean implements Serializable {
         account.setStatus("Kandidatas");
         account.setVersion(0);
         account.setTimeSpentOnHoliday(0);
-        account.setMemberSince(date);
-        loginAuthBean.addAccount(account);
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "login?faces-redirect=true";
+        
+        if (!"".equals(code)) {
+            try {
+                String encrypted = Encryption.encrypt(code);
+                Invitation invitation = InvitationEjb.findByCode(encrypted);
+                if (invitation != null) {
+                    try {
+                        loginAuthBean.addAccount(account);   ///IDEDA KANDIDATA
+
+                        Recommendation recommend = new Recommendation();             
+                        RecommendationPK recPK = new RecommendationPK();
+                        recPK.setReceiverAccountid(account.getId());
+                        recPK.setGiverAccountid(invitation.getInviterAccountid().getId());
+                        recommend.setRecommendationPK(recPK);
+                        recommend.setIsGiven(Boolean.TRUE);
+                        recommend.setSendDate(Calendar.getInstance().getTime());
+                        recommendationEjb.addRecommendation(recommend);    //IDEDA REKOMENDACIJA
+
+                        InvitationEjb.deleteInvitation(invitation);       //ISTRINA PAKVIETIMA
+
+                        code = "";
+                        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+                        return "login?faces-redirect=true";                          
+                    } catch (Exception e) {
+                        MessageUtil.addErrorMessage("Sistemos klaida. Apgailestaujame.");
+                        return "registration?faces-redirect=true";
+                    }                                   
+                }
+                else {
+                    MessageUtil.addErrorMessage("Toks kodas neegzistuoja. Įveskite teisingą pakvietimo kodą arba palikite lauką tuščią!");
+                    return "registration?faces-redirect=true";
+                }             
+            } catch (Exception e) {
+                MessageUtil.addErrorMessage("Sistemos klaida. Apgailestaujame.");
+                return "registration?faces-redirect=true";
+            }    
+        }
+        else {
+            loginAuthBean.addAccount(account);
+            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+            return "login?faces-redirect=true";
+        }
     }
     
     

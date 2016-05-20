@@ -26,8 +26,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Invitation.findAll", query = "SELECT i FROM Invitation i"),
     @NamedQuery(name = "Invitation.findById", query = "SELECT i FROM Invitation i WHERE i.id = :id"),
-    @NamedQuery(name = "Invitation.findByCode", query = "SELECT i FROM Invitation i WHERE i.code = :code"),
-    @NamedQuery(name = "Invitation.findByIsUsed", query = "SELECT i FROM Invitation i WHERE i.isUsed = :isUsed")})
+    @NamedQuery(name = "Invitation.findByCode", query = "SELECT i FROM Invitation i WHERE i.code = :code")})
 
 public class Invitation implements Serializable {
 
@@ -40,12 +39,9 @@ public class Invitation implements Serializable {
     
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 10)
+    @Size(min = 1, max = 24)
     @Column(name = "CODE")
     private String code;
-    
-    @Column(name = "IS_USED")
-    private Boolean isUsed;
     
     @JoinColumn(name = "INVITER_ACCOUNTID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
@@ -77,14 +73,6 @@ public class Invitation implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public Boolean getIsUsed() {
-        return isUsed;
-    }
-
-    public void setIsUsed(Boolean isUsed) {
-        this.isUsed = isUsed;
     }
 
     public Account getInviterAccountid() {

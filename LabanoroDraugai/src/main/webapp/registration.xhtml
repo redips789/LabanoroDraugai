@@ -166,9 +166,11 @@
                     
                 
             <div id="content-container">
-                <h:form>
-                    <div id="profile-wrapper">
-                        <div id="profile-container">
+                              
+            
+                <div id="profile-wrapper">
+                <div id="profile-container">
+                    
                 <p:outputPanel autoUpdate="true">
                 <p:graphicImage url="#{registrationBean.picture}"   />
                 </p:outputPanel>
@@ -222,24 +224,19 @@
                     <p:outputLabel value=" "/>
                     <h:outputText id="display" />
                     <p:outputLabel value=" "/>
+                    
+                    <p:outputLabel value="Pakvietimo kodas: "/>
+                    <p:outputPanel autoUpdate="true">
+                        <p:inputText id="code" value="#{registrationBean.code}" />
+                    </p:outputPanel>
+                      
+                    
                     <p:commandButton value="Registruotis" action="#{registrationBean.register()}" id="withIcon" type="submit" ajax="false" validateClient="true" icon="ui-icon-disk"/>
                     </h:panelGrid>
-        </h:form>  
-                            </div>
-                        </div>
                     </h:form>
-          
-        
-               
-                
-                
-                
-                
-                
-                
-                
-                
-                
+                </div>
+                </div>
+
             </div>
                        
             <div id="footer-container" >

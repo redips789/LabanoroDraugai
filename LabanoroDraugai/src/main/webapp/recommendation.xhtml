@@ -59,6 +59,12 @@
                     </f:facet>
                 </p:dataTable>     
                 
+                <h:panelGrid columns="3" columnClasses="column" cellpadding="2" rendered="#{accountBean.notCandidate}">
+                    <p:inputText id="email" value="#{recommendationBean.email}" size="30" maxlength="49"/>
+                    <p:commandButton update="email" value="Pakviesti draugą"  actionListener="#{recommendationBean.inviteFriend()}" rendered="#{accountBean.notCandidate}"/>
+                </h:panelGrid>  
+                <h:outputText value=" Info: Jei siuntimas užtrunka šiek tiek laiko, nesinervuokite ir palaukite!" rendered="#{accountBean.notCandidate}"/>
+                
                 <p:dataTable id="checkboxDT" var="giver" styleClass="recTable" value="#{recommendationBean.giverList}" selection="#{recommendationBean.selectedCandidates}" rowKey="#{giver.recommendationPK.receiverAccountid}" rendered="#{accountBean.notCandidate}">
                     <f:facet name="header">Gauti rekomendacijų prašymai</f:facet>
                     <p:column headerText="Kandidatas" styleClass="leftColumn">

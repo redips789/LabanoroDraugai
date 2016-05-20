@@ -19,6 +19,13 @@ import javax.inject.Named;
 @Named
 @RequestScoped
 public class AccountBean {
+    
+    private static final String CANDIDATE = "Kandidatas";
+    private static final String ADMIN = "Administratorius";
+         
+    @Inject
+    LoginBean loginBean;
+    
     @EJB
     AccountDao accountEjb;
     private List<Account> accountList = new ArrayList<>();
@@ -29,17 +36,6 @@ public class AccountBean {
     
     private Account account;
     
-    @Inject
-    LoginBean loginBean;
-
-    public LoginBean getLoginBean() {
-        return loginBean;
-    }
-
-    public void setLoginBean(LoginBean loginBean) {
-        this.loginBean = loginBean;
-    }
-
     public List<Account> getAccountList() {
         this.loadAccounts();
         return accountList;
@@ -70,7 +66,7 @@ public class AccountBean {
         List<Account> tempList = accountEjb.findAllAccounts();
         for(Account item : tempList){
                 
-                if (item.getStatus().equals("Kandidatas")|| item.getStatus().equals("Administratorius") || item.getFacebookid().equals(loginBean.getFbid())){}
+                if (item.getStatus().toLowerCase().equals(CANDIDATE.toLowerCase()) || item.getFacebookid().equals(loginBean.getFbid())){}
                 else {
                     item.setAge(estimateAge(item.getDateOfBirth()));
                     this.accountList.add(item);
@@ -102,7 +98,7 @@ public class AccountBean {
     public void loadMembers() {
         this.memberList = accountEjb.findAllAccounts();
         for (int i=0; i<this.memberList.size(); i++) {
-            if ("Kandidatas".equals(this.memberList.get(i).getStatus().toLowerCase())) {
+            if (CANDIDATE.toLowerCase().equals(this.memberList.get(i).getStatus().toLowerCase())) {
                 this.memberList.remove(i);
                 i--;
             }
@@ -111,17 +107,17 @@ public class AccountBean {
     
     public boolean isCandidate() {
         account=accountEjb.findAccountById(loginBean.getId());
-        return "Kandidatas".toLowerCase().equals(account.getStatus().toLowerCase());
+        return CANDIDATE.toLowerCase().equals(account.getStatus().toLowerCase());
     }
     
     public boolean isNotCandidate() {
         account=accountEjb.findAccountById(loginBean.getId());
-        return !"Kandidatas".toLowerCase().equals(account.getStatus().toLowerCase());
+        return !CANDIDATE.toLowerCase().equals(account.getStatus().toLowerCase());
     }
     
     public boolean isAdmin() {
         account=accountEjb.findAccountById(loginBean.getId());
-        return "Administratorius".toLowerCase().equals(account.getStatus().toLowerCase());
+        return ADMIN.toLowerCase().equals(account.getStatus().toLowerCase());
     }
     
     public List<String> findMembers() {

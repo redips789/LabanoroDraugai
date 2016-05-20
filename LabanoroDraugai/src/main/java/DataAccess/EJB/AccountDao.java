@@ -46,6 +46,15 @@ public class AccountDao {
         return (Account) ac.createNamedQuery("Account.findById").setParameter("id", id).getSingleResult();
     }
     
+    public Account findAccountByEmail(String email){
+        try {
+            Account acc = (Account) ac.createNamedQuery("Account.findByEmail").setParameter("email", email).getSingleResult();
+            return acc;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
     public Account updateAccount(Account changedAccount){
        Account b = ac.merge(changedAccount); // reference to another object than the one passed in when the object was already loaded in the current context.
        return b;
