@@ -72,7 +72,7 @@ public class EditProfileBean implements Serializable {
     public String saveAccountChanges() {
         try {
             //account.setPhotoBlob(IOUtils.toByteArray(this.file.getInputstream()));
-            if (this.file.getFileName() == null){
+            if (!"".equals(this.file.getFileName())){
                 Image image = new Image();
                 image.setContent(IOUtils.toByteArray(this.file.getInputstream()));
                 Integer imageId = imagesEjb.addImage(image);
