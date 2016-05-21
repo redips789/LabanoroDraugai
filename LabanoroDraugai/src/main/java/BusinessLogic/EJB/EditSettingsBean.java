@@ -40,7 +40,7 @@ import org.apache.commons.io.IOUtils;
 @RequestScoped
 public class EditSettingsBean implements Serializable {
 
-    @EJB
+    @Inject
     SettingsCRUD settingsEjb;
     
     private Settings settings;
@@ -48,6 +48,9 @@ public class EditSettingsBean implements Serializable {
     @PostConstruct
     public void init() {
         settings = settingsEjb.findSettings();
+        if(settings == null){
+            settings = new Settings();
+        }
     }
 
     public String saveSettingsChanges (){

@@ -52,6 +52,15 @@ import javax.validation.constraints.Size;
 
 public class Account implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId")
+    private List<Reservation> reservationList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId")
+    private List<PaidFees> paidFeesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
+    private List<Recommendation> recommendationList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account1")
+    private List<Recommendation> recommendationList1;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -329,6 +338,38 @@ public class Account implements Serializable {
     @Override
     public String toString() {
         return "DataAccess.JPA.Account[ id=" + id + " ]";
+    }
+
+    public List<Reservation> getReservationList() {
+        return reservationList;
+    }
+
+    public void setReservationList(List<Reservation> reservationList) {
+        this.reservationList = reservationList;
+    }
+
+    public List<PaidFees> getPaidFeesList() {
+        return paidFeesList;
+    }
+
+    public void setPaidFeesList(List<PaidFees> paidFeesList) {
+        this.paidFeesList = paidFeesList;
+    }
+
+    public List<Recommendation> getRecommendationList() {
+        return recommendationList;
+    }
+
+    public void setRecommendationList(List<Recommendation> recommendationList) {
+        this.recommendationList = recommendationList;
+    }
+
+    public List<Recommendation> getRecommendationList1() {
+        return recommendationList1;
+    }
+
+    public void setRecommendationList1(List<Recommendation> recommendationList1) {
+        this.recommendationList1 = recommendationList1;
     }
 
 }

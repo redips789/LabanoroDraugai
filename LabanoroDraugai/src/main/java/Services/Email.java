@@ -83,4 +83,12 @@ public class Email {
         String body = createBody(msg);
         sendEmail(email, subject, body);
     }
+    
+    public static void emailDeletedCandidate(String email){
+        String subject = "Lūdna žinutė";
+        String msg = "Informuojame, jog nors Jūsų rekomendacijos buvo patvirtintos, tačiau dėl pasiekto maksimalaus klubo naudotojų skaičiaus, Jūsų negalime priimti į klubą.\n\n";
+        msg = msg+"Labai apgailestaujame.\n";
+        String body = createBody(msg);
+        sendEmail(email, subject, body);       
+    }
 }

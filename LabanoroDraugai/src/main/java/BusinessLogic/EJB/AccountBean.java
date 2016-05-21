@@ -26,7 +26,7 @@ public class AccountBean {
     @Inject
     LoginBean loginBean;
     
-    @EJB
+    @Inject
     AccountCRUD accountEjb;
     private List<Account> accountList = new ArrayList<>();
     

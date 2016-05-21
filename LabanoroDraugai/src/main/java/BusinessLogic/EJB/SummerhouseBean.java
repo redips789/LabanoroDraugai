@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,12 +21,14 @@ import javax.persistence.PersistenceContext;
  */
 
 @Named
+@RequestScoped
 public class SummerhouseBean implements Serializable {
     
     @PersistenceContext
     private EntityManager em;
     
-    @EJB SummerhouseCRUD summerhouseCRUD;
+    @Inject 
+    SummerhouseCRUD summerhouseCRUD;
     
     private List<Summerhouse> summerhouses;
     private List<Summerhouse> filteredSummerhouses;

@@ -67,6 +67,7 @@ public class AccountCRUD {
         now.set(Calendar.HOUR_OF_DAY, 0);
         now.set(Calendar.MINUTE, 0);
         now.set(Calendar.SECOND, 0);
+        acc.setPoints(500);
         acc.setMemberSince(now.getTime());
         acc.setNextPayment(now.getTime());
         ac.persist(acc);
