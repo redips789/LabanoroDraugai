@@ -5,6 +5,7 @@ import DataAccess.EJB.SummerhouseCRUD;
 import DataAccess.JPA.Summerhouse;
 import java.io.Serializable;
 import javax.ejb.EJB;
+import javax.inject.Inject;
 
 /**
  *
@@ -17,7 +18,7 @@ public class SummerhouseDetails implements Serializable {
     private String title;   
     private Summerhouse detailedSummerhouse;
     
-    @EJB SummerhouseCRUD summerhouseCRUD;
+    @Inject SummerhouseCRUD summerhouseCRUD;
 
     public String getTitle() {
         return title;
