@@ -31,9 +31,12 @@ public class AccountCRUD {
     }
     
     public Account findAccount(String fbId){
-
-        System.out.println("--vol 2------------------ "+ fbId);
-        return (Account) ac.createNamedQuery("Account.findByFacebookid").setParameter("facebookid", fbId).getResultList().get(0); // nes bus vienintelis
+        try {
+            Account acc = (Account) ac.createNamedQuery("Account.findByFacebookid").setParameter("facebookid", fbId).getResultList().get(0);
+            return acc;
+        } catch (Exception e) {
+            return null;
+        }
     }
     
     public Account findAccountById(int id){
