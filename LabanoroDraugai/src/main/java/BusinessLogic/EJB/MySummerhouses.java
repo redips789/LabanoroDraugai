@@ -40,8 +40,6 @@ public class MySummerhouses implements Serializable {
     @PostConstruct
     public void init() {
         accountFbId = loginBean.getFbid();
-        System.out.println("aaaaa"+accountFbId);
-        
         
         if (accountFbId != null) acc = accountCRUD.findAccount(accountFbId);
         

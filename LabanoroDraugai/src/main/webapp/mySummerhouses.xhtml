@@ -31,30 +31,33 @@
                    
                     
                         <h:form id="sh">
-                            <p:dataScroller id="list" value="#{mySummerhouses.mySummerhouses}" var="summerhouse" chunkSize="5">
-                            <f:facet name="header">
-                                Mano rezervuoti vasarnamiai
-                            </f:facet>
-
-                            <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-                                <p:graphicImage value="../img/lab.jpg" />
-
-                                <p:outputPanel>
-                                    <h:panelGrid columns="2" cellpadding="5">
-                                        <h:outputText value="Pavadinimas:" />
-                                        <h:outputText value="#{summerhouse.title}" style="font-weight: bold"/>
-
-                                        <h:outputText value="Miegamų vietų skaičius:" />
-                                        <h:outputText value="#{summerhouse.beds}" style="font-weight: bold"/>
-                                        
-                                        <h:outputText value="Kaina (tšk):" />
-                                        <h:outputText value="#{summerhouse.cost}" style="font-weight: bold"/>
-                                        
-                                    </h:panelGrid>
-                                </p:outputPanel>
-                            </h:panelGrid>
-                        </p:dataScroller>
-                    </h:form>
+                            <p:dataTable id="list" value="#{mySummerhouses.mySummerhouses}" var="summerhouse" emptyMessage="Rezervacijų nėra" >
+                                <f:facet name="header">
+                                    Mano rezervuoti vasarnamiai
+                                </f:facet>
+                                
+                                <p:column headerText="Pavadinimas">
+                                    <h:outputText value="#{summerhouse.title}" />
+                                </p:column>
+                                
+                                <p:column headerText="Lovų skaičius">
+                                    <h:outputText value="#{summerhouse.beds}" />
+                                </p:column>
+                                
+                                <p:column headerText="Kaina">
+                                    <h:outputText value="#{summerhouse.cost}" />
+                                </p:column>
+                                
+                                <p:column headerText="Rezervuotas nuo">
+                                    <h:outputText value="#{summerhouse.cost}" />
+                                </p:column>
+                                
+                                <p:column headerText="Rezervuotas iki">
+                                    <h:outputText value="#{summerhouse.cost}" />
+                                </p:column>
+                                
+                            </p:dataTable>
+                        </h:form>
                  
                     </div>
                     </div>
