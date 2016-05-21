@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
@@ -19,10 +20,11 @@ import javax.inject.Inject;
  */
 
 @RequestScoped
+@Named
 public class MySummerhouses implements Serializable {
     
-    @EJB SummerhouseCRUD summerhouseCRUD;
-    @EJB ReservationCRUD reservationCRUD;
+    @Inject SummerhouseCRUD summerhouseCRUD;
+    @Inject ReservationCRUD reservationCRUD;
     
     @Inject
     LoginBean loginBean;
