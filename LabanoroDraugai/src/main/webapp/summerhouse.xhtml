@@ -57,7 +57,9 @@
                             </f:facet>
 
                             <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-                                <p:graphicImage value="../img/lab.jpg" />
+                                <p:graphicImage class="profile-image-container" >
+                                    <f:param name="id" />
+                                </p:graphicImage>
 
                                 <p:outputPanel>
                                     <h:panelGrid columns="2" cellpadding="5">
@@ -71,7 +73,7 @@
                                         <h:outputText value="#{summerhouse.cost}" style="font-weight: bold"/>
                                         
                                         <p:button outcome="summerhouseMoreDetails" value="Plačiau" icon="ui-icon-star">
-                                            <f:param name="title" value="#{summerhouse.title}" />
+                                            <f:param name="id" value="#{summerhouse.id}" />
                                         </p:button>
                                         
                                     </h:panelGrid>

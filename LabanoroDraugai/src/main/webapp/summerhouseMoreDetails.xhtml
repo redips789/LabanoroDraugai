@@ -28,7 +28,7 @@
                 <div id="content-container">
                          
                     <f:metadata>
-                        <f:viewParam name="title" value="#{summerhouseDetails.title}" />
+                        <f:viewParam name="id" value="#{summerhouseDetails.id}" />
                     </f:metadata>
                     
                     <h:form>
@@ -51,9 +51,85 @@
                                             maxdate="#{summerhouseDetails.detailedSummerhouse.validityEnd}"/>
                                 
                             </h:panelGrid>
-                            <p:button value="Rezervuoti" icon="ui-icon-calendar" outcome="summerhouseReservation" />
+                            <p:commandButton value="Rezervuoti" type="button" onclick="PF('first').show();" disabled="#{!reservationBean.canReserve}" />
                         </p:panel>
                     </h:form>
+                    
+                    <p:dialog header="Rezervacija" class="reservation-dialog" widgetVar="first" modal="true" height="500" width="700" closable="false" resizable="false">
+                            <div id="profile-wrapper">
+                            <div id="profile-container">
+                                <h:form>
+                                    <h:panelGrid columns="1" columnClasses="column" cellpadding="1">
+                                        <p:outputLabel value="Nurodykite rezervacijos laikotarpį:" />
+                                        
+                                        <h:form>
+                                            <p:messages id="messages" autoUpdate="true" closable="true" />
+                                        </h:form>
+                                        <p:spacer height="10" />
+                                        <h:panelGrid id="antra" columns="2" columnClasses="column" cellpadding="11">
+                                            <p:outputLabel value="Nuo" />
+                                            <p:calendar id="restricted" value="#{reservationBean.startDate}" mindate="#{reservationBean.settings.firstReservation}" maxdate="#{reservationBean.settings.closeReservation}" required="true" size="11"/>
+                                            <p:outputLabel value="Iki" />
+                                            <p:calendar id="restricted2" value="#{reservationBean.endDate}" mindate="#{reservationBean.settings.firstReservation}" maxdate="#{reservationBean.settings.closeReservation}" required="true" size="11"/>
+                                            
+                                            <p:outputLabel value="" /> 
+                                            <p:outputLabel value="" /> 
+                                            
+                                            <p:commandButton class="edit-profile-button-width" value="Atšaukti" type="button" onclick="PF('first').hide();"/>
+                                            <p:commandButton class="edit-profile-button-width" type="submit" value="Rezervuoti" icon="ui-icon-disk" onclick="PF('second').show(); PF('first').hide();"/>
+                                            <p:outputLabel value="" />                                        
+                                        </h:panelGrid>
+                                        <p:spacer height="40" />
+                                            <p:outputLabel value="Peržiūrėkite, kokie klubo nariai atostogaus " />
+                                            <p:outputLabel value="Labanoro girioje Jūsų nurodytu laikotarpiu:"/>
+                                        
+                                        <p:spacer height="30" />
+                                        <p:commandButton value="Peržiūrėti" type="submit" icon="ui-icon-search" title="Peržiūrėti" onclick="#{reservationBean.throwMsg()}"/>
+                                    </h:panelGrid>
+                                </h:form>
+                            </div>
+                        </div>
+                    </p:dialog> 
+                        
+                        <p:dialog header="Rezervacija"  widgetVar="second" modal="true"  height="500" width="700" closable="false" resizable="false">
+                            <div id="profile-wrapper">
+                            <div id="profile-container">
+                                <h:form>
+                                    <h:panelGrid columns="1" columnClasses="column" cellpadding="1">
+                                        <p:outputLabel value="Peržiūrėkite, ar teisinga rezervacijos informacija:" />
+                                        
+                                        <p:spacer height="10" />
+                                        <h:panelGrid columns="2" columnClasses="column" cellpadding="11">
+                                            <p:outputLabel value="Pavadinimas: " />
+                                            <p:outputLabel value="" /> 
+                                            
+                                            <p:outputLabel value="Vietų skaičius:" />
+                                            <p:outputLabel value="" /> 
+                                            
+                                            <p:outputLabel value="Nuo:" />
+                                            <p:outputLabel value="" /> 
+                                            
+                                            <p:outputLabel value="Iki:" />
+                                            <p:outputLabel value="" /> 
+                                            
+                                            <p:outputLabel value="Kaina" />
+                                            <p:outputLabel value="" /> 
+                                            
+                                        </h:panelGrid>
+                                        <p:spacer height="30" />
+                                        <p:outputLabel value="Rezervacija bus baigta, kai sumokėsite už ją: " />
+                                        <p:spacer height="30" />
+                                        <h:panelGrid columns="2" columnClasses="column" cellpadding="11">
+                                            <p:commandButton class="edit-profile-button-width" value="Atgal" type="button" onclick="PF('first').show(); PF('second').hide();"/>
+                                            <p:commandButton class="edit-profile-button-width" type="submit" value="Mokėti" icon="ui-icon-disk" onclick="#{reservationBean.saveReservation()}"/>
+                                            <p:outputLabel value="" />                                        
+                                        </h:panelGrid>
+                                        <p:spacer height="40" />
+                                    </h:panelGrid>
+                                </h:form>
+                            </div>
+                            </div>
+                        </p:dialog> 
                     
                     
                 </div>
