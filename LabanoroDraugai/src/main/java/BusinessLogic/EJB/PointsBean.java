@@ -4,7 +4,9 @@ import DataAccess.EJB.AccountCRUD;
 import DataAccess.EJB.SettingsCRUD;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Settings;
+import Decorators.IPriceCalculator;
 import Messages.Message;
+import java.io.Console;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
@@ -19,6 +21,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.PersistenceException;
 import javax.persistence.SynchronizationType;
+import Interceptors.Interceptable;
+import javax.faces.context.FacesContext;
+import javax.interceptor.InvocationContext;
+
 
 /**
  *
@@ -27,6 +33,7 @@ import javax.persistence.SynchronizationType;
 @Named 
 @ConversationScoped
 @Stateful
+//@Interceptable
 public class PointsBean {
 
     /**
@@ -50,6 +57,9 @@ public class PointsBean {
     
     @Inject
     LoginBean loginBean;
+    
+    @Inject 
+    private IPriceCalculator priceCalculator;
     
     private Account account;
     
@@ -95,16 +105,23 @@ public class PointsBean {
     }
 
     public boolean isFeeIsPaid() {
+        if(account.getNextPayment()==null){
+            return false;
+        }          
         if (account.getNextPayment().before(Calendar.getInstance().getTime())){
             return false;
         }
         else{
+            Message.addWarningMessage("Mokėjimas jau buvo atliktas.");
             return true;
         }
     }
 
 
-    public String getMembership() {
+    public String checkMembership() {
+        if(account.getNextPayment()==null){
+            return "Nesumokėtas";
+        }
         if (account.getNextPayment().before(Calendar.getInstance().getTime())){
             return "Nesumokėtas";
         }
@@ -121,17 +138,23 @@ public class PointsBean {
         settings = settingsEjb.findSettings();
         double a = settings.getMembershipFee();
         this.price = (int) a;
+        System.out.println("---------INIT-----------");
+        this.price = priceCalculator.calculatePrice(this.price, account);
+        System.out.println(account.getFacebookid());
     }
     
     public String startPaying(){
         if (!conversation.isTransient()) {
             conversation.end();
+            System.out.println("-------------------------------------------------test1-----------");
     }
         conversation.begin();
-        
+        System.out.println("-------------------------------------------------test1-----------");
+
         return "payMembershipFee?faces-redirect=true";
     }
     
+    @Interceptable
     public String payWithPoints(){
         double a = settings.getMembershipFee();
         int b = (int) a;
@@ -144,22 +167,25 @@ public class PointsBean {
         this.account.setNextPayment(date); 
         //this.account.setStatus("aktyvus");                                      // nebereikia
         try{
-        this.account = em.merge(this.account);
+        payMembershipFeeWithPoints(this.account);
         conversation.end();
         em.joinTransaction();
         em.flush();
-        
        Message.addSuccessMessage("Mokėjimas sėkmingai atliktas!");
+       FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("interceptorAccount", this.account);
        return "points?faces-redirect=true";
         } catch (OptimisticLockException ole) {
             Message.addWarningMessage("Mokėjimas jau buvo atliktas.");
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("interceptorAccount", null);
             return "points?faces-redirect=true";
         } catch (PersistenceException pe) {
             Message.addErrorMessage("Nesijaudinkite, bet įvyko klaida ir mokėjimas nebuvo atliktas. Bandykite dar kartą.");
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("interceptorAccount", null);
             return "points?faces-redirect=true";
         }
         catch (Exception pe) {
             Message.addErrorMessage("Nesijaudinkite, bet įvyko nežinoma klaida. Bandykite dar kartą.");
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("interceptorAccount", null);
             return "points?faces-redirect=true";
         } 
     }
@@ -170,4 +196,9 @@ public class PointsBean {
         }
        return "points?faces-redirect=true";
    }
+    @Interceptable
+    public void payMembershipFeeWithPoints(Account account){
+        this.account = em.merge(account);
+        System.out.println("-----------************------payMembershipFeeWithPoints-------************----------");
+    }
 }

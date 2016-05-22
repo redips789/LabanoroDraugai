@@ -27,6 +27,9 @@ import javax.persistence.Table;
 
 public class Image implements Serializable {
 
+    @OneToMany(mappedBy = "photoImageid")
+    private List<Summerhouse> summerhouseList;
+
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -96,6 +99,14 @@ public class Image implements Serializable {
     @Override
     public String toString() {
         return "DataAccess.JPA.Image[ id=" + id + " ]";
+    }
+
+    public List<Summerhouse> getSummerhouseList() {
+        return summerhouseList;
+    }
+
+    public void setSummerhouseList(List<Summerhouse> summerhouseList) {
+        this.summerhouseList = summerhouseList;
     }
 
 }
