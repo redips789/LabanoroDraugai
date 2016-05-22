@@ -2,12 +2,16 @@
 package BusinessLogic.EJB;
 
 import DataAccess.EJB.AccountCRUD;
+import DataAccess.EJB.ReservationCRUD;
 import DataAccess.EJB.SettingsCRUD;
 import DataAccess.JPA.Account;
+import DataAccess.JPA.Reservation;
 import DataAccess.JPA.Settings;
 import Messages.Message;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
 import javax.enterprise.context.Conversation;
@@ -41,6 +45,9 @@ public class ReservationBean {
     SettingsCRUD settingsEjb;
     
     @Inject
+    ReservationCRUD reservationEjb;
+    
+    @Inject
     LoginBean loginBean;
     
     private Account account;
@@ -52,6 +59,9 @@ public class ReservationBean {
     private Date endDate;
     
     private boolean canReserve;
+    
+    private List<Reservation> membersReservations = new ArrayList<>();
+    private List<Account> membersAccounts = new ArrayList<>();
 
     public Conversation getConversation() {
         return conversation;
@@ -105,6 +115,22 @@ public class ReservationBean {
         return canReserve;
     }
 
+    public List<Reservation> getMembersReservations() {
+        return membersReservations;
+    }
+
+    public void setMembersReservations(List<Reservation> membersReservations) {
+        this.membersReservations = membersReservations;
+    }
+
+    public List<Account> getMembersAccounts() {
+        return membersAccounts;
+    }
+
+    public void setMembersAccounts(List<Account> membersAccounts) {
+        this.membersAccounts = membersAccounts;
+    }
+
     public void setCanReserve(boolean canReserve) {
         this.canReserve = canReserve;
     }
@@ -113,9 +139,19 @@ public class ReservationBean {
         @PostConstruct
     public void init() {
         
-        account=accountEjb.findAccount(loginBean.getFbid());
+        account = accountEjb.findAccount(loginBean.getFbid());
         settings = settingsEjb.findSettings();
         canReserveValidation();
+    }
+    
+    public List<Account> findMembersOnSamePeriod() {
+        membersReservations = reservationEjb.findByPeriod(startDate, endDate);  // susirandam rezervacijas pagal datas
+        
+        for (Reservation reservation : membersReservations) {  
+            membersAccounts.add(reservation.getAccountId());    // pagal atrinktas rezervacijas paimam accountus
+        }
+        
+        return membersAccounts;
     }
     
     public void throwMsg(){

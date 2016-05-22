@@ -3,6 +3,7 @@ package DataAccess.EJB;
 
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Reservation;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -26,6 +27,12 @@ public class ReservationCRUD {
     public List<Reservation> getByAccount(Account acc) {
         Query query = em.createQuery("SELECT r FROM Reservation r WHERE r.accountId = :acc").
                 setParameter("acc", acc);
+        return query.getResultList();
+    }
+    
+    public List<Reservation> findByPeriod(Date from, Date to) {
+        Query query = em.createQuery("SELECT r FROM Reservation r WHERE r.startDate <= :from AND r.endDate >= :to").
+                setParameter("from", from).setParameter("to", to);
         return query.getResultList();
     }
 

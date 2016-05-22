@@ -31,32 +31,32 @@
                    
                     
                         <h:form id="sh">
-                            <p:dataTable id="list" value="#{mySummerhouses.mySummerhouses}" var="summerhouse" emptyMessage="Rezervacijų nėra" >
+                            <p:dataTable id="list" value="#{mySummerhouses.myReservations}" var="reservation" emptyMessage="Rezervacijų nėra" >
                                 <f:facet name="header">
                                     Mano rezervuoti vasarnamiai
                                 </f:facet>
                                 
                                 <p:column headerText="Pavadinimas">
-                                    <h:outputText value="#{summerhouse.title}" />
+                                    <h:outputText value="#{reservation.summerhouseId.title}" />
                                 </p:column>
                                 
                                 <p:column headerText="Lovų skaičius">
-                                    <h:outputText value="#{summerhouse.beds}" />
+                                    <h:outputText value="#{reservation.summerhouseId.beds}" />
                                 </p:column>
                                 
                                 <p:column headerText="Kaina">
-                                    <h:outputText value="#{summerhouse.cost}" />
+                                    <h:outputText value="#{reservation.summerhouseId.cost}" />
                                 </p:column>
                                 
                                 <p:column headerText="Rezervuotas nuo">
-                                    <p:outputLabel value="#{summerhouse.validityStart}">
+                                    <p:outputLabel value="#{reservation.startDate}">
                                         <f:convertDateTime pattern="yyyy-MM-dd" />
                                     </p:outputLabel>
                                     
                                 </p:column>
                                 
                                 <p:column headerText="Rezervuotas iki">
-                                    <p:outputLabel value="#{summerhouse.validityEnd}">
+                                    <p:outputLabel value="#{reservation.endDate}">
                                         <f:convertDateTime pattern="yyyy-MM-dd" />
                                     </p:outputLabel>
                                 </p:column>
