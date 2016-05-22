@@ -6,6 +6,7 @@ import DataAccess.EJB.SettingsCRUD;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Settings;
 import Messages.Message;
+import java.util.Calendar;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
@@ -50,9 +51,7 @@ public class ReservationBean {
     
     private Date endDate;
     
-    private Date firstReservation;
-    
-    private Date closeReservalion; 
+    private boolean canReserve;
 
     public Conversation getConversation() {
         return conversation;
@@ -85,11 +84,6 @@ public class ReservationBean {
     public void setLoginBean(LoginBean loginBean) {
         this.loginBean = loginBean;
     }
-    
-    //
-    
-    
-
 
     public Date getStartDate() {
         return startDate;
@@ -107,20 +101,12 @@ public class ReservationBean {
         this.endDate = endDate;
     }
 
-    public Date getFirstReservation() {
-        return firstReservation;
+    public boolean isCanReserve() {
+        return canReserve;
     }
 
-    public void setFirstReservation(Date firstReservation) {
-        this.firstReservation = firstReservation;
-    }
-
-    public Date getCloseReservalion() {
-        return closeReservalion;
-    }
-
-    public void setCloseReservalion(Date closeReservalion) {
-        this.closeReservalion = closeReservalion;
+    public void setCanReserve(boolean canReserve) {
+        this.canReserve = canReserve;
     }
         //-business-//
     
@@ -128,9 +114,8 @@ public class ReservationBean {
     public void init() {
         
         account=accountEjb.findAccount(loginBean.getFbid());
-//        settings = settingsEjb.findSettings().getFirstReservation();
-        this.firstReservation = settingsEjb.findSettings().getFirstReservation();
-        this.closeReservalion = settingsEjb.findSettings().getCloseReservation();
+        settings = settingsEjb.findSettings();
+        canReserveValidation();
     }
     
     public void throwMsg(){
@@ -151,6 +136,43 @@ public class ReservationBean {
     private void payForReservation(){
     
     }
+    
+    private void canReserveValidation(){
+        //1. ar turi pinigų bent savaitei - nžn ar reikia sitoj vietoj, kol kas nera
+        //2. pagal siandienos data kurios grupes rezervuotis gali
+        //3. ar naudotojas patenka i ta grupe 
+        int reservedDays = this.account.getTimeSpentOnHoliday();
+        if (settings.getSecondReservation().after(Calendar.getInstance().getTime())){
+            //1grupe. Maksimumas 1 sav.
+            int max1 = 7;
+            if (reservedDays < max1) this.canReserve = true;
+            else                     this.canReserve = false;
+        }
+        else{
+            if (settings.getThirdReservation().after(Calendar.getInstance().getTime())){
+                //1 ir 2 grupe. Maksimumas 2 sav.
+                int max2 = 14;
+                if (reservedDays < max2) this.canReserve = true;
+                else                     this.canReserve = false;
+            
+            }
+            else{
+                if (settings.getCloseReservation().after(Calendar.getInstance().getTime())){
+                    //1, 2, 3 grupe. Maksimumas 3 sav.
+                    int max3 = 21;
+                    if (reservedDays < max3) this.canReserve = true;
+                    else                     this.canReserve = false;
+                }
+                else{
+                    //rezervacijos laikas baigtas
+                    this.canReserve = false;
+                }
+            }
+        
+        }
+    }
+    
+    
     
 
 }

@@ -15,6 +15,7 @@ import javax.faces.bean.ManagedBean;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -27,7 +28,7 @@ import org.primefaces.model.StreamedContent;
 @ApplicationScoped // veikia ir request, hm
 public class ImageStreamer {
 
-    @EJB
+    @Inject
     private ImageCRUD service;
 
     public StreamedContent getOneImage() throws IOException {

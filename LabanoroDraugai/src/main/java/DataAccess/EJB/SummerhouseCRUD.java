@@ -20,9 +20,6 @@ public class SummerhouseCRUD {
     @PersistenceContext(type = TRANSACTION, synchronization = UNSYNCHRONIZED)
     private EntityManager em;
 
-    @PersistenceContext
-    EntityManager sh;
-
     public Summerhouse findById(int id) {
         Query query = em.createNamedQuery("Summerhouse.findById", Summerhouse.class).
                 setParameter("id", id);
@@ -57,18 +54,18 @@ public class SummerhouseCRUD {
     }
 
     public void addSummerhouse(Summerhouse summerhouse) {
-        sh.persist(summerhouse);
-        sh.flush();
+        em.persist(summerhouse);
+        em.flush();
     }
 
     public Summerhouse updateSummerhouse(Summerhouse summerhouse) {
-       Summerhouse b = sh.merge(summerhouse); // reference to another object than the one passed in when the object was already loaded in the current context.
-       sh.flush();
+       Summerhouse b = em.merge(summerhouse); // reference to another object than the one passed in when the object was already loaded in the current context.
+       em.flush();
        return b;
     }
     
     public void deleteSummerhouse(Summerhouse summerhouse){
-        sh.remove(sh.merge(summerhouse));
-        sh.flush();
+        em.remove(em.merge(summerhouse));
+        em.flush();
     }
 }

@@ -1,6 +1,7 @@
 
 package DataAccess.EJB;
 
+import DataAccess.JPA.Account;
 import DataAccess.JPA.Reservation;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -22,9 +23,9 @@ public class ReservationCRUD {
     @PersistenceContext
     private EntityManager em;
     
-    public List<Reservation> getByAccountId(String accId) {
-        Query query = em.createQuery("SELECT r FROM Reservation r WHERE r.accountId.id = :accId").
-                setParameter("accId", accId);
+    public List<Reservation> getByAccount(Account acc) {
+        Query query = em.createQuery("SELECT r FROM Reservation r WHERE r.accountId = :acc").
+                setParameter("acc", acc);
         return query.getResultList();
     }
 

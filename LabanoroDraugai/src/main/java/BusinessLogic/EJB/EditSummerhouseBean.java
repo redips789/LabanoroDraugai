@@ -18,6 +18,8 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.inject.Inject;
+import javax.inject.Named;
 import org.apache.commons.io.IOUtils;
 import org.primefaces.model.UploadedFile;
 
@@ -27,15 +29,17 @@ import org.primefaces.model.UploadedFile;
  */
 
 //@SessionScoped
+@Named
 public class EditSummerhouseBean implements Serializable {
     
     private String title;   
     private Summerhouse detailedSummerhouse;
     private UploadedFile file;
     
-    @EJB SummerhouseCRUD summerhouseCRUD;
+    @Inject
+    SummerhouseCRUD summerhouseCRUD;
     
-    @EJB
+    @Inject
     ImageCRUD imagesEjb;
 
     @PostConstruct

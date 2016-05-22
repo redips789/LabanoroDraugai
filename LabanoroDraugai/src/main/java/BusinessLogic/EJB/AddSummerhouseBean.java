@@ -41,14 +41,14 @@ import org.apache.commons.io.IOUtils;
 @RequestScoped
 public class AddSummerhouseBean implements Serializable {
 
-    @EJB
+    @Inject
     SummerhouseCRUD summerhouseCRUD;
     
     private Summerhouse summerhouse;
     
     private UploadedFile file;
     
-    @EJB
+    @Inject
     ImageCRUD imagesEjb;
 
     @PostConstruct

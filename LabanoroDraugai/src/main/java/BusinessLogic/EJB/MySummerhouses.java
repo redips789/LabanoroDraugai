@@ -1,8 +1,10 @@
 
 package BusinessLogic.EJB;
 
+import DataAccess.EJB.AccountCRUD;
 import DataAccess.EJB.ReservationCRUD;
 import DataAccess.EJB.SummerhouseCRUD;
+import DataAccess.JPA.Account;
 import DataAccess.JPA.Reservation;
 import DataAccess.JPA.Summerhouse;
 import java.io.Serializable;
@@ -12,6 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
@@ -19,25 +22,28 @@ import javax.inject.Inject;
  */
 
 @RequestScoped
+@Named
 public class MySummerhouses implements Serializable {
     
-    @EJB SummerhouseCRUD summerhouseCRUD;
-    @EJB ReservationCRUD reservationCRUD;
+    @Inject SummerhouseCRUD summerhouseCRUD;
+    @Inject ReservationCRUD reservationCRUD;
+    @Inject AccountCRUD accountCRUD;
     
     @Inject
     LoginBean loginBean;
     
-    private String accountId;
+    private String accountFbId;
+    private Account acc;
     private List<Reservation> myReservations = new ArrayList();
     private List<Summerhouse> mySummerhouses = new ArrayList();
     
     @PostConstruct
     public void init() {
-        accountId = loginBean.getFbid();
-        System.out.println("aaaaa"+accountId);
+        accountFbId = loginBean.getFbid();
         
-        if (accountId != null) myReservations = reservationCRUD.getByAccountId(accountId);
-        else System.out.println("negavau account id"); // veliau istrint
+        if (accountFbId != null) acc = accountCRUD.findAccount(accountFbId);
+        
+        myReservations = reservationCRUD.getByAccount(acc);
         
         for (Reservation reservation : myReservations) {
             System.out.println(reservation.getSummerhouseId().getTitle());
@@ -53,12 +59,12 @@ public class MySummerhouses implements Serializable {
         this.loginBean = loginBean;
     }
 
-    public String getAccountId() {
-        return accountId;
+    public String getAccountFbId() {
+        return accountFbId;
     }
 
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
+    public void setAccountId(String accountFbId) {
+        this.accountFbId = accountFbId;
     }
 
     public List<Summerhouse> getMySummerhouses() {

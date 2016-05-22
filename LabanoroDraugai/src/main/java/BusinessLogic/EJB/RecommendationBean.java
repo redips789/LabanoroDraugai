@@ -160,6 +160,7 @@ public class RecommendationBean implements Serializable {
                     recommendationEjb.addRecommendation(this.rec);
                     Message.addSuccessMessage("Rekomendacija sėkmingai išsiųsta!");
                     Email.emailReceivedRecommendation(acc.getFirstName()+" "+acc.getLastName(), this.accountBean.getMemberList().get(id-1).getEmail());
+                    this.fullname="";
                     return "";
                 } catch (Exception e) {
                     Message.addErrorMessage("Šiam žmogui rekomendacija jau buvo išsiųsta anksčiau. Pasirinkite kitą klubo narį!");
@@ -213,12 +214,25 @@ public class RecommendationBean implements Serializable {
         try {
             List<Recommendation> recList = recommendationEjb.findRecByReceiver(id);
             int confirmAmount = 0;
+            
+            Account account = accountEjb.findAccountById(id);
+            String mail = account.getEmail();
+            
             for (int i=0; i<recList.size(); i++) {
                 if (Objects.equals(recList.get(i).getIsGiven(), Boolean.TRUE)) confirmAmount++;
             }
             if (confirmAmount >= this.min_rec) {
-                accountEjb.updateAccountStatus(id);
-                recommendationEjb.deleteRecommendations(id);
+                System.out.println("Dydis: "+accountBean.getMemberList().size());
+                if (accountBean.getMemberList().size() < settingsEjb.findSettings().getMaxUsers()) {
+                    accountEjb.updateAccountStatus(id);
+                    recommendationEjb.deleteRecommendations(id);
+                }
+                else {
+                    System.out.println("Nebetelpate");
+                    recommendationEjb.deleteRecommendations(id);
+                    accountEjb.deleteAccount(account);
+                    Email.emailDeletedCandidate(mail);
+                }
             }
             return "";
         } catch (Exception e) {
@@ -273,7 +287,7 @@ public class RecommendationBean implements Serializable {
                     this.invitation.setCode(encryptedCode);
                     this.invitation.setInviterAccountid(acc);
                     invitationEjb.addInvitation(this.invitation);                    
-              
+                    System.out.println("Pakvietimas "+this.invitation.getCode()+" "+this.invitation.getInviterAccountid().getId());
                     Email.emailInviteFriend(acc.getFirstName()+" "+acc.getLastName(), email, code);
                     Message.addSuccessMessage("Pakvietimas sėkmingai išsiųstas!");
                     

@@ -33,9 +33,12 @@ public class AccountCRUD {
     }
     
     public Account findAccount(String fbId){
-
-        System.out.println("--vol 2------------------ "+ fbId);
-        return (Account) ac.createNamedQuery("Account.findByFacebookid").setParameter("facebookid", fbId).getResultList().get(0); // nes bus vienintelis
+        try {
+            Account acc = (Account) ac.createNamedQuery("Account.findByFacebookid").setParameter("facebookid", fbId).getResultList().get(0);
+            return acc;
+        } catch (Exception e) {
+            return null;
+        }
     }
     
     public Account findAccountById(int id){
@@ -66,6 +69,7 @@ public class AccountCRUD {
         now.set(Calendar.HOUR_OF_DAY, 0);
         now.set(Calendar.MINUTE, 0);
         now.set(Calendar.SECOND, 0);
+        acc.setPoints(500);
         acc.setMemberSince(now.getTime());
         acc.setNextPayment(now.getTime());
         ac.persist(acc);
