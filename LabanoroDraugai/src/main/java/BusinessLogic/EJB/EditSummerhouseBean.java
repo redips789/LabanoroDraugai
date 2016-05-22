@@ -16,6 +16,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
@@ -30,6 +32,7 @@ import org.primefaces.model.UploadedFile;
 
 //@SessionScoped
 @Named
+@RequestScoped
 public class EditSummerhouseBean implements Serializable {
     
     private String title;   
