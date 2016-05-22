@@ -49,11 +49,16 @@
                                 </p:column>
                                 
                                 <p:column headerText="Rezervuotas nuo">
-                                    <h:outputText value="#{summerhouse.cost}" />
+                                    <p:outputLabel value="#{summerhouse.validityStart}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                                    </p:outputLabel>
+                                    
                                 </p:column>
                                 
                                 <p:column headerText="Rezervuotas iki">
-                                    <h:outputText value="#{summerhouse.cost}" />
+                                    <p:outputLabel value="#{summerhouse.validityEnd}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                                    </p:outputLabel>
                                 </p:column>
                                 
                             </p:dataTable>
