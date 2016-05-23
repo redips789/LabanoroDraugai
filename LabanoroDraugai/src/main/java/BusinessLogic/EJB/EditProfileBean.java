@@ -11,7 +11,6 @@ import DataAccess.JPA.Account;
 import DataAccess.JPA.Image;
 import java.io.IOException;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import org.primefaces.model.UploadedFile;
 import java.io.Serializable;
 import java.util.logging.Level;

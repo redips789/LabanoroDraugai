@@ -2,12 +2,14 @@
 package DataAccess.EJB;
 
 import DataAccess.JPA.Account;
+import Interceptors.LogInterceptor;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -134,7 +136,6 @@ public class AccountCRUD {
             return true;
         }
     }
-
 
 //    public byte[] findAccountPhoto(String id) { //foto vaizdavimui
 //        return (byte[]) ac.find(Account.class, id).getPhotoBlob();

@@ -35,7 +35,7 @@ public class LoginBean implements Serializable {
     private int id;
     private boolean isloggedin = false;
     private boolean isregistered = false;
-    private String redirecdedPage = "login";
+    private String redirecdedPage = "/login.xhtml";
     private int errorCounter = 0;
 
     public int getErrorCounter() {

@@ -9,12 +9,16 @@ import DataAccess.JPA.Reservation;
 import DataAccess.JPA.Summerhouse;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.component.api.UIColumn;
+import org.primefaces.component.datatable.DataTable;
 
 /**
  *
@@ -35,20 +39,12 @@ public class MySummerhouses implements Serializable {
     private String accountFbId;
     private Account acc;
     private List<Reservation> myReservations = new ArrayList();
-    private List<Summerhouse> mySummerhouses = new ArrayList();
     
     @PostConstruct
     public void init() {
         accountFbId = loginBean.getFbid();
-        
-        if (accountFbId != null) acc = accountCRUD.findAccount(accountFbId);
-        
-        myReservations = reservationCRUD.getByAccount(acc);
-        
-        for (Reservation reservation : myReservations) {
-            System.out.println(reservation.getSummerhouseId().getTitle());
-            mySummerhouses.add(reservation.getSummerhouseId());
-        }   
+        if (accountFbId != null) acc = accountCRUD.findAccount(accountFbId);      
+        myReservations = reservationCRUD.getByAccount(acc); 
     }
 
     public LoginBean getLoginBean() {
@@ -65,14 +61,6 @@ public class MySummerhouses implements Serializable {
 
     public void setAccountId(String accountFbId) {
         this.accountFbId = accountFbId;
-    }
-
-    public List<Summerhouse> getMySummerhouses() {
-        return mySummerhouses;
-    }
-
-    public void setMySummerhouses(List<Summerhouse> mySummerhouses) {
-        this.mySummerhouses = mySummerhouses;
     }
 
     public List<Reservation> getMyReservations() {

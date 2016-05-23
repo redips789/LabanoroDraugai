@@ -30,7 +30,6 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Reservation.findAll", query = "SELECT r FROM Reservation r"),
     @NamedQuery(name = "Reservation.findById", query = "SELECT r FROM Reservation r WHERE r.id = :id"),
-    @NamedQuery(name = "Reservation.findByReservationNumber", query = "SELECT r FROM Reservation r WHERE r.reservationNumber = :reservationNumber"),
     @NamedQuery(name = "Reservation.findByStartDate", query = "SELECT r FROM Reservation r WHERE r.startDate = :startDate"),
     @NamedQuery(name = "Reservation.findByEndDate", query = "SELECT r FROM Reservation r WHERE r.endDate = :endDate"),
     @NamedQuery(name = "Reservation.findByVersion", query = "SELECT r FROM Reservation r WHERE r.version = :version")})
@@ -43,12 +42,6 @@ public class Reservation implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "RESERVATION_NUMBER")
-    private String reservationNumber;
     
     @Column(name = "START_DATE")
     @Temporal(TemporalType.DATE)
@@ -77,25 +70,12 @@ public class Reservation implements Serializable {
         this.id = id;
     }
 
-    public Reservation(Integer id, String reservationNumber) {
-        this.id = id;
-        this.reservationNumber = reservationNumber;
-    }
-
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getReservationNumber() {
-        return reservationNumber;
-    }
-
-    public void setReservationNumber(String reservationNumber) {
-        this.reservationNumber = reservationNumber;
     }
 
     public Date getStartDate() {
@@ -140,8 +120,8 @@ public class Reservation implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 17 * hash + Objects.hashCode(this.reservationNumber);
+        int hash = 5;
+        hash = 73 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -157,13 +137,11 @@ public class Reservation implements Serializable {
             return false;
         }
         final Reservation other = (Reservation) obj;
-        if (!Objects.equals(this.reservationNumber, other.reservationNumber)) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
     }
-
-    
 
     @Override
     public String toString() {

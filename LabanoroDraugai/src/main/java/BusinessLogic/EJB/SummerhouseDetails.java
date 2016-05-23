@@ -22,7 +22,7 @@ import javax.inject.Named;
 @RequestScoped
 public class SummerhouseDetails implements Serializable {
     
-    private String title;   
+    private int id;   
     private Summerhouse detailedSummerhouse;
     
     @Inject SummerhouseCRUD summerhouseCRUD;
@@ -33,13 +33,13 @@ public class SummerhouseDetails implements Serializable {
 //        detailedSummerhouse = summerhouseCRUD.findByTitle(title);
 //    }
     
-    public String getTitle() {
-        return title;
+    public int getId() {
+        return id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-        detailedSummerhouse = summerhouseCRUD.findByTitle(title);
+    public void setId(int id) {
+        this.id = id;
+        detailedSummerhouse = summerhouseCRUD.findById(id);
     }
 
     public Summerhouse getDetailedSummerhouse() {

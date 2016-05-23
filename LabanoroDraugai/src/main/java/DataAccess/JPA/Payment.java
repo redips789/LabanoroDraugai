@@ -27,8 +27,6 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Payment.findAll", query = "SELECT p FROM Payment p"),
     @NamedQuery(name = "Payment.findById", query = "SELECT p FROM Payment p WHERE p.id = :id"),
-    @NamedQuery(name = "Payment.findByPaymentNumber", query = "SELECT p FROM Payment p WHERE p.paymentNumber = :paymentNumber"),
-    @NamedQuery(name = "Payment.findByEmail", query = "SELECT p FROM Payment p WHERE p.email = :email"),
     @NamedQuery(name = "Payment.findByFirstName", query = "SELECT p FROM Payment p WHERE p.firstName = :firstName"),
     @NamedQuery(name = "Payment.findByLastName", query = "SELECT p FROM Payment p WHERE p.lastName = :lastName"),
     @NamedQuery(name = "Payment.findByDateTime", query = "SELECT p FROM Payment p WHERE p.dateTime = :dateTime"),
@@ -43,15 +41,7 @@ public class Payment implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "PAYMENT_NUMBER")
-    private String paymentNumber;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Size(max = 30)
-    @Column(name = "EMAIL")
-    private String email;
     @Size(max = 30)
     @Column(name = "FIRST_NAME")
     private String firstName;
@@ -78,10 +68,7 @@ public class Payment implements Serializable {
         this.id = id;
     }
 
-    public Payment(Integer id, String paymentNumber) {
-        this.id = id;
-        this.paymentNumber = paymentNumber;
-    }
+    
 
     public Integer getId() {
         return id;
@@ -91,21 +78,6 @@ public class Payment implements Serializable {
         this.id = id;
     }
 
-    public String getPaymentNumber() {
-        return paymentNumber;
-    }
-
-    public void setPaymentNumber(String paymentNumber) {
-        this.paymentNumber = paymentNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -158,7 +130,7 @@ public class Payment implements Serializable {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 97 * hash + Objects.hashCode(this.paymentNumber);
+        hash = 43 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -174,11 +146,13 @@ public class Payment implements Serializable {
             return false;
         }
         final Payment other = (Payment) obj;
-        if (!Objects.equals(this.paymentNumber, other.paymentNumber)) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
     }
+
+    
 
     
 

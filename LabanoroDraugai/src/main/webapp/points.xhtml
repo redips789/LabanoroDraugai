@@ -31,7 +31,7 @@
                     <p:messages id="messages" autoUpdate="true" closable="true" />
                 </h:form>
                  <p:spacer height="40" />
-                    
+                 
                     <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="taskuLikutis">
                         <p:outputLabel value="Jūsų taškų likutis:" />
                         <p:inputText disabled="true" size="13" value="#{pointsBean.account.points}" style="text-align: center"/>
@@ -42,9 +42,10 @@
                 
                     <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="metinisMokestis">
                         <p:outputLabel value="Metinis mokestis:" />
-                        <p:inputText disabled="true" size="13"  value="#{pointsBean.membership}" style="text-align: center"/>
-                        <p:commandButton value="Mokėti" ajax="true" class="edit-profile-button-width" action="#{pointsBean.startPaying()}" disabled="#{pointsBean.feeIsPaid}"/>
+                        <p:inputText disabled="true" size="13"  value="#{pointsBean.checkMembership()}" style="text-align: center"/>
+                        <p:commandButton value="Mokėti" ajax="false" class="edit-profile-button-width" action="#{pointsBean.startPaying()}" disabled="#{pointsBean.isFeeIsPaid()}"/>
                     </h:panelGrid>
+                    
                     <p:spacer height="60" />
                </div>
                </div>

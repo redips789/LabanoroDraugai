@@ -29,41 +29,47 @@
                     <div id="profile-wrapper">
                     <div id="profile-container">
                    
-                    
-                        <h:form id="sh">
-                            <p:dataTable id="list" value="#{mySummerhouses.mySummerhouses}" var="summerhouse" emptyMessage="Rezervacijų nėra" >
-                                <f:facet name="header">
-                                    Mano rezervuoti vasarnamiai
-                                </f:facet>
+                        <p:dataTable id="list" value="#{mySummerhouses.myReservations}" var="reservation" emptyMessage="Rezervacijų nėra" >
+                            <f:facet name="header">
+                                Mano rezervuoti vasarnamiai
+                            </f:facet>
+                            
+                            <p:column style="width:60px">
+                                <p:button outcome="summerhouseMoreDetails" icon="ui-icon-search">
+                                    <f:param name="id" value="#{reservation.summerhouseId.id}" />
+                                </p:button>
+                            </p:column>
+
+                            <p:column headerText="Pavadinimas">
+                                <h:outputText value="#{reservation.summerhouseId.title}" /> 
+                            </p:column>
+
+                            <p:column headerText="Lovų skaičius">
+                                <h:outputText value="#{reservation.summerhouseId.beds}" />
+                            </p:column>
+
+                            <p:column headerText="Kaina">
+                                <h:outputText value="#{reservation.summerhouseId.cost}" />
+                            </p:column>
+
+                            <p:column headerText="Rezervuotas nuo">
+                                <p:outputLabel value="#{reservation.startDate}">
+                                    <f:convertDateTime pattern="yyyy-MM-dd" />
+                                </p:outputLabel>
+
+                            </p:column>
+
+                            <p:column headerText="Rezervuotas iki">
+                                <p:outputLabel value="#{reservation.endDate}">
+                                    <f:convertDateTime pattern="yyyy-MM-dd" />
+                                </p:outputLabel>
+                            </p:column>
+
+                            <p:column style="width:60px">
                                 
-                                <p:column headerText="Pavadinimas">
-                                    <h:outputText value="#{summerhouse.title}" />
-                                </p:column>
-                                
-                                <p:column headerText="Lovų skaičius">
-                                    <h:outputText value="#{summerhouse.beds}" />
-                                </p:column>
-                                
-                                <p:column headerText="Kaina">
-                                    <h:outputText value="#{summerhouse.cost}" />
-                                </p:column>
-                                
-                                <p:column headerText="Rezervuotas nuo">
-                                    <p:outputLabel value="#{summerhouse.validityStart}">
-                                        <f:convertDateTime pattern="yyyy-MM-dd" />
-                                    </p:outputLabel>
-                                    
-                                </p:column>
-                                
-                                <p:column headerText="Rezervuotas iki">
-                                    <p:outputLabel value="#{summerhouse.validityEnd}">
-                                        <f:convertDateTime pattern="yyyy-MM-dd" />
-                                    </p:outputLabel>
-                                </p:column>
-                                
-                            </p:dataTable>
-                        </h:form>
-                 
+                           </p:column>
+                        </p:dataTable>
+                                           
                     </div>
                     </div>
                 </div>
