@@ -55,17 +55,20 @@ public class SummerhouseCRUD {
 
     public void addSummerhouse(Summerhouse summerhouse) {
         em.persist(summerhouse);
+        em.joinTransaction();
         em.flush();
     }
 
     public Summerhouse updateSummerhouse(Summerhouse summerhouse) {
        Summerhouse b = em.merge(summerhouse); // reference to another object than the one passed in when the object was already loaded in the current context.
+       em.joinTransaction();
        em.flush();
        return b;
     }
     
     public void deleteSummerhouse(Summerhouse summerhouse){
         em.remove(em.merge(summerhouse));
+        em.joinTransaction();
         em.flush();
     }
 }

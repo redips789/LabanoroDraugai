@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>Labanoro draugai</title>
+        </f:facet>
+        <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
+        <script src="https://use.fontawesome.com/a44e343881.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"></link>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+
+            <div id="page">
+                <div id="header-container">
+                    <ui:include src="header.xhtml" />         
+                </div>
+
+                <div id="menu-container">
+                    <ui:include src="menu.xhtml" />
+                </div>
+
+                <div id="content-container">     
+
+                    <p:growl id="msgs" showDetail="true" />
+                    <p:dataTable id="basicDT" var="account" value="#{accountBean.accountList}" rows="10" paginator="true"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                 rowsPerPageTemplate="15" style="text-align: center">
+
+                        <p:column headerText="Vardas Pavardė">
+                            <h:outputText value="#{account.firstName} #{account.lastName}" />
+                        </p:column>
+                        <p:column headerText="Narys nuo">
+                            <h:outputText value="#{account.memberSince}">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>                        
+                            </h:outputText> 
+                        </p:column>
+                        <p:column headerText="Amžius">
+                            <h:outputText value="#{account.age}" />
+                        </p:column>
+                        <p:column headerText="Miestas">
+                            <h:outputText value="#{account.city}" />
+                        </p:column>
+                        <p:column style="width:60px">
+                            <p:commandButton id="delete" 
+                                             action="#{accountBean.deleteAccount(account)}" 
+                                             icon="ui-icon ui-icon-trash" 
+                                             title="GDeleteButton" ajax="true">
+                                <p:confirm header="Delete Record" 
+                                           message="Ar tikrai norite ištrinti vartotoją?" 
+                                           icon="ui-icon-alert"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:dialog header="Detali informacija"  widgetVar="accountDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:outputPanel id="accountDetail">
+
+                            <div id="profile-wrapper">
+                                <div id="profile-container">
+                                    <h:form>
+                                        <h:panelGrid columns="2" columnClasses="column" cellpadding="15" >
+                                            <p:graphicImage value="#{imageStreamer.oneImage}" class="profile-image-container" >
+                                                <f:param name="id" value="#{accountBean.selectedAccount.photoImageid.id}" />
+                                            </p:graphicImage>
+
+                                            <h:panelGrid columns="2" columnClasses="column" cellpadding="5" >
+                                                <p:outputLabel id="profile-column-2" value="#{accountBean.selectedAccount.firstName}"/>
+                                                <p:outputLabel value="#{accountBean.selectedAccount.lastName}"/>
+
+                                                <p:outputLabel value="#{accountBean.selectedAccount.city}"/>
+                                                <p:outputLabel value=""/>
+
+                                                <p:outputLabel value="Narys nuo: " />
+                                                <p:outputLabel value="#{accountBean.selectedAccount.memberSince}">
+                                                    <f:convertDateTime pattern="yyyy-MM-dd"/>
+                                                </p:outputLabel>
+
+                                                <p:outputLabel value="Gimimo data: " />
+                                                <p:outputLabel value="#{accountBean.selectedAccount.dateOfBirth}">
+                                                    <f:convertDateTime pattern="yyyy-MM-dd"/>
+                                                </p:outputLabel>
+
+                                                <p:outputLabel value="Tel. nr.: " class="icon-phone"/>
+                                                <p:outputLabel value="+370 #{accountBean.selectedAccount.phoneNum}"/>
+
+                                                <p:outputLabel value="El. paštas: " class="icon-mail-alt"/>
+                                                <p:outputLabel value="#{accountBean.selectedAccount.email}"/>
+
+                                                <p:outputLabel value="Apie save:"  />
+                                                <p:scrollPanel mode="native" class="profile-description">
+                                                    #{accountBean.selectedAccount.description}
+                                                </p:scrollPanel>
+                                            </h:panelGrid>
+                                        </h:panelGrid>
+                                    </h:form> 
+                                </div>     
+                            </div>
+
+                        </p:outputPanel>
+                    </p:dialog>
+
+
+
+                </div>
+
+                <div id="footer-container" >
+                    <ui:include src="footer.xhtml" />
+                </div>
+
+            </div>
+
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                <p:commandButton title="GDelYesButton" value="Taip" styleClass="ui-confirmdialog-yes"/>
+                <p:commandButton title="GDelNoButton" value="Ne" styleClass="ui-confirmdialog-no" />
+            </p:confirmDialog>
+
+        </h:form>
+
+    </h:body>
+</html>
+

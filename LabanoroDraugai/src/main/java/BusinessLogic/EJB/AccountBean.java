@@ -133,4 +133,9 @@ public class AccountBean {
         Account acc = accountEjb.findAccountById(id);
         return acc.getFirstName()+" "+acc.getLastName();
     }
+    
+    public String deleteAccount(Account ac){
+        accountEjb.deleteAccount(ac);
+        return "membersReview?faces-redirect=true";
+    }
 }
