@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -53,7 +55,7 @@ public class AccountCRUD {
             return null;
         }
     }
-    
+    //@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Account updateAccount(Account changedAccount){
        Account b = ac.merge(changedAccount); // reference to another object than the one passed in when the object was already loaded in the current context.
        return b;
