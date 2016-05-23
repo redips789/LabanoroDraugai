@@ -49,7 +49,7 @@ public class Payment implements Serializable {
     @Column(name = "LAST_NAME")
     private String lastName;
     @Column(name = "DATE_TIME")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateTime;
     @Size(max = 20)
     @Column(name = "STATUS")

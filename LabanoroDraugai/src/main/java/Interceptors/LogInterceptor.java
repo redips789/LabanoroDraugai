@@ -9,7 +9,10 @@ import DataAccess.EJB.PaymentCRUD;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Payment;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.Priority;
@@ -53,7 +56,16 @@ public class LogInterceptor implements Serializable {
         System.out.println("SimpleInterceptor - Logging BEFORE calling method :"+context.getMethod().getName() );    
         String method = context.getMethod().getName();
         String methodClass = context.getMethod().getDeclaringClass().getName();
-        
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar cal = Calendar.getInstance();
+        System.out.println(dateFormat.format(cal.getTime()));
+        String dateString = dateFormat.format(cal.getTime());
+        Date date = new Date();
+        try{
+        date = dateFormat.parse(dateString);
+        }catch(Exception ex){
+            System.out.println("-----------************------Error-pasring-------************----------");
+        }
         /*Object[] parameters = context.getParameters();
         Account account = (Account) parameters[0];*/
         Payment payment = new Payment();
@@ -75,7 +87,7 @@ public class LogInterceptor implements Serializable {
                 payment.setFirstName(acc.getFirstName());
                 payment.setLastName(acc.getLastName());
                 payment.setStatus(acc.getStatus());
-                payment.setDateTime(Calendar.getInstance().getTime());
+                payment.setDateTime(date);
                 addPayment(payment);
             }
         }catch(Exception ex){
