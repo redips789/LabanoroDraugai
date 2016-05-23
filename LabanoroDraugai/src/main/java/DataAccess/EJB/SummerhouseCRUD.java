@@ -55,6 +55,7 @@ public class SummerhouseCRUD {
 
     public void addSummerhouse(Summerhouse summerhouse) {
         em.persist(summerhouse);
+        em.joinTransaction();
         em.flush();
     }
 
