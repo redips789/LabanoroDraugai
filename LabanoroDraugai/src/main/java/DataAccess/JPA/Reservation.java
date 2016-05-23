@@ -35,6 +35,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Reservation.findByVersion", query = "SELECT r FROM Reservation r WHERE r.version = :version")})
 public class Reservation implements Serializable {
 
+    @Column(name = "COST")
+    private Integer cost;
+
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -146,6 +149,14 @@ public class Reservation implements Serializable {
     @Override
     public String toString() {
         return "DataAccess.JPA.Reservation[ id=" + id + " ]";
+    }
+
+    public Integer getCost() {
+        return cost;
+    }
+
+    public void setCost(Integer cost) {
+        this.cost = cost;
     }
 
 }

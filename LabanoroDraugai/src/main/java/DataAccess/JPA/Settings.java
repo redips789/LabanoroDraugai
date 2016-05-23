@@ -40,6 +40,13 @@ import javax.persistence.Version;
     @NamedQuery(name = "Settings.findByVersion", query = "SELECT s FROM Settings s WHERE s.version = :version")})
 public class Settings implements Serializable {
 
+    @Column(name = "FIRST_GROUP_SIZE")
+    private Integer firstGroupSize;
+    @Column(name = "SECOND_GROUP_SIZE")
+    private Integer secondGroupSize;
+    @Column(name = "THIRD_GROUP_SIZE")
+    private Integer thirdGroupSize;
+
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -236,6 +243,30 @@ public class Settings implements Serializable {
     @Override
     public String toString() {
         return "DataAccess.JPA.Settings[ id=" + id + " ]";
+    }
+
+    public Integer getFirstGroupSize() {
+        return firstGroupSize;
+    }
+
+    public void setFirstGroupSize(Integer firstGroupSize) {
+        this.firstGroupSize = firstGroupSize;
+    }
+
+    public Integer getSecondGroupSize() {
+        return secondGroupSize;
+    }
+
+    public void setSecondGroupSize(Integer secondGroupSize) {
+        this.secondGroupSize = secondGroupSize;
+    }
+
+    public Integer getThirdGroupSize() {
+        return thirdGroupSize;
+    }
+
+    public void setThirdGroupSize(Integer thirdGroupSize) {
+        this.thirdGroupSize = thirdGroupSize;
     }
 
 }

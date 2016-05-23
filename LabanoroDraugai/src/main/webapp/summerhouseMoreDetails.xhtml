@@ -51,7 +51,7 @@
                                             maxdate="#{summerhouseDetails.detailedSummerhouse.validityEnd}"/>
                                 
                             </h:panelGrid>
-                            <p:commandButton value="Rezervuoti" type="button" onclick="PF('first').show();" disabled="#{!reservationBean.canReserve}" />
+                            <p:commandButton value="Rezervuoti" type="button" icon="ui-icon-disk" onclick="PF('first').show();" disabled="#{!reservationBean.canReserve}" />
                         </p:panel>
                     </h:form>
                     
@@ -75,7 +75,7 @@
                                             <p:outputLabel value="" /> 
                                             <p:outputLabel value="" /> 
                                             
-                                            <p:commandButton class="edit-profile-button-width" value="Atšaukti" type="button" onclick="PF('first').hide();"/>
+                                            <p:commandButton class="edit-profile-button-width" icon="ui-icon-cancel" value="Atšaukti" type="button" onclick="PF('first').hide();"/>
                                             <p:commandButton class="edit-profile-button-width" type="submit" value="Rezervuoti" icon="ui-icon-disk" onclick="PF('second').show(); PF('first').hide();"/>
                                             <p:outputLabel value="" />                                        
                                         </h:panelGrid>
@@ -120,7 +120,7 @@
                                         <p:outputLabel value="Rezervacija bus baigta, kai sumokėsite už ją: " />
                                         <p:spacer height="30" />
                                         <h:panelGrid columns="2" columnClasses="column" cellpadding="11">
-                                            <p:commandButton class="edit-profile-button-width" value="Atgal" type="button" onclick="PF('first').show(); PF('second').hide();"/>
+                                            <p:commandButton class="edit-profile-button-width" value="Atgal" type="button" icon="ui-icon-cancel" onclick="PF('first').show(); PF('second').hide();"/>
                                             <p:commandButton class="edit-profile-button-width" type="submit" value="Mokėti" icon="ui-icon-disk" onclick="#{reservationBean.saveReservation()}"/>
                                             <p:outputLabel value="" />                                        
                                         </h:panelGrid>
