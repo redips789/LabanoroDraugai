@@ -8,10 +8,13 @@ package BusinessLogic.EJB;
 import DataAccess.EJB.AccountCRUD;
 import DataAccess.EJB.InvitationCRUD;
 import DataAccess.EJB.RecommendationCRUD;
+import DataAccess.EJB.RegistrationFormCRUD;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Invitation;
 import DataAccess.JPA.Recommendation;
 import DataAccess.JPA.RecommendationPK;
+import DataAccess.JPA.RegistrationForm;
+import DataAccess.JPA.Settings;
 import Messages.Message;
 import Services.Encryption;
 import java.io.Serializable;
@@ -20,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -35,15 +39,19 @@ public class RegistrationBean implements Serializable {
 
     @Inject
     private AccountCRUD loginAuthBean;
-    
+
     @Inject
     private InvitationCRUD InvitationEjb;
-    
+
     @Inject
     private RecommendationCRUD recommendationEjb;
-    
+
+    @Inject
+    RegistrationFormCRUD registrationFormCRUD;
+
     private String id;
     private String first_name;
+    private RegistrationForm registrationForm;
     private String last_name;
     private String email;
     private String bday;
@@ -54,8 +62,16 @@ public class RegistrationBean implements Serializable {
     private String city;
     private int errorCounter = 0;
     private boolean rendered = false;
-    
+
     private String code = "";
+
+    @PostConstruct
+    public void init() {
+        registrationForm = registrationFormCRUD.findRegistrationForm();
+        if (registrationForm == null) {
+            registrationForm = new RegistrationForm();
+        }
+    }
 
     public boolean isRendered() {
         return rendered;
@@ -64,7 +80,14 @@ public class RegistrationBean implements Serializable {
     public void setRendered(boolean rendered) {
         this.rendered = rendered;
     }
-    
+
+    public RegistrationForm getRegistrationForm() {
+        return registrationForm;
+    }
+
+    public void setRegistrationForm(RegistrationForm registrationForm) {
+        this.registrationForm = registrationForm;
+    }
 
     public String getPhone() {
         return phone;
@@ -90,7 +113,6 @@ public class RegistrationBean implements Serializable {
         this.city = city;
     }
 
-    
     public String getBday() {
         return bday;
     }
@@ -145,7 +167,7 @@ public class RegistrationBean implements Serializable {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
-    }  
+    }
 
     public String getPicture() {
         return picture;
@@ -162,66 +184,80 @@ public class RegistrationBean implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
-   
+
     /**
      * Creates a new instance of RegistrationBean
      */
     public RegistrationBean() {
     }
-    
-    public void takeDataFromFacebook(){
+
+    public void takeDataFromFacebook() {
         FacesContext context = FacesContext.getCurrentInstance();
         Map map = context.getExternalContext().getRequestParameterMap();
-        try{
-        id = (String) map.get("id");
-        }catch(Exception ex){
+        try {
+            id = (String) map.get("id");
+        } catch (Exception ex) {
             errorCounter++;
         }
-        try{
-        first_name = (String) map.get("first_name");
-        }catch(Exception ex){
+        try {
+            first_name = (String) map.get("first_name");
+        } catch (Exception ex) {
             errorCounter++;
         }
-        try{
-        last_name = (String) map.get("last_name");
-        }catch(Exception ex){
+        try {
+            last_name = (String) map.get("last_name");
+        } catch (Exception ex) {
             errorCounter++;
         }
-        try{
-        email = (String) map.get("email");
-        }catch(Exception ex){
+        try {
+            email = (String) map.get("email");
+        } catch (Exception ex) {
             errorCounter++;
         }
-        try{
-        bday = (String) map.get("birthday");
-        DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        DateFormat dateFormatNeeded = new SimpleDateFormat("yyyy-MMM-dd");
-        Date b = sdf.parse(bday);
-        String tempdate = dateFormatNeeded.format(b);
-        birthday = dateFormatNeeded.parse(tempdate);
-        }catch(Exception ex){
+        try {
+            bday = (String) map.get("birthday");
+            DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            DateFormat dateFormatNeeded = new SimpleDateFormat("yyyy-MMM-dd");
+            Date b = sdf.parse(bday);
+            String tempdate = dateFormatNeeded.format(b);
+            birthday = dateFormatNeeded.parse(tempdate);
+        } catch (Exception ex) {
             errorCounter++;
         }
-        try{
-        picture = (String) map.get("picture");
-        }catch(Exception ex){
+        try {
+            picture = (String) map.get("picture");
+        } catch (Exception ex) {
             errorCounter++;
         }
-        rendered=true;
+        rendered = true;
     }
-    
-    public String register(){
+
+    public String register() {
         Calendar d = Calendar.getInstance();
         Date date = d.getTime();
         Account account = new Account();
         account.setFacebookid(id);
-        account.setCity(city);
-        account.setDateOfBirth(birthday);
-        account.setEmail(email);
-        account.setDescription(description);
-        account.setFirstName(first_name);
-        account.setLastName(last_name);
-        account.setPhoneNum(phone);
+        if (registrationForm.getCity()) {
+            account.setCity(city);
+        }
+        if (registrationForm.getBirthday()) {
+            account.setDateOfBirth(birthday);
+        }
+        if (registrationForm.getEmail()) {
+            account.setEmail(email);
+        }
+        if (registrationForm.getDescription()) {
+            account.setDescription(description);
+        }
+        if (registrationForm.getFirstName()) {
+            account.setFirstName(first_name);
+        }
+        if (registrationForm.getLastName()) {
+            account.setLastName(last_name);
+        }
+        if (registrationForm.getPhone()) {
+            account.setPhoneNum(phone);
+        }
         account.setPhoto(picture);
         account.setPoints(0);
         account.setStatus("Kandidatas");
@@ -237,7 +273,7 @@ public class RegistrationBean implements Serializable {
                     try {
                         loginAuthBean.addAccount(account);   ///IDEDA KANDIDATA
 
-                        Recommendation recommend = new Recommendation();             
+                        Recommendation recommend = new Recommendation();
                         RecommendationPK recPK = new RecommendationPK();
                         recPK.setReceiverAccountid(account.getId());
                         recPK.setGiverAccountid(invitation.getInviterAccountid().getId());
@@ -250,28 +286,24 @@ public class RegistrationBean implements Serializable {
 
                         code = "";
                         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-                        return "login?faces-redirect=true";                          
+                        return "login?faces-redirect=true";
                     } catch (Exception e) {
                         Message.addErrorMessage("Sistemos klaida. Apgailestaujame.");
                         return "registration?faces-redirect=true";
-                    }                                   
-                }
-                else {
+                    }
+                } else {
                     Message.addErrorMessage("Toks kodas neegzistuoja. Įveskite teisingą pakvietimo kodą arba palikite lauką tuščią!");
                     return "registration?faces-redirect=true";
-                }             
+                }
             } catch (Exception e) {
                 Message.addErrorMessage("Sistemos klaida. Apgailestaujame.");
                 return "registration?faces-redirect=true";
-            }    
-        }
-        else {
+            }
+        } else {
             loginAuthBean.addAccount(account);
             FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
             return "login?faces-redirect=true";
         }
     }
-    
-    
-    
+
 }

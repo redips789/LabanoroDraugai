@@ -28,7 +28,7 @@
                 <div id="content-container">
                          
                     <f:metadata>
-                        <f:viewParam name="title" value="#{summerhouseDetails.title}" />
+                        <f:viewParam name="id" value="#{summerhouseDetails.id}" />
                     </f:metadata>
                     
                     <h:form>
@@ -51,10 +51,9 @@
                                             maxdate="#{summerhouseDetails.detailedSummerhouse.validityEnd}"/>
                                 
                             </h:panelGrid>
-                            <p:button value="Rezervuoti" icon="ui-icon-calendar" outcome="summerhouseReservation" />
+                            <p:button value="Rezervuoti" icon="ui-icon-disk" outcome="reservation"/>
                         </p:panel>
                     </h:form>
-                    
                     
                 </div>
 

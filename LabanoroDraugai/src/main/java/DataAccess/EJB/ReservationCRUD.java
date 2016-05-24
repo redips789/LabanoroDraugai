@@ -31,7 +31,7 @@ public class ReservationCRUD {
     }
     
     public List<Reservation> findByPeriod(Date from, Date to) {
-        Query query = em.createQuery("SELECT r FROM Reservation r WHERE r.startDate <= :from AND r.endDate >= :to").
+        Query query = em.createQuery("SELECT r FROM Reservation r WHERE r.startDate >= :from AND r.endDate <= :to").
                 setParameter("from", from).setParameter("to", to);
         return query.getResultList();
     }

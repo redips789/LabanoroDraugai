@@ -32,7 +32,7 @@ public class SummerhouseBean implements Serializable {
     
     @Inject 
     SummerhouseCRUD summerhouseCRUD;
-    
+      
     private List<Summerhouse> summerhouses;
     private List<Summerhouse> filteredSummerhouses;
     private double priceFrom;
@@ -130,5 +130,4 @@ public class SummerhouseBean implements Serializable {
     public List<Summerhouse> getFilteredSummerhouses() {
         return filteredSummerhouses;
     }
-        
 }

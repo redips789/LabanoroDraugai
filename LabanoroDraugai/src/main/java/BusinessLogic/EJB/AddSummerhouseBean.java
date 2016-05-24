@@ -34,7 +34,7 @@ import org.apache.commons.io.IOUtils;
 
 /**
  *
- * @author Laurute
+ * @author Povilas
  */
 @Named
 //@Stateful
