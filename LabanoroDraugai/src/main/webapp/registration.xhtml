@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="en"
-        xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
-    
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
     <h:head>
         <f:facet name="first">
             <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
@@ -33,9 +33,9 @@
                 js.src = "//connect.facebook.net/en_US/sdk.js";
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
-            </script>
+        </script>
         <div id="fb-root"></div>
-            <script>
+        <script>
             window.fbAsyncInit = function () {
                 FB.init({
                     appId: '876888315753324',
@@ -45,10 +45,10 @@
                     version: 'v2.5' // use graph api version 2.5
                 });
                 $(document).trigger('fbload');
-               
-                
-                
-                
+
+
+
+
 
                 // Now that we've initialized the JavaScript SDK, we call 
                 // FB.getLoginStatus().  This function gets the state of the
@@ -75,79 +75,79 @@
             }(document, 'script', 'facebook-jssdk'));
         </script>
         <script type ="text/javascript">
-            $(document).on('fbload', function(){
-              test();
-              }  
-              );
-    
-            function test(){
-            FB.getLoginStatus(function(response) {
-            if (response.status === 'connected') {
-            FB.api(
-            '/me',
-            'GET',
-             {"fields":"id,name,first_name,last_name,email,birthday,picture.height(200)"},
-             function(response) {
-             var id = response.id;
-             var first_name = response.first_name;
-             var last_name = response.last_name;
-             var email = response.email;
-             var birthday = response.birthday;          
-             var picture = response.picture.data.url;
-             console.log(response);
-             console.log(id);
-             console.log(first_name);
-             console.log(last_name);
-             console.log(email);
-             console.log(birthday);
-             console.log(picture);
-             
-             ToJSFManagedBean([{
-                                        name: 'id',
-                                        value: id
-                                    },
-                                    {
-                                        name: 'first_name',
-                                        value: first_name
-                                    },
-                                    {
-                                        name: 'last_name',
-                                        value: last_name
-                                    },
-                                    {
-                                        name: 'email',
-                                        value: email
-                                    },
-                                    {
-                                        name: 'birthday',
-                                        value: birthday
-                                    },
-                                    {
-                                        name: 'picture',
-                                        value: picture
-                                    }
-                                ]);
-                          
-             
-             });
-        } else if (response.status === 'not_authorized') {
-            // the user is logged in to Facebook,
-            // console.log(response); 
-            // but has not authenticated your app
-        } else {
-            console.log(response);
-         // the user isn't logged in to Facebook.
-        }
- });
-        }
+            $(document).on('fbload', function () {
+                test();
+            }
+            );
+
+            function test() {
+                FB.getLoginStatus(function (response) {
+                    if (response.status === 'connected') {
+                        FB.api(
+                                '/me',
+                                'GET',
+                                {"fields": "id,name,first_name,last_name,email,birthday,picture.height(200)"},
+                                function (response) {
+                                    var id = response.id;
+                                    var first_name = response.first_name;
+                                    var last_name = response.last_name;
+                                    var email = response.email;
+                                    var birthday = response.birthday;
+                                    var picture = response.picture.data.url;
+                                    console.log(response);
+                                    console.log(id);
+                                    console.log(first_name);
+                                    console.log(last_name);
+                                    console.log(email);
+                                    console.log(birthday);
+                                    console.log(picture);
+
+                                    ToJSFManagedBean([{
+                                            name: 'id',
+                                            value: id
+                                        },
+                                        {
+                                            name: 'first_name',
+                                            value: first_name
+                                        },
+                                        {
+                                            name: 'last_name',
+                                            value: last_name
+                                        },
+                                        {
+                                            name: 'email',
+                                            value: email
+                                        },
+                                        {
+                                            name: 'birthday',
+                                            value: birthday
+                                        },
+                                        {
+                                            name: 'picture',
+                                            value: picture
+                                        }
+                                    ]);
+
+
+                                });
+                    } else if (response.status === 'not_authorized') {
+                        // the user is logged in to Facebook,
+                        // console.log(response); 
+                        // but has not authenticated your app
+                    } else {
+                        console.log(response);
+                        // the user isn't logged in to Facebook.
+                    }
+                });
+            }
         </script>
         <h:form>
             <p:remoteCommand name="ToJSFManagedBean" id="ToJSFManagedBean"
                              action="#{registrationBean.takeDataFromFacebook}" />  
         </h:form>
-       
-        
-        
+
+
+
     </h:head>
     <h:body>
         <h:form id="form" enctype="multipart/form-data">
@@ -241,19 +241,118 @@
                     
                 </h:form>
                 </div>
+
+                <div id="menu-container">
+                    <h:panelGroup rendered="false">
+                        <ui:include src="menu.xhtml" />
+                    </h:panelGroup>
+                </div>
+
+
+
+                <div id="content-container">
+
+
+                    <div id="profile-wrapper">
+                        <div id="profile-container">
+
+
+                            <h:form id="registerForm" class="editProfile">
+                                <p:messages id="messages" closable="true" />
+
+                                <p:outputPanel autoUpdate="true">
+                                    <p:graphicImage url="#{registrationBean.picture}"   />
+                                </p:outputPanel>
+
+                                <h:panelGrid columns="1" columnClasses="column" cellpadding="5" id="test123">
+                                    <p:row rendered="#{registrationBean.registrationForm.firstName}">
+                                        <p:outputLabel value="Vardas:" /> 
+                                        <p:outputPanel autoUpdate="true">
+                                            <p:inputText id="name" value="#{registrationBean.first_name}" size="30" required="true" requiredMessage="Įrašykite vardą" maxlength="29"/> 
+                                        </p:outputPanel>
+                                        <p:message for="name" display="icon" />
+                                    </p:row>
+
+                                    <p:row rendered="#{registrationBean.registrationForm.lastName}">
+                                        <p:outputLabel value="Pavardė:" /> 
+                                        <p:outputPanel autoUpdate="true" >
+                                            <p:inputText id="lastname" value="#{registrationBean.last_name}" size="30" required="true" requiredMessage="Įrašykite pavardę" maxlength="29" />
+                                        </p:outputPanel>
+                                        <p:message for="lastname" display="icon" />
+                                    </p:row>
+
+                                    <p:row rendered="#{registrationBean.registrationForm.birthday}">
+                                        <p:outputLabel value="Gimimo data:" /> 
+                                        <p:outputPanel autoUpdate="true">
+                                            <p:calendar id="birthday"  value="#{registrationBean.birthday}" size="30" requiredMessage="Įrašykite gimimo datą" locale="de" navigator="true" pattern="yyyy-MM-dd"  />
+                                        </p:outputPanel>
+                                        <p:message for="birthday" display="icon" />
+                                    </p:row>
+
+                                    <p:row rendered="#{registrationBean.registrationForm.city}">
+                                        <p:outputLabel value="Miestas:" />
+                                        <p:outputPanel autoUpdate="true">
+                                            <p:inputText id="city" value="#{registrationBean.city}" size="30" required="true" requiredMessage="Įrašykite miestą" maxlength="49"/>
+                                        </p:outputPanel>
+                                        <p:message for="city" display="icon" />
+                                    </p:row>
+
+                                    <p:row rendered="#{registrationBean.registrationForm.email}">
+                                        <p:outputLabel value="El. paštas:" />
+                                        <p:outputPanel autoUpdate="true">
+                                            <p:inputText id="email" value="#{registrationBean.email}" size="30" required="true" requiredMessage="Įrašykite el. paštą" validatorMessage="Įrašykite teisingą el. paštą" maxlength="49">
+                                                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                            </p:inputText>
+                                        </p:outputPanel>
+                                        <p:message for="email" display="icon" />
+                                    </p:row>
+
+                                    <p:row rendered="#{registrationBean.registrationForm.phone}">
+                                        <p:outputLabel value="Tel. nr.: (+370)"/>
+                                        <p:outputPanel autoUpdate="true">
+                                            <p:inputText id="phonenumber" value="#{registrationBean.phone}" size="30" required="true" validatorMessage="Įrašykite tel. nr. po (+370) kodo" requiredMessage="Įrašykite tel. nr." onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="8" label="phonenumber">
+                                                <f:validateLength minimum="8"  for="phonenumber"/>
+                                            </p:inputText>
+                                        </p:outputPanel>
+                                        <p:message for="phonenumber" display="icon" />
+                                    </p:row>
+
+                                    <p:row rendered="#{registrationBean.registrationForm.description}">
+                                        <p:outputLabel value="Apie save:" />
+                                        <p:inputTextarea id="description" rows="10" cols="32" value="#{registrationBean.description}" counter="display" required="true" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
+                                        <p:message for="description" display="icon" />
+                                        <p:outputLabel value=" "/>
+                                        <h:outputText id="display" />
+                                        <p:outputLabel value=" "/>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:outputLabel value="Pakvietimo kodas: "/>
+                                        <p:outputPanel autoUpdate="true">
+                                            <p:inputText id="code" value="#{registrationBean.code}" size="30" />
+                                        </p:outputPanel>
+                                        <p:outputLabel value=" "/>
+                                    </p:row>
+                                    
+                                    <p:row>
+                                        <p:commandButton styleClass="buttonRight" value="Registruotis" action="#{registrationBean.register()}" id="withIcon" type="submit" ajax="false" validateClient="true" icon="ui-icon-disk"/>
+                                    </p:row>
+                                </h:panelGrid>
+
+                            </h:form>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="footer-container" >
+                    <ui:include src="footer.xhtml" />
                 </div>
 
             </div>
-                       
-            <div id="footer-container" >
-                <ui:include src="footer.xhtml" />
-            </div>
-            
-        </div>
-        
+
         </h:form>
         
         
     </h:body>
 </html>
-
