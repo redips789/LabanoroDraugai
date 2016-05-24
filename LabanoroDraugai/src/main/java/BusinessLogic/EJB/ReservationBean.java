@@ -8,6 +8,7 @@ import DataAccess.JPA.Account;
 import DataAccess.JPA.Reservation;
 import DataAccess.JPA.Settings;
 import Messages.Message;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,6 +17,8 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -28,9 +31,9 @@ import javax.persistence.SynchronizationType;
  * @author Laurute
  */
 @Named 
-@ConversationScoped
+@RequestScoped
 @Stateful
-public class ReservationBean {
+public class ReservationBean implements Serializable {
     
     @PersistenceContext(type=PersistenceContextType.TRANSACTION, synchronization=SynchronizationType.UNSYNCHRONIZED) 
     private EntityManager em;
@@ -100,6 +103,7 @@ public class ReservationBean {
     }
 
     public void setStartDate(Date startDate) {
+        System.out.println("setteris start date");
         this.startDate = startDate;
     }
 
@@ -136,22 +140,29 @@ public class ReservationBean {
     }
         //-business-//
     
-        @PostConstruct
+    @PostConstruct
     public void init() {
-        
+        System.out.println("susikuriau");
         account = accountEjb.findAccount(loginBean.getFbid());
         settings = settingsEjb.findSettings();
         canReserveValidation();
     }
     
-    public List<Account> findMembersOnSamePeriod() {
-        membersReservations = reservationEjb.findByPeriod(startDate, endDate);  // susirandam rezervacijas pagal datas
-        
-        for (Reservation reservation : membersReservations) {  
-            membersAccounts.add(reservation.getAccountId());    // pagal atrinktas rezervacijas paimam accountus
-        }
-        
-        return membersAccounts;
+    public void findMembersOnSamePeriod() {
+        //conversation.begin();
+        System.out.println("startDate "+startDate);
+        System.out.println("endDate "+endDate);
+        if (startDate != null && endDate != null) {
+            System.out.println("pateko i ifa");
+            membersReservations = reservationEjb.findByPeriod(startDate, endDate);  // susirandam rezervacijas pagal datas     
+        } 
+           
+//        for (Reservation reservation : membersReservations) {  
+//            System.out.println("vaa "+reservation.getAccountId().getFirstName());
+//            membersAccounts.add(reservation.getAccountId());    // pagal atrinktas rezervacijas paimam accountus
+//        }     
+//        System.out.println(membersAccounts.get(0));
+//        //return membersAccounts;
     }
     
     public void throwMsg(){

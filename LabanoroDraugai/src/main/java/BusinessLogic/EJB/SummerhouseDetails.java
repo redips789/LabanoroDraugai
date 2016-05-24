@@ -25,13 +25,8 @@ public class SummerhouseDetails implements Serializable {
     private int id;   
     private Summerhouse detailedSummerhouse;
     
-    @Inject SummerhouseCRUD summerhouseCRUD;
-    
-//    @PostConstruct
-//    public void init() {
-//        System.out.println("pavadinimas"+title);
-//        detailedSummerhouse = summerhouseCRUD.findByTitle(title);
-//    }
+    @Inject 
+    SummerhouseCRUD summerhouseCRUD;
     
     public int getId() {
         return id;
