@@ -1,5 +1,6 @@
 package BusinessLogic.EJB;
 
+import Alternatives.GroupDistribution;
 import DataAccess.EJB.AccountCRUD;
 import DataAccess.EJB.SettingsCRUD;
 import DataAccess.JPA.Account;
@@ -171,7 +172,7 @@ public class PointsBean {
         conversation.end();
         em.joinTransaction();
         em.flush();
-       Message.addSuccessMessage("Mokėjimas sėkmingai atliktas!");
+        Message.addSuccessMessage("Mokėjimas sėkmingai atliktas!");
        FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("interceptorAccount", this.account);
        return "points?faces-redirect=true";
         } catch (OptimisticLockException ole) {
