@@ -27,7 +27,7 @@ import org.primefaces.model.UploadedFile;
 
 /**
  *
- * @author Liudas 
+ * @author Povilas 
  */
 
 //@SessionScoped
