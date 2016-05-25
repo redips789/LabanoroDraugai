@@ -131,7 +131,7 @@
                                         <p:spacer height="30" />
                                         <h:panelGrid columns="2" columnClasses="column" cellpadding="11">
                                             <p:commandButton class="edit-profile-button-width" value="Atgal" type="button" onclick="PF('first').show(); PF('second').hide();"/>
-                                            <p:commandButton class="edit-profile-button-width" type="submit" value="Mokėti" icon="ui-icon-disk" onclick="#{reservationBean.saveReservation()}" oncomplete="PF('second').hide();"/>
+                                            <p:commandButton class="edit-profile-button-width" type="submit" value="Mokėti" icon="ui-icon-disk" action="#{reservationBean.saveReservation()}" oncomplete="PF('second').hide();"/>
                                             <p:outputLabel value="" />                                        
                                         </h:panelGrid>
                                         <p:spacer height="40" />
