@@ -53,6 +53,9 @@ public class ReservationBean implements Serializable {
     @Inject
     LoginBean loginBean;
     
+    @Inject 
+    SummerhouseDetails summerhouseDetails;
+    
     private Account account;
     
     private Settings settings;
@@ -166,15 +169,25 @@ public class ReservationBean implements Serializable {
     }
     
     public void throwMsg(){
-        //Message.addWarningMessage("Uoj negerai");
+        Message.addWarningMessage("Uoj negerai");
     }
     
     public String saveReservation(){
         try{
-        payForReservation();
-        Message.addSuccessMessage("Rezervacija sėkmingai atlikta!");
+            payForReservation();
+            Reservation reservation = new Reservation();
+            reservation.setAccountId(account);
+            reservation.setSummerhouseId(summerhouseDetails.getDetailedSummerhouse()); //cia cj nepaskolins
+            reservation.setStartDate(this.startDate);
+            reservation.setEndDate(this.endDate);
+            reservation.setCost(summerhouseDetails.getDetailedSummerhouse().getCost()); // jei bus daugiau savaiciu, nebus taip paprasta
+            
+            //tikrinimas ar jau toks yra
+            reservationEjb.insertReservation(reservation);
+            Message.addSuccessMessage("Rezervacija sėkmingai atlikta!");
         }
         catch (Exception pe) {
+            System.out.println("********************************" + pe.getMessage() + pe.getStackTrace().toString());
             Message.addErrorMessage("Nesijaudinkite, bet įvyko nežinoma klaida. Bandykite dar kartą.");
         }
         return "reservation?faces-redirect=true";

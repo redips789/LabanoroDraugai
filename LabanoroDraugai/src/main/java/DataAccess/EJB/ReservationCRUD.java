@@ -1,6 +1,7 @@
 
 package DataAccess.EJB;
 
+import BusinessLogic.EJB.SummerhouseDetails;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Reservation;
 import java.util.Date;
@@ -34,6 +35,27 @@ public class ReservationCRUD {
         Query query = em.createQuery("SELECT r FROM Reservation r WHERE r.startDate >= :from AND r.endDate <= :to").
                 setParameter("from", from).setParameter("to", to);
         return query.getResultList();
+    }
+    
+    public void insertReservation (Reservation reservation){
+        em.persist(reservation);
+    }
+    
+    public boolean isReservationExist(SummerhouseDetails sumD, Reservation reservation) {
+        try{
+            Query query = em.createQuery("SELECT s FROM Reservation s WHERE s.summerhouseId =:sumId AND s.startDate =:sumStart").setParameter("sumId", sumD.getId()).setParameter("sumStart", reservation.getStartDate());
+            
+            List<Reservation> reservations = (List<Reservation>) query.getResultList();
+            if(reservations.isEmpty())
+            {
+                return false;
+            }
+            return true;
+        }
+        catch(Exception ex){
+            return true;
+        }
+
     }
 
 }

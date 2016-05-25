@@ -31,13 +31,17 @@
                         <f:viewParam name="id" value="#{summerhouseDetails.id}" />
                     </f:metadata>
                     
-                    <h:form>
+                   
                         <p:growl id="msgs" showDetail="true" />
 
                         <p:panel id="basic" header="#{summerhouseDetails.detailedSummerhouse.title}" style="margin-bottom:20px">
-                            <h:panelGrid columns="2" cellpadding="10">
-                                <p:graphicImage value="" />
+                            
+                                <p:graphicImage value="#{imageStreamer.oneImage}" class="profile-image-container" >
+                                    <f:param name="id" value="#{summerhouseDetails.detailedSummerhouse.photoImageid.id}" />
+                                </p:graphicImage>
+                            <h:panelGrid columns="2" cellpadding="10">    
                                 <h:outputText value="#{summerhouseDetails.detailedSummerhouse.description}" />
+                                <h:outputText value="" />
                                 
                                 <h:outputText value="Miegamųjų vietų skaičius: " />
                                 <h:outputText value="#{summerhouseDetails.detailedSummerhouse.beds}" />
@@ -53,8 +57,89 @@
                             </h:panelGrid>
                             <p:button value="Rezervuoti" icon="ui-icon-disk" outcome="reservation"/>
                         </p:panel>
-                    </h:form>
+                  
                     
+                    <p:commandButton value="Rezervuoti" type="button" onclick="PF('first').show();" disabled="#{!reservationBean.canReserve}" />
+                        
+                        <p:dialog header="Rezervacija" class="reservation-dialog" widgetVar="first" modal="true" height="500" width="700" closable="false" resizable="false">
+                            <div id="profile-wrapper">
+                            <div id="profile-container">
+                               
+                                    <h:panelGrid columns="1" columnClasses="column" cellpadding="1">
+                                        <p:outputLabel value="Nurodykite rezervacijos laikotarpį:" />
+                                        
+                                        <h:form>
+                                            <p:messages id="messages" autoUpdate="true" closable="true" />
+                                        </h:form>
+                                        <p:spacer height="10" />
+                                        <h:panelGrid id="antra" columns="2" columnClasses="column" cellpadding="11">
+                                            <p:outputLabel value="Nuo" />
+                                            <p:calendar id="restricted" value="#{reservationBean.startDate}" mindate="#{summerhouseDetails.detailedSummerhouse.validityStart}" maxdate="#{summerhouseDetails.detailedSummerhouse.validityEnd}" required="true" size="11"/>
+                                            <p:outputLabel value="Iki" />
+                                            <p:calendar id="restricted2" value="#{reservationBean.endDate}" mindate="#{summerhouseDetails.detailedSummerhouse.validityStart}" maxdate="#{summerhouseDetails.detailedSummerhouse.validityEnd}" required="true" size="11"/>
+                                            
+                                            <p:outputLabel value="" /> 
+                                            <p:outputLabel value="" /> 
+                                            
+                                            <p:commandButton class="edit-profile-button-width" value="Atšaukti" type="button" onclick="PF('first').hide();"/>
+                                            <p:commandButton class="edit-profile-button-width" type="submit" value="Rezervuoti" icon="ui-icon-disk" update=":form:info" oncomplete="PF('second').show(); PF('first').hide();"/>
+                                            <p:outputLabel value="" />                                        
+                                        </h:panelGrid>
+                                        <p:spacer height="40" />
+                                            <p:outputLabel value="Peržiūrėkite, kokie klubo nariai atostogaus " />
+                                            <p:outputLabel value="Labanoro girioje Jūsų nurodytu laikotarpiu:"/>
+                                        
+                                        <p:spacer height="30" />
+                                        <p:commandButton value="Peržiūrėti" type="submit" icon="ui-icon-search" title="Peržiūrėti" onclick="#{reservationBean.throwMsg()}"/>
+                                    </h:panelGrid>
+                               
+                            </div>
+                            </div>
+                        </p:dialog> 
+                        
+                    <p:outputPanel id="info">
+                        <p:dialog header="Rezervacija"  widgetVar="second" modal="true"  height="500" width="700" closable="false" resizable="false">
+                            <div id="profile-wrapper">
+                            <div id="profile-container">
+                                    <h:panelGrid columns="1" columnClasses="column" cellpadding="1">
+                                        <p:outputLabel value="Peržiūrėkite, ar teisinga rezervacijos informacija:" />
+                                        
+                                        <p:spacer height="10" />
+                                        <h:panelGrid columns="2" columnClasses="column" cellpadding="11">
+                                            <p:outputLabel value="Pavadinimas: " />
+                                            <p:outputLabel value="#{summerhouseDetails.detailedSummerhouse.title}" /> 
+                                            
+                                            <p:outputLabel value="Vietų skaičius:" />
+                                            <p:outputLabel value="#{summerhouseDetails.detailedSummerhouse.beds}" /> 
+                                            
+                                            <p:outputLabel value="Nuo:" />
+                                            <p:outputLabel value="#{reservationBean.startDate}" > 
+                                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                                            </p:outputLabel>
+                                            
+                                            <p:outputLabel value="Iki:" />
+                                            <p:outputLabel value="#{reservationBean.endDate}" > 
+                                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                                            </p:outputLabel>
+                                            
+                                            <p:outputLabel value="Kaina" />
+                                            <p:outputLabel value="#{summerhouseDetails.detailedSummerhouse.cost}" /> 
+                                            
+                                        </h:panelGrid>
+                                        <p:spacer height="30" />
+                                        <p:outputLabel value="Rezervacija bus baigta, kai sumokėsite už ją: " />
+                                        <p:spacer height="30" />
+                                        <h:panelGrid columns="2" columnClasses="column" cellpadding="11">
+                                            <p:commandButton class="edit-profile-button-width" value="Atgal" type="button" onclick="PF('first').show(); PF('second').hide();"/>
+                                            <p:commandButton class="edit-profile-button-width" type="submit" value="Mokėti" icon="ui-icon-disk" action="#{reservationBean.saveReservation()}" oncomplete="PF('second').hide();"/>
+                                            <p:outputLabel value="" />                                        
+                                        </h:panelGrid>
+                                        <p:spacer height="40" />
+                                    </h:panelGrid>
+                            </div>
+                            </div>
+                        </p:dialog>
+                        </p:outputPanel>
                 </div>
 
                 <div id="footer-container" >
