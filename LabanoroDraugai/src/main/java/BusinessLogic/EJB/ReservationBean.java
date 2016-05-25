@@ -1,6 +1,7 @@
 
 package BusinessLogic.EJB;
 
+import Alternatives.GroupDistribution;
 import DataAccess.EJB.AccountCRUD;
 import DataAccess.EJB.ReservationCRUD;
 import DataAccess.EJB.SettingsCRUD;
@@ -56,6 +57,9 @@ public class ReservationBean implements Serializable {
     @Inject 
     SummerhouseDetails summerhouseDetails;
     
+    @Inject
+    GroupDistribution groupDistribution;
+    
     private Account account;
     
     private Settings settings;
@@ -67,7 +71,6 @@ public class ReservationBean implements Serializable {
     private boolean canReserve;
     
     private List<Reservation> membersReservations = new ArrayList<>();
-    private List<Account> membersAccounts = new ArrayList<>();
 
     public Conversation getConversation() {
         return conversation;
@@ -118,10 +121,6 @@ public class ReservationBean implements Serializable {
         this.endDate = endDate;
     }
 
-    public boolean isCanReserve() {
-        return canReserve;
-    }
-
     public List<Reservation> getMembersReservations() {
         return membersReservations;
     }
@@ -130,12 +129,8 @@ public class ReservationBean implements Serializable {
         this.membersReservations = membersReservations;
     }
 
-    public List<Account> getMembersAccounts() {
-        return membersAccounts;
-    }
-
-    public void setMembersAccounts(List<Account> membersAccounts) {
-        this.membersAccounts = membersAccounts;
+    public boolean isCanReserve() {
+        return canReserve;
     }
 
     public void setCanReserve(boolean canReserve) {
@@ -145,27 +140,14 @@ public class ReservationBean implements Serializable {
     
     @PostConstruct
     public void init() {
-        System.out.println("susikuriau");
         account = accountEjb.findAccount(loginBean.getFbid());
         settings = settingsEjb.findSettings();
-        canReserveValidation();
     }
     
     public void findMembersOnSamePeriod() {
-        //conversation.begin();
-        System.out.println("startDate "+startDate);
-        System.out.println("endDate "+endDate);
         if (startDate != null && endDate != null) {
-            System.out.println("pateko i ifa");
             membersReservations = reservationEjb.findByPeriod(startDate, endDate);  // susirandam rezervacijas pagal datas     
         } 
-           
-//        for (Reservation reservation : membersReservations) {  
-//            System.out.println("vaa "+reservation.getAccountId().getFirstName());
-//            membersAccounts.add(reservation.getAccountId());    // pagal atrinktas rezervacijas paimam accountus
-//        }     
-//        System.out.println(membersAccounts.get(0));
-//        //return membersAccounts;
     }
     
     public void throwMsg(){
@@ -173,8 +155,9 @@ public class ReservationBean implements Serializable {
     }
     
     public String saveReservation(){
-        try{
-            payForReservation();
+        try {
+            System.out.println("aaaa"+summerhouseDetails.getDetailedSummerhouse().getTitle());
+            payForReservation(); // 
             Reservation reservation = new Reservation();
             reservation.setAccountId(account);
             reservation.setSummerhouseId(summerhouseDetails.getDetailedSummerhouse()); //cia cj nepaskolins
@@ -197,42 +180,9 @@ public class ReservationBean implements Serializable {
     
     }
     
-    private void canReserveValidation(){
-        //1. ar turi pinigų bent savaitei - nžn ar reikia sitoj vietoj, kol kas nera
-        //2. pagal siandienos data kurios grupes rezervuotis gali
-        //3. ar naudotojas patenka i ta grupe 
-        int reservedDays = this.account.getTimeSpentOnHoliday();
-        if (settings.getSecondReservation().after(Calendar.getInstance().getTime())){
-            //1grupe. Maksimumas 1 sav.
-            int max1 = 7;
-            if (reservedDays < max1) this.canReserve = true;
-            else                     this.canReserve = false;
-        }
-        else{
-            if (settings.getThirdReservation().after(Calendar.getInstance().getTime())){
-                //1 ir 2 grupe. Maksimumas 2 sav.
-                int max2 = 14;
-                if (reservedDays < max2) this.canReserve = true;
-                else                     this.canReserve = false;
-            
-            }
-            else{
-                if (settings.getCloseReservation().after(Calendar.getInstance().getTime())){
-                    //1, 2, 3 grupe. Maksimumas 3 sav.
-                    int max3 = 21;
-                    if (reservedDays < max3) this.canReserve = true;
-                    else                     this.canReserve = false;
-                }
-                else{
-                    //rezervacijos laikas baigtas
-                    this.canReserve = false;
-                }
-            }
-        
-        }
+    public boolean canReserveSummerhouse(){
+        this.setCanReserve(groupDistribution.canGroupReserve(account, settings));
+        return this.isCanReserve();
     }
-    
-    
-    
 
 }

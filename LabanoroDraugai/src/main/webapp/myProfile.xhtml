@@ -26,46 +26,46 @@
                 <div id="menu-container">
                     <ui:include src="menu.xhtml" />
                 </div>
-                    <div id="profile-wrapper">
-                        <div id="profile-container">
-                            <h:panelGrid columns="2" columnClasses="column" cellpadding="15" >
-                                <p:graphicImage value="#{imageStreamer.oneImage}" class="profile-image-container" >
-                                    <f:param name="id" value="#{editProfileBean.account.photoImageid.id}" />
-                                </p:graphicImage> 
+                <div id="profile-wrapper">
+                    <div id="profile-container">
+                        <h:panelGrid columns="2" columnClasses="column" cellpadding="15" >
+                            <p:graphicImage value="#{imageStreamer.oneImage}" class="profile-image-container" >
+                                <f:param name="id" value="#{editProfileBean.account.photoImageid.id}" />
+                            </p:graphicImage> 
 
-                                <h:panelGrid columns="2" columnClasses="column" cellpadding="5" >
-                                    <p:outputLabel id="profile-column-2" value="#{editProfileBean.account.firstName}" />
-                                    <p:outputLabel value="#{editProfileBean.account.lastName}"/>
+                            <h:panelGrid columns="2" columnClasses="column" cellpadding="5" >
+                                <p:outputLabel id="profile-column-2" value="#{editProfileBean.account.firstName}" />
+                                <p:outputLabel value="#{editProfileBean.account.lastName}"/>
 
-                                    <p:outputLabel value="#{editProfileBean.account.city}"/>
-                                    <p:outputLabel value=""/>
+                                <p:outputLabel value="#{editProfileBean.account.city}"/>
+                                <p:outputLabel value=""/>
 
-                                    <p:outputLabel value="Narys nuo: " />
-                                    <p:outputLabel id="bday"  value="#{editProfileBean.account.memberSince}">
-                                        <f:convertDateTime pattern="yyyy-MM-dd" />
-                                    </p:outputLabel>
+                                <p:outputLabel value="Narys nuo: " />
+                                <p:outputLabel id="bday"  value="#{editProfileBean.account.memberSince}">
+                                    <f:convertDateTime pattern="yyyy-MM-dd" />
+                                </p:outputLabel>
 
-                                    <p:outputLabel value="Gimimo data: " />
-                                    <p:outputLabel value="#{editProfileBean.account.dateOfBirth}">
-                                        <f:convertDateTime pattern="yyyy-MM-dd" />
-                                    </p:outputLabel>
+                                <p:outputLabel value="Gimimo data: " />
+                                <p:outputLabel value="#{editProfileBean.account.dateOfBirth}">
+                                    <f:convertDateTime pattern="yyyy-MM-dd" />
+                                </p:outputLabel>
 
-                                    <p:outputLabel value="Tel. nr.: " class="icon-phone"/>
-                                    <p:outputLabel value="+370 #{editProfileBean.account.phoneNum}"/>
+                                <p:outputLabel value="Tel. nr.: " class="icon-phone"/>
+                                <p:outputLabel value="+370 #{editProfileBean.account.phoneNum}"/>
 
-                                    <p:outputLabel value="El. paštas: " class="icon-mail-alt"/>
-                                    <p:outputLabel value="#{editProfileBean.account.email}"/>
+                                <p:outputLabel value="El. paštas: " class="icon-mail-alt"/>
+                                <p:outputLabel value="#{editProfileBean.account.email}"/>
 
-                                    <p:outputLabel value="Apie save:"  />
-                                    <p:scrollPanel mode="native" class="profile-description">
-                                        #{editProfileBean.account.description}
-                                    </p:scrollPanel>
-                                </h:panelGrid>
-                                <div></div>
-                                <p:button value="Redaguoti"  outcome="editProfile.xhtml" class="align-on-right" />
+                                <p:outputLabel value="Apie save:"  />
+                                <p:scrollPanel mode="native" class="profile-description">
+                                    #{editProfileBean.account.description}
+                                </p:scrollPanel>
                             </h:panelGrid>
-                        </div>     
-                    </div>
+                            <div></div>
+                            <p:button value="Redaguoti"  outcome="editProfile.xhtml" class="align-on-right" />
+                        </h:panelGrid>
+                    </div>     
+                </div>
                 <div id="footer-container" >
                     <ui:include src="footer.xhtml" />
                 </div>

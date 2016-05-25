@@ -27,21 +27,20 @@ import org.primefaces.model.UploadedFile;
 
 /**
  *
- * @author Povilas 
+ * @author Povilas
  */
-
 //@SessionScoped
 @Named
 @RequestScoped
 public class EditSummerhouseBean implements Serializable {
-    
-    private String title;   
+
+    private String title;
     private Summerhouse detailedSummerhouse;
     private UploadedFile file;
-    
+
     @Inject
     SummerhouseCRUD summerhouseCRUD;
-    
+
     @Inject
     ImageCRUD imagesEjb;
 
@@ -50,7 +49,7 @@ public class EditSummerhouseBean implements Serializable {
         //account = accountEjb.findAccountById(loginBean.getId()); //randa pagal sesijos FbId
         detailedSummerhouse = new Summerhouse();
     }
-    
+
     public String getTitle() {
         return title;
     }
@@ -67,8 +66,8 @@ public class EditSummerhouseBean implements Serializable {
     public void setDetailedSummerhouse(Summerhouse detailedSummerhouse) {
         this.detailedSummerhouse = detailedSummerhouse;
     }
-    
-    public String saveSummerhouseChanges (){
+
+    public String saveSummerhouseChanges() {
         try {
             //account.setPhotoBlob(IOUtils.toByteArray(this.file.getInputstream()));
             Image image = new Image();
@@ -82,11 +81,19 @@ public class EditSummerhouseBean implements Serializable {
         return "settings";
     }
 
-    public void deleteSummerhouse(ActionEvent event){
-        String summerhouseTitle=(String)event.getComponent().getAttributes().get("title");
-        Summerhouse sh =summerhouseCRUD.findByTitle(summerhouseTitle);
-        summerhouseCRUD.deleteSummerhouse(sh);
+    public String deleteSummerhouse() {
+        try {
+            Map<String, String> params
+                    = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+            String summerhouseTitle = params.get("title");
+            Summerhouse sh = summerhouseCRUD.findByTitle(summerhouseTitle);
+            summerhouseCRUD.deleteSummerhouse(sh);
+        } catch (Exception ex) {
+            return "summerhouse?faces-redirect=true";
+        }
+        return "summerhouse?faces-redirect=true";
     }
+
     public UploadedFile getFile() {
         return file;
     }
@@ -94,6 +101,5 @@ public class EditSummerhouseBean implements Serializable {
     public void setFile(UploadedFile file) {
         this.file = file;
     }
-    
-    
+
 }

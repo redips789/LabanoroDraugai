@@ -47,7 +47,7 @@
                             <h:outputText value="#{account.city}" />
                         </p:column>
                         <p:column style="width:60px">
-                            <p:commandButton id="thistableid"  update=":form:accountDetail" oncomplete="PF('accountDialog').show()" icon="ui-icon-search" title="Peržiūrėti">
+                            <p:commandButton id="thistableid"  update=":form:accountDetail" oncomplete="PF('accountDialog').show()" icon="fa fa-trophy" title="Peržiūrėti">
                                 <f:setPropertyActionListener value="#{account}" target="#{accountBean.selectedAccount}" />
                             </p:commandButton>
                         </p:column>
@@ -65,13 +65,12 @@
                                         <p:message for="numberOfPoints" display="icon" />
 
                                         <p:outputLabel value="Nuopelnas:" />
-                                        <p:inputTextarea id="description" rows="10" cols="30" value="#{editProfileBean.account.description}" counter="display" required="true" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
+                                        <p:inputTextarea id="description" rows="10" cols="30" value="#{meritBean.merit}" counter="display" required="true" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
                                         <p:message for="description" display="icon" />
                                         <p:outputLabel value=" "/>
                                         <h:outputText id="display" />
                                         <p:outputLabel value=" "/>
                                         <p:outputLabel value=" "/>
-
 
                                         <p:commandButton class="edit-profile-button-width" type="submit" ajax="false" value="Skirti" id="withIcon" action="#{meritBean.sendReward()}" validateClient="true" icon="ui-icon-disk" >
                                             <f:param name ="accId" value="#{accountBean.selectedAccount.id}"/>
