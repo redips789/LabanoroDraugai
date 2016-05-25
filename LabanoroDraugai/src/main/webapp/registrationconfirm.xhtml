@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
         <f:facet name="first">
             <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
@@ -15,80 +15,80 @@
         <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     </h:head>
     <h:body>
-        
-        
+
+
         <h:form id="form">
-            
+
             <div id="page">
-            <div id="header-container">
-                <ui:include src="header.xhtml" />         
-            </div>
-                
-            <div id="menu-container">
-                <ui:include src="menu.xhtml" />
-            </div>
-            
-            <div id="content-container" >
-                
-                
-                
-             
-                <h:form id="registerForm" class="editProfile"> 
-                    <h:panelGrid columns="3" columnClasses="column" cellpadding="5">
-                   
-                  
-                    <p:outputLabel value="Vardas:" />  
-                    <p:inputText id="name" value="#{registrationBean.first_name}" size="30" required="true" requiredMessage="Įrašykite vardą" maxlength="29"/>    
-                    <p:message for="name" display="icon" />
-                        
-                  
-                    <p:outputLabel value="Pavardė:" />  
-                    <p:inputText id="lastname" value="#{registrationBean.last_name}" size="30" required="true" requiredMessage="Įrašykite pavardę" maxlength="29"/>   
-                    <p:message for="lastname" display="icon" />
-                  
-                    <p:outputLabel value="Gimimo data:" />  
-                    <p:calendar id="birthday" yearRange="c-100:c" value="#{registrationBean.birthday}" size="30" required="true" requiredMessage="Įrašykite gimimo datą" locale="de" navigator="true" pattern="yyyy-MMM-dd"  />
-                    <p:message for="birthday" display="icon" />
-                
-                  
-                    <p:outputLabel value="Miestas:" />
-                    <p:inputText id="city" value="#{registrationBean.city}" size="30" required="true" requiredMessage="Įrašykite miestą" maxlength="49"/>
-                    <p:message for="city" display="icon" />
-                    
-                    <p:outputLabel value="El. paštas" />
-                    <p:inputText id="email" value="#{registrationBean.email}" size="30" required="true" requiredMessage="Įrašykite el. paštą" validatorMessage="Įrašykite teisingą el. paštą" maxlength="49">
-                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
-                    </p:inputText>
-                    <p:message for="email" display="icon" />
-                  
-                    <p:outputLabel value="Tel nr.: (+370)"/>
-                    <p:inputText id="phonenumber" value="#{registrationBean.phone}" size="30" required="true" validatorMessage="Įrašykite tel. nr. po (+370) kodo" requiredMessage="Įrašykite tel. nr." onkeyup="this.value=this.value.replace(/[^\d]/,'')" maxlength="8" label="phonenumber">
-                    <f:validateLength minimum="8"  for="phonenumber"/>
-                    </p:inputText>      
-                    <p:message for="phonenumber" display="icon" />
-                            
-                    <p:outputLabel value="Apie save:" />
-                    <p:inputTextarea id="description" rows="10" cols="30" value="#{registrationBean.description}" counter="display" required="true" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
-                    <p:message for="description" display="icon" />
-                    <p:outputLabel value=" "/>
-                    <h:outputText id="display" />
-                    <p:outputLabel value=" "/>    
-                  
-                  
-                      
-                    <p:commandButton value="Patvirtinti registraciją" action="#{registrationBean.register()}" id="withIcon" type="submit" ajax="false" validateClient="true" icon="ui-icon-disk"/>
+                <div id="header-container">
+                    <ui:include src="header.xhtml" />         
+                </div>
+
+                <div id="menu-container">
+                    <ui:include src="menu.xhtml" />
+                </div>
+
+                <div id="content-container" >
+
+
+
+
+                    <h:form id="registerForm" class="editProfile"> 
+                        <h:panelGrid columns="3" columnClasses="column" cellpadding="5">
+
+
+                            <p:outputLabel value="Vardas:" />  
+                            <p:inputText id="name" value="#{registrationBean.first_name}" size="30" required="true" requiredMessage="Įrašykite vardą" maxlength="29"/>    
+                            <p:message for="name" display="icon" />
+
+
+                            <p:outputLabel value="Pavardė:" />  
+                            <p:inputText id="lastname" value="#{registrationBean.last_name}" size="30" required="true" requiredMessage="Įrašykite pavardę" maxlength="29"/>   
+                            <p:message for="lastname" display="icon" />
+
+                            <p:outputLabel value="Gimimo data:" />  
+                            <p:calendar id="birthday" yearRange="c-100:c" value="#{registrationBean.birthday}" size="30" required="true" requiredMessage="Įrašykite gimimo datą" locale="de" navigator="true" pattern="yyyy-MMM-dd"  />
+                            <p:message for="birthday" display="icon" />
+
+
+                            <p:outputLabel value="Miestas:" />
+                            <p:inputText id="city" value="#{registrationBean.city}" size="30" required="true" requiredMessage="Įrašykite miestą" maxlength="49"/>
+                            <p:message for="city" display="icon" />
+
+                            <p:outputLabel value="El. paštas" />
+                            <p:inputText id="email" value="#{registrationBean.email}" size="30" required="true" requiredMessage="Įrašykite el. paštą" validatorMessage="Įrašykite teisingą el. paštą" maxlength="49">
+                                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                            </p:inputText>
+                            <p:message for="email" display="icon" />
+
+                            <p:outputLabel value="Tel nr.: (+370)"/>
+                            <p:inputText id="phonenumber" value="#{registrationBean.phone}" size="30" required="true" validatorMessage="Įrašykite tel. nr. po (+370) kodo" requiredMessage="Įrašykite tel. nr." onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="8" label="phonenumber">
+                                <f:validateLength minimum="8"  for="phonenumber"/>
+                            </p:inputText>      
+                            <p:message for="phonenumber" display="icon" />
+
+                            <p:outputLabel value="Apie save:" />
+                            <p:inputTextarea id="description" rows="10" cols="30" value="#{registrationBean.description}" counter="display" required="true" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
+                            <p:message for="description" display="icon" />
+                            <p:outputLabel value=" "/>
+                            <h:outputText id="display" />
+                            <p:outputLabel value=" "/>    
+
+
+
+                            <p:commandButton value="Patvirtinti registraciją" action="#{registrationBean.register()}" id="withIcon" type="submit" ajax="false" validateClient="true" icon="ui-icon-disk"/>
                         </h:panelGrid>
-                  
-              
-        </h:form>  
-           
+
+
+                    </h:form>  
+
+                </div>
+
+                <div id="footer-container" >
+                    <ui:include src="footer.xhtml" />
+                </div>
+
             </div>
-                       
-            <div id="footer-container" >
-                <ui:include src="footer.xhtml" />
-            </div>
-            
-        </div>
         </h:form>
     </h:body>
 </html>

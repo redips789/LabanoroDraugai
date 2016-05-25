@@ -5,14 +5,14 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
-    
+
     <h:head>
         <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
     </h:head>
     <h:body>            
         <div id="menu" style="color: red;"> 
             <p:growl id="messages"/>
- 
+
             <p:menubar>
                 <p:submenu  label="Vasarnamiai" rendered="#{accountBean.notCandidate}">
                     <p:menuitem value="Mano rezervuoti" outcome="mySummerhouses" />
@@ -28,13 +28,13 @@
                     <p:menuitem value="Mano taškai" update="messages" rendered="#{accountBean.notCandidate}" action="points?faces-redirect=true"/>
                     <p:menuitem >
                         <p:commandLink styleClass="ui-menuitem-link" action="#{loginBean.leaveForever()}" ajax="false">
-                        <p:outputLabel styleClass="ui-menuitem-icon ui-icon ui-icon-close" />
-                        <p:outputLabel styleClass="ui-menuitem-text" value="Išsiregistruoti" />
-                        <p:confirm header="Patvirtinimas" message="Ar tikrai norite išsiregistruoti?" icon="ui-icon-alert" />
+                            <p:outputLabel styleClass="ui-menuitem-icon ui-icon ui-icon-close" />
+                            <p:outputLabel styleClass="ui-menuitem-text" value="Išsiregistruoti" />
+                            <p:confirm header="Patvirtinimas" message="Ar tikrai norite išsiregistruoti?" icon="ui-icon-alert" />
                         </p:commandLink>
                     </p:menuitem>
                 </p:submenu>
-                
+
                 <p:submenu label="Administravimas" rendered="#{accountBean.admin}">
                     <p:submenu label="Vasarnamiai" >
                         <p:menuitem value="Pridėti" action="addSummerhouse?faces-redirect=true"/>
@@ -55,8 +55,8 @@
         </div>
         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" widgetVar="deleteDialog" >
             <div>
-            <p:commandButton value="Taip" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onclick="deleteDialog.hide()" ajax="false" />
-            <p:commandButton value="Ne" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="deleteDialog.hide()" ajax="false" />
+                <p:commandButton value="Taip" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onclick="deleteDialog.hide()" ajax="false" />
+                <p:commandButton value="Ne" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="deleteDialog.hide()" ajax="false" />
             </div>
         </p:confirmDialog>
     </h:body>
