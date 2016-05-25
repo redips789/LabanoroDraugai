@@ -80,11 +80,29 @@
                                 <p:outputLabel value="Atšaukimo laikas:" />
                                 <p:inputText id="cancellationTime" value="#{editSettingsBean.settings.cancellationTime}" size="30" required="true" requiredMessage="Įrašykite atšaukimo laiką" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
                                 <p:message for="cancellationTime" display="icon" />
+                            </h:panelGrid>
+                            <h:panelGrid columns="3" columnClasses="column" cellpadding="5">
+                                <p:outputLabel value="Praeitą sezoną atostogautų dienų limitas" />
+                                <p:outputLabel value="" />
+                                <p:outputLabel value="" />
 
-                                <h:panelGrid columns="2" columnClasses="column" cellpadding="11">
-                                    <p:commandButton class="edit-profile-button-width" type="submit" ajax="false" value="Išsaugoti" id="withIcon" actionListener="#{editSettingsBean.saveSettingsChanges()}" validateClient="true" action="settings.xhtml" icon="ui-icon-disk" />
-                                    <p:button class="edit-profile-button-width" value="Atšaukti"  outcome="settings.xhtml" />
-                                </h:panelGrid>
+                                <p:outputLabel value="Pirma:" />
+                                <p:inputText id="FirstGroupLimit" value="#{editSettingsBean.settings.firstGroupSize}" size="30" required="true" requiredMessage="Įrašykite atšaukimo laiką" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
+                                <p:message for="FirstGroupLimit" display="icon" />
+
+                                <p:outputLabel value="Antra:" />
+                                <p:inputText id="SecondGroupLimit" value="#{editSettingsBean.settings.secondGroupSize}" size="30" required="true" requiredMessage="Įrašykite atšaukimo laiką" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
+                                <p:message for="FirstGroupLimit" display="icon" />
+
+                                <p:outputLabel value="Trečia:" />
+                                <p:inputText id="ThirdGroupLimit" value="#{editSettingsBean.settings.thirdGroupSize}" size="30" required="true" requiredMessage="Įrašykite atšaukimo laiką" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
+                                <p:message for="FirstGroupLimit" display="icon" />
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="3" columnClasses="column" cellpadding="50">
+                                <p:outputLabel value="" />
+                                <p:commandButton class="edit-profile-button-width" type="submit" ajax="false" value="Išsaugoti" id="withIcon" actionListener="#{editSettingsBean.saveSettingsChanges()}" validateClient="true" action="settings.xhtml" icon="ui-icon-disk" />
+                                <p:button class="edit-profile-button-width" value="Atšaukti"  outcome="settings.xhtml" />
                             </h:panelGrid>
                         </div>
                     </div>
