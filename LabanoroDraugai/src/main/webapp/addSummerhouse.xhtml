@@ -41,6 +41,16 @@
                                 <p:inputText id="price" value="#{addSummerhouseBean.summerhouse.cost}" size="30" required="false" requiredMessage="Įrašykite kainą" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
                                 <p:message for="price" display="icon" />
 
+                                <p:outputLabel value="Galiojimo pradžia:" />
+                                <p:calendar id="validityStart" yearRange="c-100:c"  value="#{addSummerhouseBean.summerhouse.validityStart}" size="30" requiredMessage="Įrašykite pirmos rezervacijos datą" locale="de" navigator="true" pattern="yyyy-MM-dd">
+                                </p:calendar>
+                                <p:message for="validityStart" display="icon" />
+
+                                <p:outputLabel value="Galiojimo pabaiga:" />
+                                <p:calendar id="validityEnd" yearRange="c-100:c"  value="#{addSummerhouseBean.summerhouse.validityEnd}" size="30" requiredMessage="Įrašykite pirmos rezervacijos datą" locale="de" navigator="true" pattern="yyyy-MM-dd">
+                                </p:calendar>
+                                <p:message for="validityEnd" display="icon" />
+
                                 <p:outputLabel value="Nuotrauka:"/>
                                 <p:fileUpload value="#{addSummerhouseBean.file}" mode="simple" label="Įkelti" dragDropSupport="true"/>
                                 <p:outputLabel value=" "/>
