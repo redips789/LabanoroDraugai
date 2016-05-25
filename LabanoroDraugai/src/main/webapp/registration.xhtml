@@ -153,93 +153,8 @@
         <h:form id="form" enctype="multipart/form-data">
             <div id="fb-root"></div>
             <div id="page">
-            <div id="header-container">
-                <ui:include src="header.xhtml" />         
-            </div>
-                
-            <div id="menu-container">
-                <h:panelGroup rendered="false">
-                <ui:include src="menu.xhtml" />
-                </h:panelGroup>
-            </div>
-                
-                    
-                
-            <div id="content-container">
-                              
-            
-                <div id="profile-wrapper">
-                <div id="profile-container">
-                        
-                    
-                <h:form id="registerForm" class="editProfile">
-                    <p:messages id="messages" closable="true" />
-                    
-                    <p:outputPanel autoUpdate="true">
-                        <p:graphicImage url="#{registrationBean.picture}"   />
-                    </p:outputPanel>
-                    
-                    <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="test123">
-                    <p:outputLabel value="Vardas:" /> 
-                    <p:outputPanel autoUpdate="true">
-                    <p:inputText id="name" value="#{registrationBean.first_name}" size="30" required="true" requiredMessage="Įrašykite vardą" maxlength="29"/> 
-                    </p:outputPanel>
-                    <p:message for="name" display="icon" />
-                        
-                  
-                    <p:outputLabel value="Pavardė:" /> 
-                    <p:outputPanel autoUpdate="true">
-                    <p:inputText id="lastname" value="#{registrationBean.last_name}" size="30" required="true" requiredMessage="Įrašykite pavardę" maxlength="29"/>
-                    </p:outputPanel>
-                    <p:message for="lastname" display="icon" />
-                  
-                    <p:outputLabel value="Gimimo data:" /> 
-                    <p:outputPanel autoUpdate="true">
-                        <p:calendar id="birthday"  value="#{registrationBean.birthday}" size="30" requiredMessage="Įrašykite gimimo datą" locale="de" navigator="true" pattern="yyyy-MM-dd"  />
-                    </p:outputPanel>
-                    <p:message for="birthday" display="icon" />
-                
-                  
-                    <p:outputLabel value="Miestas:" />
-                    <p:outputPanel autoUpdate="true">
-                    <p:inputText id="city" value="#{registrationBean.city}" size="30" required="true" requiredMessage="Įrašykite miestą" maxlength="49"/>
-                   </p:outputPanel>
-                    <p:message for="city" display="icon" />
-                    
-                    <p:outputLabel value="El. paštas:" />
-                    <p:outputPanel autoUpdate="true">
-                    <p:inputText id="email" value="#{registrationBean.email}" size="30" required="true" requiredMessage="Įrašykite el. paštą" validatorMessage="Įrašykite teisingą el. paštą" maxlength="49">
-                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
-                    </p:inputText>
-                    </p:outputPanel>
-                    <p:message for="email" display="icon" />
-                  
-                    <p:outputLabel value="Tel. nr.: (+370)"/>
-                    <p:outputPanel autoUpdate="true">
-                    <p:inputText id="phonenumber" value="#{registrationBean.phone}" size="30" required="true" validatorMessage="Įrašykite tel. nr. po (+370) kodo" requiredMessage="Įrašykite tel. nr." onkeyup="this.value=this.value.replace(/[^\d]/,'')" maxlength="8" label="phonenumber">
-                    <f:validateLength minimum="8"  for="phonenumber"/>
-                    </p:inputText>
-                    </p:outputPanel>
-                    <p:message for="phonenumber" display="icon" />
-                            
-                    <p:outputLabel value="Apie save:" />
-                    <p:inputTextarea id="description" rows="10" cols="32" value="#{registrationBean.description}" counter="display" required="true" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
-                    <p:message for="description" display="icon" />
-                    <p:outputLabel value=" "/>
-                    <h:outputText id="display" />
-                    <p:outputLabel value=" "/>
-                    
-                    <p:outputLabel value="Pakvietimo kodas: "/>
-                    <p:outputPanel autoUpdate="true">
-                        <p:inputText id="code" value="#{registrationBean.code}" size="30" />
-                    </p:outputPanel>
-                    <p:outputLabel value=" "/>                   
-                      
-                    
-                    <p:commandButton styleClass="buttonRight" value="Registruotis" action="#{registrationBean.register()}" id="withIcon" type="submit" ajax="false" validateClient="true" icon="ui-icon-disk"/>
-                    </h:panelGrid>
-                    
-                </h:form>
+                <div id="header-container">
+                    <ui:include src="header.xhtml" />         
                 </div>
 
                 <div id="menu-container">
@@ -352,7 +267,7 @@
             </div>
 
         </h:form>
-        
-        
+
     </h:body>
 </html>
+

@@ -24,10 +24,8 @@
                 <div id="menu-container">
                     <ui:include src="menu.xhtml" />
                 </div>
-                <h:form>
                     <div id="profile-wrapper">
                         <div id="profile-container">
-                            <h:form id="sh">
                                 <p:dataScroller id="list" value="#{summerhouseBean.summerhouses}" var="summerhouse" chunkSize="5">
                                     <f:facet name="header">
                                         Eikite žemyn, kad pamatytumėte daugiau vasarnamių
@@ -48,8 +46,8 @@
                                                 <h:outputText value="#{summerhouse.cost}" style="font-weight: bold"/>
 
                                                 <h:panelGrid columns="2" columnClasses="column" cellpadding="11">
-                                                    <p:commandButton class="edit-profile-button-width" type="submit" ajax="false" value="Ištrinti" id="withIcon" actionListener="#{editSummerhouseBean.deleteSummerhouse}" validateClient="true" action="summerhouse.xhtml" icon="ui-icon-disk" >
-                                                        <f:attribute name="title" value="#{summerhouse.title}" />
+                                                    <p:commandButton class="edit-profile-button-width" type="submit" ajax="true" value="Ištrinti" id="withIcon" action="#{editSummerhouseBean.deleteSummerhouse}" validateClient="true" icon="ui-icon-disk" >
+                                                        <f:param name="title" value="#{summerhouse.title}" />
                                                     </p:commandButton>
                                                 </h:panelGrid>
 
@@ -57,11 +55,9 @@
                                         </p:outputPanel>
                                     </h:panelGrid>
                                 </p:dataScroller>
-                            </h:form> 
 
                         </div>
                     </div>
-                </h:form>
                 <div id="footer-container" >
                     <ui:include src="footer.xhtml" />
                 </div>

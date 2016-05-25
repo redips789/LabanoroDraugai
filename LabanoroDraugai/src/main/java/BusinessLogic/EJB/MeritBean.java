@@ -84,6 +84,7 @@ public class MeritBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        merit = "Įveskite nuopelną";
     }
 
     public void sendReward() {
@@ -94,15 +95,12 @@ public class MeritBean implements Serializable {
             Account acc = accountCRUD.findAccountById(accId);
             acc.setPoints(acc.getPoints() + points);
             accountCRUD.updateAccount(acc);
+            String msg = Email.createBody(merit);
+            Email.sendEmail("povilas.jegelevicius@gmail.com", "Nuopelnas", msg);
             //accountCRUD.updatePoints(Integer.parseInt(accId), points);
             String body = Email.createBody(merit);
         } catch (Exception ex) {
-            Map<String, String> params
-                    = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-            int accId = Integer.parseInt(params.get("accId"));
-            Account acc = accountCRUD.findAccountById(accId);
-            acc.setPoints(acc.getPoints() + points);
-            accountCRUD.updateAccount(acc);
+
         }
         //Email.sendEmail(account.getEmail(), "Nuopelnas", body);
     }
