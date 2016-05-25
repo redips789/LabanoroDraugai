@@ -70,6 +70,7 @@ public class RecommendationBean implements Serializable {
     
     @PostConstruct
     public void init() {
+        this.email = "";
         validity_day = settingsEjb.findSettings().getRecommendationsValidity();
         min_rec = settingsEjb.findSettings().getMinRecommendations();
         max_rec = settingsEjb.findSettings().getMaxRecommendations();
@@ -143,32 +144,51 @@ public class RecommendationBean implements Serializable {
 
     public String addRecommendation() {
         try {
-            String[] arr = this.getFullname().split(" ");
-            if (this.receiverList.size()>=this.max_rec){
-                Message.addErrorMessage("Maksimalus išsiųstų rekomendacijų prašymų limitas pasiektas! Prašome laukti, kol rekomendacijos bus patvirtinots arba baigsis jų galiojimo laikas.");
-                return "";
+            List<Account> members = accountBean.getMemberList();
+            Account temp = null;
+            // tikrina, ar yra narys su tokiu el. pastu
+            for (int i=0; i<members.size(); i++){
+                if (this.email == null ? members.get(i).getEmail() == null : this.email.equals(members.get(i).getEmail())) {
+                    temp = members.get(i);
+                    i=members.size();
+                }
+            }
+            if (this.checkEmail(this.email)) {
+               if (temp == null) { 
+                   Message.addErrorMessage("Klubo narys, su pateiktu el. paštu neegzistuoja!");
+               }
+               else {
+                   if (this.receiverList.size()>=this.max_rec){
+                        Message.addErrorMessage("Maksimalus išsiųstų rekomendacijų prašymų limitas pasiektas! Prašome laukti, kol rekomendacijos bus patvirtinots arba baigsis jų galiojimo laikas.");
+                        return "";
+                    }
+                    else {
+                        try {
+                            Account acc = accountEjb.findAccountById(loginBean.getId());
+                            this.PK.setReceiverAccountid(loginBean.getId());
+                            this.PK.setGiverAccountid(temp.getId());
+                            this.rec.setRecommendationPK(this.PK);
+                            this.rec.setIsGiven(Boolean.FALSE);
+                            this.rec.setSendDate(Calendar.getInstance().getTime());
+                            recommendationEjb.addRecommendation(this.rec);
+                            Message.addSuccessMessage("Rekomendacija sėkmingai išsiųsta!");
+                            Email.emailReceivedRecommendation(acc.getFirstName()+" "+acc.getLastName(), temp.getEmail());
+                            this.email = "";
+                            return "";
+                        } catch (Exception e) {
+                            Message.addErrorMessage("Šiam žmogui rekomendacija jau pateikta. Įveskite kito klubo nario el. pašto adresą!");
+                            return "";
+                        }	
+                    }
+                }
             }
             else {
-                try {
-                    Account acc = accountEjb.findAccountById(loginBean.getId());
-                    int id = Integer.parseInt(arr[0].substring(0, 1));
-                    this.PK.setReceiverAccountid(loginBean.getId());
-                    this.PK.setGiverAccountid(this.accountBean.getMemberList().get(id-1).getId());
-                    this.rec.setRecommendationPK(this.PK);
-                    this.rec.setIsGiven(Boolean.FALSE);
-                    this.rec.setSendDate(Calendar.getInstance().getTime());
-                    recommendationEjb.addRecommendation(this.rec);
-                    Message.addSuccessMessage("Rekomendacija sėkmingai išsiųsta!");
-                    Email.emailReceivedRecommendation(acc.getFirstName()+" "+acc.getLastName(), this.accountBean.getMemberList().get(id-1).getEmail());
-                    this.fullname="";
-                    return "";
-                } catch (Exception e) {
-                    Message.addErrorMessage("Šiam žmogui rekomendacija jau buvo išsiųsta anksčiau. Pasirinkite kitą klubo narį!");
-                    return "";
-                }	
+                Message.addErrorMessage("Tai ne el. pašto adresas!");
             }
+            return "";
         } catch (NullPointerException e) {
-            Message.addErrorMessage("Norėdami išsiųsti rekomendacijos prašymą, privalote pasirinkti kurį nors klubo narį!");
+            Message.addErrorMessage("Nenumatyta klaida!");
+            this.email = "";
             return "";
         }			
     }
@@ -303,5 +323,11 @@ public class RecommendationBean implements Serializable {
         else {
             Message.addErrorMessage("Įveskite el. pašto adresą!");
         }
+    }
+    
+    public boolean checkEmail(String email){
+        String EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+        Boolean b = email.matches(EMAIL_REGEX);
+        return b;
     }
 }

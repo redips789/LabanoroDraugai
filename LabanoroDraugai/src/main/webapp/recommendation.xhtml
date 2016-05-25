@@ -33,15 +33,12 @@
                     <f:facet name="header">Atkreipkite dėmesį!</f:facet>
                     <p:outputLabel value="#{recommendationBean.showRecMessage()}" />              
                 </p:panelGrid>
-
-                <p:panelGrid columns="3" styleClass="recTable" rendered="#{accountBean.candidate}">
+                
+                
+                <p:panelGrid columns="2" styleClass="recTable" rendered="#{accountBean.candidate}">
                     <f:facet name="header">Rekomendacijos prašymo forma</f:facet>
-                    <p:outputLabel value="Klubo nariai " for="dd" styleClass="leftColumn"/>
-                    <p:autoComplete id="dd" 
-                                    value="#{recommendationBean.fullname}" 
-                                    dropdown="true" 
-                                    completeMethod="#{accountBean.findMembers()}" />
-                    <p:commandButton update="dd, display" 
+                    <p:inputText id="gmail" value="#{recommendationBean.email}" placeholder="El. paštas" size="30" maxlength="49"/>
+                    <p:commandButton update="gmail, display" 
                                      action="#{recommendationBean.addRecommendation}" 
                                      value="Siųsti" 
                                      widgetVar="startButton"
@@ -74,17 +71,19 @@
                     </f:facet>
                 </p:dataTable>     
                 
-                <h:panelGrid columns="3" columnClasses="column" cellpadding="2" rendered="#{accountBean.notCandidate}">
-                    <p:inputText id="email" value="#{recommendationBean.email}" size="30" maxlength="49"/>
+                <p:panelGrid columns="2" styleClass="recTable" rendered="#{accountBean.notCandidate}">
+                    <f:facet name="header">Pakviesk draugą!</f:facet>
+                    <p:inputText id="email" value="#{recommendationBean.email}" placeholder="El. paštas" size="30" maxlength="49"/>
                     <p:commandButton update="email" 
-                                     value="Pakviesti draugą"  
+                                     value="Siųsti"  
                                      widgetVar="startButton1"
                                      actionListener="#{recommendationBean.inviteFriend()}"
                                      onclick="PF('startButton1').disable()" 
                                      oncomplete="PF('startButton1').enable()"
-                                     rendered="#{accountBean.notCandidate}"/>
-                </h:panelGrid>  
-                <h:outputText value=" Info: Jei siuntimas užtrunka šiek tiek laiko, nesinervuokite ir palaukite!" rendered="#{accountBean.notCandidate}"/>
+                                     rendered="#{accountBean.notCandidate}"
+                                     styleClass="buttonCenter"/>
+                </p:panelGrid>
+                <h:outputText value=" Info: Jei siuntimas užtrunka, šiek tiek palaukite!" rendered="#{accountBean.notCandidate}"/>
                 
                 <p:dataTable id="checkboxDT" var="giver" 
                              styleClass="recTable" 
