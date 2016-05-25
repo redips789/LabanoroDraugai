@@ -35,5 +35,9 @@ public class ReservationCRUD {
                 setParameter("from", from).setParameter("to", to);
         return query.getResultList();
     }
+    
+    public void removeReservation(Reservation reservation){
+        em.remove(em.merge(reservation));
+    }
 
 }

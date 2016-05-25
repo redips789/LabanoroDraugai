@@ -32,6 +32,7 @@ public class MySummerhouses implements Serializable {
     @Inject SummerhouseCRUD summerhouseCRUD;
     @Inject ReservationCRUD reservationCRUD;
     @Inject AccountCRUD accountCRUD;
+    @Inject CancelReservationBean cancelReservationBean;
     
     @Inject
     LoginBean loginBean;
@@ -45,6 +46,9 @@ public class MySummerhouses implements Serializable {
         accountFbId = loginBean.getFbid();
         if (accountFbId != null) acc = accountCRUD.findAccount(accountFbId);      
         myReservations = reservationCRUD.getByAccount(acc); 
+    }
+    public void cancelReservation(Reservation reservation){
+        cancelReservationBean.cancelReservation(reservation);
     }
 
     public LoginBean getLoginBean() {
