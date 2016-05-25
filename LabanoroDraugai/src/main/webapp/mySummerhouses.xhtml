@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en"
-        xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
-    
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
     <h:head>
         <f:facet name="first">
             <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
@@ -13,7 +13,7 @@
         </f:facet>
         <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
     </h:head>
-    
+
     <h:body>
         <h:form id="form">     
             <div id="page">
@@ -24,53 +24,53 @@
                 <div id="menu-container">
                     <ui:include src="menu.xhtml" />
                 </div>
-  
+
                 <div id="content-container">
                     <div id="profile-wrapper">
-                    <div id="profile-container">
-                   
-                        <p:dataTable id="list" value="#{mySummerhouses.myReservations}" var="reservation" emptyMessage="Rezervacijų nėra" >
-                            <f:facet name="header">
-                                Mano rezervuoti vasarnamiai
-                            </f:facet>
-                            
-                            <p:column style="width:60px">
-                                <p:button outcome="summerhouseMoreDetails" icon="ui-icon-search">
-                                    <f:param name="id" value="#{reservation.summerhouseId.id}" />
-                                </p:button>
-                            </p:column>
+                        <div id="profile-container">
 
-                            <p:column headerText="Pavadinimas">
-                                <h:outputText value="#{reservation.summerhouseId.title}" /> 
-                            </p:column>
+                            <p:dataTable id="list" value="#{mySummerhouses.myReservations}" var="reservation" emptyMessage="Rezervacijų nėra" >
+                                <f:facet name="header">
+                                    Mano rezervuoti vasarnamiai
+                                </f:facet>
 
-                            <p:column headerText="Lovų skaičius">
-                                <h:outputText value="#{reservation.summerhouseId.beds}" />
-                            </p:column>
+                                <p:column style="width:60px">
+                                    <p:button outcome="summerhouseMoreDetails" icon="ui-icon-search">
+                                        <f:param name="id" value="#{reservation.summerhouseId.id}" />
+                                    </p:button>
+                                </p:column>
 
-                            <p:column headerText="Kaina">
-                                <h:outputText value="#{reservation.summerhouseId.cost}" />
-                            </p:column>
+                                <p:column headerText="Pavadinimas">
+                                    <h:outputText value="#{reservation.summerhouseId.title}" /> 
+                                </p:column>
 
-                            <p:column headerText="Rezervuotas nuo">
-                                <p:outputLabel value="#{reservation.startDate}">
-                                    <f:convertDateTime pattern="yyyy-MM-dd" />
-                                </p:outputLabel>
+                                <p:column headerText="Lovų skaičius">
+                                    <h:outputText value="#{reservation.summerhouseId.beds}" />
+                                </p:column>
 
-                            </p:column>
+                                <p:column headerText="Kaina">
+                                    <h:outputText value="#{reservation.summerhouseId.cost}" />
+                                </p:column>
 
-                            <p:column headerText="Rezervuotas iki">
-                                <p:outputLabel value="#{reservation.endDate}">
-                                    <f:convertDateTime pattern="yyyy-MM-dd" />
-                                </p:outputLabel>
-                            </p:column>
+                                <p:column headerText="Rezervuotas nuo">
+                                    <p:outputLabel value="#{reservation.startDate}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                                    </p:outputLabel>
 
-                            <p:column style="width:60px">
-                                
-                           </p:column>
-                        </p:dataTable>
-                                           
-                    </div>
+                                </p:column>
+
+                                <p:column headerText="Rezervuotas iki">
+                                    <p:outputLabel value="#{reservation.endDate}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                                    </p:outputLabel>
+                                </p:column>
+
+                                <p:column style="width:60px">
+
+                                </p:column>
+                            </p:dataTable>
+
+                        </div>
                     </div>
                 </div>
 

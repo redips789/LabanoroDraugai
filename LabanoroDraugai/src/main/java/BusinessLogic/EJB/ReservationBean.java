@@ -67,7 +67,6 @@ public class ReservationBean implements Serializable {
     private boolean canReserve;
     
     private List<Reservation> membersReservations = new ArrayList<>();
-    private List<Account> membersAccounts = new ArrayList<>();
 
     public Conversation getConversation() {
         return conversation;
@@ -130,14 +129,6 @@ public class ReservationBean implements Serializable {
         this.membersReservations = membersReservations;
     }
 
-    public List<Account> getMembersAccounts() {
-        return membersAccounts;
-    }
-
-    public void setMembersAccounts(List<Account> membersAccounts) {
-        this.membersAccounts = membersAccounts;
-    }
-
     public void setCanReserve(boolean canReserve) {
         this.canReserve = canReserve;
     }
@@ -145,27 +136,15 @@ public class ReservationBean implements Serializable {
     
     @PostConstruct
     public void init() {
-        System.out.println("susikuriau");
         account = accountEjb.findAccount(loginBean.getFbid());
         settings = settingsEjb.findSettings();
         canReserveValidation();
     }
     
     public void findMembersOnSamePeriod() {
-        //conversation.begin();
-        System.out.println("startDate "+startDate);
-        System.out.println("endDate "+endDate);
         if (startDate != null && endDate != null) {
-            System.out.println("pateko i ifa");
             membersReservations = reservationEjb.findByPeriod(startDate, endDate);  // susirandam rezervacijas pagal datas     
         } 
-           
-//        for (Reservation reservation : membersReservations) {  
-//            System.out.println("vaa "+reservation.getAccountId().getFirstName());
-//            membersAccounts.add(reservation.getAccountId());    // pagal atrinktas rezervacijas paimam accountus
-//        }     
-//        System.out.println(membersAccounts.get(0));
-//        //return membersAccounts;
     }
     
     public void throwMsg(){
@@ -173,8 +152,9 @@ public class ReservationBean implements Serializable {
     }
     
     public String saveReservation(){
-        try{
-            payForReservation();
+        try {
+            System.out.println("aaaa"+summerhouseDetails.getDetailedSummerhouse().getTitle());
+            payForReservation(); // 
             Reservation reservation = new Reservation();
             reservation.setAccountId(account);
             reservation.setSummerhouseId(summerhouseDetails.getDetailedSummerhouse()); //cia cj nepaskolins

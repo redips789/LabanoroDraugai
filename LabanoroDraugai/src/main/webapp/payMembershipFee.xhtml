@@ -26,10 +26,10 @@
                     <ui:include src="menu.xhtml" />
                 </div>
 
-                    <h:form>
+                <h:form>
                     <p:messages id="messages" autoUpdate="true" closable="true" />
-                    </h:form>
-                    <div id="profile-wrapper">
+                </h:form>
+                <div id="profile-wrapper">
                     <div id="profile-container">
                         <p:spacer height="40" />
                         <h:panelGrid columns="3" columnClasses="column" cellpadding="5" >
@@ -44,15 +44,15 @@
                             <p:outputLabel value="Likutis:" />
                             <p:inputText id="city" value="#{pointsBean.account.points-pointsBean.price}" size="10" style="text-align: center" disabled="true"/>
                             <p:spacer height="40"  />
-                            
-                            
+
+
                             <p:commandButton value="Atšaukti" class="edit-profile-button-width" action="#{pointsBean.goBack()}" />
                             <p:commandButton class="edit-profile-button-width" type="submit" ajax="false" value="Mokėti" id="withIcon" action="#{pointsBean.payWithPoints()}" icon="ui-icon-disk" disabled="#{pointsBean.lackOfPoints}" />
                             <p:spacer height="80"  />
                         </h:panelGrid>
                     </div>     
-                    </div>
-                        
+                </div>
+
                 <div id="footer-container" >
                     <ui:include src="footer.xhtml" />
                 </div>

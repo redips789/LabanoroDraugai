@@ -15,35 +15,35 @@
     </h:head>
     <h:body>
         <h:form id="form">
-            
+
             <div id="page">
-            <div id="header-container">
-                <ui:include src="header.xhtml" />         
-            </div>
-                
-            <div id="menu-container">
-                <ui:include src="menu.xhtml" />
-            </div>
-            
-            <div id="content-container">
-               
-                <div id="profile-wrapper">
-                            <div id="home-container"> 
-                                Džiugu, jog <strong>#{accountBean.account.firstName} #{accountBean.account.lastName} </strong> aplankė mus!
-                            </div>
+                <div id="header-container">
+                    <ui:include src="header.xhtml" />         
                 </div>
 
-                 
+                <div id="menu-container">
+                    <ui:include src="menu.xhtml" />
+                </div>
+
+                <div id="content-container">
+
+                    <div id="profile-wrapper">
+                        <div id="home-container"> 
+                            Džiugu, jog <strong>#{accountBean.account.firstName} #{accountBean.account.lastName} </strong> aplankė mus!
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div id="footer-container" >
+                    <ui:include src="footer.xhtml" />
+                </div>
+
             </div>
-                       
-            <div id="footer-container" >
-                <ui:include src="footer.xhtml" />
-            </div>
-            
-        </div>
-        
+
         </h:form>
-        
+
     </h:body>
 </html>
 

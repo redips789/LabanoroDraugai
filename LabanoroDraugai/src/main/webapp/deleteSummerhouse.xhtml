@@ -24,40 +24,40 @@
                 <div id="menu-container">
                     <ui:include src="menu.xhtml" />
                 </div>
-                    <div id="profile-wrapper">
-                        <div id="profile-container">
-                                <p:dataScroller id="list" value="#{summerhouseBean.summerhouses}" var="summerhouse" chunkSize="5">
-                                    <f:facet name="header">
-                                        Eikite žemyn, kad pamatytumėte daugiau vasarnamių
-                                    </f:facet>
+                <div id="profile-wrapper">
+                    <div id="profile-container">
+                        <p:dataScroller id="list" value="#{summerhouseBean.summerhouses}" var="summerhouse" chunkSize="5">
+                            <f:facet name="header">
+                                Eikite žemyn, kad pamatytumėte daugiau vasarnamių
+                            </f:facet>
 
-                                    <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-                                        <p:graphicImage value="../img/lab.jpg" />
+                            <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                                <p:graphicImage value="../img/lab.jpg" />
 
-                                        <p:outputPanel>
-                                            <h:panelGrid columns="2" cellpadding="5">
-                                                <h:outputText value="Pavadinimas:" />
-                                                <h:outputText value="#{summerhouse.title}" style="font-weight: bold"/>
+                                <p:outputPanel>
+                                    <h:panelGrid columns="2" cellpadding="5">
+                                        <h:outputText value="Pavadinimas:" />
+                                        <h:outputText value="#{summerhouse.title}" style="font-weight: bold"/>
 
-                                                <h:outputText value="Miegamų vietų skaičius:" />
-                                                <h:outputText value="#{summerhouse.beds}" style="font-weight: bold"/>
+                                        <h:outputText value="Miegamų vietų skaičius:" />
+                                        <h:outputText value="#{summerhouse.beds}" style="font-weight: bold"/>
 
-                                                <h:outputText value="Kaina (tšk):" />
-                                                <h:outputText value="#{summerhouse.cost}" style="font-weight: bold"/>
+                                        <h:outputText value="Kaina (tšk):" />
+                                        <h:outputText value="#{summerhouse.cost}" style="font-weight: bold"/>
 
-                                                <h:panelGrid columns="2" columnClasses="column" cellpadding="11">
-                                                    <p:commandButton class="edit-profile-button-width" type="submit" ajax="true" value="Ištrinti" id="withIcon" action="#{editSummerhouseBean.deleteSummerhouse}" validateClient="true" icon="ui-icon-disk" >
-                                                        <f:param name="title" value="#{summerhouse.title}" />
-                                                    </p:commandButton>
-                                                </h:panelGrid>
+                                        <h:panelGrid columns="2" columnClasses="column" cellpadding="11">
+                                            <p:commandButton class="edit-profile-button-width" type="submit" ajax="true" value="Ištrinti" id="withIcon" action="#{editSummerhouseBean.deleteSummerhouse}" validateClient="true" icon="ui-icon-disk" >
+                                                <f:param name="title" value="#{summerhouse.title}" />
+                                            </p:commandButton>
+                                        </h:panelGrid>
 
-                                            </h:panelGrid>
-                                        </p:outputPanel>
                                     </h:panelGrid>
-                                </p:dataScroller>
+                                </p:outputPanel>
+                            </h:panelGrid>
+                        </p:dataScroller>
 
-                        </div>
                     </div>
+                </div>
                 <div id="footer-container" >
                     <ui:include src="footer.xhtml" />
                 </div>
