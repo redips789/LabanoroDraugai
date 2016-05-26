@@ -157,11 +157,12 @@ public class ReservationBean implements Serializable {
     
     @PostConstruct
     public void init() {
+        System.out.println("Susikuriau reservation bean");
         account = accountEjb.findAccount(loginBean.getFbid());
         settings = settingsEjb.findSettings();
          // cia reikia rasti pagal id is URL arba is summerhouseDetails egzemplioriaus - summerhouseDetails.getDetailedSummerhouse()
-//        summerhouse = summerhouseDetails.getDetailedSummerhouse(); // pirma karta kuriant beansa yra gera info, o po to ne
-        summerhouse = summerhouseEjb.findById(1);
+        summerhouse = summerhouseDetails.getDetailedSummerhouse(); // pirma karta kuriant beansa yra gera info, o po to ne
+        //summerhouse = summerhouseEjb.findById(1);
         System.out.println("OOOOOOO"+summerhouse.getTitle());
         System.out.println("OOOOOOO"+summerhouse.getCost());
         
