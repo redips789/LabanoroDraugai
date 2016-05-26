@@ -15,14 +15,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
 import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -31,7 +27,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.SynchronizationType;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -39,7 +34,6 @@ import org.primefaces.event.SelectEvent;
  */
 @Named 
 @ViewScoped
-@Stateful
 public class ReservationBean implements Serializable {
     
     @PersistenceContext(type=PersistenceContextType.TRANSACTION, synchronization=SynchronizationType.UNSYNCHRONIZED) 
@@ -76,6 +70,8 @@ public class ReservationBean implements Serializable {
     private Date startDate;
     
     private Date endDate;
+    
+    private int weeks;
     
     private boolean canReserve;
     
@@ -128,8 +124,20 @@ public class ReservationBean implements Serializable {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setEndDate() {
+        Calendar start = Calendar.getInstance();
+        start.setTime(startDate);
+        start.add(Calendar.DATE, weeks*7-1);
+        this.endDate = start.getTime();
+    }
+
+    public int getWeeks() {
+        return weeks;
+    }
+
+    public void setWeeks(int weeks) {
+        this.weeks = weeks;
+        
     }
 
     public List<Reservation> getMembersReservations() {
@@ -161,24 +169,27 @@ public class ReservationBean implements Serializable {
     
     @PostConstruct
     public void init() {
+        System.out.println("Susikuriau reservation bean");
         account = accountEjb.findAccount(loginBean.getFbid());
         settings = settingsEjb.findSettings();
          // cia reikia rasti pagal id is URL arba is summerhouseDetails egzemplioriaus - summerhouseDetails.getDetailedSummerhouse()
 //        summerhouse = summerhouseDetails.getDetailedSummerhouse(); // pirma karta kuriant beansa yra gera info, o po to ne
-        summerhouse = summerhouseEjb.findById(1);
+
+        summerhouse = summerhouseDetails.getDetailedSummerhouse(); // pirma karta kuriant beansa yra gera info, o po to ne
         System.out.println("OOOOOOO"+summerhouse.getTitle());
         System.out.println("OOOOOOO"+summerhouse.getCost());
         
     }
     
     public void findMembersOnSamePeriod() {
-        if (startDate != null && endDate != null) {
+        if (startDate != null && weeks != 0) {
+            this.setEndDate();
+            this.showThirdDialog();
             membersReservations = reservationEjb.findByPeriod(startDate, endDate);  // susirandam rezervacijas pagal datas     
         } 
-    }
-    
-    public void throwMsg(){
-        Message.addWarningMessage("Uoj negerai");
+        else{
+            Message.addErrorMessage("Nepalikite nė vieno lauko tuščio!");
+        }
     }
     
     public String saveReservation(){
@@ -186,19 +197,22 @@ public class ReservationBean implements Serializable {
             payForReservation(); // 
             Reservation reservation = new Reservation();
             reservation.setAccountId(account);
+            reservation.setVersion(0);
             reservation.setSummerhouseId(this.summerhouse);
             reservation.setStartDate(this.startDate);
             reservation.setEndDate(this.endDate);
-            reservation.setCost(this.summerhouse.getCost()); // jei bus daugiau savaiciu, nebus taip paprasta
+            reservation.setCost(this.summerhouse.getCost()*weeks); // jei bus daugiau savaiciu, nebus taip paprasta (PAPRASTA :D - Kristina)
             
             reservationEjb.insertReservation(reservation);
-            reservationEjb.insertReservation2(reservation);
+           // reservationEjb.insertReservation2(reservation);
             
             em.joinTransaction();
+            em.flush();
             Message.addSuccessMessage("Rezervacija sėkmingai atlikta!");
+            this.hideSecondDialog();
         }
         catch (Exception pe) {
-            System.out.println("********************************" + pe.getMessage() + pe.getStackTrace().toString());
+            System.out.println("********************************" + pe.getMessage());
             Message.addErrorMessage("Nesijaudinkite, bet įvyko nežinoma klaida. Bandykite dar kartą.");
         }
         return "";
@@ -213,4 +227,63 @@ public class ReservationBean implements Serializable {
         return this.isCanReserve();
     }
     
+    public void canGoDeeperReservation(){
+        if (startDate != null && weeks != 0) {
+            this.setEndDate();
+            if (account.getReservedDays() < settings.getMaxReservationDays()){
+                if (account.getReservedDays()+weeks*7 <= settings.getMaxReservationDays()){
+                    this.showSecondDialog();
+                }
+                else{
+                    Message.addErrorMessage("Pasirinkite mažesnį savaičių skaičių, nes viršijamas rezevacijos limitas!");
+                }
+            }
+            else {
+                Message.addErrorMessage("Jūs jau esate užsirezeravę maksimalų dienų skaičių!");
+            }
+        } 
+        else {
+            Message.addErrorMessage("Jei norite rezervuoti vasarnamį, nepalikite tuščių laukų!");
+        }
+    }
+    
+    public void showFirstDialog(){
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('first').show();");
+    }
+    
+    public void hideFirstDialog(){
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('first').hide();");
+    }
+    
+    public void showSecondDialog(){
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('second').show();");
+    }
+    
+    public void hideSecondDialog(){
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('second').hide();");
+    }
+    
+    public void showThirdDialog(){
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('third').show();");
+    }
+    
+    public void hideThirdDialog(){
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('third').hide();");
+    }
+    
+    public void backFromSecond(){
+        this.hideSecondDialog();
+        this.showFirstDialog();
+    }
+    
+    public void backFromThird(){
+        this.hideThirdDialog();
+        this.showFirstDialog();
+    }
 }
