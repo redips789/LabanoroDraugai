@@ -75,6 +75,8 @@ public class ReservationBean implements Serializable {
     
     private boolean canReserve;
     
+    private Summerhouse summerhouse;
+    
     private List<Reservation> membersReservations = new ArrayList<>();
 
     public Conversation getConversation() {
@@ -141,12 +143,28 @@ public class ReservationBean implements Serializable {
     public void setCanReserve(boolean canReserve) {
         this.canReserve = canReserve;
     }
+
+    public Summerhouse getSummerhouse() {
+        return summerhouse;
+    }
+
+    public void setSummerhouse(Summerhouse summerhouse) {
+        this.summerhouse = summerhouse;
+    }
+    
+    
         //-business-//
     
     @PostConstruct
     public void init() {
         account = accountEjb.findAccount(loginBean.getFbid());
         settings = settingsEjb.findSettings();
+         // cia reikia rasti pagal id is URL arba is summerhouseDetails egzemplioriaus - summerhouseDetails.getDetailedSummerhouse()
+//        summerhouse = summerhouseDetails.getDetailedSummerhouse(); // pirma karta kuriant beansa yra gera info, o po to ne
+        summerhouse = summerhouseEjb.findById(1);
+        System.out.println("OOOOOOO"+summerhouse.getTitle());
+        System.out.println("OOOOOOO"+summerhouse.getCost());
+        
     }
     
     public void findMembersOnSamePeriod() {
@@ -163,12 +181,11 @@ public class ReservationBean implements Serializable {
         try {
             payForReservation(); // 
             Reservation reservation = new Reservation();
-            Summerhouse summerhouse = summerhouseEjb.findById(1); // cia reikia rasti pagal id is URL arba is summerhouseDetails egzemplioriaus - summerhouseDetails.getDetailedSummerhouse()
             reservation.setAccountId(account);
-            reservation.setSummerhouseId(summerhouse);
+            reservation.setSummerhouseId(this.summerhouse);
             reservation.setStartDate(this.startDate);
             reservation.setEndDate(this.endDate);
-            reservation.setCost(summerhouse.getCost()); // jei bus daugiau savaiciu, nebus taip paprasta
+            reservation.setCost(this.summerhouse.getCost()); // jei bus daugiau savaiciu, nebus taip paprasta
             
             reservationEjb.insertReservation(reservation);
             reservationEjb.insertReservation2(reservation);
