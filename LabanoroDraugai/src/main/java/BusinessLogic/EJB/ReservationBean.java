@@ -5,9 +5,11 @@ import Alternatives.GroupDistribution;
 import DataAccess.EJB.AccountCRUD;
 import DataAccess.EJB.ReservationCRUD;
 import DataAccess.EJB.SettingsCRUD;
+import DataAccess.EJB.SummerhouseCRUD;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Reservation;
 import DataAccess.JPA.Settings;
+import DataAccess.JPA.Summerhouse;
 import Messages.Message;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -56,6 +58,9 @@ public class ReservationBean implements Serializable {
     
     @Inject 
     SummerhouseDetails summerhouseDetails;
+    
+    @Inject
+    SummerhouseCRUD summerhouseEjb;
     
     @Inject
     GroupDistribution groupDistribution;
@@ -156,24 +161,26 @@ public class ReservationBean implements Serializable {
     
     public String saveReservation(){
         try {
-            System.out.println("aaaa"+summerhouseDetails.getDetailedSummerhouse().getTitle());
             payForReservation(); // 
             Reservation reservation = new Reservation();
+            Summerhouse summerhouse = summerhouseEjb.findById(1); // cia reikia rasti pagal id is URL arba is summerhouseDetails egzemplioriaus - summerhouseDetails.getDetailedSummerhouse()
             reservation.setAccountId(account);
-            reservation.setSummerhouseId(summerhouseDetails.getDetailedSummerhouse()); //cia cj nepaskolins
+            reservation.setSummerhouseId(summerhouse);
             reservation.setStartDate(this.startDate);
             reservation.setEndDate(this.endDate);
-            reservation.setCost(summerhouseDetails.getDetailedSummerhouse().getCost()); // jei bus daugiau savaiciu, nebus taip paprasta
+            reservation.setCost(summerhouse.getCost()); // jei bus daugiau savaiciu, nebus taip paprasta
             
-            //tikrinimas ar jau toks yra
             reservationEjb.insertReservation(reservation);
+            reservationEjb.insertReservation2(reservation);
+            
+            em.joinTransaction();
             Message.addSuccessMessage("Rezervacija sėkmingai atlikta!");
         }
         catch (Exception pe) {
             System.out.println("********************************" + pe.getMessage() + pe.getStackTrace().toString());
             Message.addErrorMessage("Nesijaudinkite, bet įvyko nežinoma klaida. Bandykite dar kartą.");
         }
-        return "reservation?faces-redirect=true";
+        return "";
     }
     
     private void payForReservation(){

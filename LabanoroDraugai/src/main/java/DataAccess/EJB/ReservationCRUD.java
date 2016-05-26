@@ -9,8 +9,10 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import static javax.persistence.PersistenceContextType.TRANSACTION;
 import javax.persistence.Query;
+import javax.persistence.SynchronizationType;
 import static javax.persistence.SynchronizationType.UNSYNCHRONIZED;
 import javax.persistence.TypedQuery;
 
@@ -22,7 +24,7 @@ import javax.persistence.TypedQuery;
 @Stateless
 public class ReservationCRUD {
     
-    @PersistenceContext
+    @PersistenceContext(type=PersistenceContextType.TRANSACTION, synchronization=SynchronizationType.UNSYNCHRONIZED)
     private EntityManager em;
     
     public List<Reservation> getByAccount(Account acc) {
@@ -39,6 +41,12 @@ public class ReservationCRUD {
     
     public void insertReservation (Reservation reservation){
         em.persist(reservation);
+    }
+    
+    public void insertReservation2 (Reservation reservation){
+        em.persist(reservation);
+        //em.joinTransaction();
+        //em.flush();
     }
     
     public boolean isReservationExist(SummerhouseDetails sumD, Reservation reservation) {
