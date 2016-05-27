@@ -21,6 +21,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
 import javax.enterprise.context.Conversation;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -219,6 +220,7 @@ public class ReservationBean implements Serializable {
                     em.joinTransaction();
                     this.hideFirstDialog();
                     this.hideSecondDialog();
+                    FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("interceptorAccount", accountEjb.findAccountById(loginBean.getId()));
                     FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sveikiname", "Rezervacija sėkmingai atlikta!");
                     RequestContext.getCurrentInstance().showMessageInDialog(message);
                 }
@@ -245,7 +247,13 @@ public class ReservationBean implements Serializable {
     }
     
     public boolean canReserveSummerhouse(){
-        this.setCanReserve(groupDistribution.canGroupReserve(account, settings));
+        int isPaid = this.compareWithToday(accountEjb.findAccountById(loginBean.getId()).getNextPayment());
+        if (isPaid == -1){
+            this.setCanReserve(groupDistribution.canGroupReserve(account, settings));         
+        }
+        else {
+            this.setCanReserve(false);
+        }
         return this.isCanReserve();
     }
     
@@ -323,5 +331,17 @@ public class ReservationBean implements Serializable {
     public void backFromThird(){
         this.hideThirdDialog();
         this.showFirstDialog();
+    }
+    
+    public int compareWithToday(Date dat){
+        Calendar now = Calendar.getInstance();
+        now.setTime(new Date());
+        now.set(Calendar.HOUR_OF_DAY, 0);
+        now.set(Calendar.MINUTE, 0);
+        now.set(Calendar.SECOND, 0);
+        Date today = now.getTime();
+        
+        int compare = today.compareTo(dat);
+        return compare;
     }
 }
