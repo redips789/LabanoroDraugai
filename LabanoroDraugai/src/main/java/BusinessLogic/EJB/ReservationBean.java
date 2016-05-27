@@ -207,7 +207,7 @@ public class ReservationBean implements Serializable {
            
                 if (reservationEjb.existSimilarReservation(this.summerhouse, this.startDate, this.endDate) == false){
                     Reservation reservation = new Reservation();
-                    reservation.setAccountId(account);
+                    reservation.setAccountId(acc);
                     reservation.setVersion(0);
                     reservation.setSummerhouseId(this.summerhouse);
                     reservation.setStartDate(this.startDate);
@@ -343,5 +343,16 @@ public class ReservationBean implements Serializable {
         
         int compare = today.compareTo(dat);
         return compare;
+    }
+    
+    public Date getDate(){
+        Calendar now = Calendar.getInstance();
+        now.setTime(new Date());
+        now.set(Calendar.HOUR_OF_DAY, 0);
+        now.set(Calendar.MINUTE, 0);
+        now.set(Calendar.SECOND, 0);
+        now.add(Calendar.DATE, 10);
+        Date today = now.getTime();
+        return today;
     }
 }
