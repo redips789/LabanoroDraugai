@@ -12,6 +12,25 @@
             <title>Labanoro draugai</title>
         </f:facet>
         <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
+        <script name="jquery/jquery.js" library="primefaces"></script>
+        <script>
+            var disabledDays = ["6-15-2016", "6-23-2016"];
+            function beforeShowDate(date) {
+                var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
+                for (i = 0; i &#60; disabledDays.length; i++) {
+                    if($.inArray((m+1) + '-' + d + '-' + y,disabledDays) != -1) {
+                        return [false];
+                    }
+                }
+                return [true];
+            }
+        </script>
+        <script>
+            function beforeShowDateReservation(date){
+                var day = date.getDay();
+                return [day == 1, '']
+            }
+        </script>
     </h:head>
 
     <h:body>
@@ -52,11 +71,10 @@
                                     <h:outputText value="Užimtumas: "/>
                                     <p:calendar title="aaa" 
                                                 id="inline" 
-                                                mode="inline" 
+                                                mode="inline"                                                
                                                 mindate="#{summerhouseDetails.detailedSummerhouse.validityStart}"
-                                                maxdate="#{summerhouseDetails.detailedSummerhouse.validityEnd}"/>
-                                
-
+                                                maxdate="#{summerhouseDetails.detailedSummerhouse.validityEnd}"
+                                                beforeShowDay="beforeShowDate"/>
                                 
                                 <p:button outcome="summerhouse" 
                                           value="Atgal" 
@@ -94,6 +112,7 @@
                                                             value="#{reservationBean.startDate}" 
                                                             mindate="#{summerhouseDetails.detailedSummerhouse.validityStart}" 
                                                             maxdate="#{summerhouseDetails.detailedSummerhouse.validityEnd}" 
+                                                            beforeShowDay="beforeShowDateReservation"
                                                             size="11"/>
                                                       
                                                 <p:outputLabel value="Kiek savaičių:" />
