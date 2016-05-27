@@ -10,6 +10,7 @@ import DataAccess.JPA.Account;
 import DataAccess.JPA.Reservation;
 import DataAccess.JPA.Settings;
 import DataAccess.JPA.Summerhouse;
+import Interceptors.Interceptable;
 import Messages.Message;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
 import javax.enterprise.context.Conversation;
+import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -34,6 +36,7 @@ import org.primefaces.context.RequestContext;
  */
 @Named 
 @ViewScoped
+@Stateful
 public class ReservationBean implements Serializable {
     
     @PersistenceContext(type=PersistenceContextType.TRANSACTION, synchronization=SynchronizationType.UNSYNCHRONIZED) 
@@ -184,42 +187,61 @@ public class ReservationBean implements Serializable {
     public void findMembersOnSamePeriod() {
         if (startDate != null && weeks != 0) {
             this.setEndDate();
-            this.showThirdDialog();
             membersReservations = reservationEjb.findByPeriod(startDate, endDate);  // susirandam rezervacijas pagal datas     
+            this.showThirdDialog();
         } 
         else{
             Message.addErrorMessage("Nepalikite nė vieno lauko tuščio!");
         }
     }
     
+    @Interceptable
     public String saveReservation(){
         try {
-            payForReservation(); // 
-            Reservation reservation = new Reservation();
-            reservation.setAccountId(account);
-            reservation.setVersion(0);
-            reservation.setSummerhouseId(this.summerhouse);
-            reservation.setStartDate(this.startDate);
-            reservation.setEndDate(this.endDate);
-            reservation.setCost(this.summerhouse.getCost()*weeks); // jei bus daugiau savaiciu, nebus taip paprasta (PAPRASTA :D - Kristina)
-            
-            reservationEjb.insertReservation(reservation);
-           // reservationEjb.insertReservation2(reservation);
-            
-            em.joinTransaction();
-            em.flush();
-            Message.addSuccessMessage("Rezervacija sėkmingai atlikta!");
-            this.hideSecondDialog();
+            // nes jei naudojam this.account, kuris sukurtas čia, tai taškai mažėja, nors nenuimam 
+            // tiesiog tokiam tikrinimui reikia gauti tikrojo accounto, o ne "kopijos" taškus
+            Account acc = accountEjb.findAccountById(loginBean.getId());
+            if (acc.getPoints() >= this.summerhouse.getCost()*weeks){
+                em.isOpen();
+           
+                if (reservationEjb.existSimilarReservation(this.summerhouse, this.startDate, this.endDate) == false){
+                    Reservation reservation = new Reservation();
+                    reservation.setAccountId(account);
+                    reservation.setVersion(0);
+                    reservation.setSummerhouseId(this.summerhouse);
+                    reservation.setStartDate(this.startDate);
+                    reservation.setEndDate(this.endDate);
+                    reservation.setCost(this.summerhouse.getCost()*weeks); // jei bus daugiau savaiciu, nebus taip paprasta (PAPRASTA :D - Kristina)          
+                    reservationEjb.insertReservation(reservation);
+                    
+                    payForReservation(this.account, 7*weeks, this.summerhouse.getCost()*weeks); // 
+
+                    em.joinTransaction();
+                    this.hideFirstDialog();
+                    this.hideSecondDialog();
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sveikiname", "Rezervacija sėkmingai atlikta!");
+                    RequestContext.getCurrentInstance().showMessageInDialog(message);
+                }
+                else  {
+                    Message.addErrorMessage("Kažkas buvo greitesnis už Jus! Pakeiskite rezervacijos datas.");
+                }
+            }
+            else {
+                Message.addErrorMessage("Jūsų taškų likutis nepakankamas pasirinktai rezervacijai!");
+            }
         }
         catch (Exception pe) {
-            System.out.println("********************************" + pe.getMessage());
-            Message.addErrorMessage("Nesijaudinkite, bet įvyko nežinoma klaida. Bandykite dar kartą.");
+            System.out.println("********************************" + pe);
+            Message.addErrorMessage("Įvyko nenumatyta klaida. Bandykite dar kartą.");
         }
         return "";
     }
     
-    private void payForReservation(){
-    
+    @Interceptable
+    private void payForReservation(Account acc, int days, int cost){
+        acc.setPoints(acc.getPoints()-cost);
+        acc.setReservedDays(acc.getReservedDays()+days);
+        this.account = em.merge(acc);
     }
     
     public boolean canReserveSummerhouse(){
@@ -228,6 +250,19 @@ public class ReservationBean implements Serializable {
     }
     
     public void canGoDeeperReservation(){
+        Date reservationDay = new Date();
+
+        Calendar now = Calendar.getInstance();
+        now.setTime(new Date());
+        now.set(Calendar.HOUR_OF_DAY, 0);
+        now.set(Calendar.MINUTE, 0);
+        now.set(Calendar.SECOND, 0);
+        Date today = now.getTime();
+        
+        reservationDay = settings.getAllReservation();
+        
+        int compare = today.compareTo(reservationDay);
+        
         if (startDate != null && weeks != 0) {
             this.setEndDate();
             if (account.getReservedDays() < settings.getMaxReservationDays()){
@@ -239,7 +274,10 @@ public class ReservationBean implements Serializable {
                 }
             }
             else {
-                Message.addErrorMessage("Jūs jau esate užsirezeravę maksimalų dienų skaičių!");
+                if (compare == 0 || compare == 1){
+                    this.showSecondDialog();
+                }
+                else Message.addErrorMessage("Jūs jau esate užsirezeravę maksimalų dienų skaičių!");
             }
         } 
         else {

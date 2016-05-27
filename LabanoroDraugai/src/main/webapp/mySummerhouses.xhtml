@@ -29,7 +29,7 @@
                     <div id="profile-wrapper">
                         <div id="profile-container">
 
-                            <p:dataTable id="list" value="#{mySummerhouses.myReservations}" var="reservation" emptyMessage="Rezervacijų nėra" >
+                            <p:dataTable id="list" sortBy="#{reservation.startDate}" value="#{mySummerhouses.myReservations}" var="reservation" emptyMessage="Rezervacijų nėra" >
                                 <f:facet name="header">
                                     Mano rezervuoti vasarnamiai
                                 </f:facet>
@@ -49,7 +49,7 @@
                                 </p:column>
 
                                 <p:column headerText="Kaina">
-                                    <h:outputText value="#{reservation.summerhouseId.cost}" />
+                                    <h:outputText value="#{reservation.cost}" />
                                 </p:column>
 
                                 <p:column headerText="Rezervuotas nuo">
