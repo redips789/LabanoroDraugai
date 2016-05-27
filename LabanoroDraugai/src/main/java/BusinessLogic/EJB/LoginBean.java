@@ -119,11 +119,10 @@ public class LoginBean implements Serializable {
     }
 
     public String getParams() {
-        FacesContext context = FacesContext.getCurrentInstance();
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
 
-        Map map = context.getExternalContext().getRequestParameterMap();
+        Map map = facesContext.getExternalContext().getRequestParameterMap();
         fbid = (String) map.get("id");
         accesstoken = (String) map.get("accesstoken");
         signedrequest = (String) map.get("signedrequest");
@@ -131,6 +130,7 @@ public class LoginBean implements Serializable {
         if (loginAuthBean.accountExistBoolean(fbid)) {
             Account acc = loginAuthBean.findAccount(fbid);
             session.setAttribute("status", acc.getStatus());
+            session.setAttribute("account", acc);
             id = acc.getId();
             redirecdedPage = "home?faces-redirect=true";
         } else {

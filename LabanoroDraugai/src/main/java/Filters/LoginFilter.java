@@ -1,6 +1,7 @@
 package Filters;
 
 import BusinessLogic.EJB.LoginBean;
+import DataAccess.JPA.Account;
 import java.io.IOException;
 import java.util.Enumeration;
 import javax.faces.application.ResourceHandler;
@@ -34,12 +35,7 @@ public class LoginFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         HttpSession session = request.getSession(false);
-        //boolean admin = FacesContext.getCurrentInstance().getExternalContext().//isUserInRole("Administatorius");
-//        if (session != null) {
-//            String admin = session.getAttribute("status").toString();
-//        }
-        //System.out.println(loginBean.getFbid());
-        //int a = loginBean.getId();
+
         String reqURI = request.getRequestURI();
         String loginURL = request.getContextPath() + "/login.xhtml";
         String logoutURI = request.getContextPath() + "/logout.xhtml";
@@ -50,8 +46,13 @@ public class LoginFilter implements Filter {
         String meritURI = request.getContextPath() + "/merit.xhtml";
         String editRegistrationFormURI = request.getContextPath() + "/editRegistrationForm.xhtml";
         String editSettingsURI = request.getContextPath() + "/settings.xhtml";
+        String recommendationURI = request.getContextPath() + "/recommendation.xhtml";
+        String myProfileURI = request.getContextPath() + "/myProfile.xhtml";
+        String editProfileURI = request.getContextPath() + "/editProfile.xhtml";
+        String payMembershipFeeURI = request.getContextPath() + "/payMembershipFee.xhtml";
+        String registrationURI = request.getContextPath() + "/registration.xhtml";
 
-        boolean loggedIn = (session != null);//&& (session.getAttribute("user") != null);
+        boolean loggedIn = (session != null) && (session.getAttribute("account") != null);
         boolean loginRequest = request.getRequestURI().equals(loginURL);
         boolean logoutRequest = request.getRequestURI().equals(logoutURI);
         boolean resourceRequest = request.getRequestURI().startsWith(request.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER + "/");
@@ -63,22 +64,32 @@ public class LoginFilter implements Filter {
         boolean meritRequest = request.getRequestURI().equals(meritURI);
         boolean editRegistrationFormRequest = request.getRequestURI().equals(editRegistrationFormURI);
         boolean editSettingsRequest = request.getRequestURI().equals(editSettingsURI);
+        boolean recommendationRequest = request.getRequestURI().equals(recommendationURI);
+        boolean myProfileRequest = request.getRequestURI().equals(myProfileURI);
+        boolean editProfileRequest = request.getRequestURI().equals(editProfileURI);
+        boolean payMembershipFeeRequest = request.getRequestURI().equals(payMembershipFeeURI);
         boolean admin = false;
         boolean candidate = false;
-        boolean active = false;
-        boolean notActive = false;
+        boolean member = false;
+        boolean button = false;
+//        boolean active = false;
+//        boolean notActive = false;
 
         if (session != null && session.getAttribute("status") != null) {
             admin = session.getAttribute("status").toString().equals("Administratorius");
             candidate = session.getAttribute("status").toString().equals("Kandidatas");
-            active = session.getAttribute("status").toString().equals("Aktyvus");
-            notActive = session.getAttribute("status").toString().equals("Neaktyvus");
+            member = session.getAttribute("status").toString().equals("Narys");
+            button = (boolean) session.getAttribute("mygtukas");
+//            active = session.getAttribute("status").toString().equals("Aktyvus");
+//            notActive = session.getAttribute("status").toString().equals("Neaktyvus");
 
         }
-
+        if (session != null) {
+            System.out.println("Taškų sk: " + ((Account) session.getAttribute("account")).getPoints());
+        }
         if ((loggedIn || loginRequest || resourceRequest) && !logoutRequest && !addSummerhouseRequest && !editSummerhouseRequest
                 && !removeSummerhouseRequest && !deleteMemberRequest && !meritRequest && !editRegistrationFormRequest
-                && !editSettingsRequest) {
+                && !editSettingsRequest && !recommendationRequest) {
             if (!resourceRequest) { // Prevent browser from caching restricted resources. See also http://stackoverflow.com/q/4194207/157882
                 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
                 response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
@@ -94,11 +105,29 @@ public class LoginFilter implements Filter {
                     || editSettingsRequest) {
                 if (admin) {
                     chain.doFilter(request, response);
-                }
-                else{
+                } else {
                     response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 }
             }
+            if (recommendationRequest) {
+                if (candidate) {
+                    chain.doFilter(request, response);
+                } else {
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                }
+            }
+            if (myProfileRequest || editProfileRequest) {
+                chain.doFilter(request, response);
+            }
+            if (member || admin) {
+                if (payMembershipFeeRequest && button) {
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                } else {
+                    chain.doFilter(request, response);
+                }
+            }
+            
+
         } else if (ajaxRequest) {
             response.setContentType("text/xml");
             response.setCharacterEncoding("UTF-8");
