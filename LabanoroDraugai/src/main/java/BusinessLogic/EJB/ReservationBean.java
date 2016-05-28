@@ -82,7 +82,7 @@ public class ReservationBean implements Serializable {
     
     private Summerhouse summerhouse;
     
-    private String test;
+    private String info;
     
     private List<Reservation> membersReservations = new ArrayList<>();
 
@@ -171,12 +171,12 @@ public class ReservationBean implements Serializable {
         this.summerhouse = summerhouse;
     }
 
-    public String getTest() {
-        return test;
+    public String getInfo() {
+        return info;
     }
 
-    public void setTest(String test) {
-        this.test = test;
+    public void setInfo(String info) {
+        this.info = info;
     }
     
     
@@ -192,16 +192,6 @@ public class ReservationBean implements Serializable {
         System.out.println("OOOOOOO"+summerhouse.getTitle());
         System.out.println("OOOOOOO"+summerhouse.getCost());
         
-        Calendar now = Calendar.getInstance();
-        now.setTime(new Date());
-        now.set(Calendar.HOUR_OF_DAY, 0);
-        now.set(Calendar.MINUTE, 0);
-        now.set(Calendar.SECOND, 0);
-        now.add(Calendar.DATE, 15);
-        Date today = now.getTime();
-        SimpleDateFormat sdfDate = new SimpleDateFormat("M-dd-yyyy");//dd/MM/yyyy
-        test = sdfDate.format(today);
-        System.out.println("testas    ---- "+ test);
     }
     
     public void findMembersOnSamePeriod() {
