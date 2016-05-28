@@ -99,21 +99,21 @@ public class LoginFilter implements Filter {
 
         }
 
-        if(session != null && session.getAttribute("mygtukas") != null){
+        if (session != null && session.getAttribute("mygtukas") != null) {
             button = (boolean) session.getAttribute("mygtukas");
         }
-        
+
         if ((loggedIn || loginRequest || resourceRequest) && !logoutRequest && !addSummerhouseRequest && !editSummerhouseRequest
                 && !removeSummerhouseRequest && !deleteMemberRequest && !meritRequest && !editRegistrationFormRequest
                 && !editSettingsRequest && !memberReviewRequest && !mySummerhousesRequest && !payMembershipFeeRequest && !pointsRequest
-                && !reservationRequest && !summerhouseRequest && !summerhouseMoreDetailsRequest && indexOfPay==-1) {
+                && !reservationRequest && !summerhouseRequest && !summerhouseMoreDetailsRequest && indexOfPay == -1) {
             if (!resourceRequest) { // Prevent browser from caching restricted resources. See also http://stackoverflow.com/q/4194207/157882
                 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
                 response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
                 response.setDateHeader("Expires", 0); // Proxies.
             }
-            
-            if((registrationRequest || registrationConfirmRequest) && (admin || candidate || member)){
+
+            if ((registrationRequest || registrationConfirmRequest) && (admin || candidate || member)) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
             chain.doFilter(request, response); // So, just continue request.
@@ -129,17 +129,14 @@ public class LoginFilter implements Filter {
                 } else {
                     response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 }
-            }
-            if(payMembershipFeeRequest && (admin || member) && button){
+            } else if (payMembershipFeeRequest && (admin || member) && button) {
                 chain.doFilter(request, response);
-            }
-            
-            if((memberReviewRequest || mySummerhousesRequest || pointsRequest
-                || reservationRequest || summerhouseRequest || summerhouseMoreDetailsRequest) && (admin || member)){
+            } else if ((memberReviewRequest || mySummerhousesRequest || pointsRequest
+                    || reservationRequest || summerhouseRequest || summerhouseMoreDetailsRequest) && (admin || member)) {
                 chain.doFilter(request, response);
-            }
-            else{
+            } else {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
+
             }
         } else if (ajaxRequest) {
             response.setContentType("text/xml");
