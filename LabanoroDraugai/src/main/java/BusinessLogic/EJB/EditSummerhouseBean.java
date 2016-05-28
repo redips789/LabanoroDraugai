@@ -9,6 +9,7 @@ import DataAccess.EJB.ImageCRUD;
 import DataAccess.EJB.SummerhouseCRUD;
 import DataAccess.JPA.Image;
 import DataAccess.JPA.Summerhouse;
+import Messages.Message;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
@@ -70,14 +71,28 @@ public class EditSummerhouseBean implements Serializable {
     public String saveSummerhouseChanges() {
         try {
             //account.setPhotoBlob(IOUtils.toByteArray(this.file.getInputstream()));
-            Image image = new Image();
-            image.setContent(IOUtils.toByteArray(this.file.getInputstream()));
-            Integer imageId = imagesEjb.addImage(image);
-            detailedSummerhouse.setPhotoImageid(image);
+            Summerhouse temp = summerhouseCRUD.findByTitle(detailedSummerhouse.getTitle());
+            if (detailedSummerhouse.getValidityStart().after(detailedSummerhouse.getValidityEnd())) {
+
+                Message.addErrorMessage("Kvaily, datas geras nurodyk");
+            } else if (temp != null && detailedSummerhouse.getId() != temp.getId()) {
+
+                Message.addErrorMessage("Vasarnamis su tokiu pavadinimu jau egzistuoja");
+            } else {
+                if (!"".equals(this.file.getFileName())) {
+                    Image image = new Image();
+                    image.setContent(IOUtils.toByteArray(this.file.getInputstream()));
+                    Integer imageId = imagesEjb.addImage(image);
+                    detailedSummerhouse.setPhotoImageid(image);
+
+                }
+                Message.addSuccessMessage("Vasarnamis sėkmingai išsaugotas");
+                summerhouseCRUD.updateSummerhouse(detailedSummerhouse);
+            }
         } catch (IOException ex) {
             Logger.getLogger(EditSummerhouseBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        summerhouseCRUD.updateSummerhouse(detailedSummerhouse);
+
         return "settings";
     }
 
@@ -88,7 +103,9 @@ public class EditSummerhouseBean implements Serializable {
             String summerhouseTitle = params.get("title");
             Summerhouse sh = summerhouseCRUD.findByTitle(summerhouseTitle);
             summerhouseCRUD.deleteSummerhouse(sh);
+            Message.addSuccessMessage("Vasarnamis sėkmingai ištrintas");
         } catch (Exception ex) {
+             Message.addErrorMessage("Įvyko klaida!");
             return "summerhouse?faces-redirect=true";
         }
         return "summerhouse?faces-redirect=true";

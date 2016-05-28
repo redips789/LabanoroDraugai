@@ -13,6 +13,19 @@
             <title>Labanoro draugai</title>
         </f:facet>
         <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
+        <script name="jquery/jquery.js" library="primefaces"></script>
+        <script>
+            function showJustMonday(date){
+                var day = date.getDay();
+                return [day == 1, ''];
+            }
+        </script>
+        <script>
+            function showJustSunday(date){
+                var day = date.getDay();
+                return [day == 0, ''];
+            }
+        </script>
     </h:head>
     <h:body>
         <h:form id="form" enctype="multipart/form-data">
@@ -47,17 +60,17 @@
                                 <p:message for="price" display="icon" />
 
                                 <p:outputLabel value="Galiojimo pradžia:" />
-                                <p:calendar id="validityStart" yearRange="c-100:c"  value="#{editSummerhouseBean.detailedSummerhouse.validityStart}" size="30" requiredMessage="Įrašykite pirmos rezervacijos datą" locale="de" navigator="true" pattern="yyyy-MM-dd">
+                                <p:calendar id="validityStart" yearRange="c-100:c"  value="#{editSummerhouseBean.detailedSummerhouse.validityStart}" required="true" size="30" requiredMessage="Įrašykite galiojimo pradžią" locale="de" navigator="true" pattern="yyyy-MM-dd" beforeShowDay="showJustMonday">
                                 </p:calendar>
                                 <p:message for="validityStart" display="icon" />
 
                                 <p:outputLabel value="Galiojimo pabaiga:" />
-                                <p:calendar id="validityEnd" yearRange="c-100:c"  value="#{editSummerhouseBean.detailedSummerhouse.validityEnd}" size="30" requiredMessage="Įrašykite pirmos rezervacijos datą" locale="de" navigator="true" pattern="yyyy-MM-dd">
+                                <p:calendar id="validityEnd" yearRange="c-100:c"  value="#{editSummerhouseBean.detailedSummerhouse.validityEnd}" required="true" size="30" requiredMessage="Įrašykite galiojimo pabaigą" locale="de" navigator="true" pattern="yyyy-MM-dd" beforeShowDay="showJustSunday">
                                 </p:calendar>
                                 <p:message for="validityEnd" display="icon" />
 
                                 <p:outputLabel value="Nuotrauka:"/>
-                                <p:fileUpload value="#{editSummerhouseBean.file}" mode="simple" label="Įkelti" dragDropSupport="true"/>
+                                <p:fileUpload value="#{editSummerhouseBean.file}" mode="simple" required="true" label="Įkelti" dragDropSupport="true"/>
                                 <p:outputLabel value=" "/>
 
                                 <p:outputLabel value="Aprašymas:" />
