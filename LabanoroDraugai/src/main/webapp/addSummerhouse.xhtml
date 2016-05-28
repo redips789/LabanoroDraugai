@@ -12,6 +12,19 @@
             <title>Labanoro draugai</title>
         </f:facet>
         <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
+        <script name="jquery/jquery.js" library="primefaces"></script>
+        <script>
+            function showJustMonday(date){
+                var day = date.getDay();
+                return [day == 1, ''];
+            }
+        </script>
+        <script>
+            function showJustSunday(date){
+                var day = date.getDay();
+                return [day == 0, ''];
+            }
+        </script>
     </h:head>
     <h:body>
         <h:form id="form" enctype="multipart/form-data">
@@ -42,12 +55,12 @@
                                 <p:message for="price" display="icon" />
 
                                 <p:outputLabel value="Galiojimo pradžia:" />
-                                <p:calendar id="validityStart" yearRange="c-100:c"  value="#{addSummerhouseBean.summerhouse.validityStart}" required="true" size="30" requiredMessage="Įrašykite galiojimo pradžią" locale="de" navigator="true" pattern="yyyy-MM-dd">
+                                <p:calendar id="validityStart" yearRange="c-100:c"  value="#{addSummerhouseBean.summerhouse.validityStart}" required="true" size="30" requiredMessage="Įrašykite galiojimo pradžią" locale="de" navigator="true" pattern="yyyy-MM-dd" beforeShowDay="showJustMonday">
                                 </p:calendar>
                                 <p:message for="validityStart" display="icon" />
 
                                 <p:outputLabel value="Galiojimo pabaiga:" />
-                                <p:calendar id="validityEnd" yearRange="c-100:c"  value="#{addSummerhouseBean.summerhouse.validityEnd}" required="true" size="30" requiredMessage="Įrašykite galiojimo pabaigą" locale="de" navigator="true" pattern="yyyy-MM-dd">
+                                <p:calendar id="validityEnd" yearRange="c-100:c"  value="#{addSummerhouseBean.summerhouse.validityEnd}" required="true" size="30" requiredMessage="Įrašykite galiojimo pabaigą" locale="de" navigator="true" pattern="yyyy-MM-dd" beforeShowDay="showJustSunday">
                                 </p:calendar>
                                 <p:message for="validityEnd" display="icon" />
 

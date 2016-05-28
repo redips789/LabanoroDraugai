@@ -46,7 +46,14 @@
                                         <h:outputText value="#{summerhouse.cost}" style="font-weight: bold"/>
 
                                         <h:panelGrid columns="2" columnClasses="column" cellpadding="11">
-                                            <p:commandButton class="edit-profile-button-width" type="submit" ajax="true" value="Ištrinti" id="withIcon" action="#{editSummerhouseBean.deleteSummerhouse}" validateClient="true" icon="ui-icon-disk" >
+
+                                            <p:commandButton id="delete" 
+                                                             action="#{editSummerhouseBean.deleteSummerhouse}" 
+                                                             icon="ui-icon ui-icon-trash" 
+                                                             title="GDeleteButton" ajax="true">
+                                                <p:confirm header="Ištrinti vasarnamį" 
+                                                           message="Ar tikrai norite ištrinti #{summerhouse.title} vasarnamį?" 
+                                                           icon="ui-icon-alert"/>
                                                 <f:param name="title" value="#{summerhouse.title}" />
                                             </p:commandButton>
                                         </h:panelGrid>
@@ -63,6 +70,11 @@
                 </div>
 
             </div>
+            
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                <p:commandButton title="GDelYesButton" value="Taip" styleClass="ui-confirmdialog-yes"/>
+                <p:commandButton title="GDelNoButton" value="Ne" styleClass="ui-confirmdialog-no" />
+            </p:confirmDialog>
 
         </h:form>
     </h:body>
