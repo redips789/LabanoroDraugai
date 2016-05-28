@@ -29,6 +29,9 @@
                 <div id="content-container">
                     <div id="profile-wrapper">
                         <div id="profile-container">
+                            <h:form>
+                                <p:messages id="messages" autoUpdate="true" closable="true" />
+                            </h:form>
 
                             <p:dataTable id="list" sortBy="#{reservation.startDate}" value="#{mySummerhouses.myReservations}" var="reservation" emptyMessage="Rezervacijų nėra" >
                                 <f:facet name="header">
@@ -67,13 +70,19 @@
                                 </p:column>
 
                                 <p:column style="width:60px">
-
+                                    <p:commandButton action="#{mySummerhouses.cancelReservation(reservation)}" icon="ui-icon ui-icon-trash" title="GDeleteButton" update="list" >
+                                        <p:confirm header="Patvirtinimas" message="Ar tikrai norite atšaukti šio vasarnamio rezervaciją?" icon="ui-icon-alert" />
+                                    </p:commandButton>
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                            <p:commandButton title="GDeleteButton" value="Taip" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  />
+                                            <p:commandButton title="GDeleteButton" value="Ne" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </p:confirmDialog>
                                 </p:column>
                             </p:dataTable>
-
                         </div>
                     </div>
                 </div>
+
 
                 <div id="footer-container" >
                     <ui:include src="footer.xhtml" />

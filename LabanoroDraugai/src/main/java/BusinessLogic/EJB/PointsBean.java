@@ -26,13 +26,14 @@ import Interceptors.Interceptable;
 import javax.faces.context.FacesContext;
 import javax.interceptor.InvocationContext;
 import javax.servlet.http.HttpSession;
+import javax.faces.view.ViewScoped;
 
 /**
  *
  * @author darbas
  */
 @Named
-@ConversationScoped
+@ViewScoped
 @Stateful
 //@Interceptable
 public class PointsBean {
@@ -40,15 +41,8 @@ public class PointsBean {
     /**
      * Creates a new instance of PointsBean
      */
-    //Turėtų būti Extended(jei keliuose languose reiktų tos pačios info), BET tada AccountCRUD ir ImageCrud metodai, kuriuose yra flush(), turi būti REQUIRED_NEW.
-    //Kaip suprantu neleidžia: Extended->Extended(old) - anose klasėse anksčiau sukuria PersistentContext, o čia vėliau injectina. ESMĖ - lūžta anose klasėse, tai gal čia anksčiau sukuria? :D
-    //TAD kad mažiau keitimų būtų kitur, čia darau TRANSACTIONAL, nes dabar vis tiek transakcija tesiasi per 2 langus, bet info naudojama viename.
-    //Tiesa, šitam atvejy veiktų ir su SYNCHRONIZED
     @PersistenceContext(type = PersistenceContextType.TRANSACTION, synchronization = SynchronizationType.UNSYNCHRONIZED)
     private EntityManager em;
-
-    @Inject
-    private Conversation conversation;
 
     @Inject
     AccountCRUD accountEjb;
@@ -140,11 +134,6 @@ public class PointsBean {
     }
 
     public String startPaying() {
-        if (!conversation.isTransient()) {
-            conversation.end();
-            System.out.println("-------------------------------------------------test1-----------");
-        }
-        conversation.begin();
         System.out.println("-------------------------------------------------test1-----------");
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
@@ -163,10 +152,8 @@ public class PointsBean {
         Date date = d.getTime();
 
         this.account.setNextPayment(date);
-        //this.account.setStatus("aktyvus");                                      // nebereikia
         try {
             payMembershipFeeWithPoints(this.account);
-            conversation.end();
             em.joinTransaction();
             em.flush();
             Message.addSuccessMessage("Mokėjimas sėkmingai atliktas!");
@@ -188,9 +175,6 @@ public class PointsBean {
     }
 
     public String goBack() {
-        if (!conversation.isTransient()) {
-            conversation.end();
-        }
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
         session.setAttribute("mygtukas", false);

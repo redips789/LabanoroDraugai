@@ -75,7 +75,9 @@ public class ReservationCRUD {
         catch(Exception ex){
             return true;
         }
-
+    }
+    public void removeReservation(Reservation reservation){
+        em.remove(em.merge(reservation));
     }
     
     public boolean existSimilarReservation(Summerhouse sumD, Date startDate, Date endDate) {
