@@ -173,7 +173,6 @@ public class ReservationBean implements Serializable {
     
     @PostConstruct
     public void init() {
-        System.out.println("Susikuriau reservation bean");
         account = accountEjb.findAccount(loginBean.getFbid());
         settings = settingsEjb.findSettings();
         canReserveSummerhouse();

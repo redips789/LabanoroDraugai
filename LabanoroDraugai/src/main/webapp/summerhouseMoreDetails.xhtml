@@ -8,6 +8,7 @@
       xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
     <h:head>
+        <link rel="shortcut icon" href="resources/img/favicon.ico"/>
         <f:facet name="first">
             <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
             <title>Labanoro draugai</title>
@@ -30,7 +31,26 @@
         <script>
             function beforeShowDateReservation(date){
                 var day = date.getDay();
-                return [day == 1, '']
+                var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
+                for (i = 0; i &#60; specialDays.length; i++) {
+                    console.log("cikle"+specialDays);
+                    if($.inArray((m+1) + '-' + d + '-' + y,specialDays) != -1) {
+                        return [false];
+                    }
+                }
+                return [day == 1, ''];
+            }
+        </script>
+        <script>
+            function showJustMonday(date){
+                var day = date.getDay();
+                return [day == 1, ''];
+            }
+        </script>
+        <script>
+            function showJustSunday(date){
+                var day = date.getDay();
+                return [day == 0, ''];
             }
         </script>
     </h:head>

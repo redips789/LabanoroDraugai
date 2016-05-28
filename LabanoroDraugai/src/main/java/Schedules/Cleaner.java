@@ -27,7 +27,7 @@
 //    @Inject
 //    SettingsCRUD settingsEjb;
 //    
-//    @Schedule(second = "0", minute = "58", hour = "11", dayOfWeek = "*", persistent = false)
+//    @Schedule(second = "0", minute = "55", hour = "13", dayOfWeek = "*", persistent = false)
 //    public void cleanRecommendationDatabase() {
 //        Calendar now = Calendar.getInstance();
 //        Date today = new Date();
