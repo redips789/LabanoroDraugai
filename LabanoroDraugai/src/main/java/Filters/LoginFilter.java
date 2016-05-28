@@ -57,6 +57,7 @@ public class LoginFilter implements Filter {
         String reservationURI = request.getContextPath() + "/reservation.xhtml";
         String summerhouseURI = request.getContextPath() + "/summerhouse.xhtml";
         String summerhouseMoreDetailsURI = request.getContextPath() + "/summerhouseMoreDetails.xhtml";
+        int indexOfPay = request.getRequestURI().indexOf("payMembershipFee");
 
         boolean loggedIn = (session != null);//&& (session.getAttribute("account") != null);
         boolean loginRequest = request.getRequestURI().equals(loginURL);
@@ -105,7 +106,7 @@ public class LoginFilter implements Filter {
         if ((loggedIn || loginRequest || resourceRequest) && !logoutRequest && !addSummerhouseRequest && !editSummerhouseRequest
                 && !removeSummerhouseRequest && !deleteMemberRequest && !meritRequest && !editRegistrationFormRequest
                 && !editSettingsRequest && !memberReviewRequest && !mySummerhousesRequest && !payMembershipFeeRequest && !pointsRequest
-                && !reservationRequest && !summerhouseRequest && !summerhouseMoreDetailsRequest) {
+                && !reservationRequest && !summerhouseRequest && !summerhouseMoreDetailsRequest && indexOfPay==-1) {
             if (!resourceRequest) { // Prevent browser from caching restricted resources. See also http://stackoverflow.com/q/4194207/157882
                 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
                 response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
@@ -133,7 +134,7 @@ public class LoginFilter implements Filter {
                 chain.doFilter(request, response);
             }
             
-            if((memberReviewRequest || mySummerhousesRequest || payMembershipFeeRequest || pointsRequest
+            if((memberReviewRequest || mySummerhousesRequest || pointsRequest
                 || reservationRequest || summerhouseRequest || summerhouseMoreDetailsRequest) && (admin || member)){
                 chain.doFilter(request, response);
             }
