@@ -34,6 +34,16 @@ public class ReservationCRUD {
         return query.getResultList();
     }
     
+    public List<Reservation> findBySummerhouse(Summerhouse sum){
+        try{
+            Query query = em.createQuery("SELECT r FROM Reservation r WHERE r.summerhouseId = :sum").setParameter("sum", sum);
+            List<Reservation> reserList = query.getResultList();
+            return reserList;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
     public List<Reservation> findByPeriod(Date startDate, Date endDate) {
         Query query = em.createQuery("SELECT r FROM Reservation r WHERE (r.startDate <=:startDate AND r.endDate >=:startDate) or (r.startDate <=:endDate AND r.endDate >=:endDate)").
                 setParameter("startDate", startDate).setParameter("endDate", endDate);

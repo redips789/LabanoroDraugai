@@ -4,7 +4,8 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
     <h:head>
         <f:facet name="first">
@@ -13,12 +14,13 @@
         </f:facet>
         <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
         <script name="jquery/jquery.js" library="primefaces"></script>
-        <script>
-            var disabledDays = ["6-15-2016", "6-23-2016"];
-            function beforeShowDate(date) {
+        <script> 
+            var specialDays = #{reservationBean.toJavascriptArray()};
+            function beforeShowDate(date) {         
                 var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
-                for (i = 0; i &#60; disabledDays.length; i++) {
-                    if($.inArray((m+1) + '-' + d + '-' + y,disabledDays) != -1) {
+                for (i = 0; i &#60; specialDays.length; i++) {
+                    console.log("cikle"+specialDays);
+                    if($.inArray((m+1) + '-' + d + '-' + y,specialDays) != -1) {
                         return [false];
                     }
                 }
@@ -70,10 +72,10 @@
 
                                     <h:outputText value="Užimtumas: "/>
                                     <p:calendar title="aaa" 
-                                                id="inline" 
+                                                id="cal" 
                                                 mode="inline"                                                
                                                 mindate="#{summerhouseDetails.detailedSummerhouse.validityStart}"
-                                                maxdate="#{summerhouseDetails.detailedSummerhouse.validityEnd}"
+                                                maxdate="#{summerhouseDetails.detailedSummerhouse.validityEnd}"                                                 
                                                 beforeShowDay="beforeShowDate"/>
                                 
                                 <p:button outcome="summerhouse" 
@@ -208,7 +210,8 @@
                                                                      type="submit" 
                                                                      value="Mokėti" 
                                                                      icon="ui-icon-disk" 
-                                                                     action="#{reservationBean.saveReservation()}"/>
+                                                                     action="#{reservationBean.saveReservation()}"
+                                                                     update="cal"/>
                                                     <p:outputLabel value="" />                                        
                                                 </h:panelGrid>
                                                 <p:spacer height="40" />
