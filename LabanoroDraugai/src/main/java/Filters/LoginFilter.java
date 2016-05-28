@@ -133,8 +133,8 @@ public class LoginFilter implements Filter {
                 chain.doFilter(request, response);
             }
             
-            if((memberReviewRequest && mySummerhousesRequest && payMembershipFeeRequest && pointsRequest
-                && reservationRequest && summerhouseRequest && summerhouseMoreDetailsRequest) && (admin || member)){
+            if((memberReviewRequest || mySummerhousesRequest || payMembershipFeeRequest || pointsRequest
+                || reservationRequest || summerhouseRequest || summerhouseMoreDetailsRequest) && (admin || member)){
                 chain.doFilter(request, response);
             }
             else{
