@@ -25,42 +25,23 @@
                 <div id="menu-container">
                     <ui:include src="menu.xhtml" />
                 </div>
-                <h:form>
                     <div id="profile-wrapper">
                         <div id="profile-container">
-                            <h:form id="sh">
-                                <p:dataScroller id="list" value="#{summerhouseBean.summerhouses}" var="summerhouse" chunkSize="5">
-                                    <f:facet name="header">
-                                        Eikite žemyn, kad pamatytumėte daugiau vasarnamių
-                                    </f:facet>
 
-                                    <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-                                        <p:graphicImage value="../img/lab.jpg" />
+                            <p:dataTable style="width:40%" var="summerhouse" value="#{summerhouseBean.summerhouses}" scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="300" styleClass="table">
+                                <p:column headerText="Pavadinimas" footerText="Pavadinimas">
+                                    <h:outputText value="#{summerhouse.title}" />
+                                </p:column>
 
-                                        <p:outputPanel>
-                                            <h:panelGrid columns="2" cellpadding="5">
-                                                <h:outputText value="Pavadinimas:" />
-                                                <h:outputText value="#{summerhouse.title}" style="font-weight: bold"/>
-
-                                                <h:outputText value="Miegamų vietų skaičius:" />
-                                                <h:outputText value="#{summerhouse.beds}" style="font-weight: bold"/>
-
-                                                <h:outputText value="Kaina (tšk):" />
-                                                <h:outputText value="#{summerhouse.cost}" style="font-weight: bold"/>
-
-                                                <p:button outcome="summerhouseEdit" value="Redaguoti" icon="ui-icon-star">
-                                                    <f:param name="title" value="#{summerhouse.title}" />
-                                                </p:button>
-
-                                            </h:panelGrid>
-                                        </p:outputPanel>
-                                    </h:panelGrid>
-                                </p:dataScroller>
-                            </h:form> 
-
+                                <p:column styleClass="centerColumn" style="width:40%">
+                                    <p:button id="button" outcome="summerhouseEdit" value="Redaguoti" icon="fa fa-edit">
+                                        <f:param name="title" value="#{summerhouse.title}" />
+                                    </p:button>
+                                </p:column>
+                            </p:dataTable>
+                            
                         </div>
                     </div>
-                </h:form>
                 <div id="footer-container" >
                     <ui:include src="footer.xhtml" />
                 </div>

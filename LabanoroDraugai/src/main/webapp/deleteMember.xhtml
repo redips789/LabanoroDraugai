@@ -31,7 +31,7 @@
                 <div id="content-container">     
 
                     <p:growl id="msgs" showDetail="true" />
-                    <p:dataTable id="basicDT" var="account" value="#{accountBean.accountList}" rows="10" paginator="true"
+                    <p:dataTable styleClass="recTable" id="membersDelete" var="account" value="#{accountBean.accountList}" rows="10" paginator="true"
                                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                                  rowsPerPageTemplate="15" style="text-align: center">
 
@@ -52,7 +52,7 @@
                         <p:column style="width:60px">
                             <p:commandButton id="delete" 
                                              action="#{accountBean.deleteAccount(account)}" 
-                                             icon="ui-icon ui-icon-trash" 
+                                             icon="fa fa-user-times" 
                                              title="GDeleteButton" ajax="true">
                                 <p:confirm header="Ištrinti vartotoją" 
                                            message="Ar tikrai norite ištrinti vartotoją?" 

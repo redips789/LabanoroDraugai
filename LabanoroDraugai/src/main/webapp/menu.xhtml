@@ -12,7 +12,6 @@
     </h:head>
     <h:body>            
         <div id="menu" style="color: red;"> 
-            <p:growl id="messages"/>
 
             <p:menubar>
                 <p:submenu  label="Vasarnamiai" rendered="#{accountBean.notCandidate}">
@@ -25,8 +24,8 @@
 
 
                 <p:submenu label="Nustatymai">
-                    <p:menuitem value="Paskyra" update="messages" action="myProfile?faces-redirect=true" ajax="false"/>
-                    <p:menuitem value="Mano taškai" update="messages" rendered="#{accountBean.notCandidate}" action="points?faces-redirect=true"/>
+                    <p:menuitem value="Paskyra" action="myProfile?faces-redirect=true" ajax="false"/>
+                    <p:menuitem value="Mano taškai" rendered="#{accountBean.notCandidate}" action="points?faces-redirect=true"/>
                     <p:menuitem >
                         <p:commandLink styleClass="ui-menuitem-link" action="#{loginBean.leaveForever()}" ajax="false">
                             <p:outputLabel styleClass="ui-menuitem-text" value="Išsiregistruoti" />

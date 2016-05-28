@@ -1,3 +1,14 @@
+.ui-widget {
+    font-size: 90%;
+    font-weight: normal;
+    font: 15px arial, sans-serif;
+ }
+ 
+ .ui-widget .ui-widget {
+    font-size: 100%;
+    font-weight: normal;
+ }
+
 body {
     display: block;
     background-color: ivory;
@@ -16,7 +27,8 @@ body {
 #head {
     font-size: 2em;
     letter-spacing: 0.5em;
-    color: whitesmoke;
+    color: #E4EBED;
+    text-shadow: 2px 2px 4px #000000;
 }
 
 #content-container-rec {
@@ -150,3 +162,13 @@ body {
     text-align: center;
 }
 
+.table{
+    width: 50%;
+    margin: 0 auto;
+    margin-bottom: 1.5em;
+    margin-top: 1.5em;
+}
+
+#membersDelete{
+    margin: 0 auto;
+}

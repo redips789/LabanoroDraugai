@@ -25,44 +25,34 @@
                 <div id="menu-container">
                     <ui:include src="menu.xhtml" />
                 </div>
+                
                 <div id="profile-wrapper">
                     <div id="profile-container">
-                        <p:dataScroller id="list" value="#{summerhouseBean.summerhouses}" var="summerhouse" chunkSize="5">
-                            <f:facet name="header">
-                                Eikite žemyn, kad pamatytumėte daugiau vasarnamių
-                            </f:facet>
-
-                            <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-                                <p:graphicImage value="../img/lab.jpg" />
-
-                                <p:outputPanel>
-                                    <h:panelGrid columns="2" cellpadding="5">
-                                        <h:outputText value="Pavadinimas:" />
-                                        <h:outputText value="#{summerhouse.title}" style="font-weight: bold"/>
-
-                                        <h:outputText value="Miegamų vietų skaičius:" />
-                                        <h:outputText value="#{summerhouse.beds}" style="font-weight: bold"/>
-
-                                        <h:outputText value="Kaina (tšk):" />
-                                        <h:outputText value="#{summerhouse.cost}" style="font-weight: bold"/>
-
-                                        <h:panelGrid columns="2" columnClasses="column" cellpadding="11">
-
-                                            <p:commandButton id="delete" 
-                                                             action="#{editSummerhouseBean.deleteSummerhouse}" 
-                                                             icon="ui-icon ui-icon-trash" 
-                                                             title="GDeleteButton" ajax="true">
-                                                <p:confirm header="Ištrinti vasarnamį" 
-                                                           message="Ar tikrai norite ištrinti #{summerhouse.title} vasarnamį?" 
-                                                           icon="ui-icon-alert"/>
-                                                <f:param name="title" value="#{summerhouse.title}" />
-                                            </p:commandButton>
-                                        </h:panelGrid>
-
-                                    </h:panelGrid>
-                                </p:outputPanel>
-                            </h:panelGrid>
-                        </p:dataScroller>
+                        
+                        <p:dataTable var="summerhouse" value="#{summerhouseBean.summerhouses}" scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="300" styleClass="table">
+                            <p:column headerText="Pavadinimas" footerText="Pavadinimas">
+                                <h:outputText value="#{summerhouse.title}" />
+                            </p:column>
+                            <p:column headerText="Miegamų vietų skaičius" footerText="Miegamų vietų skaičius">
+                                <h:outputText value="#{summerhouse.beds}" />
+                            </p:column>
+                            <p:column headerText="Kaina (tšk)" footerText="Kaina (tšk)">
+                                <h:outputText value="#{summerhouse.cost}" />
+                            </p:column>
+                            
+                            <p:column style="width:60px">
+                            <p:commandButton id="delete" 
+                                action="#{editSummerhouseBean.deleteSummerhouse}" 
+                                icon="ui-icon ui-icon-trash" 
+                                title="GDeleteButton" ajax="true">
+                                                
+                                <p:confirm header="Ištrinti vasarnamį" 
+                                    message="Ar tikrai norite ištrinti #{summerhouse.title} vasarnamį?" 
+                                    icon="ui-icon-alert"/>
+                                <f:param name="title" value="#{summerhouse.title}" />
+                            </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
 
                     </div>
                 </div>
@@ -72,7 +62,7 @@
 
             </div>
             
-            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+            <p:confirmDialog global="true" showEffect="fade">
                 <p:commandButton title="GDelYesButton" value="Taip" styleClass="ui-confirmdialog-yes"/>
                 <p:commandButton title="GDelNoButton" value="Ne" styleClass="ui-confirmdialog-no" />
             </p:confirmDialog>

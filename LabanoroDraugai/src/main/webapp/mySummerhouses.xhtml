@@ -35,12 +35,6 @@
                                     Mano rezervuoti vasarnamiai
                                 </f:facet>
 
-                                <p:column style="width:60px">
-                                    <p:button outcome="summerhouseMoreDetails" icon="ui-icon-search">
-                                        <f:param name="id" value="#{reservation.summerhouseId.id}" />
-                                    </p:button>
-                                </p:column>
-
                                 <p:column headerText="Pavadinimas">
                                     <h:outputText value="#{reservation.summerhouseId.title}" /> 
                                 </p:column>
@@ -64,6 +58,12 @@
                                     <p:outputLabel value="#{reservation.endDate}">
                                         <f:convertDateTime pattern="yyyy-MM-dd" />
                                     </p:outputLabel>
+                                </p:column>
+                                
+                                <p:column style="width:60px">
+                                    <p:button outcome="summerhouseMoreDetails" icon="ui-icon-search">
+                                        <f:param name="id" value="#{reservation.summerhouseId.id}" />
+                                    </p:button>
                                 </p:column>
 
                                 <p:column style="width:60px">
