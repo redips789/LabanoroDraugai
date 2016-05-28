@@ -8,6 +8,7 @@
       xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
     <h:head>
+        <link rel="shortcut icon" href="resources/img/favicon.ico"/>
         <f:facet name="first">
             <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
             <title>Labanoro draugai</title>
@@ -72,11 +73,19 @@
                                 <p:messages id="messages" autoUpdate="true" closable="true" />
                             </h:form>
 
+                            <h:form id="first">
+                                    <p:messages id="messages" autoUpdate="true" closable="true" />
+                            </h:form>
+                            
                             <f:metadata>
                                 <f:viewParam name="id" value="#{summerhouseDetails.id}" />
                             </f:metadata>
+                            
+                            
 
                             <p:panel id="basic" header="#{summerhouseDetails.detailedSummerhouse.title}" style="margin-bottom:20px">
+                                
+                                
 
                                 <p:graphicImage value="#{imageStreamer.oneImage}" class="profile-image-container" >
                                     <f:param name="id" value="#{summerhouseDetails.detailedSummerhouse.photoImageid.id}" />
@@ -107,7 +116,7 @@
                                                  value="Rezervuoti" 
                                                  type="submit" 
                                                  action="#{reservationBean.showFirstDialog()}"
-                                                 disabled="#{!reservationBean.canReserveSummerhouse()}" 
+                                                 disabled="#{!reservationBean.canReserve}" 
                                                  class="edit-profile-button-width" />
                                 </h:panelGrid>
                             </p:panel>
@@ -189,7 +198,7 @@
                                       resizable="false"
                                       id="info">
                                 
-                                <h:form>
+                                <h:form id="second">
                                     <p:messages id="messages" autoUpdate="true" closable="true" />
                                 </h:form>
                                 

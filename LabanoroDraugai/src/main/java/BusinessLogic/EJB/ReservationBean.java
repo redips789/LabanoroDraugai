@@ -76,13 +76,11 @@ public class ReservationBean implements Serializable {
     
     private Date endDate;
     
-    private int weeks;
+    private int weeks = 1;
     
     private boolean canReserve;
     
     private Summerhouse summerhouse;
-    
-    private String info;
     
     private List<Reservation> membersReservations = new ArrayList<>();
 
@@ -169,29 +167,16 @@ public class ReservationBean implements Serializable {
 
     public void setSummerhouse(Summerhouse summerhouse) {
         this.summerhouse = summerhouse;
-    }
-
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
-    
+    }    
     
         //-business-//
     
     @PostConstruct
     public void init() {
-        System.out.println("Susikuriau reservation bean");
         account = accountEjb.findAccount(loginBean.getFbid());
         settings = settingsEjb.findSettings();
-
-        summerhouse = summerhouseDetails.getDetailedSummerhouse(); // pirma karta kuriant beansa yra gera info, o po to ne
-        System.out.println("OOOOOOO"+summerhouse.getTitle());
-        System.out.println("OOOOOOO"+summerhouse.getCost());
-        
+        canReserveSummerhouse();
+        summerhouse = summerhouseDetails.getDetailedSummerhouse(); 
     }
     
     public void findMembersOnSamePeriod() {
@@ -261,15 +246,19 @@ public class ReservationBean implements Serializable {
         this.account = em.merge(acc);
     }
     
-    public boolean canReserveSummerhouse(){
+    public void information(){
+         Message.addErrorMessage("Tik sumokėję metinį mokestį galėsite rezervuoti vasarnamį!");
+    }
+    
+    public void canReserveSummerhouse(){
         int isPaid = this.compareWithToday(accountEjb.findAccountById(loginBean.getId()).getNextPayment());
         if (isPaid == -1){
             this.setCanReserve(groupDistribution.canGroupReserve(account, settings));         
         }
         else {
+            Message.addWarningMessage("Tik sumokėję metinį mokestį galėsite rezervuoti vasarnamį!"); // reik string metodo
             this.setCanReserve(false);
         }
-        return this.isCanReserve();
     }
     
     public void canGoDeeperReservation(){
