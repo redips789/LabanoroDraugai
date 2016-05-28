@@ -8,6 +8,8 @@ package Alternatives;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Settings;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Alternative;
 
@@ -18,7 +20,6 @@ import javax.enterprise.inject.Alternative;
 @Alternative
 @Stateless
 public class GroupByDays implements GroupDistribution, Serializable {
-
     /**
      *
      * @param account
@@ -27,8 +28,40 @@ public class GroupByDays implements GroupDistribution, Serializable {
      */
     @Override
     public boolean canGroupReserve(Account account, Settings settings) {
-        /// Algoritmas turėtų būti čia
-        return true; 
+        int first = settings.getFirstGroupSize();
+        int second = settings.getSecondGroupSize();
+        int group;
+        boolean canReserve = false;
+        Date reservationDay = new Date();
+
+        Calendar now = Calendar.getInstance();
+        now.setTime(new Date());
+        now.set(Calendar.HOUR_OF_DAY, 0);
+        now.set(Calendar.MINUTE, 0);
+        now.set(Calendar.SECOND, 0);
+        Date today = now.getTime();
+        
+        // grupės priskyrimas
+        if (account.getTimeSpentOnHoliday()<=first) group = 1;
+        else if (account.getTimeSpentOnHoliday()>first && account.getTimeSpentOnHoliday()<= second) group = 2;
+        else group = 3;
+        
+        // rezervacijos datos priskyrimas
+        switch (group) {
+            case 1:  reservationDay = settings.getFirstReservation();
+                     break;
+            case 2:  reservationDay = settings.getSecondReservation();
+                     break;
+            case 3:  reservationDay = settings.getThirdReservation();
+                     break;
+        }
+        
+        // patikrinimas, ar leisti įeiti į rezervaciją
+        int compare_begin = today.compareTo(reservationDay);
+        int compare_end = today.compareTo(settings.getCloseReservation());
+        canReserve = (compare_begin == 0 || compare_begin == 1) && (compare_end == 0 || compare_end == -1);
+        
+        return canReserve; 
     }
 
     

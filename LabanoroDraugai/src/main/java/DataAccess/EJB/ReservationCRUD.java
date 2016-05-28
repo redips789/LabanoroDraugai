@@ -4,13 +4,16 @@ package DataAccess.EJB;
 import BusinessLogic.EJB.SummerhouseDetails;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Reservation;
+import DataAccess.JPA.Summerhouse;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import static javax.persistence.PersistenceContextType.TRANSACTION;
 import javax.persistence.Query;
+import javax.persistence.SynchronizationType;
 import static javax.persistence.SynchronizationType.UNSYNCHRONIZED;
 import javax.persistence.TypedQuery;
 
@@ -22,7 +25,7 @@ import javax.persistence.TypedQuery;
 @Stateless
 public class ReservationCRUD {
     
-    @PersistenceContext
+    @PersistenceContext(type=PersistenceContextType.TRANSACTION, synchronization=SynchronizationType.UNSYNCHRONIZED)
     private EntityManager em;
     
     public List<Reservation> getByAccount(Account acc) {
@@ -31,15 +34,32 @@ public class ReservationCRUD {
         return query.getResultList();
     }
     
-    public List<Reservation> findByPeriod(Date from, Date to) {
-        Query query = em.createQuery("SELECT r FROM Reservation r WHERE r.startDate >= :from AND r.endDate <= :to").
-                setParameter("from", from).setParameter("to", to);
+    public List<Reservation> findBySummerhouse(Summerhouse sum){
+        try{
+            Query query = em.createQuery("SELECT r FROM Reservation r WHERE r.summerhouseId = :sum").setParameter("sum", sum);
+            List<Reservation> reserList = query.getResultList();
+            return reserList;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    public List<Reservation> findByPeriod(Date startDate, Date endDate) {
+        Query query = em.createQuery("SELECT r FROM Reservation r WHERE (r.startDate <=:startDate AND r.endDate >=:startDate) or (r.startDate <=:endDate AND r.endDate >=:endDate)").
+                setParameter("startDate", startDate).setParameter("endDate", endDate);
         return query.getResultList();
     }
     
     public void insertReservation (Reservation reservation){
         em.persist(reservation);
+        System.out.println(this + ": gavau EntityManager CRUD = " + em.getDelegate());
     }
+    
+    /*public void insertReservation2 (Reservation reservation){
+        em.persist(reservation);
+        //em.joinTransaction();
+        //em.flush();
+    }*/
     
     public boolean isReservationExist(SummerhouseDetails sumD, Reservation reservation) {
         try{
@@ -58,6 +78,19 @@ public class ReservationCRUD {
     }
     public void removeReservation(Reservation reservation){
         em.remove(em.merge(reservation));
+    }
+    
+    public boolean existSimilarReservation(Summerhouse sumD, Date startDate, Date endDate) {
+        try {
+            Query query = em.createQuery("SELECT r FROM Reservation r WHERE r.summerhouseId =:sumId AND (r.startDate <=:startDate AND r.endDate >=:startDate) or r.summerhouseId =:sumId AND (r.startDate <=:endDate AND r.endDate >=:endDate)").setParameter("sumId", sumD).setParameter("startDate", startDate).setParameter("endDate", endDate);
+            List<Reservation> reservations = (List<Reservation>) query.getResultList();
+            System.out.println("TIKRINIMAS    *******  "+reservations.size());
+            return !reservations.isEmpty();
+        }
+        catch(Exception ex){
+            System.out.println("Iejo i catcha  "+ex);
+            return true;
+        }
     }
 
 }

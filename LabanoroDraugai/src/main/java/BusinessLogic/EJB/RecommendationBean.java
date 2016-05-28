@@ -300,7 +300,7 @@ public class RecommendationBean implements Serializable {
         Boolean b = email.matches(EMAIL_REGEX);
         if (Objects.equals(b, Boolean.TRUE)) {
             Account temp = accountEjb.findAccountByEmail(email);
-           // if (temp == null) { 
+            if (temp == null) { 
                 try{
                     String code = CodeGenerator.ivitationCode();                    
                     String encryptedCode = Encryption.encrypt(code);
@@ -315,10 +315,10 @@ public class RecommendationBean implements Serializable {
                     Message.addErrorMessage("Įvyko kažkas keisto!");
                 }
                 this.email = "";
-           /* }
+            }
             else {
                 Message.addErrorMessage("Šio žmogaus nereikia kviesti, jis jau naudojasi mūsų sistema!");
-            }*/
+            }
         }
         else {
             Message.addErrorMessage("Įveskite el. pašto adresą!");

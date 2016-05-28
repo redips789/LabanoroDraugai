@@ -1,14 +1,19 @@
 
 package BusinessLogic.EJB;
 
+import Alternatives.GroupDistribution;
 import DataAccess.EJB.AccountCRUD;
 import DataAccess.EJB.ReservationCRUD;
 import DataAccess.EJB.SettingsCRUD;
+import DataAccess.EJB.SummerhouseCRUD;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Reservation;
 import DataAccess.JPA.Settings;
+import DataAccess.JPA.Summerhouse;
+import Interceptors.Interceptable;
 import Messages.Message;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,22 +21,23 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
 import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.bean.ViewScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.SynchronizationType;
+import org.primefaces.context.RequestContext;
 
 /**
  *
  * @author Laurute
  */
 @Named 
-@RequestScoped
+@ViewScoped
 @Stateful
 public class ReservationBean implements Serializable {
     
@@ -56,6 +62,12 @@ public class ReservationBean implements Serializable {
     @Inject 
     SummerhouseDetails summerhouseDetails;
     
+    @Inject
+    SummerhouseCRUD summerhouseEjb;
+    
+    @Inject
+    GroupDistribution groupDistribution;
+    
     private Account account;
     
     private Settings settings;
@@ -64,7 +76,13 @@ public class ReservationBean implements Serializable {
     
     private Date endDate;
     
+    private int weeks;
+    
     private boolean canReserve;
+    
+    private Summerhouse summerhouse;
+    
+    private String test;
     
     private List<Reservation> membersReservations = new ArrayList<>();
 
@@ -113,12 +131,20 @@ public class ReservationBean implements Serializable {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setEndDate() {
+        Calendar start = Calendar.getInstance();
+        start.setTime(startDate);
+        start.add(Calendar.DATE, weeks*7-1);
+        this.endDate = start.getTime();
     }
 
-    public boolean isCanReserve() {
-        return canReserve;
+    public int getWeeks() {
+        return weeks;
+    }
+
+    public void setWeeks(int weeks) {
+        this.weeks = weeks;
+        
     }
 
     public List<Reservation> getMembersReservations() {
@@ -129,90 +155,284 @@ public class ReservationBean implements Serializable {
         this.membersReservations = membersReservations;
     }
 
+    public boolean isCanReserve() {
+        return canReserve;
+    }
+
     public void setCanReserve(boolean canReserve) {
         this.canReserve = canReserve;
     }
+
+    public Summerhouse getSummerhouse() {
+        return summerhouse;
+    }
+
+    public void setSummerhouse(Summerhouse summerhouse) {
+        this.summerhouse = summerhouse;
+    }
+
+    public String getTest() {
+        return test;
+    }
+
+    public void setTest(String test) {
+        this.test = test;
+    }
+    
+    
         //-business-//
     
     @PostConstruct
     public void init() {
+        System.out.println("Susikuriau reservation bean");
         account = accountEjb.findAccount(loginBean.getFbid());
         settings = settingsEjb.findSettings();
-        canReserveValidation();
+
+        summerhouse = summerhouseDetails.getDetailedSummerhouse(); // pirma karta kuriant beansa yra gera info, o po to ne
+        System.out.println("OOOOOOO"+summerhouse.getTitle());
+        System.out.println("OOOOOOO"+summerhouse.getCost());
+        
+        Calendar now = Calendar.getInstance();
+        now.setTime(new Date());
+        now.set(Calendar.HOUR_OF_DAY, 0);
+        now.set(Calendar.MINUTE, 0);
+        now.set(Calendar.SECOND, 0);
+        now.add(Calendar.DATE, 15);
+        Date today = now.getTime();
+        SimpleDateFormat sdfDate = new SimpleDateFormat("M-dd-yyyy");//dd/MM/yyyy
+        test = sdfDate.format(today);
+        System.out.println("testas    ---- "+ test);
     }
     
     public void findMembersOnSamePeriod() {
-        if (startDate != null && endDate != null) {
+        if (startDate != null && weeks != 0) {
+            this.setEndDate();
             membersReservations = reservationEjb.findByPeriod(startDate, endDate);  // susirandam rezervacijas pagal datas     
+            this.showThirdDialog();
         } 
+        else{
+            Message.addErrorMessage("Nepalikite nė vieno lauko tuščio!");
+        }
     }
     
-    public void throwMsg(){
-        Message.addWarningMessage("Uoj negerai");
-    }
-    
+    @Interceptable
     public String saveReservation(){
         try {
-            System.out.println("aaaa"+summerhouseDetails.getDetailedSummerhouse().getTitle());
-            payForReservation(); // 
-            Reservation reservation = new Reservation();
-            reservation.setAccountId(account);
-            reservation.setSummerhouseId(summerhouseDetails.getDetailedSummerhouse()); //cia cj nepaskolins
-            reservation.setStartDate(this.startDate);
-            reservation.setEndDate(this.endDate);
-            reservation.setCost(summerhouseDetails.getDetailedSummerhouse().getCost()); // jei bus daugiau savaiciu, nebus taip paprasta
-            
-            //tikrinimas ar jau toks yra
-            reservationEjb.insertReservation(reservation);
-            Message.addSuccessMessage("Rezervacija sėkmingai atlikta!");
+            // nes jei naudojam this.account, kuris sukurtas čia, tai taškai mažėja, nors nenuimam 
+            // tiesiog tokiam tikrinimui reikia gauti tikrojo accounto, o ne "kopijos" taškus
+            Account acc = accountEjb.findAccountById(loginBean.getId());
+            if (acc.getPoints() >= this.summerhouse.getCost()*weeks){
+                em.isOpen();
+           
+                if (reservationEjb.existSimilarReservation(this.summerhouse, this.startDate, this.endDate) == false){
+                    if(!(this.endDate.after(this.summerhouseDetails.getDetailedSummerhouse().getValidityEnd()))){
+                    Reservation reservation = new Reservation();
+                    reservation.setAccountId(acc);
+                    reservation.setVersion(0);
+                    reservation.setSummerhouseId(this.summerhouse);
+                    reservation.setStartDate(this.startDate);
+                    reservation.setEndDate(this.endDate);
+                    reservation.setCost(this.summerhouse.getCost()*weeks); // jei bus daugiau savaiciu, nebus taip paprasta (PAPRASTA :D - Kristina). Daugint reik, sunku:D -Laura           
+                    reservationEjb.insertReservation(reservation);
+                    System.out.println("********************************IRASO rezrvacija");
+                    
+                    payForReservation(acc, 7*weeks, this.summerhouse.getCost()*weeks); // 
+
+                    em.joinTransaction();
+                    this.hideFirstDialog();
+                    this.hideSecondDialog();
+                    FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("interceptorAccount", accountEjb.findAccountById(loginBean.getId()));
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sveikiname", "Rezervacija sėkmingai atlikta!");
+                    RequestContext.getCurrentInstance().showMessageInDialog(message);
+                    }
+                    else{
+                        Message.addErrorMessage("Pasirinkite leidžiamą laikotarpį!");
+                    }
+                }
+                else  {
+                    Message.addErrorMessage("Kažkas buvo greitesnis už Jus! Pakeiskite rezervacijos datas.");
+                }
+            }
+            else {
+                Message.addErrorMessage("Jūsų taškų likutis nepakankamas pasirinktai rezervacijai!");
+            }
         }
         catch (Exception pe) {
-            System.out.println("********************************" + pe.getMessage() + pe.getStackTrace().toString());
-            Message.addErrorMessage("Nesijaudinkite, bet įvyko nežinoma klaida. Bandykite dar kartą.");
+            System.out.println("********************************" + pe);
+            Message.addErrorMessage("Įvyko nenumatyta klaida. Bandykite dar kartą.");
         }
-        return "reservation?faces-redirect=true";
+        return "";
     }
     
-    private void payForReservation(){
-    
+    @Interceptable
+    private void payForReservation(Account acc, int days, int cost){
+        acc.setPoints(acc.getPoints()-cost);
+        acc.setReservedDays(acc.getReservedDays()+days);
+        this.account = em.merge(acc);
     }
     
-    private void canReserveValidation(){
-        //1. ar turi pinigų bent savaitei - nžn ar reikia sitoj vietoj, kol kas nera
-        //2. pagal siandienos data kurios grupes rezervuotis gali
-        //3. ar naudotojas patenka i ta grupe 
-        int reservedDays = this.account.getTimeSpentOnHoliday();
-        if (settings.getSecondReservation().after(Calendar.getInstance().getTime())){
-            //1grupe. Maksimumas 1 sav.
-            int max1 = 7;
-            if (reservedDays < max1) this.canReserve = true;
-            else                     this.canReserve = false;
+    public boolean canReserveSummerhouse(){
+        int isPaid = this.compareWithToday(accountEjb.findAccountById(loginBean.getId()).getNextPayment());
+        if (isPaid == -1){
+            this.setCanReserve(groupDistribution.canGroupReserve(account, settings));         
         }
-        else{
-            if (settings.getThirdReservation().after(Calendar.getInstance().getTime())){
-                //1 ir 2 grupe. Maksimumas 2 sav.
-                int max2 = 14;
-                if (reservedDays < max2) this.canReserve = true;
-                else                     this.canReserve = false;
-            
-            }
-            else{
-                if (settings.getCloseReservation().after(Calendar.getInstance().getTime())){
-                    //1, 2, 3 grupe. Maksimumas 3 sav.
-                    int max3 = 21;
-                    if (reservedDays < max3) this.canReserve = true;
-                    else                     this.canReserve = false;
+        else {
+            this.setCanReserve(false);
+        }
+        return this.isCanReserve();
+    }
+    
+    public void canGoDeeperReservation(){
+        Date reservationDay = new Date();
+
+        Calendar now = Calendar.getInstance();
+        now.setTime(new Date());
+        now.set(Calendar.HOUR_OF_DAY, 0);
+        now.set(Calendar.MINUTE, 0);
+        now.set(Calendar.SECOND, 0);
+        Date today = now.getTime();
+        
+        reservationDay = settings.getAllReservation();
+        
+        int compare = today.compareTo(reservationDay);
+        
+        if (startDate != null && weeks != 0) {
+            this.setEndDate();
+            if (account.getReservedDays() < settings.getMaxReservationDays()){
+                if (account.getReservedDays()+weeks*7 <= settings.getMaxReservationDays()){
+                    this.showSecondDialog();
                 }
                 else{
-                    //rezervacijos laikas baigtas
-                    this.canReserve = false;
+                    Message.addErrorMessage("Pasirinkite mažesnį savaičių skaičių, nes viršijamas rezevacijos limitas!");
                 }
             }
-        
+            else {
+                if (compare == 0 || compare == 1){
+                    this.showSecondDialog();
+                }
+                else Message.addErrorMessage("Jūs jau esate užsirezeravę maksimalų dienų skaičių!");
+            }
+        } 
+        else {
+            Message.addErrorMessage("Jei norite rezervuoti vasarnamį, nepalikite tuščių laukų!");
         }
     }
     
+    public void showFirstDialog(){
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('first').show();");
+    }
     
+    public void hideFirstDialog(){
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('first').hide();");
+    }
     
-
+    public void showSecondDialog(){
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('second').show();");
+    }
+    
+    public void hideSecondDialog(){
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('second').hide();");
+    }
+    
+    public void showThirdDialog(){
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('third').show();");
+    }
+    
+    public void hideThirdDialog(){
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('third').hide();");
+    }
+    
+    public void backFromSecond(){
+        this.hideSecondDialog();
+        this.showFirstDialog();
+    }
+    
+    public void backFromThird(){
+        this.hideThirdDialog();
+        this.showFirstDialog();
+    }
+    
+    public int compareWithToday(Date dat){
+        Calendar now = Calendar.getInstance();
+        now.setTime(new Date());
+        now.set(Calendar.HOUR_OF_DAY, 0);
+        now.set(Calendar.MINUTE, 0);
+        now.set(Calendar.SECOND, 0);
+        Date today = now.getTime();
+        
+        int compare = today.compareTo(dat);
+        return compare;
+    }
+    
+    public String[] getDates(){
+        List<Reservation> reservationList = reservationEjb.findBySummerhouse(summerhouse);
+        ArrayList<String> show = new ArrayList<String>();
+        Date first;
+        Date last;
+        String toPut;
+        SimpleDateFormat oneDayFormat = new SimpleDateFormat("M-d-yyyy");//6-6-2016
+        SimpleDateFormat twoDayFormat = new SimpleDateFormat("M-dd-yyyy"); //6-12-2016
+        
+        for (int i=0; i<reservationList.size(); i++){
+            first = reservationList.get(i).getStartDate();
+            last = reservationList.get(i).getEndDate();
+            long diff = Math.abs(last.getTime() - first.getTime());
+            int diffDays = (int) diff / (24 * 60 * 60 * 1000);
+            System.out.println("Gautas skirtumas ***** "+diffDays);
+            
+            Calendar now = Calendar.getInstance();
+            now.setTime(first);
+            now.set(Calendar.HOUR_OF_DAY, 0);
+            now.set(Calendar.MINUTE, 0);
+            now.set(Calendar.SECOND, 0);
+            Date data = now.getTime();
+            int mark = this.checkDayType(now);
+            if (mark == 0) toPut = oneDayFormat.format(data);
+            else toPut = twoDayFormat.format(data);
+            show.add(toPut);
+            System.out.println("Duomuo -------- "+toPut);
+            for (int j=0; j<diffDays; j++){
+                now.add(Calendar.DATE, 1);
+                data = now.getTime();
+                mark = this.checkDayType(now);
+                if (mark == 0) toPut = oneDayFormat.format(data);
+                else toPut = twoDayFormat.format(data);
+                show.add(toPut);
+                System.out.println("Duomuo -------- "+toPut);
+            }
+        }
+        int lenght = show.size();
+        String[] result = new String[lenght];
+        for (int i=0; i<lenght; i++)
+        {
+            result[i]=show.get(i);
+        }
+        return result;
+    }
+    
+    public String toJavascriptArray(){
+        String[] arr = this.getDates();
+        StringBuffer sb = new StringBuffer();
+        sb.append("[");
+        for(int i=0; i<arr.length; i++){
+            sb.append("\"").append(arr[i]).append("\"");
+            if(i+1 < arr.length){
+                sb.append(",");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+    
+    public int checkDayType(Calendar date){
+        int day = date.get(Calendar.DAY_OF_MONTH);
+        if (day < 10) return 0;
+        else return 1;
+    }
 }

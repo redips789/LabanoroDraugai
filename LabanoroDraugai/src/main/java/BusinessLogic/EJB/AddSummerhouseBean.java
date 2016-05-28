@@ -13,6 +13,7 @@ import DataAccess.JPA.Account;
 import DataAccess.JPA.Image;
 import DataAccess.JPA.Settings;
 import DataAccess.JPA.Summerhouse;
+import Messages.Message;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -43,11 +44,11 @@ public class AddSummerhouseBean implements Serializable {
 
     @Inject
     SummerhouseCRUD summerhouseCRUD;
-    
+
     private Summerhouse summerhouse;
-    
+
     private UploadedFile file;
-    
+
     @Inject
     ImageCRUD imagesEjb;
 
@@ -56,17 +57,28 @@ public class AddSummerhouseBean implements Serializable {
         summerhouse = new Summerhouse();
     }
 
-    public String saveSummerhouse (){
+    public String saveSummerhouse() {
         try {
             //account.setPhotoBlob(IOUtils.toByteArray(this.file.getInputstream()));
-            Image image = new Image();
-            image.setContent(IOUtils.toByteArray(this.file.getInputstream()));
-            Integer imageId = imagesEjb.addImage(image);
-            summerhouse.setPhotoImageid(image);
+            System.out.println("Summerhouse pavadinimas : " +summerhouse.getTitle());
+            if (summerhouse.getValidityStart().after(summerhouse.getValidityEnd())) {
+                
+                Message.addErrorMessage("Kvaily, datas geras nurodyk");
+            } else if (summerhouseCRUD.findByTitle(summerhouse.getTitle())!= null){
+                
+                Message.addErrorMessage("Vasarnamis su tokiu pavadinimu jau egzistuoja");
+            } else{
+                Image image = new Image();
+                image.setContent(IOUtils.toByteArray(this.file.getInputstream()));
+                Integer imageId = imagesEjb.addImage(image);
+                summerhouse.setPhotoImageid(image);
+                summerhouseCRUD.addSummerhouse(summerhouse);
+                Message.addSuccessMessage("Vasarnamis sėkmingai išsaugotas");
+            }
         } catch (IOException ex) {
             Logger.getLogger(AddSummerhouseBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        summerhouseCRUD.addSummerhouse(summerhouse);
+
         return "summerhouse";
     }
 

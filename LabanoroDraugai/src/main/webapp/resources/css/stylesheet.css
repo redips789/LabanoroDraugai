@@ -129,6 +129,10 @@ body {
     float: inside;
 }
 
+.align-on-left{
+    float: left;
+}
+
 .edit-profile-button-width{
     width: 150px;
 }

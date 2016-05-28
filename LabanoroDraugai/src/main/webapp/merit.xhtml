@@ -29,8 +29,8 @@
 
                     <p:growl id="msgs" showDetail="true" />
                     <p:dataTable id="basicDT" var="account" value="#{accountBean.accountList}" rows="10" paginator="true"
-                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                                 rowsPerPageTemplate="15" style="text-align: center">
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15" style="text-align: center">
 
                         <p:column headerText="Vardas Pavardė">
                             <h:outputText value="#{account.firstName} #{account.lastName}" />
@@ -47,7 +47,7 @@
                             <h:outputText value="#{account.city}" />
                         </p:column>
                         <p:column style="width:60px">
-                            <p:commandButton id="thistableid"  update=":form:accountDetail" oncomplete="PF('accountDialog').show()" icon="fa fa-trophy" title="Peržiūrėti">
+                            <p:commandButton id="thistableid"  update=":form:accountDetail" oncomplete="PF('accountDialog').show()" icon="fa fa-trophy" title="Skirti">
                                 <f:setPropertyActionListener value="#{account}" target="#{accountBean.selectedAccount}" />
                             </p:commandButton>
                         </p:column>
@@ -63,14 +63,15 @@
                                         <p:outputLabel value="Skiriamas taškų skaičius:"/>
                                         <p:inputText id="numberOfPoints" value="#{meritBean.points}" size="30" required="true" validatorMessage="Įrašykite taškų skaičių" requiredMessage="Įrašykite tel. nr." onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="8" label="numberOfPoints"/>   
                                         <p:message for="numberOfPoints" display="icon" />
+                                        
 
                                         <p:outputLabel value="Nuopelnas:" />
-                                        <p:inputTextarea id="description" rows="10" cols="30" value="#{meritBean.merit}" counter="display" required="true" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
-                                        <p:message for="description" display="icon" />
+                                        <p:inputTextarea id="meritas" rows="10" cols="32" value="#{meritBean.description}" counter="display" required="false" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
+                                        <p:message for="meritas" display="icon" />
                                         <p:outputLabel value=" "/>
                                         <h:outputText id="display" />
                                         <p:outputLabel value=" "/>
-                                        <p:outputLabel value=" "/>
+
 
                                         <p:commandButton class="edit-profile-button-width" type="submit" ajax="false" value="Skirti" id="withIcon" action="#{meritBean.sendReward()}" validateClient="true" icon="ui-icon-disk" >
                                             <f:param name ="accId" value="#{accountBean.selectedAccount.id}"/>

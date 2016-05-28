@@ -13,6 +13,7 @@ import javax.inject.Named;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.enterprise.context.SessionScoped;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -118,14 +119,18 @@ public class LoginBean implements Serializable {
     }
 
     public String getParams() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        Map map = context.getExternalContext().getRequestParameterMap();
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+
+        Map map = facesContext.getExternalContext().getRequestParameterMap();
         fbid = (String) map.get("id");
         accesstoken = (String) map.get("accesstoken");
         signedrequest = (String) map.get("signedrequest");
         expiresin = (String) map.get("expiresin");
         if (loginAuthBean.accountExistBoolean(fbid)) {
             Account acc = loginAuthBean.findAccount(fbid);
+            session.setAttribute("status", acc.getStatus());
+            session.setAttribute("account", acc);
             id = acc.getId();
             redirecdedPage = "home?faces-redirect=true";
         } else {
