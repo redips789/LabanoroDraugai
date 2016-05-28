@@ -37,6 +37,9 @@ public class LoginFilter implements Filter {
 
         String reqURI = request.getRequestURI();
         String loginURL = request.getContextPath() + "/login.xhtml";
+        String stripePaymentURI = request.getContextPath() + "/stripePayment.xhtml";
+        String pageNotFoundURL = request.getContextPath() + "/pageNotFound.xhtml";
+        String pageNotAccesibleURL = request.getContextPath() + "/pageNotAccesible.xhtml";
         String logoutURI = request.getContextPath() + "/logout.xhtml";
         String addSummerhouseURI = request.getContextPath() + "/addSummerhouse.xhtml";
         String editSummerhouseURI = request.getContextPath() + "/editSummerhouse.xhtml";
@@ -57,10 +60,13 @@ public class LoginFilter implements Filter {
         String reservationURI = request.getContextPath() + "/reservation.xhtml";
         String summerhouseURI = request.getContextPath() + "/summerhouse.xhtml";
         String summerhouseMoreDetailsURI = request.getContextPath() + "/summerhouseMoreDetails.xhtml";
+        String homeURL = request.getContextPath() + "/home.xhtml";
         int indexOfPay = request.getRequestURI().indexOf("payMembershipFee");
+        int indexOfRes = request.getRequestURI().indexOf("resources");
 
         boolean loggedIn = (session != null);//&& (session.getAttribute("account") != null);
         boolean loginRequest = request.getRequestURI().equals(loginURL);
+        boolean homeRequest = request.getRequestURI().equals(homeURL);
         boolean logoutRequest = request.getRequestURI().equals(logoutURI);
         boolean resourceRequest = request.getRequestURI().startsWith(request.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER + "/");
         boolean ajaxRequest = "partial/ajax".equals(request.getHeader("Faces-Request"));
@@ -83,10 +89,13 @@ public class LoginFilter implements Filter {
         boolean reservationRequest = request.getRequestURI().equals(reservationURI);
         boolean summerhouseRequest = request.getRequestURI().equals(summerhouseURI);
         boolean summerhouseMoreDetailsRequest = request.getRequestURI().equals(summerhouseMoreDetailsURI);
+        boolean pageNotFoundRequest = request.getRequestURI().equals(pageNotFoundURL);
+        boolean pageNotAccesibleRequest = request.getRequestURI().equals(pageNotAccesibleURL);
+        boolean stripePaymentRequest = request.getRequestURI().equals(stripePaymentURI);
         boolean admin = false;
         boolean candidate = false;
         boolean member = false;
-        boolean button = false;
+        boolean button = true;
         boolean account = false;
 
         if (session != null && session.getAttribute("status") != null) {
@@ -99,14 +108,13 @@ public class LoginFilter implements Filter {
 
         }
 
-        if (session != null && session.getAttribute("mygtukas") != null) {
-            button = (boolean) session.getAttribute("mygtukas");
-        }
-
+//        if (session != null && session.getAttribute("mygtukas") != null) {
+//            button = (boolean) session.getAttribute("mygtukas");
+//        }
         if ((loggedIn || loginRequest || resourceRequest) && !logoutRequest && !addSummerhouseRequest && !editSummerhouseRequest
                 && !removeSummerhouseRequest && !deleteMemberRequest && !meritRequest && !editRegistrationFormRequest
                 && !editSettingsRequest && !memberReviewRequest && !mySummerhousesRequest && !payMembershipFeeRequest && !pointsRequest
-                && !reservationRequest && !summerhouseRequest && !summerhouseMoreDetailsRequest && indexOfPay == -1) {
+                && !reservationRequest && !summerhouseRequest && !summerhouseMoreDetailsRequest && indexOfPay == -1 && !stripePaymentRequest) {
             if (!resourceRequest) { // Prevent browser from caching restricted resources. See also http://stackoverflow.com/q/4194207/157882
                 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
                 response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
@@ -114,9 +122,15 @@ public class LoginFilter implements Filter {
             }
 
             if ((registrationRequest || registrationConfirmRequest) && (admin || candidate || member)) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                //response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                response.sendRedirect(pageNotAccesibleURL);
             }
-            chain.doFilter(request, response); // So, just continue request.
+            if (myProfileRequest || editProfileRequest || recommendationRequest || loginRequest || resourceRequest || homeRequest || indexOfRes != -1 || pageNotFoundRequest || pageNotAccesibleRequest) {
+                chain.doFilter(request, response);
+            } else {
+                response.sendRedirect(pageNotFoundURL);
+            }
+            //chain.doFilter(request, response); // So, just continue request.
         } else if (loggedIn && logoutRequest) {
             request.getSession().removeAttribute("loginBean");
             response.sendRedirect(loginURL);
@@ -127,15 +141,15 @@ public class LoginFilter implements Filter {
                 if (admin) {
                     chain.doFilter(request, response);
                 } else {
-                    response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                    response.sendRedirect(pageNotAccesibleURL);
                 }
             } else if (payMembershipFeeRequest && (admin || member) && button) {
                 chain.doFilter(request, response);
             } else if ((memberReviewRequest || mySummerhousesRequest || pointsRequest
-                    || reservationRequest || summerhouseRequest || summerhouseMoreDetailsRequest) && (admin || member)) {
+                    || reservationRequest || summerhouseRequest || summerhouseMoreDetailsRequest || stripePaymentRequest) && (admin || member)) {
                 chain.doFilter(request, response);
             } else {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                response.sendRedirect(pageNotFoundURL);
 
             }
         } else if (ajaxRequest) {
