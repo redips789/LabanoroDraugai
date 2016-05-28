@@ -32,8 +32,12 @@ public class SummerhouseCRUD {
     }
 
     public Summerhouse findByTitle(String title) {
-        Query query = em.createQuery("SELECT s FROM Summerhouse s WHERE s.title = :title").setParameter("title", title);
-        return (Summerhouse) query.getSingleResult();
+        try{
+        Summerhouse query = (Summerhouse)em.createQuery("SELECT s FROM Summerhouse s WHERE s.title = :title").setParameter("title", title).getSingleResult();
+                return query;
+        }catch(Exception e){
+            return null;
+        }
     }
 
     public List<Summerhouse> findByPrice(double priceFrom, double priceTo) {
