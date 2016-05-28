@@ -11,6 +11,7 @@ import DataAccess.EJB.SettingsCRUD;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Image;
 import DataAccess.JPA.Settings;
+import Messages.Message;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -42,19 +43,23 @@ public class EditSettingsBean implements Serializable {
 
     @Inject
     SettingsCRUD settingsEjb;
-    
+
     private Settings settings;
 
     @PostConstruct
     public void init() {
         settings = settingsEjb.findSettings();
-        if(settings == null){
+        if (settings == null) {
             settings = new Settings();
         }
     }
 
-    public String saveSettingsChanges (){
-        settingsEjb.updateSettings(settings);
+    public String saveSettingsChanges() {
+        if (settings.getAllReservation().after(settings.getCloseReservation())) {
+            Message.addErrorMessage("Visų rezervacijų data negali būti didesnė nei rezervacijų uždarymo datą");
+        }else{
+        Message.addSuccessMessage("Sėkmingai išsaugota");
+        settingsEjb.updateSettings(settings);}
         return "settings";
     }
 
@@ -65,6 +70,5 @@ public class EditSettingsBean implements Serializable {
     public void setSettings(Settings settings) {
         this.settings = settings;
     }
-    
-    
+
 }

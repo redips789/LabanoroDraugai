@@ -103,7 +103,9 @@ public class EditSummerhouseBean implements Serializable {
             String summerhouseTitle = params.get("title");
             Summerhouse sh = summerhouseCRUD.findByTitle(summerhouseTitle);
             summerhouseCRUD.deleteSummerhouse(sh);
+            Message.addSuccessMessage("Vasarnamis sėkmingai ištrintas");
         } catch (Exception ex) {
+             Message.addErrorMessage("Įvyko klaida!");
             return "summerhouse?faces-redirect=true";
         }
         return "summerhouse?faces-redirect=true";

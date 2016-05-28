@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -36,8 +37,13 @@ public class AccountBean {
     
     private Account account;
     
-    public List<Account> getAccountList() {
+    @PostConstruct
+    public void init() {
         this.loadAccounts();
+        this.accountList = this.getAccountList();        
+    }
+    
+    public List<Account> getAccountList() {
         return accountList;
     }
 
