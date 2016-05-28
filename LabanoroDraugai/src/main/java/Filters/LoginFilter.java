@@ -37,6 +37,7 @@ public class LoginFilter implements Filter {
 
         String reqURI = request.getRequestURI();
         String loginURL = request.getContextPath() + "/login.xhtml";
+        String stripePaymentURI = request.getContextPath() + "/stripePayment.xhtml";
         String pageNotFoundURL = request.getContextPath() + "/pageNotFound.xhtml";
         String pageNotAccesibleURL = request.getContextPath() + "/pageNotAccesible.xhtml";
         String logoutURI = request.getContextPath() + "/logout.xhtml";
@@ -90,6 +91,7 @@ public class LoginFilter implements Filter {
         boolean summerhouseMoreDetailsRequest = request.getRequestURI().equals(summerhouseMoreDetailsURI);
         boolean pageNotFoundRequest = request.getRequestURI().equals(pageNotFoundURL);
         boolean pageNotAccesibleRequest = request.getRequestURI().equals(pageNotAccesibleURL);
+        boolean stripePaymentRequest = request.getRequestURI().equals(stripePaymentURI);
         boolean admin = false;
         boolean candidate = false;
         boolean member = false;
@@ -112,7 +114,7 @@ public class LoginFilter implements Filter {
         if ((loggedIn || loginRequest || resourceRequest) && !logoutRequest && !addSummerhouseRequest && !editSummerhouseRequest
                 && !removeSummerhouseRequest && !deleteMemberRequest && !meritRequest && !editRegistrationFormRequest
                 && !editSettingsRequest && !memberReviewRequest && !mySummerhousesRequest && !payMembershipFeeRequest && !pointsRequest
-                && !reservationRequest && !summerhouseRequest && !summerhouseMoreDetailsRequest && indexOfPay == -1) {
+                && !reservationRequest && !summerhouseRequest && !summerhouseMoreDetailsRequest && indexOfPay == -1 && !stripePaymentRequest) {
             if (!resourceRequest) { // Prevent browser from caching restricted resources. See also http://stackoverflow.com/q/4194207/157882
                 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
                 response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
@@ -144,7 +146,7 @@ public class LoginFilter implements Filter {
             } else if (payMembershipFeeRequest && (admin || member) && button) {
                 chain.doFilter(request, response);
             } else if ((memberReviewRequest || mySummerhousesRequest || pointsRequest
-                    || reservationRequest || summerhouseRequest || summerhouseMoreDetailsRequest) && (admin || member)) {
+                    || reservationRequest || summerhouseRequest || summerhouseMoreDetailsRequest || stripePaymentRequest) && (admin || member)) {
                 chain.doFilter(request, response);
             } else {
                 response.sendRedirect(pageNotFoundURL);
