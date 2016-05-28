@@ -80,7 +80,7 @@ public class ReservationCRUD {
     
     public boolean existSimilarReservation(Summerhouse sumD, Date startDate, Date endDate) {
         try {
-            Query query = em.createQuery("SELECT r FROM Reservation r WHERE r.summerhouseId =:sumId AND (r.startDate <=:startDate AND r.endDate >=:startDate) or (r.startDate <=:endDate AND r.endDate >=:endDate)").setParameter("sumId", sumD).setParameter("startDate", startDate).setParameter("endDate", endDate);
+            Query query = em.createQuery("SELECT r FROM Reservation r WHERE r.summerhouseId =:sumId AND (r.startDate <=:startDate AND r.endDate >=:startDate) or r.summerhouseId =:sumId AND (r.startDate <=:endDate AND r.endDate >=:endDate)").setParameter("sumId", sumD).setParameter("startDate", startDate).setParameter("endDate", endDate);
             List<Reservation> reservations = (List<Reservation>) query.getResultList();
             System.out.println("TIKRINIMAS    *******  "+reservations.size());
             return !reservations.isEmpty();

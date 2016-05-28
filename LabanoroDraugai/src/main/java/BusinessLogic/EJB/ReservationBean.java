@@ -187,8 +187,6 @@ public class ReservationBean implements Serializable {
         System.out.println("Susikuriau reservation bean");
         account = accountEjb.findAccount(loginBean.getFbid());
         settings = settingsEjb.findSettings();
-         // cia reikia rasti pagal id is URL arba is summerhouseDetails egzemplioriaus - summerhouseDetails.getDetailedSummerhouse()
-//        summerhouse = summerhouseDetails.getDetailedSummerhouse(); // pirma karta kuriant beansa yra gera info, o po to ne
 
         summerhouse = summerhouseDetails.getDetailedSummerhouse(); // pirma karta kuriant beansa yra gera info, o po to ne
         System.out.println("OOOOOOO"+summerhouse.getTitle());
@@ -227,16 +225,18 @@ public class ReservationBean implements Serializable {
                 em.isOpen();
            
                 if (reservationEjb.existSimilarReservation(this.summerhouse, this.startDate, this.endDate) == false){
+                    if(!(this.endDate.after(this.summerhouseDetails.getDetailedSummerhouse().getValidityEnd()))){
                     Reservation reservation = new Reservation();
                     reservation.setAccountId(acc);
                     reservation.setVersion(0);
                     reservation.setSummerhouseId(this.summerhouse);
                     reservation.setStartDate(this.startDate);
                     reservation.setEndDate(this.endDate);
-                    reservation.setCost(this.summerhouse.getCost()*weeks); // jei bus daugiau savaiciu, nebus taip paprasta (PAPRASTA :D - Kristina)          
+                    reservation.setCost(this.summerhouse.getCost()*weeks); // jei bus daugiau savaiciu, nebus taip paprasta (PAPRASTA :D - Kristina). Daugint reik, sunku:D -Laura           
                     reservationEjb.insertReservation(reservation);
+                    System.out.println("********************************IRASO rezrvacija");
                     
-                    payForReservation(this.account, 7*weeks, this.summerhouse.getCost()*weeks); // 
+                    payForReservation(acc, 7*weeks, this.summerhouse.getCost()*weeks); // 
 
                     em.joinTransaction();
                     this.hideFirstDialog();
@@ -244,6 +244,10 @@ public class ReservationBean implements Serializable {
                     FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("interceptorAccount", accountEjb.findAccountById(loginBean.getId()));
                     FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sveikiname", "Rezervacija sėkmingai atlikta!");
                     RequestContext.getCurrentInstance().showMessageInDialog(message);
+                    }
+                    else{
+                        Message.addErrorMessage("Pasirinkite leidžiamą laikotarpį!");
+                    }
                 }
                 else  {
                     Message.addErrorMessage("Kažkas buvo greitesnis už Jus! Pakeiskite rezervacijos datas.");

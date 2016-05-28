@@ -120,7 +120,7 @@
                                                 <p:outputLabel value="Kiek savaičių:" />
                                                 <p:spinner id="minMax" 
                                                            value="#{reservationBean.weeks}" 
-                                                           min="0" 
+                                                           min="1" 
                                                            max="30" 
                                                            size="10"/>                                                            
 
@@ -158,7 +158,7 @@
                                 </div>
                             </p:dialog> 
 
-                            <p:dialog header="Rezervacija" 
+                            <p:dialog header="Pasitikrinkite rezervacijos informaciją" 
                                       widgetVar="second"                         
                                       modal="true"  
                                       height="500" 
@@ -174,9 +174,6 @@
                                     <div id="profile-wrapper">
                                         <div id="profile-container">
                                             <h:panelGrid columns="1" columnClasses="column" cellpadding="1">
-                                                <p:outputLabel value="Pasitikrinkite rezervacijos informaciją" />
-
-                                                <p:spacer height="10" />
                                                 <h:panelGrid columns="2" columnClasses="column" cellpadding="11">
                                                     <p:outputLabel value="Pavadinimas: " />
                                                     <p:outputLabel value="#{summerhouseDetails.detailedSummerhouse.title}" /> 
@@ -196,7 +193,10 @@
 
                                                     <p:outputLabel value="Kaina už savaitę:" />
                                                     <p:outputLabel value="#{summerhouseDetails.detailedSummerhouse.cost}" /> 
-
+                                                    
+                                                    <p:outputLabel value="Galutinė kaina:" />
+                                                    <p:outputLabel value="#{summerhouseDetails.detailedSummerhouse.cost*reservationBean.weeks}"/> 
+                                                    
                                             </h:panelGrid>
                                                 <p:spacer height="30" />
                                                 <p:outputLabel value="Rezervacija bus baigta, kai sumokėsite už ją!" />
@@ -214,7 +214,6 @@
                                                                      update="cal"/>
                                                     <p:outputLabel value="" />                                        
                                                 </h:panelGrid>
-                                                <p:spacer height="40" />
                                             </h:panelGrid>
                                         </div>
                                     </div>
