@@ -34,12 +34,7 @@ public class LoginFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         HttpSession session = request.getSession(false);
-        //boolean admin = FacesContext.getCurrentInstance().getExternalContext().//isUserInRole("Administatorius");
-//        if (session != null) {
-//            String admin = session.getAttribute("status").toString();
-//        }
-        //System.out.println(loginBean.getFbid());
-        //int a = loginBean.getId();
+
         String reqURI = request.getRequestURI();
         String loginURL = request.getContextPath() + "/login.xhtml";
         String logoutURI = request.getContextPath() + "/logout.xhtml";
@@ -50,8 +45,20 @@ public class LoginFilter implements Filter {
         String meritURI = request.getContextPath() + "/merit.xhtml";
         String editRegistrationFormURI = request.getContextPath() + "/editRegistrationForm.xhtml";
         String editSettingsURI = request.getContextPath() + "/settings.xhtml";
+        String recommendationURI = request.getContextPath() + "/recommendation.xhtml";
+        String myProfileURI = request.getContextPath() + "/myProfile.xhtml";
+        String editProfileURI = request.getContextPath() + "/editProfile.xhtml";
+        String payMembershipFeeURI = request.getContextPath() + "/payMembershipFee.xhtml";
+        String registrationURI = request.getContextPath() + "/registration.xhtml";
+        String memberReviewURI = request.getContextPath() + "/membersReview.xhtml";
+        String mySummerhousesURI = request.getContextPath() + "/mySummerhouses.xhtml";
+        String pointsURI = request.getContextPath() + "/points.xhtml";
+        String registrationConfirmURI = request.getContextPath() + "/registrationconfirm.xhtml";
+        String reservationURI = request.getContextPath() + "/reservation.xhtml";
+        String summerhouseURI = request.getContextPath() + "/summerhouse.xhtml";
+        String summerhouseMoreDetailsURI = request.getContextPath() + "/summerhouseMoreDetails.xhtml";
 
-        boolean loggedIn = (session != null);//&& (session.getAttribute("user") != null);
+        boolean loggedIn = (session != null);//&& (session.getAttribute("account") != null);
         boolean loginRequest = request.getRequestURI().equals(loginURL);
         boolean logoutRequest = request.getRequestURI().equals(logoutURI);
         boolean resourceRequest = request.getRequestURI().startsWith(request.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER + "/");
@@ -63,26 +70,50 @@ public class LoginFilter implements Filter {
         boolean meritRequest = request.getRequestURI().equals(meritURI);
         boolean editRegistrationFormRequest = request.getRequestURI().equals(editRegistrationFormURI);
         boolean editSettingsRequest = request.getRequestURI().equals(editSettingsURI);
+        boolean recommendationRequest = request.getRequestURI().equals(recommendationURI);
+        boolean myProfileRequest = request.getRequestURI().equals(myProfileURI);
+        boolean editProfileRequest = request.getRequestURI().equals(editProfileURI);
+        boolean payMembershipFeeRequest = request.getRequestURI().equals(payMembershipFeeURI);
+        boolean memberReviewRequest = request.getRequestURI().equals(memberReviewURI);
+        boolean mySummerhousesRequest = request.getRequestURI().equals(mySummerhousesURI);
+        boolean pointsRequest = request.getRequestURI().equals(pointsURI);
+        boolean registrationRequest = request.getRequestURI().equals(registrationURI);
+        boolean registrationConfirmRequest = request.getRequestURI().equals(registrationConfirmURI);
+        boolean reservationRequest = request.getRequestURI().equals(reservationURI);
+        boolean summerhouseRequest = request.getRequestURI().equals(summerhouseURI);
+        boolean summerhouseMoreDetailsRequest = request.getRequestURI().equals(summerhouseMoreDetailsURI);
         boolean admin = false;
         boolean candidate = false;
-        boolean active = false;
-        boolean notActive = false;
+        boolean member = false;
+        boolean button = false;
+        boolean account = false;
 
         if (session != null && session.getAttribute("status") != null) {
             admin = session.getAttribute("status").toString().equals("Administratorius");
             candidate = session.getAttribute("status").toString().equals("Kandidatas");
-            active = session.getAttribute("status").toString().equals("Aktyvus");
-            notActive = session.getAttribute("status").toString().equals("Neaktyvus");
+            member = session.getAttribute("status").toString().equals("Narys");
+            //button = (boolean) session.getAttribute("mygtukas");
+//            active = session.getAttribute("status").toString().equals("Aktyvus");
+//            notActive = session.getAttribute("status").toString().equals("Neaktyvus");
 
         }
 
+        if(session != null && session.getAttribute("mygtukas") != null){
+            button = (boolean) session.getAttribute("mygtukas");
+        }
+        
         if ((loggedIn || loginRequest || resourceRequest) && !logoutRequest && !addSummerhouseRequest && !editSummerhouseRequest
                 && !removeSummerhouseRequest && !deleteMemberRequest && !meritRequest && !editRegistrationFormRequest
-                && !editSettingsRequest) {
+                && !editSettingsRequest && !memberReviewRequest && !mySummerhousesRequest && !payMembershipFeeRequest && !pointsRequest
+                && !reservationRequest && !summerhouseRequest && !summerhouseMoreDetailsRequest) {
             if (!resourceRequest) { // Prevent browser from caching restricted resources. See also http://stackoverflow.com/q/4194207/157882
                 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
                 response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
                 response.setDateHeader("Expires", 0); // Proxies.
+            }
+            
+            if((registrationRequest || registrationConfirmRequest) && (admin || candidate || member)){
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
             chain.doFilter(request, response); // So, just continue request.
         } else if (loggedIn && logoutRequest) {
@@ -94,10 +125,20 @@ public class LoginFilter implements Filter {
                     || editSettingsRequest) {
                 if (admin) {
                     chain.doFilter(request, response);
-                }
-                else{
+                } else {
                     response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 }
+            }
+            if(payMembershipFeeRequest && (admin || member) && button){
+                chain.doFilter(request, response);
+            }
+            
+            if((memberReviewRequest && mySummerhousesRequest && payMembershipFeeRequest && pointsRequest
+                && reservationRequest && summerhouseRequest && summerhouseMoreDetailsRequest) && (admin || member)){
+                chain.doFilter(request, response);
+            }
+            else{
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
         } else if (ajaxRequest) {
             response.setContentType("text/xml");
