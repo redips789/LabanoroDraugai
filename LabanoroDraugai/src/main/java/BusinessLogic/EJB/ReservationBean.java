@@ -21,6 +21,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
 import javax.enterprise.context.Conversation;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -37,7 +38,7 @@ import org.primefaces.context.RequestContext;
  * @author Laurute
  */
 @Named 
-@ViewScoped
+@RequestScoped
 @Stateful
 public class ReservationBean implements Serializable {
     

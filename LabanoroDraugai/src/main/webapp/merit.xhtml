@@ -29,9 +29,11 @@
                 <div id="content-container">     
 
                     <p:growl id="msgs" showDetail="true" />
-                    <p:dataTable id="basicDT" var="account" value="#{accountBean.accountList}" rows="10" paginator="true"
-                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                         rowsPerPageTemplate="5,10,15" style="text-align: center">
+                    <p:dataTable id="basicDT" var="account" value="#{accountBean.accountList}" 
+                                 sortBy="#{account.lastName}"
+                                 rows="10" paginator="true"                      
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"                       
+                                 rowsPerPageTemplate="5,10,15" style="text-align: center">
 
                         <p:column headerText="Vardas Pavardė">
                             <h:outputText value="#{account.firstName} #{account.lastName}" />
