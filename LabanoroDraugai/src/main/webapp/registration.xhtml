@@ -235,7 +235,9 @@
 
                                     <p:row rendered="#{registrationBean.registrationForm.description}">
                                         <p:outputLabel value="Apie save:" />
-                                        <p:inputTextarea id="description" rows="10" cols="32" value="#{registrationBean.description}" counter="display" required="true" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
+                                        <p:outputPanel autoUpdate="true">
+                                        <p:inputTextarea id="description" rows="10" cols="30" value="#{registrationBean.description}" counter="display" required="true" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
+                                        </p:outputPanel>
                                         <p:message for="description" display="icon" />
                                         <p:outputLabel value=" "/>
                                         <h:outputText id="display" />
