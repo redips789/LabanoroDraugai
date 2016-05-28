@@ -118,41 +118,41 @@
             // Here we run a very simple test of the Graph API after login is
             // successful.  See statusChangeCallback() for when this call is made.
             function tryLogin() {
-                        FB.login(function (response) {
-                            if (checkLoginStatus(response))
+                FB.login(function (response) {
+                    if (checkLoginStatus(response))
+                    {
+
+                        var idF = response.authResponse.userID;
+                        var accesstokenF = response.authResponse.accessToken;
+                        var signedrequest = response.authResponse.signedRequest;
+                        var expiresin = response.authResponse.expiresIn;
+
+
+
+
+                        passToJSFManagedBean([{
+                                name: 'id',
+                                value: idF
+                            },
                             {
-
-                                var idF = response.authResponse.userID;
-                                var accesstokenF = response.authResponse.accessToken;
-                                var signedrequest = response.authResponse.signedRequest;
-                                var expiresin = response.authResponse.expiresIn;
-                                
-                                
-                                
-                                
-                                passToJSFManagedBean([{
-                                        name: 'id',
-                                        value: idF
-                                    },
-                                    {
-                                        name: 'accesstoken',
-                                        value: accesstokenF
-                                    },
-                                    {
-                                        name: 'signedrequest',
-                                        value: signedrequest
-                                    },
-                                    {
-                                        name: 'expiresin',
-                                        value: expiresin
-                                    }
-                                ]); 
-
-
+                                name: 'accesstoken',
+                                value: accesstokenF
+                            },
+                            {
+                                name: 'signedrequest',
+                                value: signedrequest
+                            },
+                            {
+                                name: 'expiresin',
+                                value: expiresin
                             }
-                        }, {scope: 'public_profile,email,user_birthday'});
+                        ]);
+
+
                     }
-                    
+                }, {scope: 'public_profile,email,user_birthday'});
+            }
+
             function tryLogOut() {
                 FB.getLoginStatus(function (response) {
                     if (checkLoginStatus(response))
@@ -179,11 +179,11 @@
             <div class ="full">
             <img src="http://static2.keep4u.ru/2014/09/08/9dcec0e5544abce2f0.jpg" class="image-responsive" alt="Responsive image"></img>
         </div>-->
-            <div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 vcenter">
-                <a class="btn btn-block btn-social btn-lg btn-facebook vcenter" onclick="tryLogin()">
-                    <span class="fa fa-facebook vcenter"></span> Prisijungti su facebook
-                </a>
-            </div>
+        <div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 vcenter">
+            <a class="btn btn-block btn-social btn-lg btn-facebook vcenter" onclick="tryLogin()">
+                <span class="fa fa-facebook vcenter"></span> Prisijungti su facebook
+            </a>
+        </div>
     </h:body>
 </html>
 

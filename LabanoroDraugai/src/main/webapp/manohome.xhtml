@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en"
-        xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
-    
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
     <h:head>
         <f:facet name="first">
             <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
@@ -15,26 +15,26 @@
     </h:head>
     <h:body>
         <h:form id="form">
-            
+
             <div id="page">
-            <div id="header-container">
-                <ui:include src="header.xhtml" />         
+                <div id="header-container">
+                    <ui:include src="header.xhtml" />         
+                </div>
+
+                <div id="menu-container">
+                    <ui:include src="menu.xhtml" />
+                </div>
+
+                <div id="content-container">
+
+                </div>
+
+                <div id="footer-container" >
+                    <ui:include src="footer.xhtml" />
+                </div>
+
             </div>
-                
-            <div id="menu-container">
-                <ui:include src="menu.xhtml" />
-            </div>
-            
-            <div id="content-container">
-                
-            </div>
-                       
-            <div id="footer-container" >
-                <ui:include src="footer.xhtml" />
-            </div>
-            
-        </div>
-        
+
         </h:form>
     </h:body>
 </html>

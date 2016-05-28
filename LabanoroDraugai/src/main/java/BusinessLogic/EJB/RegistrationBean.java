@@ -263,7 +263,8 @@ public class RegistrationBean implements Serializable {
         account.setStatus("Kandidatas");
         account.setVersion(0);
         account.setTimeSpentOnHoliday(0);
-
+        account.setReservedDays(0);
+        
         if (!"".equals(code)) {
             try {
                 String encrypted = Encryption.encrypt(code);

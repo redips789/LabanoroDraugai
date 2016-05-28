@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en"
-        xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
-    
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
     <h:head>
         <f:facet name="first">
             <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
@@ -16,47 +16,47 @@
     <h:body>
         <h:form id="form">
             <div id="page">
-            <div id="header-container">
-                <ui:include src="header.xhtml" />         
+                <div id="header-container">
+                    <ui:include src="header.xhtml" />         
+                </div>
+
+                <div id="menu-container">
+                    <ui:include src="menu.xhtml" />
+                </div>
+
+                <div id="content-container-rec">
+                    <div id="profile-wrapper">
+                        <div id="profile-container">
+                            <h:form>
+                                <p:messages id="messages" autoUpdate="true" closable="true" />
+                            </h:form>
+                            <p:spacer height="40" />
+
+                            <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="taskuLikutis">
+                                <p:outputLabel value="Jūsų taškų likutis:" />
+                                <p:inputText disabled="true" size="13" value="#{pointsBean.account.points}" style="text-align: center"/>
+                                <p:button value="Papildyti" class="edit-profile-button-width" outcome="testPayment.xhtml" />
+                            </h:panelGrid>    
+
+                            <p:spacer height="40" />
+
+                            <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="metinisMokestis">
+                                <p:outputLabel value="Metinis mokestis:" />
+                                <p:inputText disabled="true" size="13"  value="#{pointsBean.checkMembership()}" style="text-align: center"/>
+                                <p:commandButton value="Mokėti" ajax="false" class="edit-profile-button-width" action="#{pointsBean.startPaying()}" disabled="#{pointsBean.isFeeIsPaid()}"/>
+                            </h:panelGrid>
+
+                            <p:spacer height="60" />
+                        </div>
+                    </div>
+                </div>
+
+                <div id="footer-container" >
+                    <ui:include src="footer.xhtml" />
+                </div>
+
             </div>
-                
-            <div id="menu-container">
-                <ui:include src="menu.xhtml" />
-            </div>
-            
-            <div id="content-container-rec">
-                <div id="profile-wrapper">
-               <div id="profile-container">
-                <h:form>
-                    <p:messages id="messages" autoUpdate="true" closable="true" />
-                </h:form>
-                 <p:spacer height="40" />
-                 
-                    <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="taskuLikutis">
-                        <p:outputLabel value="Jūsų taškų likutis:" />
-                        <p:inputText disabled="true" size="13" value="#{pointsBean.account.points}" style="text-align: center"/>
-                        <p:button value="Papildyti" class="edit-profile-button-width" outcome="home.xhtml" />
-                    </h:panelGrid>    
-                
-                    <p:spacer height="40" />
-                
-                    <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="metinisMokestis">
-                        <p:outputLabel value="Metinis mokestis:" />
-                        <p:inputText disabled="true" size="13"  value="#{pointsBean.checkMembership()}" style="text-align: center"/>
-                        <p:commandButton value="Mokėti" ajax="false" class="edit-profile-button-width" action="#{pointsBean.startPaying()}" disabled="#{pointsBean.isFeeIsPaid()}"/>
-                    </h:panelGrid>
-                    
-                    <p:spacer height="60" />
-               </div>
-               </div>
-            </div>
-                       
-            <div id="footer-container" >
-                <ui:include src="footer.xhtml" />
-            </div>
-            
-        </div>
-        
+
         </h:form>
     </h:body>
 </html>

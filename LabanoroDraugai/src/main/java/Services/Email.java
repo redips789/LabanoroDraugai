@@ -85,7 +85,7 @@ public class Email {
     }
     
     public static void emailDeletedCandidate(String email){
-        String subject = "Lūdna žinutė";
+        String subject = "Dėmesio!";
         String msg = "Informuojame, jog nors Jūsų rekomendacijos buvo patvirtintos, tačiau dėl pasiekto maksimalaus klubo naudotojų skaičiaus, Jūsų negalime priimti į klubą.\n\n";
         msg = msg+"Labai apgailestaujame.\n";
         String body = createBody(msg);

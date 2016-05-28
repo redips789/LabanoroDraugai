@@ -7,6 +7,7 @@ import DataAccess.EJB.SummerhouseCRUD;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Reservation;
 import DataAccess.JPA.Summerhouse;
+import Messages.Message;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -48,7 +49,13 @@ public class MySummerhouses implements Serializable {
         myReservations = reservationCRUD.getByAccount(acc); 
     }
     public void cancelReservation(Reservation reservation){
+        try{
         cancelReservationBean.cancelReservation(reservation);
+        myReservations.remove(reservation);
+        }catch(Exception ex){
+            Message.addErrorMessage("Nesijaudinkite, bet įvyko klaida ir rezervacijos pašalinimas nebuvo atliktas. Bandykite dar kartą.");
+            System.out.println("--------------------cancelReservationFail-----------------------");
+        }
     }
 
     public LoginBean getLoginBean() {
