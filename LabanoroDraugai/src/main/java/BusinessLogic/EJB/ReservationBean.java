@@ -13,6 +13,7 @@ import DataAccess.JPA.Summerhouse;
 import Interceptors.Interceptable;
 import Messages.Message;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -80,6 +81,8 @@ public class ReservationBean implements Serializable {
     private boolean canReserve;
     
     private Summerhouse summerhouse;
+    
+    private String test;
     
     private List<Reservation> membersReservations = new ArrayList<>();
 
@@ -167,6 +170,14 @@ public class ReservationBean implements Serializable {
     public void setSummerhouse(Summerhouse summerhouse) {
         this.summerhouse = summerhouse;
     }
+
+    public String getTest() {
+        return test;
+    }
+
+    public void setTest(String test) {
+        this.test = test;
+    }
     
     
         //-business-//
@@ -183,6 +194,16 @@ public class ReservationBean implements Serializable {
         System.out.println("OOOOOOO"+summerhouse.getTitle());
         System.out.println("OOOOOOO"+summerhouse.getCost());
         
+        Calendar now = Calendar.getInstance();
+        now.setTime(new Date());
+        now.set(Calendar.HOUR_OF_DAY, 0);
+        now.set(Calendar.MINUTE, 0);
+        now.set(Calendar.SECOND, 0);
+        now.add(Calendar.DATE, 15);
+        Date today = now.getTime();
+        SimpleDateFormat sdfDate = new SimpleDateFormat("M-dd-yyyy");//dd/MM/yyyy
+        test = sdfDate.format(today);
+        System.out.println("testas    ---- "+ test);
     }
     
     public void findMembersOnSamePeriod() {
@@ -345,14 +366,69 @@ public class ReservationBean implements Serializable {
         return compare;
     }
     
-    public Date getDate(){
-        Calendar now = Calendar.getInstance();
-        now.setTime(new Date());
-        now.set(Calendar.HOUR_OF_DAY, 0);
-        now.set(Calendar.MINUTE, 0);
-        now.set(Calendar.SECOND, 0);
-        now.add(Calendar.DATE, 10);
-        Date today = now.getTime();
-        return today;
+    public String[] getDates(){
+        List<Reservation> reservationList = reservationEjb.findBySummerhouse(summerhouse);
+        ArrayList<String> show = new ArrayList<String>();
+        Date first;
+        Date last;
+        String toPut;
+        SimpleDateFormat oneDayFormat = new SimpleDateFormat("M-d-yyyy");//6-6-2016
+        SimpleDateFormat twoDayFormat = new SimpleDateFormat("M-dd-yyyy"); //6-12-2016
+        
+        for (int i=0; i<reservationList.size(); i++){
+            first = reservationList.get(i).getStartDate();
+            last = reservationList.get(i).getEndDate();
+            long diff = Math.abs(last.getTime() - first.getTime());
+            int diffDays = (int) diff / (24 * 60 * 60 * 1000);
+            System.out.println("Gautas skirtumas ***** "+diffDays);
+            
+            Calendar now = Calendar.getInstance();
+            now.setTime(first);
+            now.set(Calendar.HOUR_OF_DAY, 0);
+            now.set(Calendar.MINUTE, 0);
+            now.set(Calendar.SECOND, 0);
+            Date data = now.getTime();
+            int mark = this.checkDayType(now);
+            if (mark == 0) toPut = oneDayFormat.format(data);
+            else toPut = twoDayFormat.format(data);
+            show.add(toPut);
+            System.out.println("Duomuo -------- "+toPut);
+            for (int j=0; j<diffDays; j++){
+                now.add(Calendar.DATE, 1);
+                data = now.getTime();
+                mark = this.checkDayType(now);
+                if (mark == 0) toPut = oneDayFormat.format(data);
+                else toPut = twoDayFormat.format(data);
+                show.add(toPut);
+                System.out.println("Duomuo -------- "+toPut);
+            }
+        }
+        int lenght = show.size();
+        String[] result = new String[lenght];
+        for (int i=0; i<lenght; i++)
+        {
+            result[i]=show.get(i);
+        }
+        return result;
+    }
+    
+    public String toJavascriptArray(){
+        String[] arr = this.getDates();
+        StringBuffer sb = new StringBuffer();
+        sb.append("[");
+        for(int i=0; i<arr.length; i++){
+            sb.append("\"").append(arr[i]).append("\"");
+            if(i+1 < arr.length){
+                sb.append(",");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+    
+    public int checkDayType(Calendar date){
+        int day = date.get(Calendar.DAY_OF_MONTH);
+        if (day < 10) return 0;
+        else return 1;
     }
 }
