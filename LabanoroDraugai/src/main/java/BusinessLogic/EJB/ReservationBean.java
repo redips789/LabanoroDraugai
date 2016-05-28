@@ -184,13 +184,10 @@ public class ReservationBean implements Serializable {
     
     @PostConstruct
     public void init() {
-        System.out.println("Susikuriau reservation bean");
         account = accountEjb.findAccount(loginBean.getFbid());
         settings = settingsEjb.findSettings();
 
         summerhouse = summerhouseDetails.getDetailedSummerhouse(); // pirma karta kuriant beansa yra gera info, o po to ne
-        System.out.println("OOOOOOO"+summerhouse.getTitle());
-        System.out.println("OOOOOOO"+summerhouse.getCost());
         
         Calendar now = Calendar.getInstance();
         now.setTime(new Date());
