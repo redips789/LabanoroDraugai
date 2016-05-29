@@ -29,7 +29,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Settings.findByMaxUsers", query = "SELECT s FROM Settings s WHERE s.maxUsers = :maxUsers"),
     @NamedQuery(name = "Settings.findByFirstReservation", query = "SELECT s FROM Settings s WHERE s.firstReservation = :firstReservation"),
     @NamedQuery(name = "Settings.findBySecondReservation", query = "SELECT s FROM Settings s WHERE s.secondReservation = :secondReservation"),
-    @NamedQuery(name = "Settings.findByThirdReservation", query = "SELECT s FROM Settings s WHERE s.thirdReservation = :thirdReservation"),
     @NamedQuery(name = "Settings.findByAllReservation", query = "SELECT s FROM Settings s WHERE s.allReservation = :allReservation"),
     @NamedQuery(name = "Settings.findByCloseReservation", query = "SELECT s FROM Settings s WHERE s.closeReservation = :closeReservation"),
     @NamedQuery(name = "Settings.findByMaxReservationDays", query = "SELECT s FROM Settings s WHERE s.maxReservationDays = :maxReservationDays"),
@@ -52,8 +51,6 @@ public class Settings implements Serializable {
     private Integer firstGroupSize;
     @Column(name = "SECOND_GROUP_SIZE")
     private Integer secondGroupSize;
-    @Column(name = "THIRD_GROUP_SIZE")
-    private Integer thirdGroupSize;
 
     private static final long serialVersionUID = 1L;
     
@@ -267,14 +264,6 @@ public class Settings implements Serializable {
 
     public void setSecondGroupSize(Integer secondGroupSize) {
         this.secondGroupSize = secondGroupSize;
-    }
-
-    public Integer getThirdGroupSize() {
-        return thirdGroupSize;
-    }
-
-    public void setThirdGroupSize(Integer thirdGroupSize) {
-        this.thirdGroupSize = thirdGroupSize;
     }
 
     public String getStripePk() {
