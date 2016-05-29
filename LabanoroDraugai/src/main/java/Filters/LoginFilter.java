@@ -116,7 +116,7 @@ public class LoginFilter implements Filter {
         if ((loggedIn || loginRequest || resourceRequest) && !logoutRequest && !addSummerhouseRequest && !editSummerhouseRequest
                 && !removeSummerhouseRequest && !deleteMemberRequest && !meritRequest && !editRegistrationFormRequest
                 && !editSettingsRequest && !memberReviewRequest && !mySummerhousesRequest && !payMembershipFeeRequest && !pointsRequest
-                && !reservationRequest && !summerhouseRequest && !summerhouseMoreDetailsRequest && indexOfPay == -1 && !stripePaymentRequest 
+                && !reservationRequest && !summerhouseRequest && !summerhouseMoreDetailsRequest && indexOfPay == -1 && !stripePaymentRequest
                 && !summerhouseEditRequest) {
             if (!resourceRequest) { // Prevent browser from caching restricted resources. See also http://stackoverflow.com/q/4194207/157882
                 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.1
@@ -127,8 +127,9 @@ public class LoginFilter implements Filter {
             if ((registrationRequest || registrationConfirmRequest) && (admin || candidate || member)) {
                 //response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 response.sendRedirect(pageNotAccesibleURL);
-            }
-            if (myProfileRequest || editProfileRequest || recommendationRequest || loginRequest || resourceRequest || homeRequest || indexOfRes != -1 || pageNotFoundRequest || pageNotAccesibleRequest) {
+            } else if (myProfileRequest || editProfileRequest || recommendationRequest || loginRequest || resourceRequest || homeRequest || indexOfRes != -1 || pageNotFoundRequest || pageNotAccesibleRequest) {
+                chain.doFilter(request, response);
+            } else if (registrationRequest) {
                 chain.doFilter(request, response);
             } else {
                 response.sendRedirect(pageNotFoundURL);
