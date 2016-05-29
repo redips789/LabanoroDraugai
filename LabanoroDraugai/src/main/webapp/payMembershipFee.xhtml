@@ -27,31 +27,29 @@
                     <ui:include src="menu.xhtml" />
                 </div>
 
-                <h:form>
-                    <p:messages id="messages" autoUpdate="true" closable="true" />
-                </h:form>
-                <div id="profile-wrapper">
-                    <div id="profile-container">
+                <div id="content-container">
+                    <div class="panelGridCenter" style="width: 40%">
+                        <h:form>
+                            <p:messages id="messages" autoUpdate="true" closable="true" />
+                        </h:form>
+                    </div>
                         <p:spacer height="40" />
-                        <h:panelGrid columns="3" columnClasses="column" cellpadding="5" >
+                        <h:panelGrid styleClass="panelGridCenter" columns="2" columnClasses="column" cellpadding="20" >
                             <p:outputLabel value="Jūsų taškai:" />
                             <p:inputText id="name" value="#{pointsBean.account.points}" size="10" style="text-align: center" disabled="true"/>
-                            <p:spacer height="40" />
 
                             <p:outputLabel value="Mokėti:" />
                             <p:inputText id="lastname" value="#{pointsBean.price}" size="10" style="text-align: center" disabled="true"/>
-                            <p:spacer height="40" />
 
                             <p:outputLabel value="Likutis:" />
                             <p:inputText id="city" value="#{pointsBean.account.points-pointsBean.price}" size="10" style="text-align: center" disabled="true"/>
-                            <p:spacer height="40"  />
-
-
-                            <p:commandButton value="Atšaukti" class="edit-profile-button-width" action="#{pointsBean.goBack()}" />
-                            <p:commandButton class="edit-profile-button-width" type="submit" ajax="false" value="Mokėti" id="withIcon" action="#{pointsBean.payWithPoints()}" icon="ui-icon-disk" disabled="#{pointsBean.lackOfPoints}" />
-                            <p:spacer height="80"  />
+                            
                         </h:panelGrid>
-                    </div>     
+                        <p:spacer height="40"  />
+                        <h:panelGrid styleClass="panelGridCenter" columns="2" columnClasses="column" cellpadding="10" >
+                            <p:commandButton value="Atšaukti" class="edit-profile-button-width" action="#{pointsBean.goBack()}" />
+                            <p:commandButton class="edit-profile-button-width" type="submit" ajax="false" value="Mokėti" action="#{pointsBean.payWithPoints()}" disabled="#{pointsBean.lackOfPoints}" />
+                        </h:panelGrid>
                 </div>
 
                 <div id="footer-container" >

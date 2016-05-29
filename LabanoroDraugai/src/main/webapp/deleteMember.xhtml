@@ -52,10 +52,11 @@
                             <p:commandButton id="delete" 
                                              action="#{accountBean.deleteAccount(account)}" 
                                              icon="fa fa-user-times" 
+                                             title="Pašalinti klubo narį"
                                              ajax="true">
-                                <p:confirm header="Ištrinti vartotoją" 
-                                           message="Ar tikrai norite ištrinti vartotoją?" 
-                                           icon="ui-icon-alert"/>
+                                <p:confirm header="Patvirtinimas" 
+                                           message="Ar tikrai norite pašalinti klubo narį?" 
+                                           icon="fa fa-exclamation-triangle"/>
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>

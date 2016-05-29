@@ -62,11 +62,11 @@
                             </h:form>
 
                                     <h:panelGrid columns="3" columnClasses="column" cellpadding="0" >
-                                        <p:outputLabel value="Taškų kiekis:"/>
+                                        <p:outputLabel value="Taškų kiekis: "/>
                                         <p:inputText id="numberOfPoints" value="#{meritBean.points}" size="31" required="true" validatorMessage="Įrašykite taškų skaičių" requiredMessage="Įrašykite tel. nr." onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="8" label="numberOfPoints"/>   
                                         <p:message for="numberOfPoints" display="icon" />
                                         
-                                        <p:outputLabel value="Už ką:" />
+                                        <p:outputLabel value="Už ką: " />
                                         <p:inputTextarea id="meritas" rows="10" cols="32" value="#{meritBean.description}" counter="display" required="false" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
                                         <p:message for="meritas" display="icon" />
                                         <p:outputLabel value=" "/>

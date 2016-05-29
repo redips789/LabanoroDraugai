@@ -39,12 +39,9 @@
                             </p:outputPanel>
 
                             <h:panelGrid columns="2" columnClasses="column" cellpadding="5" >
-                                <p:outputLabel id="profile-column-2" value="#{editProfileBean.account.firstName}" />
-                                <p:outputLabel value="#{editProfileBean.account.lastName}"/>
-
-                                <p:outputLabel value="#{editProfileBean.account.city}"/>
-                                <p:outputLabel value=""/>
-
+                                <h3 style="text-align: center">#{editProfileBean.account.firstName} #{editProfileBean.account.lastName}</h3>
+                                <p:outputLabel value=" "/>
+                                
                                 <p:outputLabel value="Narys nuo: " />
                                 <p:outputLabel id="bday"  value="#{editProfileBean.account.memberSince}">
                                     <f:convertDateTime pattern="yyyy-MM-dd" />
@@ -60,14 +57,17 @@
 
                                 <p:outputLabel value="El. paštas: " class="icon-mail-alt"/>
                                 <p:outputLabel value="#{editProfileBean.account.email}"/>
+                                
+                                <p:outputLabel value="Gyvenamoji vieta: "/>
+                                <p:outputLabel value="#{editProfileBean.account.city}"/>
 
                                 <p:outputLabel value="Apie save:"  />
-                                <p:scrollPanel mode="native" class="profile-description">
+                                <p:scrollPanel mode="native" class="profile-description writeTextPadding">
                                     #{editProfileBean.account.description}
                                 </p:scrollPanel>
                             </h:panelGrid>
                             <div></div>
-                            <p:button value="Redaguoti"  outcome="editProfile.xhtml" class="align-on-right" />
+                            <p:button value="Redaguoti"  outcome="editProfile.xhtml" class="align-on-left" />
                         </h:panelGrid>
                     </div>     
                 </div>
