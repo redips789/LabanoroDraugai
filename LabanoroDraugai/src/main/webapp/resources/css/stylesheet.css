@@ -94,6 +94,9 @@ body {
     background-image: url(../img/Banner.jpg);
     font-size: 1.2em;
     color: whitesmoke;
+    position:absolute;
+    bottom:0;
+    width:100%;
 }
 
 #menu {
