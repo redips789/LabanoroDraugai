@@ -20,10 +20,9 @@ import static javax.persistence.SynchronizationType.UNSYNCHRONIZED;
  *
  * @author Liudas
  */
-
 @Stateless
 public class ServiceReservationCRUD {
-    
+
     @PersistenceContext(type = TRANSACTION, synchronization = UNSYNCHRONIZED)
     private EntityManager em;
 
@@ -32,9 +31,15 @@ public class ServiceReservationCRUD {
                 setParameter("acc", acc);
         return query.getResultList();
     }
-    
-     public void insertReservation (ServicesReservation reservation){
+
+    public void insertReservation(ServicesReservation reservation) {
         em.persist(reservation);
+        em.joinTransaction();
+        em.flush();
+    }
+
+    public void removeReservation(ServicesReservation reservation) {
+        em.remove(em.merge(reservation));
         em.joinTransaction();
         em.flush();
     }

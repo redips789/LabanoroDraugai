@@ -27,11 +27,17 @@
                 </div>
 
                 <div id="content-container">
+
+                    <h:form>
+                        <p:messages id="messages" autoUpdate="true" closable="true" />
+                    </h:form>
+
                     <p:dataTable id="basicDT" var="service" value="#{servicesBean.services}" rows="10"
                                  sortBy="#{service.cost}"
                                  paginator="true"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
+                                 emptyMessage="Paslaugų nėra"
                                  style="text-align: center">
 
                         <p:column headerText="Pavadinimas">
@@ -55,12 +61,10 @@
                         </p:column>
                         <p:column style="width:60px">
                             <p:commandButton icon="ui-icon-disk" 
-                                             value="Užsakyti" 
                                              type="submit" 
                                              update=":form:reservation"
                                              action="#{serviceReservationBean.showfirstDialog()}"
-                                             disabled="#{!serviceReservationBean.canReserveService()}" 
-                                             class="edit-profile-button-width">
+                                             disabled="#{!serviceReservationBean.canReserveService()}">
                                 <f:setPropertyActionListener value="#{service}" target="#{serviceReservationBean.service}" />
                             </p:commandButton>
                         </p:column>

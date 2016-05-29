@@ -27,6 +27,11 @@
                 </div>
 
                 <div id="content-container">
+
+                    <h:form>
+                        <p:messages id="messages" autoUpdate="true" closable="true" />
+                    </h:form>
+
                     <p:dataTable id="list" sortBy="#{reservation.startDate}" value="#{myServicesBean.myReservations}" var="reservation" emptyMessage="Rezervacijų nėra" >
                         <f:facet name="header">
                             Mano rezervuotos paslaugos
@@ -61,7 +66,15 @@
                         </p:column>
 
                         <p:column style="width:60px">
-
+                            <p:commandButton action="#{myServicesBean.cancelReservation(reservation)}" icon="fa fa-trash-o" title="Atšaukti užsakymą" update=":form:list" >
+                                <p:confirm header="Patvirtinimas" message="Ar tikrai norite atšaukti šios paslaugos užsakymą?" icon="fa fa-exclamation-triangle" />
+                            </p:commandButton>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                                <h:panelGrid columns="2" styleClass="panelGridCenter">
+                                    <p:commandButton style="width: 4em" value="Ne" styleClass="ui-confirmdialog-no" />
+                                    <p:commandButton style="width: 4em" value="Taip" styleClass="ui-confirmdialog-yes" />
+                                </h:panelGrid>
+                            </p:confirmDialog>
                         </p:column>
                     </p:dataTable>
 
