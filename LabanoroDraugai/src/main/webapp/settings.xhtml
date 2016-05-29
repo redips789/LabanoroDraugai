@@ -86,6 +86,14 @@
                         <p:inputText id="cancellationTime" value="#{editSettingsBean.settings.cancellationTime}" size="30" required="true" requiredMessage="Įrašykite atšaukimo laiką" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
                         <p:message for="cancellationTime" display="icon" />
 
+                        <p:outputLabel value="Stripe viešas raktas:" />
+                        <p:inputText id="stripePk" value="#{editSettingsBean.settings.stripePk}" size="30" required="true" requiredMessage="Įrašykite stripe viešą raktą" maxlength="29"/>
+                        <p:message for="stripePk" display="icon" />
+
+                        <p:outputLabel value="Stripe privatus raktas:" />
+                        <p:inputText id="stripeSk" value="#{editSettingsBean.settings.stripeSk}" size="30" required="true" requiredMessage="Įrašykite stripe privatų raktą" maxlength="29"/>
+                        <p:message for="stripeSk" display="icon" />
+
                         <p:outputLabel value="Praeitą sezoną atostogautų dienų limitas" styleClass="bold" />
                         <p:outputLabel value="" />
                         <p:outputLabel value="" />
