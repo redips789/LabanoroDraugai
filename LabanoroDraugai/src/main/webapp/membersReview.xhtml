@@ -63,9 +63,13 @@
                                 <div id="profile-container">
                                     <h:form>
                                         <h:panelGrid columns="2" columnClasses="column" cellpadding="15" >
-                                            <p:graphicImage value="#{imageStreamer.oneImage}" class="profile-image-container" >
+                                            <p:graphicImage value="#{imageStreamer.oneImage}" class="profile-image-container" rendered="#{accountBean.selectedAccount.renderDb}">
                                                 <f:param name="id" value="#{accountBean.selectedAccount.photoImageid.id}" />
                                             </p:graphicImage>
+
+                                            <p:outputPanel autoUpdate="true" rendered="#{accountBean.selectedAccount.renderFb}">
+                                                <p:graphicImage url="#{accountBean.selectedAccount.photo}"/>
+                                            </p:outputPanel>
 
                                             <h:panelGrid columns="2" columnClasses="column" cellpadding="5" >
                                                 <p:outputLabel id="profile-column-2" value="#{accountBean.selectedAccount.firstName}"/>
