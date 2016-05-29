@@ -163,103 +163,93 @@
                         <ui:include src="menu.xhtml" />
                     </h:panelGroup>
                 </div>
-
-
-
+                
                 <div id="content-container">
 
+                    <h:form id="registerForm" class="editProfile">
+                        <div class="panelGridCenter" style="width: 40%">
+                        <h:form>
+                            <p:messages id="messages" autoUpdate="true" closable="true" />
+                        </h:form>
+                        </div>
 
-                    <div id="profile-wrapper">
-                        <div id="profile-container">
-
-
-                            <h:form id="registerForm" class="editProfile">
-                                <p:messages id="messages" closable="true" />
-
-                                <p:outputPanel autoUpdate="true">
+                        <h:panelGrid class="panelGridCenter" columns="3" cellpadding="10">
+                            <h:panelGrid class="panelGridCenter" columns="1">
+                                <p:outputPanel  autoUpdate="true">
                                     <p:graphicImage url="#{registrationBean.picture}"   />
                                 </p:outputPanel>
+                            </h:panelGrid>
+                            <h:panelGrid styleClass="panelGridCenter" columns="1" columnClasses="column" cellpadding="5" id="test123">
+                                <p:row rendered="#{registrationBean.registrationForm.firstName}">
+                                    <p:outputLabel value="Vardas:" /> 
+                                    <p:outputPanel autoUpdate="true">
+                                        <p:inputText id="name" value="#{registrationBean.first_name}" size="30" required="true" requiredMessage="Įrašykite vardą" maxlength="29"/> 
+                                    </p:outputPanel>
+                                </p:row>
 
-                                <h:panelGrid columns="1" columnClasses="column" cellpadding="5" id="test123">
-                                    <p:row rendered="#{registrationBean.registrationForm.firstName}">
-                                        <p:outputLabel value="Vardas:" /> 
-                                        <p:outputPanel autoUpdate="true">
-                                            <p:inputText id="name" value="#{registrationBean.first_name}" size="30" required="true" requiredMessage="Įrašykite vardą" maxlength="29"/> 
-                                        </p:outputPanel>
-                                        <p:message for="name" display="icon" />
-                                    </p:row>
+                                <p:row rendered="#{registrationBean.registrationForm.lastName}">
+                                    <p:outputLabel value="Pavardė:" /> 
+                                    <p:outputPanel autoUpdate="true" >
+                                        <p:inputText id="lastname" value="#{registrationBean.last_name}" size="30" required="true" requiredMessage="Įrašykite pavardę" maxlength="29" />
+                                    </p:outputPanel>
+                                </p:row>
 
-                                    <p:row rendered="#{registrationBean.registrationForm.lastName}">
-                                        <p:outputLabel value="Pavardė:" /> 
-                                        <p:outputPanel autoUpdate="true" >
-                                            <p:inputText id="lastname" value="#{registrationBean.last_name}" size="30" required="true" requiredMessage="Įrašykite pavardę" maxlength="29" />
-                                        </p:outputPanel>
-                                        <p:message for="lastname" display="icon" />
-                                    </p:row>
+                                <p:row rendered="#{registrationBean.registrationForm.birthday}">
+                                    <p:outputLabel value="Gimimo data:" /> 
+                                    <p:outputPanel autoUpdate="true">
+                                        <p:calendar id="birthday" yearRange="c-100:c"  value="#{registrationBean.birthday}" size="30" requiredMessage="Įrašykite gimimo datą" locale="de" navigator="true" pattern="yyyy-MM-dd"/>
+                                    </p:outputPanel>
+                                </p:row>
 
-                                    <p:row rendered="#{registrationBean.registrationForm.birthday}">
-                                        <p:outputLabel value="Gimimo data:" /> 
-                                        <p:outputPanel autoUpdate="true">
-                                            <p:calendar id="birthday" yearRange="c-100:c"  value="#{registrationBean.birthday}" size="30" requiredMessage="Įrašykite gimimo datą" locale="de" navigator="true" pattern="yyyy-MM-dd"/>
-                                        </p:outputPanel>
-                                        <p:message for="birthday" display="icon" />
-                                    </p:row>
+                                <p:row rendered="#{registrationBean.registrationForm.city}">
+                                    <p:outputLabel value="Miestas:" />
+                                    <p:outputPanel autoUpdate="true">
+                                        <p:inputText id="city" value="#{registrationBean.city}" size="30" required="true" requiredMessage="Įrašykite miestą" maxlength="49"/>
+                                    </p:outputPanel>
+                                </p:row>
 
-                                    <p:row rendered="#{registrationBean.registrationForm.city}">
-                                        <p:outputLabel value="Miestas:" />
-                                        <p:outputPanel autoUpdate="true">
-                                            <p:inputText id="city" value="#{registrationBean.city}" size="30" required="true" requiredMessage="Įrašykite miestą" maxlength="49"/>
-                                        </p:outputPanel>
-                                        <p:message for="city" display="icon" />
-                                    </p:row>
+                                <p:row rendered="#{registrationBean.registrationForm.email}">
+                                    <p:outputLabel value="El. paštas:" />
+                                    <p:outputPanel autoUpdate="true">
+                                        <p:inputText id="email" value="#{registrationBean.email}" size="30" required="true" requiredMessage="Įrašykite el. paštą" validatorMessage="Įrašykite teisingą el. paštą" maxlength="49">
+                                            <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                        </p:inputText>
+                                    </p:outputPanel>
+                                </p:row>
 
-                                    <p:row rendered="#{registrationBean.registrationForm.email}">
-                                        <p:outputLabel value="El. paštas:" />
-                                        <p:outputPanel autoUpdate="true">
-                                            <p:inputText id="email" value="#{registrationBean.email}" size="30" required="true" requiredMessage="Įrašykite el. paštą" validatorMessage="Įrašykite teisingą el. paštą" maxlength="49">
-                                                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
-                                            </p:inputText>
-                                        </p:outputPanel>
-                                        <p:message for="email" display="icon" />
-                                    </p:row>
-
-                                    <p:row rendered="#{registrationBean.registrationForm.phone}">
-                                        <p:outputLabel value="Tel. nr.: (+370)"/>
-                                        <p:outputPanel autoUpdate="true">
-                                            <p:inputText id="phonenumber" value="#{registrationBean.phone}" size="30" required="true" validatorMessage="Įrašykite tel. nr. po (+370) kodo" requiredMessage="Įrašykite tel. nr." onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="8" label="phonenumber">
-                                                <f:validateLength minimum="8"  for="phonenumber"/>
-                                            </p:inputText>
-                                        </p:outputPanel>
-                                        <p:message for="phonenumber" display="icon" />
-                                    </p:row>
-
-                                    <p:row rendered="#{registrationBean.registrationForm.description}">
-                                        <p:outputLabel value="Apie save:" />
-                                        <p:outputPanel autoUpdate="true">
+                                <p:row rendered="#{registrationBean.registrationForm.phone}">
+                                    <p:outputLabel value="Tel. nr.: (+370)"/>
+                                    <p:outputPanel autoUpdate="true">
+                                        <p:inputText id="phonenumber" value="#{registrationBean.phone}" size="30" required="true" validatorMessage="Įrašykite tel. nr. po (+370) kodo" requiredMessage="Įrašykite tel. nr." onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="8" label="phonenumber">
+                                            <f:validateLength minimum="8"  for="phonenumber"/>
+                                        </p:inputText>
+                                    </p:outputPanel>
+                                </p:row>
+                            </h:panelGrid>
+                            <h:panelGrid>
+                                <p:row>
+                                    <p:outputLabel value="Pakvietimo kodas: "/>
+                                    <p:outputPanel autoUpdate="true">
+                                        <p:inputText id="code" value="#{registrationBean.code}" size="30" />
+                                    </p:outputPanel>
+                                    <p:outputLabel value=" "/>
+                                </p:row>
+                                <p:row rendered="#{registrationBean.registrationForm.description}">
+                                    <p:outputLabel value="Apie save:" />
+                                    <p:outputPanel autoUpdate="true">
                                         <p:inputTextarea id="description" rows="10" cols="30" value="#{registrationBean.description}" counter="display" required="true" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
-                                        </p:outputPanel>
-                                        <p:message for="description" display="icon" />
-                                        <p:outputLabel value=" "/>
-                                        <h:outputText id="display" />
-                                        <p:outputLabel value=" "/>
-                                    </p:row>
+                                    </p:outputPanel>
+                                    <p:outputLabel value=" "/>
+                                    <h:outputText id="display" />
+                                    <p:outputLabel value=" "/>
+                                </p:row>
 
-                                    <p:row>
-                                        <p:outputLabel value="Pakvietimo kodas: "/>
-                                        <p:outputPanel autoUpdate="true">
-                                            <p:inputText id="code" value="#{registrationBean.code}" size="30" />
-                                        </p:outputPanel>
-                                        <p:outputLabel value=" "/>
-                                    </p:row>
-
-                                    <p:row>
-                                        <p:commandButton styleClass="buttonRight" value="Registruotis" action="#{registrationBean.register()}" id="withIcon" type="submit" ajax="false" validateClient="true" icon="ui-icon-disk"/>
-                                    </p:row>
-                                </h:panelGrid>
-
-                            </h:form>
-                        </div>
-                    </div>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                        <p:row>
+                            <p:commandButton style="margin-top: 2em" styleClass="buttonCenter" value="Registruotis" action="#{registrationBean.register()}" type="submit" ajax="false" validateClient="true"/>
+                        </p:row>
+                    </h:form>
 
                 </div>
 
