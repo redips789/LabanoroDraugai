@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -40,12 +41,17 @@ import javax.persistence.Version;
     @NamedQuery(name = "Settings.findByVersion", query = "SELECT s FROM Settings s WHERE s.version = :version")})
 public class Settings implements Serializable {
 
+    @Size(max = 40)
+    @Column(name = "STRIPE_PK")
+    private String stripePk;
+    @Size(max = 40)
+    @Column(name = "STRIPE_SK")
+    private String stripeSk;
+
     @Column(name = "FIRST_GROUP_SIZE")
     private Integer firstGroupSize;
     @Column(name = "SECOND_GROUP_SIZE")
     private Integer secondGroupSize;
-    @Column(name = "THIRD_GROUP_SIZE")
-    private Integer thirdGroupSize;
 
     private static final long serialVersionUID = 1L;
     
@@ -261,12 +267,20 @@ public class Settings implements Serializable {
         this.secondGroupSize = secondGroupSize;
     }
 
-    public Integer getThirdGroupSize() {
-        return thirdGroupSize;
+    public String getStripePk() {
+        return stripePk;
     }
 
-    public void setThirdGroupSize(Integer thirdGroupSize) {
-        this.thirdGroupSize = thirdGroupSize;
+    public void setStripePk(String stripePk) {
+        this.stripePk = stripePk;
+    }
+
+    public String getStripeSk() {
+        return stripeSk;
+    }
+
+    public void setStripeSk(String stripeSk) {
+        this.stripeSk = stripeSk;
     }
 
 }

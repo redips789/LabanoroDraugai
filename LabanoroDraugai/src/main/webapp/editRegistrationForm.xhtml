@@ -25,52 +25,41 @@
                 <div id="menu-container">
                     <ui:include src="menu.xhtml" />
                 </div>
-                <div id="content-container-rec">
-                    <h:form>
-                        <p:messages id="messages" autoUpdate="true" closable="true" />
-                    </h:form>
-                    <div id="profile-wrapper">
-                        <div id="profile-container">
-                            <h:panelGrid columns="1" style="margin-bottom:10px">
-                                <h:outputText value="Pažymėkite laukus kurie turi būti registracijos formoje" />
-                                <h:outputText value="" />
-                            </h:panelGrid>
-                        </div>
+
+                <div id="content-container" >
+                    <div  class="panelGridCenter" style="width: 40%">
+                        <h:form >
+                            <p:messages id="messages" autoUpdate="true" closable="true" />
+                        </h:form>
                     </div>
-                    <div id="profile-wrapper">
-                        <div id="profile-container">
+                    <h3 style="text-align: center">Pažymėkite laukus, kurie turi būti registracijos formoje</h3>
 
-                            <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                    <h:panelGrid columns="2" styleClass="panelGridCenter" cellpadding="5">
 
+                        <h:outputText value="Vardas: " />
+                        <p:selectBooleanCheckbox value="#{editRegistrationFormBean.registrationForm.firstName}" />
 
-                                <h:outputText value="Vardas: " />
-                                <p:selectBooleanCheckbox value="#{editRegistrationFormBean.registrationForm.firstName}" />
+                        <h:outputText value="Pavardė: " />
+                        <p:selectBooleanCheckbox value="#{editRegistrationFormBean.registrationForm.lastName}" />
 
-                                <h:outputText value="Pavardė: " />
-                                <p:selectBooleanCheckbox value="#{editRegistrationFormBean.registrationForm.lastName}" />
+                        <h:outputText value="Miestas: " />
+                        <p:selectBooleanCheckbox value="#{editRegistrationFormBean.registrationForm.city}" />
 
-                                <h:outputText value="Miestas: " />
-                                <p:selectBooleanCheckbox value="#{editRegistrationFormBean.registrationForm.city}" />
+                        <h:outputText value="Gimtadienis: " />
+                        <p:selectBooleanCheckbox value="#{editRegistrationFormBean.registrationForm.birthday}" />
 
-                                <h:outputText value="Gimtadienis: " />
-                                <p:selectBooleanCheckbox value="#{editRegistrationFormBean.registrationForm.birthday}" />
+                        <h:outputText value="Tel nr.: " />
+                        <p:selectBooleanCheckbox value="#{editRegistrationFormBean.registrationForm.phone}" />
 
-                                <h:outputText value="Email: " />
-                                <p:selectBooleanCheckbox value="#{editRegistrationFormBean.registrationForm.email}" />
+                        <h:outputText value="Apie save: " />
+                        <p:selectBooleanCheckbox value="#{editRegistrationFormBean.registrationForm.description}" />
 
-                                <h:outputText value="Tel nr.: " />
-                                <p:selectBooleanCheckbox value="#{editRegistrationFormBean.registrationForm.phone}" />
+                    </h:panelGrid>
+                    <h:panelGrid columns="1" styleClass="panelGridCenter" cellpadding="15">
+                        <p:commandButton value="Išsaugoti" action="#{editRegistrationFormBean.saveRegistrationForm()}" ajax="true">
+                        </p:commandButton>
+                    </h:panelGrid>
 
-                                <h:outputText value="Apie save: " />
-                                <p:selectBooleanCheckbox value="#{editRegistrationFormBean.registrationForm.description}" />
-
-                                <p:commandButton value="Išsaugoti" action="#{editRegistrationFormBean.saveRegistrationForm()}" ajax="true">
-                                </p:commandButton>
-
-                            </h:panelGrid>
-
-                        </div>
-                    </div>
                 </div>
                 <div id="footer-container" >
                     <ui:include src="footer.xhtml" />

@@ -12,7 +12,6 @@
     </h:head>
     <h:body>            
         <div id="menu" style="color: red;"> 
-            <p:growl id="messages"/>
 
             <p:menubar>
                 <p:submenu  label="Vasarnamiai" rendered="#{accountBean.notCandidate}">
@@ -30,14 +29,10 @@
 
 
                 <p:submenu label="Nustatymai">
-                    <p:menuitem value="Paskyra" update="messages" action="myProfile?faces-redirect=true" ajax="false"/>
-                    <p:menuitem value="Mano taškai" update="messages" rendered="#{accountBean.notCandidate}" action="points?faces-redirect=true"/>
-                    <p:menuitem >
-                        <p:commandLink styleClass="ui-menuitem-link" action="#{loginBean.leaveForever()}" ajax="false">
-                            <p:outputLabel styleClass="ui-menuitem-icon ui-icon ui-icon-close" />
-                            <p:outputLabel styleClass="ui-menuitem-text" value="Išsiregistruoti" />
-                            <p:confirm header="Patvirtinimas" message="Ar tikrai norite išsiregistruoti?" icon="ui-icon-alert" />
-                        </p:commandLink>
+                    <p:menuitem value="Paskyra" action="myProfile?faces-redirect=true" ajax="false"/>
+                    <p:menuitem value="Mano taškai" rendered="#{accountBean.notCandidate}" action="points?faces-redirect=true"/>
+                    <p:menuitem value="Išsiregistruoti" action="#{loginBean.leaveForever()}" ajax="false" >
+                        <p:confirm header="Patvirtinimas" message="Ar tikrai norite išsiregistruoti?" icon="fa fa-exclamation-triangle" />
                     </p:menuitem>
                 </p:submenu>
 
@@ -50,20 +45,20 @@
                     <p:menuitem value="Klubo nariai" action="deleteMember?faces-redirect=true"/>
                     <p:menuitem value="Nuopelnai" action="merit?faces-redirect=true"/>
                     <p:menuitem value="Stojimo anketa" action="editRegistrationForm?faces-redirect=true"/>
-                    <p:menuitem value="Mokėjimai" disabled="true"/>
+                    <p:menuitem value="Mokėjimai" action="confirmPayments?faces-redirect=true"/>
                     <p:menuitem value="Nustatymai" action="settings?faces-redirect=true"/>
                 </p:submenu>
 
                 <f:facet name="options">
-                    <p:commandButton value="Atsijungti" icon="ui-icon-extlink" action="#{loginBean.logout()}"/>
+                    <p:commandButton title="Atsijungti" icon="fa fa-sign-out" action="#{loginBean.logout()}"/>
                 </f:facet>
             </p:menubar>
         </div>
         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" widgetVar="deleteDialog" >
-            <div>
-                <p:commandButton value="Taip" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onclick="deleteDialog.hide()" ajax="false" />
-                <p:commandButton value="Ne" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="deleteDialog.hide()" ajax="false" />
-            </div>
+            <h:panelGrid columns="2" styleClass="panelGridCenter">
+                <p:commandButton style="width: 4em" value="Ne" type="button" styleClass="ui-confirmdialog-no" onclick="deleteDialog.hide()" ajax="false" />
+                <p:commandButton style="width: 4em" value="Taip" type="button" styleClass="ui-confirmdialog-yes" onclick="deleteDialog.hide()" ajax="false" />
+            </h:panelGrid>
         </p:confirmDialog>
     </h:body>
 </html>

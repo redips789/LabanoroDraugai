@@ -25,31 +25,29 @@
                     <ui:include src="menu.xhtml" />
                 </div>
 
-                <div id="content-container-rec">
-                    <div id="profile-wrapper">
-                        <div id="profile-container">
-                            <h:form>
-                                <p:messages id="messages" autoUpdate="true" closable="true" />
-                            </h:form>
-                            <p:spacer height="40" />
-
-                            <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="taskuLikutis">
-                                <p:outputLabel value="Jūsų taškų likutis:" />
-                                <p:inputText disabled="true" size="13" value="#{pointsBean.account.points}" style="text-align: center"/>
-                                <p:button value="Papildyti" class="edit-profile-button-width" outcome="home.xhtml" />
-                            </h:panelGrid>    
-
-                            <p:spacer height="40" />
-
-                            <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="metinisMokestis">
-                                <p:outputLabel value="Metinis mokestis:" />
-                                <p:inputText disabled="true" size="13"  value="#{pointsBean.checkMembership()}" style="text-align: center"/>
-                                <p:commandButton value="Mokėti" ajax="false" class="edit-profile-button-width" action="#{pointsBean.startPaying()}" disabled="#{pointsBean.isFeeIsPaid()}"/>
-                            </h:panelGrid>
-
-                            <p:spacer height="60" />
-                        </div>
+                <div id="content-container">
+                    <div class="panelGridCenter" style="width: 40%">
+                        <h:form>
+                            <p:messages id="messages" autoUpdate="true" closable="true" />
+                        </h:form>
                     </div>
+                    <p:spacer height="40" />
+
+                    <h:panelGrid styleClass="panelGridCenter" columns="3" columnClasses="column" cellpadding="5" id="taskuLikutis">
+                        <p:outputLabel value="Jūsų taškų likutis:" />
+                        <p:inputText disabled="true" size="13" value="#{pointsBean.account.points}" style="text-align: center"/>
+                        <p:button value="Papildyti" class="edit-profile-button-width" outcome="stripePayment.xhtml" />
+                    </h:panelGrid>    
+
+                    <p:spacer height="40" />
+
+                    <h:panelGrid styleClass="panelGridCenter" columns="3" columnClasses="column" cellpadding="5" id="metinisMokestis">
+                        <p:outputLabel value="Metinis mokestis:" />
+                        <p:inputText disabled="true" size="13"  value="#{pointsBean.checkMembership()}" style="text-align: center"/>
+                        <p:commandButton value="Mokėti" ajax="false" class="edit-profile-button-width" action="#{pointsBean.startPaying()}" disabled="#{pointsBean.isFeeIsPaid()}"/>
+                    </h:panelGrid>
+
+                    <p:spacer height="60" />
                 </div>
 
                 <div id="footer-container" >

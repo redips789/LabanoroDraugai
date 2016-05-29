@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>Labanoro draugai</title>
+        </f:facet>
+        <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
+
+    </h:head>
+    <h:body>
+        <h:form id="form">     
+            <div id="page">
+                <div id="header-container">
+                    <ui:include src="header.xhtml" />         
+                </div>
+
+                <div id="menu-container">
+                    <ui:include src="menu.xhtml" />
+                </div>
+
+                <div id="content-container">
+                    <div id="profile-wrapper">
+                        <div id="profile-container">
+                            
+                            <h:form>
+                                <p:messages id="messages" autoUpdate="true" closable="true" />
+                            </h:form>
+
+                            <input type="hidden" name="setableValue" value=""/>
+                            <input type="hidden" name="superTesting" value="#{stripePaymentBean.stripePk}"/>
+
+                            <p:dataTable id="list" value="#{stripePaymentBean.feeList}" var="fee" emptyMessage="Nėra galimybės prikti taškų" >
+                                <f:facet name="header">
+                                    Taškų pirkimas
+                                </f:facet>
+                                
+                                <p:column headerText="Taškai">
+                                    <h:outputText id="ha" value="#{fee.points}" /> 
+                                    <input type="hidden" name="#{fee.id}points" value="#{fee.points}"/>
+                                </p:column>
+
+                                <p:column headerText="Kaina">
+                                    <h:outputText id="haha" value="#{fee.amount} €" />
+                                    <input type="hidden" name="#{fee.id}amount" value="#{fee.amount}"/>
+                                </p:column>
+
+                                <p:column headerText="Aprašymas">
+                                    <h:outputText id="hahaha" value="#{fee.description}" />
+                                    <input type="hidden" name="#{fee.id}description" value="#{fee.description}"/>
+                                </p:column>
+
+                                <p:column style="width:60px">
+                                    <script src="https://checkout.stripe.com/checkout.js"></script>
+                                    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+                                    <script type ="text/javascript">
+                                        var handler = StripeCheckout.configure({
+                                            key: document.getElementsByName("superTesting")[0].value,
+                                            locale: 'auto',
+                                            token: function (token) {
+                                                var feeID = document.getElementsByName("setableValue")[0].value;
+                                                passToJSFManagedBean([
+                                                    {
+                                                        name: 'stripeToken',
+                                                        value: token.id
+                                                    },
+                                                    {
+                                                        name: 'feeID',
+                                                        value: feeID
+                                                    }
+                                                ]);
+                                                // You can access the token ID with `token.id`.
+                                                // Get the token ID to your server-side code for use.
+                                            }
+                                        });
+
+                                        function tryPay(fee) {
+                                            var amount = document.getElementsByName(fee+"amount")[0].value *100;
+                                            var pointss  = document.getElementsByName(fee+"points")[0].value;
+                                            document.getElementsByName("setableValue")[0].value = fee;
+                                            handler.open({
+                                                name: 'Labanoro draugai',
+                                                description: ' Perkami taškai: '+pointss,
+                                                amount: amount
+                                            });
+                                        }
+
+                                        // Close Checkout on page navigation:
+                                        $(window).on('popstate', function () {
+                                            handler.close();
+                                        });
+                                    </script>
+                                        <p:remoteCommand name="passToJSFManagedBean" id="passToJSFManagedBeancmd"
+                                                         action="#{stripePaymentBean.chargeCard}" />  
+                                        <p:commandButton id="customButton" onclick="tryPay(#{fee.id})" icon="ui-icon-cart"/>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="footer-container" >
+                    <ui:include src="footer.xhtml" />
+                </div>
+            </div>    
+        </h:form> 
+    </h:body>
+</html>
+

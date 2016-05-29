@@ -1,4 +1,3 @@
-
 package DataAccess.JPA;
 
 import java.io.Serializable;
@@ -27,7 +26,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Liudas 
+ * @author Liudas
  */
 @Entity
 @Table(name = "ACCOUNT")
@@ -73,83 +72,105 @@ public class Account implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    
+
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "EMAIL")
     private String email;
-    
+
     @Size(max = 30)
     @Column(name = "FIRST_NAME")
     private String firstName;
-    
+
     @Size(max = 30)
     @Column(name = "LAST_NAME")
     private String lastName;
-    
+
     @Column(name = "NEXT_PAYMENT")
     @Temporal(TemporalType.DATE)
     private Date nextPayment;
-    
+
     @Column(name = "DATE_OF_BIRTH")
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
-    
+
     @Size(max = 20)
     @Column(name = "PHONE_NUM")
     private String phoneNum;
-    
+
     @Size(max = 20)
     @Column(name = "STATUS")
     private String status;
-    
+
     @Column(name = "POINTS")
     private Integer points;
-    
+
     @Column(name = "TIME_SPENT_ON_HOLIDAY")
     private Integer timeSpentOnHoliday;
-    
+
     @Size(max = 50)
     @Column(name = "CITY")
     private String city;
-    
+
     @Size(max = 250)
     @Column(name = "DESCRIPTION")
     private String description;
-    
+
     @Size(max = 254)
     @Column(name = "PHOTO")
     private String photo;
-    
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "FACEBOOKID")
     private String facebookid;
-    
+
     @Version
     @Column(name = "VERSION")
     private Integer version;
-    
+
     @Column(name = "MEMBER_SINCE")
     @Temporal(TemporalType.DATE)
     private Date memberSince;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "inviterAccountid")
     private List<Invitation> invitationList;
-    
+
     @JoinColumn(name = "PHOTO_IMAGEID", referencedColumnName = "ID")
     @ManyToOne
     private Image photoImageid;
-    
+
     @Transient
     private int age;
+
+    @Transient
+    private boolean renderFb;
+
+    @Transient
+    private boolean renderDb;
 
     public Account() {
     }
 
+    public boolean isRenderFb() {
+        return renderFb;
+    }
+
+    public void setRenderFb(boolean renderFb) {
+        this.renderFb = renderFb;
+    }
+
+    public boolean isRenderDb() {
+        return renderDb;
+    }
+
+    public void setRenderDb(boolean renderDb) {
+        this.renderDb = renderDb;
+    }
+    
     public int getAge() {
         return age;
     }
@@ -157,9 +178,7 @@ public class Account implements Serializable {
     public void setAge(int age) {
         this.age = age;
     }
-    
-    
-    
+
     public Account(Integer id) {
         this.id = id;
     }
@@ -338,8 +357,6 @@ public class Account implements Serializable {
         }
         return true;
     }
-
-    
 
     @Override
     public String toString() {

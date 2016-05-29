@@ -7,6 +7,7 @@ package Alternatives;
 
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Settings;
+import Messages.Message;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -60,6 +61,10 @@ public class GroupByDays implements GroupDistribution, Serializable {
         int compare_begin = today.compareTo(reservationDay);
         int compare_end = today.compareTo(settings.getCloseReservation());
         canReserve = (compare_begin == 0 || compare_begin == 1) && (compare_end == 0 || compare_end == -1);
+        
+        if(!canReserve){
+            Message.addWarningMessage("Kol kas neatėjo Jūsų grupės rezervacijos laikas!");
+        }
         
         return canReserve; 
     }

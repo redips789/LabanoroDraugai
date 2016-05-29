@@ -21,6 +21,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
 import javax.enterprise.context.Conversation;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -37,7 +38,7 @@ import org.primefaces.context.RequestContext;
  * @author Laurute
  */
 @Named 
-@ViewScoped
+@RequestScoped
 @Stateful
 public class ReservationBean implements Serializable {
     
@@ -76,13 +77,11 @@ public class ReservationBean implements Serializable {
     
     private Date endDate;
     
-    private int weeks;
+    private int weeks = 1;
     
     private boolean canReserve;
     
     private Summerhouse summerhouse;
-    
-    private String test;
     
     private List<Reservation> membersReservations = new ArrayList<>();
 
@@ -169,16 +168,7 @@ public class ReservationBean implements Serializable {
 
     public void setSummerhouse(Summerhouse summerhouse) {
         this.summerhouse = summerhouse;
-    }
-
-    public String getTest() {
-        return test;
-    }
-
-    public void setTest(String test) {
-        this.test = test;
-    }
-    
+    }    
     
         //-business-//
     
@@ -186,19 +176,8 @@ public class ReservationBean implements Serializable {
     public void init() {
         account = accountEjb.findAccount(loginBean.getFbid());
         settings = settingsEjb.findSettings();
-
-        summerhouse = summerhouseDetails.getDetailedSummerhouse(); // pirma karta kuriant beansa yra gera info, o po to ne
-        
-        Calendar now = Calendar.getInstance();
-        now.setTime(new Date());
-        now.set(Calendar.HOUR_OF_DAY, 0);
-        now.set(Calendar.MINUTE, 0);
-        now.set(Calendar.SECOND, 0);
-        now.add(Calendar.DATE, 15);
-        Date today = now.getTime();
-        SimpleDateFormat sdfDate = new SimpleDateFormat("M-dd-yyyy");//dd/MM/yyyy
-        test = sdfDate.format(today);
-        System.out.println("testas    ---- "+ test);
+        canReserveSummerhouse();
+        summerhouse = summerhouseDetails.getDetailedSummerhouse(); 
     }
     
     public void findMembersOnSamePeriod() {
@@ -268,15 +247,19 @@ public class ReservationBean implements Serializable {
         this.account = em.merge(acc);
     }
     
-    public boolean canReserveSummerhouse(){
+    public void information(){
+         Message.addErrorMessage("Tik sumokėję metinį mokestį galėsite rezervuoti vasarnamį!");
+    }
+    
+    public void canReserveSummerhouse(){
         int isPaid = this.compareWithToday(accountEjb.findAccountById(loginBean.getId()).getNextPayment());
         if (isPaid == -1){
             this.setCanReserve(groupDistribution.canGroupReserve(account, settings));         
         }
         else {
+            Message.addWarningMessage("Tik sumokėję metinį mokestį galėsite rezervuoti vasarnamį!"); // reik string metodo
             this.setCanReserve(false);
         }
-        return this.isCanReserve();
     }
     
     public void canGoDeeperReservation(){

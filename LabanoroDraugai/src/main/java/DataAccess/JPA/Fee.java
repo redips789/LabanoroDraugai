@@ -35,6 +35,9 @@ import javax.validation.constraints.Size;
 
 public class Fee implements Serializable {
 
+    @Column(name = "POINTS")
+    private Integer points;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -126,7 +129,7 @@ public class Fee implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 17 * hash + Objects.hashCode(this.title);
+        hash = 17 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -142,7 +145,7 @@ public class Fee implements Serializable {
             return false;
         }
         final Fee other = (Fee) obj;
-        if (!Objects.equals(this.title, other.title)) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -150,9 +153,19 @@ public class Fee implements Serializable {
 
     
 
+    
+
     @Override
     public String toString() {
         return "DataAccess.JPA.Fee[ id=" + id + " ]";
+    }
+
+    public Integer getPoints() {
+        return points;
+    }
+
+    public void setPoints(Integer points) {
+        this.points = points;
     }
 
 }

@@ -45,6 +45,9 @@ public class LogInterceptor implements Serializable {
     @PersistenceContext(type=PersistenceContextType.TRANSACTION, synchronization=SynchronizationType.UNSYNCHRONIZED) 
     EntityManager ac;
     
+    @PersistenceContext
+    private EntityManager em;
+    
     private void addPayment(Payment payment){
         ac.persist(payment);
     }
@@ -92,6 +95,13 @@ public class LogInterceptor implements Serializable {
             }
         }catch(Exception ex){
             System.out.println("-----------************-----33333333--------************----------******");
+            System.out.println(ex.getMessage());
+            try{
+            em.persist(payment);
+            }catch(Exception ex2){
+                System.out.println("-----------************-----NZN KA DARYT--------************----------******");
+                System.out.println(ex2.getMessage());
+            }
         }
         System.out.println("SimpleInterceptor - Logging AFTER calling method :"+context.getMethod().getName() );
         return result;
