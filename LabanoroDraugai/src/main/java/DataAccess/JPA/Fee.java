@@ -28,7 +28,6 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Fee.findAll", query = "SELECT f FROM Fee f"),
     @NamedQuery(name = "Fee.findById", query = "SELECT f FROM Fee f WHERE f.id = :id"),
-    @NamedQuery(name = "Fee.findByTitle", query = "SELECT f FROM Fee f WHERE f.title = :title"),
     @NamedQuery(name = "Fee.findByAmount", query = "SELECT f FROM Fee f WHERE f.amount = :amount"),
     @NamedQuery(name = "Fee.findByDescription", query = "SELECT f FROM Fee f WHERE f.description = :description"),
     @NamedQuery(name = "Fee.findByVersion", query = "SELECT f FROM Fee f WHERE f.version = :version")})
@@ -44,13 +43,6 @@ public class Fee implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 30)
-    @Column(name = "TITLE")
-    private String title;
-    
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "AMOUNT")
     private Double amount;
@@ -73,10 +65,6 @@ public class Fee implements Serializable {
         this.id = id;
     }
 
-    public Fee(Integer id, String title) {
-        this.id = id;
-        this.title = title;
-    }
 
     public Integer getId() {
         return id;
@@ -86,13 +74,6 @@ public class Fee implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public Double getAmount() {
         return amount;

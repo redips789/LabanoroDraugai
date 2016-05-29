@@ -38,4 +38,12 @@ public class FeeCRUD {
         Query query = em.createQuery("SELECT s FROM Fee s");
         return (List<Fee>) query.getResultList();
     }
+    
+    public void removeFee(Fee fee){
+        em.remove(em.merge(fee));
+    }
+    
+    public void addFee(Fee fee){
+        em.persist(fee);
+    }
 }

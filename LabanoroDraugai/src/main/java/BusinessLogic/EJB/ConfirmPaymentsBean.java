@@ -85,4 +85,26 @@ public class ConfirmPaymentsBean {
             System.out.println("Nepaima user arba fee iš duomenu bazes");
         }
     }
+    
+    @Interceptable
+    public void cancelPayment(int feeid){
+        try{
+        PaidFees paidFee = paidFeesCRUD.findPaidFeesById(feeid);
+        Fee fee = paidFee.getFee();
+        try{
+            paidFeesCRUD.deletePaidFees(paidFee);
+            feeList.remove(paidFee);
+            em.joinTransaction();
+            em.flush();
+            Account account = accountCRUD.findAccount(loginBean.getFbid());
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("interceptorAccount", account);
+            Message.addSuccessMessage("Patvirtinimas sėkmingas");
+        }catch(Exception ex2){
+            Message.addErrorMessage("Įvyko klaida įrašant duomenis į duomenų bazę. Bandykite dar kartą");
+        }
+        }catch(Exception ex1){
+            Message.addErrorMessage("Įvyko klaida nuskaitant duomenis iš duomenų bazės. Bandykite dar kartą");
+            System.out.println("Nepaima user arba fee iš duomenu bazes");
+        }
+    }
 }
