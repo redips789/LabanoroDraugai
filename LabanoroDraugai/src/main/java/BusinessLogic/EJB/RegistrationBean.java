@@ -217,7 +217,7 @@ public class RegistrationBean implements Serializable {
         try {
             bday = (String) map.get("birthday");
             DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-            DateFormat dateFormatNeeded = new SimpleDateFormat("yyyy-MMM-dd");
+            DateFormat dateFormatNeeded = new SimpleDateFormat("yyyy-MM-dd");
             Date b = sdf.parse(bday);
             String tempdate = dateFormatNeeded.format(b);
             birthday = dateFormatNeeded.parse(tempdate);
