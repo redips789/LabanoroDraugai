@@ -51,6 +51,12 @@ import javax.validation.constraints.Size;
 
 public class Account implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId")
+    private List<Messages> messagesList;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId")
+    private List<ServicesReservation> servicesReservationList;
+
     @Column(name = "RESERVED_DAYS")
     private Integer reservedDays;
 
@@ -398,6 +404,22 @@ public class Account implements Serializable {
 
     public void setReservedDays(Integer reservedDays) {
         this.reservedDays = reservedDays;
+    }
+
+    public List<ServicesReservation> getServicesReservationList() {
+        return servicesReservationList;
+    }
+
+    public void setServicesReservationList(List<ServicesReservation> servicesReservationList) {
+        this.servicesReservationList = servicesReservationList;
+    }
+
+    public List<Messages> getMessagesList() {
+        return messagesList;
+    }
+
+    public void setMessagesList(List<Messages> messagesList) {
+        this.messagesList = messagesList;
     }
 
 }

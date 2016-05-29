@@ -27,15 +27,14 @@
                 </div>
 
                 <div id="content-container">
-                    <div id="profile-wrapper">
-                        <div id="profile-container">
+                    
                             <h:form>
                                 <p:messages id="messages" autoUpdate="true" closable="true" />
                             </h:form>
 
                             <p:dataTable id="list" value="#{confirmPaymentsBean.feeList}" var="paidFees" emptyMessage="Mokėjimų nėra" >
                                 <f:facet name="header">
-                                    Mano rezervuoti vasarnamiai
+                                    Esami mokėjimai
                                 </f:facet>
 
                                 <p:column headerText="Vardas">
@@ -69,7 +68,7 @@
 
                                 </p:column>
 
-                                <p:column style="width:60px">
+                                <p:column style="width:60px" headerText="Patvirtinti mokėjimą">
                                     <p:commandButton action="#{confirmPaymentsBean.confirmPayment(paidFees.id)}" icon="ui-icon-check" title="Mokėti" update="list" >
                                         <p:confirm header="Patvirtinimas" message="Ar tikrai norite patvirtinti šį mokėjimą?" icon="ui-icon-alert" />
                                     </p:commandButton>
@@ -78,9 +77,18 @@
                                             <p:commandButton title="Mokėti" value="Ne" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                                     </p:confirmDialog>
                                 </p:column>
+                                
+                                <p:column style="width:60px" headerText="Atmesti mokėjimą">
+                                    <p:commandButton action="#{confirmPaymentsBean.cancelPayment(paidFees.id)}" icon="fa fa-trash-o" title="Atšaukti" update="list" >
+                                        <p:confirm header="Patvirtinimas" message="Ar tikrai norite nepatvirtinti šio mokėjimo?" icon="ui-icon-alert" />
+                                    </p:commandButton>
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                            <p:commandButton title="Mokėti" value="Taip" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  />
+                                            <p:commandButton title="Mokėti" value="Ne" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </p:confirmDialog>
+                                </p:column>
                             </p:dataTable>
-                        </div>
-                    </div>
+
                 </div>
 
 

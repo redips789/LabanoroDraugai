@@ -18,10 +18,19 @@
                     <p:menuitem value="Mano rezervuoti" outcome="mySummerhouses" />
                     <p:menuitem value="Visi" outcome="summerhouse" />
                 </p:submenu>
+                
+                <p:submenu  label="Paslaugos" rendered="#{accountBean.notCandidate}">
+                    <p:menuitem value="Mano rezervuotos" outcome="myServices" />
+                    <p:menuitem value="Visos" outcome="services" />
+                </p:submenu>
 
                 <p:menuitem value="Klubo nariai" outcome="membersReview" rendered="#{accountBean.notCandidate}"/>
                 <p:menuitem value="Rekomendacijos" outcome="recommendation"/>
-
+                
+                <p:submenu  label="Skelbimai" rendered="#{accountBean.notCandidate}">
+                    <p:menuitem value="Pridėti skelbimą" action="addMessage?faces-redirect=true" />
+                    <p:menuitem value="Pašalinti skelbimą" action="removeMessage?faces-redirect=true" rendered="#{accountBean.admin}" />
+                </p:submenu>
 
                 <p:submenu label="Nustatymai">
                     <p:menuitem value="Paskyra" action="myProfile?faces-redirect=true" ajax="false"/>
@@ -40,7 +49,10 @@
                     <p:menuitem value="Klubo nariai" action="deleteMember?faces-redirect=true"/>
                     <p:menuitem value="Nuopelnai" action="merit?faces-redirect=true"/>
                     <p:menuitem value="Stojimo anketa" action="editRegistrationForm?faces-redirect=true"/>
-                    <p:menuitem value="Mokėjimai" action="confirmPayments?faces-redirect=true"/>
+                    <p:submenu label="Mokėjimai" >
+                        <p:menuitem value="Pridėti / Pašalinti" action="addPayments?faces-redirect=true"/>
+                        <p:menuitem value="Patvirtinti" action="confirmPayments?faces-redirect=true" />
+                    </p:submenu>
                     <p:menuitem value="Nustatymai" action="settings?faces-redirect=true"/>
                 </p:submenu>
 

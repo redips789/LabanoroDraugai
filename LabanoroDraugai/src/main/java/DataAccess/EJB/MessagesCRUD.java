@@ -5,7 +5,7 @@
  */
 package DataAccess.EJB;
 
-import DataAccess.JPA.Fee;
+import DataAccess.JPA.Messages;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -17,16 +17,16 @@ import javax.persistence.Query;
  * @author darbas
  */
 @Stateless
-public class FeeCRUD {
+public class MessagesCRUD {
     
     @PersistenceContext
     private EntityManager em;
     
     
-    public Fee findFee(int feeId){
+    public Messages findMessages(int messageId){
         try {
-            Fee fee = (Fee) em.createNamedQuery("Fee.findById").setParameter("id", feeId).getResultList().get(0);
-            return fee;
+            Messages messages = (Messages) em.createNamedQuery("Messages.findById").setParameter("id", messageId).getResultList().get(0);
+            return messages;
         } catch (Exception e) {
             return null;
         }
@@ -34,16 +34,16 @@ public class FeeCRUD {
     
     
     
-    public List<Fee> findAllFees() {
-        Query query = em.createQuery("SELECT s FROM Fee s");
-        return (List<Fee>) query.getResultList();
+    public List<Messages> findAllMessages() {
+        Query query = em.createQuery("SELECT s FROM Messages s");
+        return (List<Messages>) query.getResultList();
     }
     
-    public void removeFee(Fee fee){
-        em.remove(em.merge(fee));
+    public void removeMessages(Messages messages){
+        em.remove(em.merge(messages));
     }
     
-    public void addFee(Fee fee){
-        em.persist(fee);
+    public void addMessages(Messages messages){
+        em.persist(messages);
     }
 }

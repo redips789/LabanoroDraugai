@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <link rel="shortcut icon" href="resources/img/favicon.ico"/>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>Labanoro draugai</title>
+        </f:facet>
+        <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body>
+        <h:form id="form">     
+            <div id="page">
+                <div id="header-container">
+                    <ui:include src="header.xhtml" />         
+                </div>
+
+                <div id="menu-container">
+                    <ui:include src="menu.xhtml" />
+                </div>
+
+                <div id="content-container">
+                    
+                            <h:form>
+                                <p:messages id="messages" autoUpdate="true" closable="true" />
+                            </h:form>
+
+                            <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="testt456">
+
+                                    <p:outputLabel value="Kaina:" /> 
+                                    <p:inputText id="lastname" value="#{addRemovePaymentsBean.amount}" size="30" required="true" requiredMessage="Įrašykite kainą" maxlength="29" />
+                                    <p:message for="lastname" display="icon" />
+
+
+
+                                    <p:outputLabel value="Taškai:" />
+                                    <p:inputText id="city" value="#{addRemovePaymentsBean.points}" size="30" required="true" requiredMessage="Įrašykite taškus" maxlength="49"/>
+                                    <p:message for="city" display="icon" />
+
+
+
+                                    <p:outputLabel value="Aprašymas:" />
+                                    <p:inputTextarea id="description" rows="10" cols="20" value="#{addRemovePaymentsBean.description}" counter="display" required="true" requiredMessage="Įrašykite apibūdinimą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
+                                    <p:message for="description" display="icon" />
+                                    <p:outputLabel value=" "/>
+                                    <h:outputText id="display" />
+                                    <p:outputLabel value=" "/>
+
+
+
+                                    <p:commandButton styleClass="buttonRight" value="Išsaugoti mokestį" action="#{addRemovePaymentsBean.addFee()}" id="withIcon" type="submit" ajax="false" validateClient="true" icon="ui-icon-disk" update="list"/>
+
+                            </h:panelGrid>
+
+                            <p:dataTable id="list" value="#{addRemovePaymentsBean.feeList}" var="fee" emptyMessage="Mokėjimų nėra" >
+                                <f:facet name="header">
+                                    Mokėjimai
+                                </f:facet>
+
+                                <p:column headerText="Kaina:">
+                                    <h:outputText value="#{fee.amount} €" />
+                                </p:column>
+
+                                <p:column headerText="Taškai:">
+                                    <h:outputText value="#{fee.points}" />
+                                </p:column>
+
+                                <p:column headerText="Aprašymas:">
+                                    <h:outputText value="#{fee.description}" />
+                                </p:column>
+
+                                <p:column style="width:60px" headerText="Pašalinti mokėjimą">
+                                    <p:commandButton action="#{addRemovePaymentsBean.removeFee(fee.id)}" icon="fa fa-trash-o" title="Pašalinti" update="list" >
+                                        <p:confirm header="Patvirtinimas" message="Ar tikrai norite pašalinti šį mokėjimą?" icon="ui-icon-alert" />
+                                    </p:commandButton>
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <p:commandButton title="Pašalinti" value="Taip" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  />
+                                        <p:commandButton title="Pašalinti" value="Ne" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </p:confirmDialog>
+                                </p:column>
+
+                            </p:dataTable>
+                </div>
+
+
+                <div id="footer-container" >
+                    <ui:include src="footer.xhtml" />
+                </div>
+            </div>    
+        </h:form> 
+    </h:body>   
+</html>
+

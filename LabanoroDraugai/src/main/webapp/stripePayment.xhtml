@@ -26,8 +26,7 @@
                 </div>
 
                 <div id="content-container">
-                    <div id="profile-wrapper">
-                        <div id="profile-container">
+                    
                             
                             <h:form>
                                 <p:messages id="messages" autoUpdate="true" closable="true" />
@@ -56,7 +55,7 @@
                                     <input type="hidden" name="#{fee.id}description" value="#{fee.description}"/>
                                 </p:column>
 
-                                <p:column style="width:60px">
+                                <p:column style="width:60px" headerText="Mokėti">
                                     <script src="https://checkout.stripe.com/checkout.js"></script>
                                     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
                                     <script type ="text/javascript">
@@ -101,8 +100,7 @@
                                         <p:commandButton id="customButton" onclick="tryPay(#{fee.id})" icon="ui-icon-cart"/>
                                 </p:column>
                             </p:dataTable>
-                        </div>
-                    </div>
+
                 </div>
 
 

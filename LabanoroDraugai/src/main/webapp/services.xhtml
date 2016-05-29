@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <link rel="shortcut icon" href="resources/img/favicon.ico"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>Labanoro draugai</title>
+        </f:facet>
+        <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <h:form id="form">
+
+            <div id="page">
+                <div id="header-container">
+                    <ui:include src="header.xhtml" />         
+                </div>
+
+                <div id="menu-container">
+                    <ui:include src="menu.xhtml" />
+                </div>
+
+                <div id="content-container">
+
+                    <p:dataTable id="basicDT" var="service" value="#{servicesBean.services}" rows="10"
+                                 sortBy="#{service.cost}"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 emptyMessage="Paslaugų nėra"
+                                 style="text-align: center">
+
+                        <p:column headerText="Pavadinimas">
+                            <h:outputText value="#{service.title}" />
+                        </p:column>
+                        <p:column headerText="Aprašymas">
+                            <h:outputText value="#{service.description}"/>
+                        </p:column>
+                        <p:column headerText="Dienos kaina (Eur.)">
+                            <h:outputText value="#{service.cost}" />
+                        </p:column>
+                        <p:column headerText="Galima nuo">
+                            <h:outputText value="#{service.validityStart}">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>      
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Galima iki">
+                            <h:outputText value="#{service.validityEnd}">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>      
+                            </h:outputText>
+                        </p:column>
+                        <p:column style="width:60px">
+                            <p:commandButton icon="ui-icon-disk" 
+                                             type="submit" 
+                                             update=":form:reservation"
+                                             action="#{serviceReservationBean.showfirstDialog()}"
+                                             disabled="#{!serviceReservationBean.canReserveService()}">
+                                <f:setPropertyActionListener value="#{service}" target="#{serviceReservationBean.service}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:dialog header="Rezervacija" 
+                              class="reservation-dialog"
+                              id="reservation"
+                              widgetVar="first" 
+                              modal="true" 
+                              height="500" 
+                              width="700" 
+                              closable="false" 
+                              resizable="false">
+
+                        <h:form>
+                            <p:messages id="messages" autoUpdate="true" closable="true" />
+                        </h:form>
+
+                        <div id="profile-wrapper">
+                            <div id="profile-container">
+                                <h:panelGrid columns="1" columnClasses="column" cellpadding="1">
+                                    <p:spacer height="10" />
+                                    <p:outputLabel value="#{serviceReservationBean.service.title}"/>
+                                    <p:outputLabel value="Nurodykite rezervacijos laikotarpį" />
+                                    <h:panelGrid columns="2" columnClasses="column" cellpadding="11">
+                                        <p:outputLabel value="Nuo:" />
+                                        <p:calendar id="from" 
+                                                    value="#{serviceReservationBean.reservation.startDate}"
+                                                    mindate="#{serviceReservationBean.service.validityStart}"
+                                                    maxdate="#{serviceReservationBean.service.validityEnd}"
+                                                    size="11"/>
+                                        <p:outputLabel value="Iki:" />
+                                        <p:calendar id="to" 
+                                                    value="#{serviceReservationBean.reservation.endDate}"
+                                                    mindate="#{serviceReservationBean.service.validityStart}"
+                                                    maxdate="#{serviceReservationBean.service.validityEnd}"
+                                                    size="11"/>
+
+                                        <p:outputLabel value="Nurodykite pastabas (Pvz. Paslaugų ar žmonių kiekį)" /> 
+                                        <p:inputTextarea id="note" rows="5" cols="30" value="#{serviceReservationBean.reservation.note}" counter="display" maxlength="50" counterTemplate="Liko simbolių: {0}"/>
+                                        <p:message for="note" display="icon" />
+                                        <h:outputText id="display" />
+
+                                        <p:commandButton class="edit-profile-button-width" 
+                                                         value="Atšaukti" 
+                                                         type="submit" 
+                                                         icon="ui-icon-cancel"
+                                                         action="#{serviceReservationBean.hideFirstDialog()}"/>
+                                        <p:commandButton class="edit-profile-button-width" 
+                                                         type="submit" 
+                                                         value="Užsakyti" 
+                                                         icon="ui-icon-disk" 
+                                                         action="#{serviceReservationBean.saveReservation()}"/>
+
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                            </div>
+                        </div>
+                    </p:dialog>
+
+
+                </div>
+
+                <div id="footer-container" >
+                    <ui:include src="footer.xhtml" />
+                </div>
+
+            </div>
+
+        </h:form>
+
+    </h:body>
+</html>
+
