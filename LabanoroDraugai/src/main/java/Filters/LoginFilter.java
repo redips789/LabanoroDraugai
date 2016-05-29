@@ -60,6 +60,7 @@ public class LoginFilter implements Filter {
         String reservationURI = request.getContextPath() + "/reservation.xhtml";
         String summerhouseURI = request.getContextPath() + "/summerhouse.xhtml";
         String summerhouseMoreDetailsURI = request.getContextPath() + "/summerhouseMoreDetails.xhtml";
+        String summerhouseEditURI = request.getContextPath() + "/summerhouseEdit.xhtml";
         String homeURL = request.getContextPath() + "/home.xhtml";
         int indexOfPay = request.getRequestURI().indexOf("payMembershipFee");
         int indexOfRes = request.getRequestURI().indexOf("resources");
@@ -92,6 +93,7 @@ public class LoginFilter implements Filter {
         boolean pageNotFoundRequest = request.getRequestURI().equals(pageNotFoundURL);
         boolean pageNotAccesibleRequest = request.getRequestURI().equals(pageNotAccesibleURL);
         boolean stripePaymentRequest = request.getRequestURI().equals(stripePaymentURI);
+        boolean summerhouseEditRequest = request.getRequestURI().equals(summerhouseEditURI);
         boolean admin = false;
         boolean candidate = false;
         boolean member = false;
@@ -114,9 +116,10 @@ public class LoginFilter implements Filter {
         if ((loggedIn || loginRequest || resourceRequest) && !logoutRequest && !addSummerhouseRequest && !editSummerhouseRequest
                 && !removeSummerhouseRequest && !deleteMemberRequest && !meritRequest && !editRegistrationFormRequest
                 && !editSettingsRequest && !memberReviewRequest && !mySummerhousesRequest && !payMembershipFeeRequest && !pointsRequest
-                && !reservationRequest && !summerhouseRequest && !summerhouseMoreDetailsRequest && indexOfPay == -1 && !stripePaymentRequest) {
+                && !reservationRequest && !summerhouseRequest && !summerhouseMoreDetailsRequest && indexOfPay == -1 && !stripePaymentRequest 
+                && !summerhouseEditRequest) {
             if (!resourceRequest) { // Prevent browser from caching restricted resources. See also http://stackoverflow.com/q/4194207/157882
-                response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+                response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.1
                 response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
                 response.setDateHeader("Expires", 0); // Proxies.
             }
@@ -137,7 +140,7 @@ public class LoginFilter implements Filter {
         } else if (loggedIn) {
             if (addSummerhouseRequest || editSummerhouseRequest
                     || removeSummerhouseRequest || deleteMemberRequest || meritRequest || editRegistrationFormRequest
-                    || editSettingsRequest) {
+                    || editSettingsRequest || summerhouseEditRequest) {
                 if (admin) {
                     chain.doFilter(request, response);
                 } else {

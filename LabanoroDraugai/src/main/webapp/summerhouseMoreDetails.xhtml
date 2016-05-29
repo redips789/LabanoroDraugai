@@ -72,10 +72,6 @@
                             <h:form>
                                 <p:messages id="messages" autoUpdate="true" closable="true" />
                             </h:form>
-
-                            <h:form id="first">
-                                    <p:messages id="messages" autoUpdate="true" closable="true" />
-                            </h:form>
                             
                             <f:metadata>
                                 <f:viewParam name="id" value="#{summerhouseDetails.id}" />
@@ -83,42 +79,45 @@
                             
                             
 
-                            <p:panel id="basic" header="#{summerhouseDetails.detailedSummerhouse.title}" style="margin-bottom:20px">
-                                
-                                
+                            <p:panel id="basic" header="#{summerhouseDetails.detailedSummerhouse.title}">
+
+                             <h:panelGrid columns="3" columnClasses="column" cellpadding="15" styleClass="panelGridCenter">  
 
                                 <p:graphicImage value="#{imageStreamer.oneImage}" class="profile-image-container" >
                                     <f:param name="id" value="#{summerhouseDetails.detailedSummerhouse.photoImageid.id}" />
                                 </p:graphicImage>
 
-                                <h:panelGrid columns="2" cellpadding="10">    
+                                <h:panelGrid columns="1" cellpadding="10" class="summerhouse-description">
+                                    
                                     <h:outputText value="#{summerhouseDetails.detailedSummerhouse.description}" />
-                                    <h:outputText value="" />
+                                    <h:panelGrid columns="2" cellpadding="10">  
 
                                     <h:outputText value="Miegamųjų vietų skaičius: " />
                                     <h:outputText value="#{summerhouseDetails.detailedSummerhouse.beds}" />
 
                                     <h:outputText value="Kaina (tšk): " />
                                     <h:outputText value="#{summerhouseDetails.detailedSummerhouse.cost}" />
-
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                                <h:panelGrid columns="1" columnClasses="column" cellpadding="10" > 
                                     <h:outputText value="Užimtumas: "/>
-                                    <p:calendar title="aaa" 
+                                    <p:calendar title="Kelendorius" 
                                                 id="cal" 
                                                 mode="inline"                                                
                                                 mindate="#{summerhouseDetails.detailedSummerhouse.validityStart}"
                                                 maxdate="#{summerhouseDetails.detailedSummerhouse.validityEnd}"                                                 
                                                 beforeShowDay="beforeShowDate"/>
-                                
+                                </h:panelGrid>
+                                <div></div>
                                 <p:button outcome="summerhouse" 
                                           value="Atgal" 
-                                          class="edit-profile-button-width"/>
-                                <p:commandButton icon="ui-icon-disk" 
-                                                 value="Rezervuoti" 
+                                          class="align-on-right edit-profile-button-width" icon="fa-caret-left"/>
+                                <p:commandButton value="Rezervuoti" 
                                                  type="submit" 
                                                  action="#{reservationBean.showFirstDialog()}"
                                                  disabled="#{!reservationBean.canReserve}" 
                                                  class="edit-profile-button-width" />
-                                </h:panelGrid>
+                                </h:panelGrid>      
                             </p:panel>
 
                             <p:dialog header="Rezervacija" 
