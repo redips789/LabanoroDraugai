@@ -26,11 +26,8 @@
                 <p:submenu label="Nustatymai">
                     <p:menuitem value="Paskyra" action="myProfile?faces-redirect=true" ajax="false"/>
                     <p:menuitem value="Mano taškai" rendered="#{accountBean.notCandidate}" action="points?faces-redirect=true"/>
-                    <p:menuitem >
-                        <p:commandLink styleClass="ui-menuitem-link" action="#{loginBean.leaveForever()}" ajax="false">
-                            <p:outputLabel styleClass="ui-menuitem-text" value="Išsiregistruoti" />
-                            <p:confirm header="Patvirtinimas" message="Ar tikrai norite išsiregistruoti?" icon="ui-icon-alert" />
-                        </p:commandLink>
+                    <p:menuitem value="Išsiregistruoti" action="#{loginBean.leaveForever()}" ajax="false" >
+                        <p:confirm header="Patvirtinimas" message="Ar tikrai norite išsiregistruoti?" icon="fa fa-exclamation-triangle" />
                     </p:menuitem>
                 </p:submenu>
 
@@ -48,15 +45,15 @@
                 </p:submenu>
 
                 <f:facet name="options">
-                    <p:commandButton value="Atsijungti" icon="ui-icon-extlink" action="#{loginBean.logout()}"/>
+                    <p:commandButton title="Atsijungti" icon="fa fa-sign-out" action="#{loginBean.logout()}"/>
                 </f:facet>
             </p:menubar>
         </div>
         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" widgetVar="deleteDialog" >
-            <div>
-                <p:commandButton value="Taip" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onclick="deleteDialog.hide()" ajax="false" />
-                <p:commandButton value="Ne" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="deleteDialog.hide()" ajax="false" />
-            </div>
+            <h:panelGrid columns="2" styleClass="panelGridCenter">
+                <p:commandButton style="width: 4em" value="Ne" type="button" styleClass="ui-confirmdialog-no" onclick="deleteDialog.hide()" ajax="false" />
+                <p:commandButton style="width: 4em" value="Taip" type="button" styleClass="ui-confirmdialog-yes" onclick="deleteDialog.hide()" ajax="false" />
+            </h:panelGrid>
         </p:confirmDialog>
     </h:body>
 </html>

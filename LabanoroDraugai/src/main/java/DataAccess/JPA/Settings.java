@@ -52,8 +52,6 @@ public class Settings implements Serializable {
     private Integer firstGroupSize;
     @Column(name = "SECOND_GROUP_SIZE")
     private Integer secondGroupSize;
-    @Column(name = "THIRD_GROUP_SIZE")
-    private Integer thirdGroupSize;
 
     private static final long serialVersionUID = 1L;
     
@@ -267,14 +265,6 @@ public class Settings implements Serializable {
 
     public void setSecondGroupSize(Integer secondGroupSize) {
         this.secondGroupSize = secondGroupSize;
-    }
-
-    public Integer getThirdGroupSize() {
-        return thirdGroupSize;
-    }
-
-    public void setThirdGroupSize(Integer thirdGroupSize) {
-        this.thirdGroupSize = thirdGroupSize;
     }
 
     public String getStripePk() {

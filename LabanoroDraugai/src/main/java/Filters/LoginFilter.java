@@ -62,6 +62,7 @@ public class LoginFilter implements Filter {
         String summerhouseMoreDetailsURI = request.getContextPath() + "/summerhouseMoreDetails.xhtml";
         String summerhouseEditURI = request.getContextPath() + "/summerhouseEdit.xhtml";
         String homeURL = request.getContextPath() + "/home.xhtml";
+        String confirmPaymentsURI = request.getContextPath() + "/confirmPayments.xhtml";
         int indexOfPay = request.getRequestURI().indexOf("payMembershipFee");
         int indexOfRes = request.getRequestURI().indexOf("resources");
 
@@ -94,6 +95,7 @@ public class LoginFilter implements Filter {
         boolean pageNotAccesibleRequest = request.getRequestURI().equals(pageNotAccesibleURL);
         boolean stripePaymentRequest = request.getRequestURI().equals(stripePaymentURI);
         boolean summerhouseEditRequest = request.getRequestURI().equals(summerhouseEditURI);
+        boolean confirmPaymentsRequest = request.getRequestURI().equals(confirmPaymentsURI);
         boolean admin = false;
         boolean candidate = false;
         boolean member = false;
@@ -116,7 +118,7 @@ public class LoginFilter implements Filter {
         if ((loggedIn || loginRequest || resourceRequest) && !logoutRequest && !addSummerhouseRequest && !editSummerhouseRequest
                 && !removeSummerhouseRequest && !deleteMemberRequest && !meritRequest && !editRegistrationFormRequest
                 && !editSettingsRequest && !memberReviewRequest && !mySummerhousesRequest && !payMembershipFeeRequest && !pointsRequest
-                && !reservationRequest && !summerhouseRequest && !summerhouseMoreDetailsRequest && indexOfPay == -1 && !stripePaymentRequest 
+                && !reservationRequest && !summerhouseRequest && !summerhouseMoreDetailsRequest && indexOfPay == -1 && !stripePaymentRequest
                 && !summerhouseEditRequest) {
             if (!resourceRequest) { // Prevent browser from caching restricted resources. See also http://stackoverflow.com/q/4194207/157882
                 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.1
@@ -127,8 +129,13 @@ public class LoginFilter implements Filter {
             if ((registrationRequest || registrationConfirmRequest) && (admin || candidate || member)) {
                 //response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 response.sendRedirect(pageNotAccesibleURL);
-            }
-            if (myProfileRequest || editProfileRequest || recommendationRequest || loginRequest || resourceRequest || homeRequest || indexOfRes != -1 || pageNotFoundRequest || pageNotAccesibleRequest) {
+            } else if ((myProfileRequest || editProfileRequest || recommendationRequest || homeRequest) && (admin || candidate || member)) {
+                chain.doFilter(request, response);
+            } else if (indexOfRes != -1 || pageNotFoundRequest || pageNotAccesibleRequest || loginRequest || resourceRequest) {
+                chain.doFilter(request, response);
+            } else if (registrationRequest) {
+                chain.doFilter(request, response);
+            } else if (confirmPaymentsRequest && admin) {
                 chain.doFilter(request, response);
             } else {
                 response.sendRedirect(pageNotFoundURL);
