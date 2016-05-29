@@ -48,33 +48,33 @@
                     <h:panelGrid styleClass="panelGridCenter" columns="3" columnClasses="column" cellpadding="5">
 
                         <p:outputLabel value="Pavadinimas:" />
-                        <p:inputText id="title" value="#{addSummerhouseBean.summerhouse.title}" size="30" required="true" requiredMessage="Įrašykite pavadinimą" maxlength="29"/>
+                        <p:inputText id="title" value="#{addSummerhouseBean.summerhouse.title}" size="30" required="false" requiredMessage="Įrašykite pavadinimą" maxlength="29"/>
                         <p:message for="title" display="icon" />
 
                         <p:outputLabel value="Lovų skaičius:" />
-                        <p:inputText id="beds" value="#{addSummerhouseBean.summerhouse.beds}" size="30" required="true" requiredMessage="Įrašykite lovų skaičių" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
+                        <p:inputText id="beds" value="#{addSummerhouseBean.summerhouse.beds}" size="30" required="false" requiredMessage="Įrašykite lovų skaičių" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
                         <p:message for="beds" display="icon" />
 
                         <p:outputLabel value="Kaina:" />
-                        <p:inputText id="price" value="#{addSummerhouseBean.summerhouse.cost}" size="30" required="true" requiredMessage="Įrašykite kainą" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
+                        <p:inputText id="price" value="#{addSummerhouseBean.summerhouse.cost}" size="30" required="false" requiredMessage="Įrašykite kainą" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
                         <p:message for="price" display="icon" />
 
                         <p:outputLabel value="Galiojimo pradžia:" />
-                        <p:calendar id="validityStart" yearRange="c-100:c"  value="#{addSummerhouseBean.summerhouse.validityStart}" required="true" size="30" requiredMessage="Įrašykite galiojimo pradžią" locale="de" navigator="true" pattern="yyyy-MM-dd" beforeShowDay="showJustMonday">
+                        <p:calendar id="validityStart" yearRange="c-100:c"  value="#{addSummerhouseBean.summerhouse.validityStart}" required="false" size="30" requiredMessage="Įrašykite galiojimo pradžią" locale="de" navigator="true" pattern="yyyy-MM-dd" beforeShowDay="showJustMonday">
                         </p:calendar>
                         <p:message for="validityStart" display="icon" />
 
                         <p:outputLabel value="Galiojimo pabaiga:" />
-                        <p:calendar id="validityEnd" yearRange="c-100:c"  value="#{addSummerhouseBean.summerhouse.validityEnd}" required="true" size="30" requiredMessage="Įrašykite galiojimo pabaigą" locale="de" navigator="true" pattern="yyyy-MM-dd" beforeShowDay="showJustSunday">
+                        <p:calendar id="validityEnd" yearRange="c-100:c"  value="#{addSummerhouseBean.summerhouse.validityEnd}" required="false" size="30" requiredMessage="Įrašykite galiojimo pabaigą" locale="de" navigator="true" pattern="yyyy-MM-dd" beforeShowDay="showJustSunday">
                         </p:calendar>
                         <p:message for="validityEnd" display="icon" />
 
                         <p:outputLabel value="Nuotrauka:"/>
-                        <p:fileUpload value="#{addSummerhouseBean.file}" mode="simple" label="Įkelti"  required="true" requiredMessage="Pridėkite nuotrauką" dragDropSupport="true"/>
+                        <p:fileUpload value="#{addSummerhouseBean.file}" mode="simple" label="Įkelti"  required="false" requiredMessage="Pridėkite nuotrauką" dragDropSupport="true"/>
                         <p:outputLabel value=" "/>
 
                         <p:outputLabel value="Aprašymas:" />
-                        <p:inputTextarea id="description" rows="10" cols="30" value="#{addSummerhouseBean.summerhouse.description}" counter="display" required="true" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
+                        <p:inputTextarea id="description" rows="10" cols="30" value="#{addSummerhouseBean.summerhouse.description}" counter="display" required="false" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
                         <p:message for="description" display="icon" />
                         <p:outputLabel value=" "/>
                         <h:outputText id="display" />
