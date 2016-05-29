@@ -72,14 +72,18 @@
                                         <p:outputLabel value=" "/>
                                         <h:outputText id="display"/>
                                         <p:outputLabel value=" "/>
-                                    </h:panelGrid>
-
-                                    <h:panelGrid style="float: right" columns="1" columnClasses="column" cellpadding="0" >
-                                        <p:commandButton  class="edit-profile-button-width" type="submit" ajax="false" value="Skirti" action="#{meritBean.sendReward()}" validateClient="true" >
+                                        
+                                        <p:outputLabel value=" "/>
+                                        <h:panelGrid styleClass="panelGridCenter" columns="2" columnClasses="column" cellpadding="10" >
+                                        <p:commandButton  style="width: 6em" type="submit" ajax="false" value="Skirti" action="#{meritBean.sendReward()}" validateClient="true" >
                                             <f:param name ="accId" value="#{accountBean.selectedAccount.id}"/>
                                         </p:commandButton>
+                                        <p:commandButton style="width: 6em" value="Atšaukti" class="edit-profile-button-width" type="button" onclick="PF('accountDialog').hide()" ajax="false" />
 
                                     </h:panelGrid>
+                                    </h:panelGrid>
+
+                            
 
                         </p:outputPanel>
                     </p:dialog>
