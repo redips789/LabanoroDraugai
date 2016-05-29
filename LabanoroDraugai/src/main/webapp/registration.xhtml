@@ -14,8 +14,8 @@
             <title>Registracija</title>
         </f:facet>
         <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+
         <script>
             window.fbAsyncInit = function () {
                 FB.init({
@@ -200,7 +200,7 @@
                                     <p:row rendered="#{registrationBean.registrationForm.birthday}">
                                         <p:outputLabel value="Gimimo data:" /> 
                                         <p:outputPanel autoUpdate="true">
-                                            <p:calendar id="birthday"  value="#{registrationBean.birthday}" size="30" requiredMessage="Įrašykite gimimo datą" locale="de" navigator="true" pattern="yyyy-MM-dd"  />
+                                            <p:calendar id="birthday" yearRange="c-100:c"  value="#{registrationBean.birthday}" size="30" requiredMessage="Įrašykite gimimo datą" locale="de" navigator="true" pattern="yyyy-MM-dd"/>
                                         </p:outputPanel>
                                         <p:message for="birthday" display="icon" />
                                     </p:row>
