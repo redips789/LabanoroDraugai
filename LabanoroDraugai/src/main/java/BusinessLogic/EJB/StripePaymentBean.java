@@ -8,9 +8,11 @@ package BusinessLogic.EJB;
 import DataAccess.EJB.AccountCRUD;
 import DataAccess.EJB.FeeCRUD;
 import DataAccess.EJB.PaidFeesCRUD;
+import DataAccess.EJB.SettingsCRUD;
 import DataAccess.JPA.Account;
 import DataAccess.JPA.Fee;
 import DataAccess.JPA.PaidFees;
+import DataAccess.JPA.Settings;
 import Interceptors.Interceptable;
 import java.util.Map;
 import javax.enterprise.context.RequestScoped;
@@ -64,8 +66,31 @@ public class StripePaymentBean implements Serializable {
 
     @Inject
     PaidFeesCRUD paidFeesCRUD;
+    
+    @Inject
+    SettingsCRUD settingsCRUD;
+    
+    private String stripePk;
+    
+    private String stripeSk;
 
     private List<Fee> feeList;
+
+    private String getStripeSk() {
+        return stripeSk;
+    }
+
+    private void setStripeSk(String stripeSk) {
+        this.stripeSk = stripeSk;
+    }
+
+    public String getStripePk() {
+        return stripePk;
+    }
+
+    public void setStripePk(String stripePk) {
+        this.stripePk = stripePk;
+    }
 
     public List<Fee> getFeeList() {
         return feeList;
@@ -78,6 +103,9 @@ public class StripePaymentBean implements Serializable {
     @PostConstruct
     public void init() {
         feeList = feeCRUD.findAllFees();
+        Settings settings = settingsCRUD.findSettings();
+        stripePk=settings.getStripePk();
+        stripeSk=settings.getStripeSk();
         System.out.println("**************************Sukonstruojama******************************");
     }
 
@@ -87,7 +115,7 @@ public class StripePaymentBean implements Serializable {
             System.out.println("**************************Payment test******************************");
             FacesContext context = FacesContext.getCurrentInstance();
             Map map = context.getExternalContext().getRequestParameterMap();
-            Stripe.apiKey = "sk_test_QctvU17iZvnJOtsh2kbNxpSF";
+            Stripe.apiKey = stripeSk;
             String token = (String) map.get("stripeToken");
             String feeid = (String) map.get("feeID");
             int feeID = Integer.parseInt(feeid);
@@ -96,11 +124,12 @@ public class StripePaymentBean implements Serializable {
             System.out.println("+");
             if (fee == null) {
                 System.out.println("**************************Nepaima is db******************************");
+                Message.addErrorMessage("Įvyko klaida nuskaitant duomenis iš duomenų bazės. Bandykite dar kartą");
                 return;
             }
             Account account = accountCRUD.findAccount(loginBean.getFbid());
             if (account == null) {
-                System.out.println("**************************Nepaima is db******************************");
+                Message.addErrorMessage("Įvyko klaida nuskaitant duomenis iš duomenų bazės. Bandykite dar kartą");
                 return;
             }
             try {
@@ -135,24 +164,30 @@ public class StripePaymentBean implements Serializable {
                         em.flush();
                         FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("interceptorAccount", account);
                         System.out.println("++++");
+                        Message.addSuccessMessage("Mokėjimas sėkmingas. Laukite kol jį patvirtins administratorius");
                     } catch (Exception ex) {
                         System.out.println("Nepavyko iterpti i db, kreipkites i administratorių");
+                        Message.addErrorMessage("Nepavyko įterpti mokėjimo į duomenų bazę. Kreipkitės į administratorių");
                         return;
                     }
                 } catch (CardException e) {
-                    System.out.println("Nepavyko mokėjimas, atmetė kortele");
+                    System.out.println("Nepavyko mokėjimas. Patikrinkite, ar įvedėte teisingus duomenis");
+                    Message.addErrorMessage("Nepavyko mokėjimas. Patikrinkite, ar įvedėte teisingus duomenis");
                     return;
                 } catch (Exception ex) {
-                    System.out.println("Nepavyko mokėjimas dėl kitos serverio klaidos");
+                    System.out.println("Nepavyko mokėjimas. Patikrinkite, ar įvedėte teisingus duomenis");
                     System.out.println(ex.getMessage());
+                    Message.addErrorMessage("Nepavyko mokėjimas. Patikrinkite, ar įvedėte teisingus duomenis");
                     return;
                 }
             } catch (Exception ex) {
                 System.out.println("Nepavyko mokėjimas dėl kitos serverio klaidos");
+                Message.addErrorMessage("Nepavyko mokėjimas. Patikrinkite, ar įvedėte teisingus duomenis");
                 return;
             }
         } catch (Exception ex) {
             System.out.println("Nepavyko paimti duomenų is jsf");
+            Message.addErrorMessage("Klaida. Bandykite dar kartą");
             return;
         }
     }

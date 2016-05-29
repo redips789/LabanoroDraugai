@@ -39,7 +39,7 @@ public class PaidFees implements Serializable {
     private Integer id;
     
     @Column(name = "PAID_DATE")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date paidDate;
     
     @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ID")
