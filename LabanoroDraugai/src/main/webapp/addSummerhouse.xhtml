@@ -39,11 +39,12 @@
                     <ui:include src="menu.xhtml" />
                 </div>
                 <div id="content-container">
-                    <div  class="panelGridCenter" style="width: 40%">
-                        <h:form >
+                    <div class="panelGridCenter" style="width: 40%">
+                        <h:form>
                             <p:messages id="messages" autoUpdate="true" closable="true" />
                         </h:form>
                     </div>
+
                     <h:panelGrid styleClass="panelGridCenter" columns="3" columnClasses="column" cellpadding="5">
 
                         <p:outputLabel value="Pavadinimas:" />
@@ -80,10 +81,13 @@
                         <p:outputLabel value=" "/>
                         <p:outputLabel value=" "/>
 
+
+
                     </h:panelGrid>
-                    <h:panelGrid styleClass="panelGridCenter" columns="2" columnClasses="column" cellpadding="11"> 
+
+                    <h:panelGrid styleClass="panelGridCenter" columns="2" columnClasses="column" cellpadding="11">                                 
                         <p:button class="edit-profile-button-width" value="Atšaukti"  outcome="summerhouse.xhtml" />
-                        <p:commandButton class="edit-profile-button-width" type="submit" ajax="true" value="Išsaugoti" action="#{addSummerhouseBean.saveSummerhouse()}" validateClient="true" />
+                        <p:commandButton class="edit-profile-button-width" type="submit" ajax="false" value="Išsaugoti" action="#{addSummerhouseBean.saveSummerhouse()}" validateClient="true" />
                     </h:panelGrid>
                 </div>
                 <div id="footer-container" >
