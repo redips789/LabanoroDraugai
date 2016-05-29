@@ -30,85 +30,35 @@
 
                 <div id="content-container">     
 
-                    <p:growl id="msgs" showDetail="true" />
-                    <p:dataTable styleClass="recTable" id="membersDelete" var="account" value="#{accountBean.accountList}" rows="10" paginator="true"
+                    <p:dataTable styleClass="panelGridCenter" id="membersDelete" var="account" value="#{accountBean.accountList}" rows="10" paginator="true"
                                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                                 rowsPerPageTemplate="15" style="text-align: center">
+                                 rowsPerPageTemplate="15" >
 
                         <p:column headerText="Vardas Pavardė">
                             <h:outputText value="#{account.firstName} #{account.lastName}" />
                         </p:column>
-                        <p:column headerText="Narys nuo">
+                        <p:column headerText="Narys nuo" style="text-align: center">
                             <h:outputText value="#{account.memberSince}">
                                 <f:convertDateTime pattern="yyyy-MM-dd"/>                        
                             </h:outputText> 
                         </p:column>
-                        <p:column headerText="Amžius">
+                        <p:column headerText="Amžius" style="text-align: center">
                             <h:outputText value="#{account.age}" />
                         </p:column>
                         <p:column headerText="Miestas">
                             <h:outputText value="#{account.city}" />
                         </p:column>
-                        <p:column style="width:60px">
+                        <p:column style="width:60px; text-align: center">
                             <p:commandButton id="delete" 
                                              action="#{accountBean.deleteAccount(account)}" 
                                              icon="fa fa-user-times" 
-                                             title="GDeleteButton" ajax="true">
+                                             ajax="true">
                                 <p:confirm header="Ištrinti vartotoją" 
                                            message="Ar tikrai norite ištrinti vartotoją?" 
                                            icon="ui-icon-alert"/>
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
-
-                    <p:dialog header="Detali informacija"  widgetVar="accountDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                        <p:outputPanel id="accountDetail">
-
-                            <div id="profile-wrapper">
-                                <div id="profile-container">
-                                    <h:form>
-                                        <h:panelGrid columns="2" columnClasses="column" cellpadding="15" >
-                                            <p:graphicImage value="#{imageStreamer.oneImage}" class="profile-image-container" >
-                                                <f:param name="id" value="#{accountBean.selectedAccount.photoImageid.id}" />
-                                            </p:graphicImage>
-
-                                            <h:panelGrid columns="2" columnClasses="column" cellpadding="5" >
-                                                <p:outputLabel id="profile-column-2" value="#{accountBean.selectedAccount.firstName}"/>
-                                                <p:outputLabel value="#{accountBean.selectedAccount.lastName}"/>
-
-                                                <p:outputLabel value="#{accountBean.selectedAccount.city}"/>
-                                                <p:outputLabel value=""/>
-
-                                                <p:outputLabel value="Narys nuo: " />
-                                                <p:outputLabel value="#{accountBean.selectedAccount.memberSince}">
-                                                    <f:convertDateTime pattern="yyyy-MM-dd"/>
-                                                </p:outputLabel>
-
-                                                <p:outputLabel value="Gimimo data: " />
-                                                <p:outputLabel value="#{accountBean.selectedAccount.dateOfBirth}">
-                                                    <f:convertDateTime pattern="yyyy-MM-dd"/>
-                                                </p:outputLabel>
-
-                                                <p:outputLabel value="Tel. nr.: " class="icon-phone"/>
-                                                <p:outputLabel value="+370 #{accountBean.selectedAccount.phoneNum}"/>
-
-                                                <p:outputLabel value="El. paštas: " class="icon-mail-alt"/>
-                                                <p:outputLabel value="#{accountBean.selectedAccount.email}"/>
-
-                                                <p:outputLabel value="Apie save:"  />
-                                                <p:scrollPanel mode="native" class="profile-description">
-                                                    #{accountBean.selectedAccount.description}
-                                                </p:scrollPanel>
-                                            </h:panelGrid>
-                                        </h:panelGrid>
-                                    </h:form> 
-                                </div>     
-                            </div>
-
-                        </p:outputPanel>
-                    </p:dialog>
-
-
 
                 </div>
 
@@ -119,9 +69,11 @@
             </div>
 
 
-            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
-                <p:commandButton title="GDelYesButton" value="Taip" styleClass="ui-confirmdialog-yes"/>
-                <p:commandButton title="GDelNoButton" value="Ne" styleClass="ui-confirmdialog-no" />
+            <p:confirmDialog global="true" showEffect="fade" >
+                <h:panelGrid columns="2" styleClass="panelGridCenter">
+                    <p:commandButton style="width: 4em" value="Ne" styleClass="ui-confirmdialog-no" />
+                    <p:commandButton style="width: 4em" value="Taip" styleClass="ui-confirmdialog-yes"/>
+                </h:panelGrid>  
             </p:confirmDialog>
 
         </h:form>

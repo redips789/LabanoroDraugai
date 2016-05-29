@@ -28,28 +28,27 @@
 
                 <div id="content-container">     
 
-                    <p:growl id="msgs" showDetail="true" />
                     <p:dataTable id="basicDT" var="account" value="#{accountBean.accountList}" 
                                  sortBy="#{account.lastName}"
                                  rows="10" paginator="true"                      
                                  paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"                       
-                                 rowsPerPageTemplate="5,10,15" style="text-align: center">
+                                 rowsPerPageTemplate="5,10,15" >
 
                         <p:column headerText="Vardas Pavardė">
                             <h:outputText value="#{account.firstName} #{account.lastName}" />
                         </p:column>
-                        <p:column headerText="Narys nuo">
+                        <p:column headerText="Narys nuo" style="text-align: center">
                             <h:outputText value="#{account.memberSince}">
                                 <f:convertDateTime pattern="yyyy-MM-dd"/>                        
                             </h:outputText> 
                         </p:column>
-                        <p:column headerText="Amžius">
+                        <p:column headerText="Amžius" style="text-align: center">
                             <h:outputText value="#{account.age}" />
                         </p:column>
                         <p:column headerText="Miestas">
                             <h:outputText value="#{account.city}" />
                         </p:column>
-                        <p:column style="width:60px">
+                        <p:column style="width:60px; text-align: center">
                             <p:commandButton id="thistableid"  update=":form:accountDetail" oncomplete="PF('accountDialog').show()" icon="fa fa-trophy" title="Skirti">
                                 <f:setPropertyActionListener value="#{account}" target="#{accountBean.selectedAccount}" />
                             </p:commandButton>
@@ -58,31 +57,29 @@
 
                     <p:dialog header="Nuopelnas"  widgetVar="accountDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                         <p:outputPanel id="accountDetail">
+                            <h:form>
+                                <p:messages id="messages" autoUpdate="true" closable="true" />
+                            </h:form>
 
-                            <div id="profile-wrapper">
-                                <div id="profile-container">
                                     <h:panelGrid columns="3" columnClasses="column" cellpadding="0" >
-
-                                        <p:outputLabel value="Skiriamas taškų skaičius:"/>
-                                        <p:inputText id="numberOfPoints" value="#{meritBean.points}" size="30" required="true" validatorMessage="Įrašykite taškų skaičių" requiredMessage="Įrašykite tel. nr." onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="8" label="numberOfPoints"/>   
+                                        <p:outputLabel value="Taškų kiekis:"/>
+                                        <p:inputText id="numberOfPoints" value="#{meritBean.points}" size="31" required="true" validatorMessage="Įrašykite taškų skaičių" requiredMessage="Įrašykite tel. nr." onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="8" label="numberOfPoints"/>   
                                         <p:message for="numberOfPoints" display="icon" />
                                         
-
-                                        <p:outputLabel value="Nuopelnas:" />
+                                        <p:outputLabel value="Už ką:" />
                                         <p:inputTextarea id="meritas" rows="10" cols="32" value="#{meritBean.description}" counter="display" required="false" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
                                         <p:message for="meritas" display="icon" />
                                         <p:outputLabel value=" "/>
-                                        <h:outputText id="display" />
+                                        <h:outputText id="display"/>
                                         <p:outputLabel value=" "/>
+                                    </h:panelGrid>
 
-
-                                        <p:commandButton class="edit-profile-button-width" type="submit" ajax="false" value="Skirti" id="withIcon" action="#{meritBean.sendReward()}" validateClient="true" icon="ui-icon-disk" >
+                                    <h:panelGrid style="float: right" columns="1" columnClasses="column" cellpadding="0" >
+                                        <p:commandButton  class="edit-profile-button-width" type="submit" ajax="false" value="Skirti" action="#{meritBean.sendReward()}" validateClient="true" >
                                             <f:param name ="accId" value="#{accountBean.selectedAccount.id}"/>
                                         </p:commandButton>
 
                                     </h:panelGrid>
-                                </div>     
-                            </div>
 
                         </p:outputPanel>
                     </p:dialog>

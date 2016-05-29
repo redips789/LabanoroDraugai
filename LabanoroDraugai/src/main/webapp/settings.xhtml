@@ -25,86 +25,86 @@
                 <div id="menu-container">
                     <ui:include src="menu.xhtml" />
                 </div>
-                <h:form>
-                    <div id="profile-wrapper">
-                        <div id="profile-container">
-                            <h:panelGrid columns="3" columnClasses="column" cellpadding="5">
-                                <p:outputLabel value="Didžiausias vartotojų skaičius:" />
-                                <p:inputText id="maxUsers" value="#{editSettingsBean.settings.maxUsers}" size="30" required="true" requiredMessage="Įrašykite maksimalų vartotojų skaičių" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
-                                <p:message for="maxUsers" display="icon" />
-
-                                <p:outputLabel value="Pirma rezervacija:" />
-                                <p:calendar id="firstReservation" yearRange="c-100:c"  value="#{editSettingsBean.settings.firstReservation}" size="30" requiredMessage="Įrašykite pirmos rezervacijos datą" locale="de" navigator="true" pattern="yyyy-MM-dd">
-                                </p:calendar>
-                                <p:message for="firstReservation" display="icon" />
-
-                                <p:outputLabel value="Antra rezervacija:" />
-                                <p:calendar id="secondReservation" yearRange="c-100:c"  value="#{editSettingsBean.settings.secondReservation}" size="30" requiredMessage="Įrašykite antros rezervacijos datą" locale="de" navigator="true" pattern="yyyy-MM-dd">
-                                </p:calendar>
-                                <p:message for="secondReservation" display="icon" />
-
-                                <p:outputLabel value="Trečia rezervacija:" />
-                                <p:calendar id="thirdReservation" yearRange="c-100:c"  value="#{editSettingsBean.settings.thirdReservation}" size="30" requiredMessage="Įrašykite trečios rezervacijos datą" locale="de" navigator="true" pattern="yyyy-MM-dd">
-                                </p:calendar>
-                                <p:message for="thirdReservation" display="icon" />
-
-                                <p:outputLabel value="Visos rezervacijos:" />
-                                <p:calendar id="allReservation" yearRange="c-100:c"  value="#{editSettingsBean.settings.allReservation}" size="30" requiredMessage="Įrašykite visų rezervacijų datą" locale="de" navigator="true" pattern="yyyy-MM-dd">
-                                </p:calendar>
-                                <p:message for="allReservation" display="icon" />
-
-                                <p:outputLabel value="Rezervacijų uždarymas:" />
-                                <p:calendar id="closeReservation" yearRange="c-100:c"  value="#{editSettingsBean.settings.closeReservation}" size="30" requiredMessage="Įrašykite pirmos rezervacijos datą" locale="de" navigator="true" pattern="yyyy-MM-dd">
-                                </p:calendar>
-                                <p:message for="closeReservation" display="icon" />
-
-                                <p:outputLabel value="Maksimalus rezervuojamų dienų skaičius:" />
-                                <p:inputText id="maxReservationDays" value="#{editSettingsBean.settings.maxReservationDays}" size="30" required="true" requiredMessage="Įrašykite maksimalų rezervacijos laiką" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
-                                <p:message for="maxReservationDays" display="icon" />
-
-                                <p:outputLabel value="Nario mokestis:" />
-                                <p:inputText id="membershipFee" value="#{editSettingsBean.settings.membershipFee}" size="30" required="true" requiredMessage="Įrašykite nario mokestį" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
-                                <p:message for="membershipFee" display="icon" />
-
-                                <p:outputLabel value="Maksimalus rekomendacijų skaičius:" />
-                                <p:inputText id="maxRecommendations" value="#{editSettingsBean.settings.maxRecommendations}" size="30" required="true" requiredMessage="Įrašykite maksimalų rekomendacijų skaičių" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
-                                <p:message for="maxRecommendations" display="icon" />
-
-                                <p:outputLabel value="Minimalus rekomendacijų skaičius:" />
-                                <p:inputText id="minRecommendations" value="#{editSettingsBean.settings.minRecommendations}" size="30" required="true" requiredMessage="Įrašykite minimalų rekomendacijų skaičių" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
-                                <p:message for="minRecommendations" display="icon" />
-
-                                <p:outputLabel value="Rekomendacijų galiojimo laikas:" />
-                                <p:inputText id="recommendationsValidity" value="#{editSettingsBean.settings.recommendationsValidity}" size="30" required="true" requiredMessage="Įrašykite rekomendacijos galiojimo laiką" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
-                                <p:message for="recommendationsValidity" display="icon" />
-
-                                <p:outputLabel value="Atšaukimo laikas:" />
-                                <p:inputText id="cancellationTime" value="#{editSettingsBean.settings.cancellationTime}" size="30" required="true" requiredMessage="Įrašykite atšaukimo laiką" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
-                                <p:message for="cancellationTime" display="icon" />
-                            </h:panelGrid>
-                            <h:panelGrid columns="3" columnClasses="column" cellpadding="5">
-                                <p:outputLabel value="Praeitą sezoną atostogautų dienų limitas" />
-                                <p:outputLabel value="" />
-                                <p:outputLabel value="" />
-
-                                <p:outputLabel value="Pirma:" />
-                                <p:inputText id="FirstGroupLimit" value="#{editSettingsBean.settings.firstGroupSize}" size="30" required="true" requiredMessage="Įrašykite atšaukimo laiką" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
-                                <p:message for="FirstGroupLimit" display="icon" />
-
-                                <p:outputLabel value="Antra:" />
-                                <p:inputText id="SecondGroupLimit" value="#{editSettingsBean.settings.secondGroupSize}" size="30" required="true" requiredMessage="Įrašykite atšaukimo laiką" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
-                                <p:message for="FirstGroupLimit" display="icon" />
-
-                            </h:panelGrid>
-
-                            <h:panelGrid columns="3" columnClasses="column" cellpadding="50">
-                                <p:outputLabel value="" />
-                                <p:commandButton class="edit-profile-button-width" type="submit" ajax="false" value="Išsaugoti" id="withIcon" actionListener="#{editSettingsBean.saveSettingsChanges()}" validateClient="true" action="settings.xhtml" icon="ui-icon-disk" />
-                                <p:button class="edit-profile-button-width" value="Atšaukti"  outcome="settings.xhtml" />
-                            </h:panelGrid>
-                        </div>
+                <div id="content-container">
+                    <div class="panelGridCenter" style="width: 40%">
+                        <h:form>
+                            <p:messages id="messages" autoUpdate="true" closable="true" />
+                        </h:form>
                     </div>
-                </h:form>
+
+                    <h:panelGrid styleClass="panelGridCenter" columns="3" columnClasses="column" cellpadding="5">
+                        <p:outputLabel value="Didžiausias vartotojų skaičius:" />
+                        <p:inputText id="maxUsers" value="#{editSettingsBean.settings.maxUsers}" size="30" required="true" requiredMessage="Įrašykite maksimalų vartotojų skaičių" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
+                        <p:message for="maxUsers" display="icon" />
+
+                        <p:outputLabel value="Pirma rezervacija:" />
+                        <p:calendar id="firstReservation" yearRange="c-100:c"  value="#{editSettingsBean.settings.firstReservation}" size="30" requiredMessage="Įrašykite pirmos rezervacijos datą" locale="de" navigator="true" pattern="yyyy-MM-dd">
+                        </p:calendar>
+                        <p:message for="firstReservation" display="icon" />
+
+                        <p:outputLabel value="Antra rezervacija:" />
+                        <p:calendar id="secondReservation" yearRange="c-100:c"  value="#{editSettingsBean.settings.secondReservation}" size="30" requiredMessage="Įrašykite antros rezervacijos datą" locale="de" navigator="true" pattern="yyyy-MM-dd">
+                        </p:calendar>
+                        <p:message for="secondReservation" display="icon" />
+
+                        <p:outputLabel value="Trečia rezervacija:" />
+                        <p:calendar id="thirdReservation" yearRange="c-100:c"  value="#{editSettingsBean.settings.thirdReservation}" size="30" requiredMessage="Įrašykite trečios rezervacijos datą" locale="de" navigator="true" pattern="yyyy-MM-dd">
+                        </p:calendar>
+                        <p:message for="thirdReservation" display="icon" />
+
+                        <p:outputLabel value="Visos rezervacijos:" />
+                        <p:calendar id="allReservation" yearRange="c-100:c"  value="#{editSettingsBean.settings.allReservation}" size="30" requiredMessage="Įrašykite visų rezervacijų datą" locale="de" navigator="true" pattern="yyyy-MM-dd">
+                        </p:calendar>
+                        <p:message for="allReservation" display="icon" />
+
+                        <p:outputLabel value="Rezervacijų uždarymas:" />
+                        <p:calendar id="closeReservation" yearRange="c-100:c"  value="#{editSettingsBean.settings.closeReservation}" size="30" requiredMessage="Įrašykite pirmos rezervacijos datą" locale="de" navigator="true" pattern="yyyy-MM-dd">
+                        </p:calendar>
+                        <p:message for="closeReservation" display="icon" />
+
+                        <p:outputLabel value="Maksimalus rezervuojamų dienų skaičius:" />
+                        <p:inputText id="maxReservationDays" value="#{editSettingsBean.settings.maxReservationDays}" size="30" required="true" requiredMessage="Įrašykite maksimalų rezervacijos laiką" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
+                        <p:message for="maxReservationDays" display="icon" />
+
+                        <p:outputLabel value="Nario mokestis:" />
+                        <p:inputText id="membershipFee" value="#{editSettingsBean.settings.membershipFee}" size="30" required="true" requiredMessage="Įrašykite nario mokestį" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
+                        <p:message for="membershipFee" display="icon" />
+
+                        <p:outputLabel value="Maksimalus rekomendacijų skaičius:" />
+                        <p:inputText id="maxRecommendations" value="#{editSettingsBean.settings.maxRecommendations}" size="30" required="true" requiredMessage="Įrašykite maksimalų rekomendacijų skaičių" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
+                        <p:message for="maxRecommendations" display="icon" />
+
+                        <p:outputLabel value="Minimalus rekomendacijų skaičius:" />
+                        <p:inputText id="minRecommendations" value="#{editSettingsBean.settings.minRecommendations}" size="30" required="true" requiredMessage="Įrašykite minimalų rekomendacijų skaičių" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
+                        <p:message for="minRecommendations" display="icon" />
+
+                        <p:outputLabel value="Rekomendacijų galiojimo laikas:" />
+                        <p:inputText id="recommendationsValidity" value="#{editSettingsBean.settings.recommendationsValidity}" size="30" required="true" requiredMessage="Įrašykite rekomendacijos galiojimo laiką" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
+                        <p:message for="recommendationsValidity" display="icon" />
+
+                        <p:outputLabel value="Atšaukimo laikas:" />
+                        <p:inputText id="cancellationTime" value="#{editSettingsBean.settings.cancellationTime}" size="30" required="true" requiredMessage="Įrašykite atšaukimo laiką" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
+                        <p:message for="cancellationTime" display="icon" />
+
+                        <p:outputLabel value="Praeitą sezoną atostogautų dienų limitas" styleClass="bold" />
+                        <p:outputLabel value="" />
+                        <p:outputLabel value="" />
+
+                        <p:outputLabel value="Pirma:" />
+                        <p:inputText id="FirstGroupLimit" value="#{editSettingsBean.settings.firstGroupSize}" size="30" required="true" requiredMessage="Įrašykite atšaukimo laiką" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
+                        <p:message for="FirstGroupLimit" display="icon" />
+
+                        <p:outputLabel value="Antra:" />
+                        <p:inputText id="SecondGroupLimit" value="#{editSettingsBean.settings.secondGroupSize}" size="30" required="true" requiredMessage="Įrašykite atšaukimo laiką" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
+                        <p:message for="FirstGroupLimit" display="icon" />
+                    </h:panelGrid>
+
+                    <h:panelGrid styleClass="panelGridCenter" columns="3" columnClasses="column" cellpadding="15">
+                        <p:button class="edit-profile-button-width" value="Atšaukti"  outcome="settings.xhtml" />
+                        <p:commandButton styleClass="edit-profile-button-width" type="submit" ajax="false" value="Išsaugoti" actionListener="#{editSettingsBean.saveSettingsChanges()}" validateClient="true" action="settings.xhtml" />
+                    </h:panelGrid>
+
+                </div>
                 <div id="footer-container" >
                     <ui:include src="footer.xhtml" />
                 </div>

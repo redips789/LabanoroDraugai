@@ -25,23 +25,19 @@
                 <div id="menu-container">
                     <ui:include src="menu.xhtml" />
                 </div>
-                    <div id="profile-wrapper">
-                        <div id="profile-container">
+                <div id="content-container">
+                    <p:dataTable style="width:40%" var="summerhouse" value="#{summerhouseBean.summerhouses}" scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="300" styleClass="table">
+                        <p:column headerText="Pavadinimas" footerText="Pavadinimas">
+                            <h:outputText value="#{summerhouse.title}" />
+                        </p:column>
 
-                            <p:dataTable style="width:40%" var="summerhouse" value="#{summerhouseBean.summerhouses}" scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="300" styleClass="table">
-                                <p:column headerText="Pavadinimas" footerText="Pavadinimas">
-                                    <h:outputText value="#{summerhouse.title}" />
-                                </p:column>
-
-                                <p:column styleClass="centerColumn" style="width:40%">
-                                    <p:button id="button" outcome="summerhouseEdit" value="Redaguoti" icon="fa fa-edit">
-                                        <f:param name="title" value="#{summerhouse.title}" />
-                                    </p:button>
-                                </p:column>
-                            </p:dataTable>
-                            
-                        </div>
-                    </div>
+                        <p:column styleClass="centerColumn" style="width:40%">
+                            <p:button id="button" outcome="summerhouseEdit" value="Redaguoti" icon="fa fa-edit">
+                                <f:param name="title" value="#{summerhouse.title}" />
+                            </p:button>
+                        </p:column>
+                    </p:dataTable>                     
+                </div>
                 <div id="footer-container" >
                     <ui:include src="footer.xhtml" />
                 </div>

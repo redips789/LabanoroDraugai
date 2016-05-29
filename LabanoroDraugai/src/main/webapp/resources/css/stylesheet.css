@@ -31,8 +31,16 @@ body {
     text-shadow: 2px 2px 4px #000000;
 }
 
-#content-container-rec {
+#content-container {
     padding: 1.5em 8em;
+}
+
+.panelGridCenter{
+    margin: 0 auto;
+}
+
+.bold{
+    font-weight: bold;
 }
 
 .recTable {
@@ -107,6 +115,8 @@ body {
 }
 
 #profile-wrapper{ 
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
     clear: left; 
     float: left; 
     position: relative; 
@@ -163,10 +173,8 @@ body {
 }
 
 .table{
-    width: 50%;
+    width: 60%;
     margin: 0 auto;
-    margin-bottom: 1.5em;
-    margin-top: 1.5em;
 }
 
 #membersDelete{

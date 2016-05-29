@@ -64,9 +64,11 @@ public class AddSummerhouseBean implements Serializable {
             if (summerhouse.getValidityStart().after(summerhouse.getValidityEnd())) {
                 
                 Message.addErrorMessage("Kvaily, datas geras nurodyk");
+                return "addSummerhouse?faces-redirect=true";
             } else if (summerhouseCRUD.findByTitle(summerhouse.getTitle())!= null){
                 
                 Message.addErrorMessage("Vasarnamis su tokiu pavadinimu jau egzistuoja");
+                return "addSummerhouse?faces-redirect=true";
             } else{
                 Image image = new Image();
                 image.setContent(IOUtils.toByteArray(this.file.getInputstream()));
@@ -77,9 +79,9 @@ public class AddSummerhouseBean implements Serializable {
             }
         } catch (IOException ex) {
             Logger.getLogger(AddSummerhouseBean.class.getName()).log(Level.SEVERE, null, ex);
+            return "addSummerhouse?faces-redirect=true";
         }
-
-        return "summerhouse";
+        return "summerhouse?faces-redirect=true";
     }
 
     public Summerhouse getSummerhouse() {
