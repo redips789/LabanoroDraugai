@@ -64,25 +64,28 @@ public class AddSummerhouseBean implements Serializable {
             //account.setPhotoBlob(IOUtils.toByteArray(this.file.getInputstream()));
             System.out.println("Summerhouse pavadinimas : " + summerhouse.getTitle());
             if (summerhouse.getBeds() == null || summerhouse.getCost() == null || summerhouse.getDescription() == null
-                    || summerhouse.getPhotoImageid() == null || summerhouse.getValidityStart() == null
+                    || summerhouse.getValidityStart() == null
                     || summerhouse.getValidityEnd() == null || summerhouse.getTitle() == null) {
                 Message.addErrorMessage("Užpildykite visus laukus");
                 return "addSummerhouse?faces-redirect=false";
             } else if (summerhouse.getValidityStart().after(summerhouse.getValidityEnd())) {
 
                 Message.addErrorMessage("Kvaily, datas geras nurodyk");
-                return "addSummerhouse?faces-redirect=true";
+                return "addSummerhouse?faces-redirect=false";
             } else if (summerhouseCRUD.findByTitle(summerhouse.getTitle()) != null) {
 
                 Message.addErrorMessage("Vasarnamis su tokiu pavadinimu jau egzistuoja");
-                return "addSummerhouse?faces-redirect=true";
-            } else {
+                return "addSummerhouse?faces-redirect=false";
+            } else if (!"".equals(this.file.getFileName())) {
                 Image image = new Image();
                 image.setContent(IOUtils.toByteArray(this.file.getInputstream()));
                 Integer imageId = imagesEjb.addImage(image);
                 summerhouse.setPhotoImageid(image);
                 summerhouseCRUD.addSummerhouse(summerhouse);
                 Message.addSuccessMessage("Vasarnamis sėkmingai išsaugotas");
+            } else {
+                Message.addErrorMessage("Pridėkite nuotrauką");
+                return "addSummerhouse?faces-redirect=false";
             }
         } catch (IOException ex) {
             Logger.getLogger(AddSummerhouseBean.class.getName()).log(Level.SEVERE, null, ex);
