@@ -34,6 +34,8 @@ public class EditProfileBean implements Serializable {
     AccountCRUD accountEjb;
     private Account account;
     private UploadedFile file;
+    private boolean fbRender = true;
+    private boolean dbRender = false;
 
     @Inject
     ImageCRUD imagesEjb;
@@ -43,7 +45,7 @@ public class EditProfileBean implements Serializable {
 
     @Inject
     LoginBean loginBean;
-    
+
     public LoginBean getLoginBean() {
         return loginBean;
     }
@@ -52,10 +54,30 @@ public class EditProfileBean implements Serializable {
         this.loginBean = loginBean;
     }
 
+    public boolean isFbRender() {
+        return fbRender;
+    }
+
+    public void setFbRender(boolean fbRender) {
+        this.fbRender = fbRender;
+    }
+
+    public boolean isDbRender() {
+        return dbRender;
+    }
+
+    public void setDbRender(boolean dbRender) {
+        this.dbRender = dbRender;
+    }
+
     //construct
     @PostConstruct
     public void init() {
-        account = accountEjb.findAccountById(loginBean.getId()); 
+        account = accountEjb.findAccountById(loginBean.getId());
+        if (account.getPhotoImageid() != null) {
+            dbRender = true;
+            fbRender = false;
+        }
     }
 
     //get set
@@ -71,14 +93,16 @@ public class EditProfileBean implements Serializable {
     public String saveAccountChanges() {
         try {
             //account.setPhotoBlob(IOUtils.toByteArray(this.file.getInputstream()));
-            System.out.println("Failo vardas "+this.file.getFileName());
-            if (!"".equals(this.file.getFileName())){
+            System.out.println("Failo vardas " + this.file.getFileName());
+            if (!"".equals(this.file.getFileName())) {
                 System.out.println("Ieinu");
                 Image image = new Image();
                 image.setContent(IOUtils.toByteArray(this.file.getInputstream()));
                 Integer imageId = imagesEjb.addImage(image);
                 account.setPhotoImageid(image);
-            }     
+                dbRender = true;
+                fbRender = false;
+            }
         } catch (IOException ex) {
             Logger.getLogger(EditProfileBean.class.getName()).log(Level.SEVERE, null, ex);
         }

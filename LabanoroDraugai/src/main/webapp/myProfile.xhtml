@@ -30,9 +30,13 @@
                 <div id="profile-wrapper">
                     <div id="profile-container">
                         <h:panelGrid columns="2" columnClasses="column" cellpadding="15" >
-                            <p:graphicImage value="#{imageStreamer.oneImage}" class="profile-image-container" >
+                            <p:graphicImage value="#{imageStreamer.oneImage}" class="profile-image-container" rendered = "#{editProfileBean.dbRender}">
                                 <f:param name="id" value="#{editProfileBean.account.photoImageid.id}" />
-                            </p:graphicImage> 
+                            </p:graphicImage>
+
+                            <p:outputPanel autoUpdate="true" rendered="#{editProfileBean.fbRender}">
+                                <p:graphicImage url="#{editProfileBean.account.photo}"   />
+                            </p:outputPanel>
 
                             <h:panelGrid columns="2" columnClasses="column" cellpadding="5" >
                                 <p:outputLabel id="profile-column-2" value="#{editProfileBean.account.firstName}" />
