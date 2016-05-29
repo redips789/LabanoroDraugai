@@ -19,6 +19,11 @@
                     <p:menuitem value="Mano rezervuoti" outcome="mySummerhouses" />
                     <p:menuitem value="Visi" outcome="summerhouse" />
                 </p:submenu>
+                
+                <p:submenu  label="Paslaugos" rendered="#{accountBean.notCandidate}">
+                    <p:menuitem value="Mano rezervuotos" outcome="myServices" />
+                    <p:menuitem value="Visos" outcome="services" />
+                </p:submenu>
 
                 <p:menuitem value="Klubo nariai" outcome="membersReview" rendered="#{accountBean.notCandidate}"/>
                 <p:menuitem value="Rekomendacijos" outcome="recommendation"/>
