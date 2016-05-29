@@ -226,7 +226,7 @@ public class ReservationBean implements Serializable {
                     }
                 }
                 else  {
-                    Message.addErrorMessage("Kažkas buvo greitesnis už Jus! Pakeiskite rezervacijos datas.");
+                    Message.addErrorMessage("Nespėjote užsirezervuoti, pasirinkite kitas datas!");
                 }
             }
             else {

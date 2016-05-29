@@ -47,8 +47,8 @@
                         </h:panelGrid>
                         <p:spacer height="40"  />
                         <h:panelGrid styleClass="panelGridCenter" columns="2" columnClasses="column" cellpadding="10" >
-                            <p:commandButton value="Atšaukti" class="edit-profile-button-width" action="#{pointsBean.goBack()}" />
                             <p:commandButton class="edit-profile-button-width" type="submit" ajax="false" value="Mokėti" action="#{pointsBean.payWithPoints()}" disabled="#{pointsBean.lackOfPoints}" />
+                            <p:commandButton value="Atšaukti" class="edit-profile-button-width" action="#{pointsBean.goBack()}" />                       
                         </h:panelGrid>
                 </div>
 
