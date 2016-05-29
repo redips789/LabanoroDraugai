@@ -70,7 +70,7 @@
                                 </p:column>
 
                                 <p:column style="width:60px">
-                                    <p:commandButton action="#{confirmPaymentsBean.confirmPayment(paidFees.id)}" icon="ui-icon ui-icon-trash" title="Mokėti" update="list" >
+                                    <p:commandButton action="#{confirmPaymentsBean.confirmPayment(paidFees.id)}" icon="ui-icon-check" title="Mokėti" update="list" >
                                         <p:confirm header="Patvirtinimas" message="Ar tikrai norite patvirtinti šį mokėjimą?" icon="ui-icon-alert" />
                                     </p:commandButton>
                                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
