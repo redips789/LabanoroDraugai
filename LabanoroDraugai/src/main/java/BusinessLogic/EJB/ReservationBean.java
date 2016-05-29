@@ -38,7 +38,7 @@ import org.primefaces.context.RequestContext;
  * @author Laurute
  */
 @Named 
-@RequestScoped
+@ViewScoped
 @Stateful
 public class ReservationBean implements Serializable {
     
