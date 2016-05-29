@@ -83,8 +83,8 @@
                                          oncomplete="PF('startButton1').enable()"
                                          rendered="#{accountBean.notCandidate}"
                                          styleClass="buttonCenter"/>
+                        <f:facet name="footer">Info: Jei siuntimas užtrunka, šiek tiek palaukite!</f:facet>
                     </p:panelGrid>
-                    <h:outputText value=" Info: Jei siuntimas užtrunka, šiek tiek palaukite!" rendered="#{accountBean.notCandidate}"/>
 
                     <p:dataTable id="checkboxDT" var="giver" 
                                  styleClass="recTable" 

@@ -43,9 +43,10 @@
                             <p:commandButton id="delete" 
                                 action="#{editSummerhouseBean.deleteSummerhouse}" 
                                 icon="fa fa-trash-o" 
+                                title="Pašalinti vasarnamį"
                                 ajax="true">
                                                 
-                                <p:confirm header="Ištrinti vasarnamį" 
+                                <p:confirm header="Patvirtinimas" 
                                     message="Ar tikrai norite ištrinti #{summerhouse.title} vasarnamį?" 
                                     icon="fa fa-exclamation-triangle"/>
                                 <f:param name="title" value="#{summerhouse.title}" />

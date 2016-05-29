@@ -32,24 +32,23 @@
                                  sortBy="#{account.lastName}"
                                  paginator="true"
                                  paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="5,10,15"
-                                 style="text-align: center">
+                                 rowsPerPageTemplate="5,10,15">
 
                         <p:column headerText="Vardas Pavardė">
                             <h:outputText value="#{account.firstName} #{account.lastName}" />
                         </p:column>
-                        <p:column headerText="Narys nuo">
-                            <h:outputText value="#{account.memberSince}">
+                        <p:column headerText="Narys nuo" style="text-align: center">
+                            <h:outputText value="#{account.memberSince}" >
                                 <f:convertDateTime pattern="yyyy-MM-dd"/>                        
                             </h:outputText> 
                         </p:column>
-                        <p:column headerText="Amžius">
+                        <p:column headerText="Amžius" style="text-align: center" >
                             <h:outputText value="#{account.age}" />
                         </p:column>
                         <p:column headerText="Miestas">
                             <h:outputText value="#{account.city}" />
                         </p:column>
-                        <p:column style="width:60px">
+                        <p:column style="width:60px; text-align: center">
                             <p:commandButton id="thistableid"  update=":form:accountDetail" oncomplete="PF('accountDialog').show()" icon="ui-icon-search" title="Peržiūrėti">
                                 <f:setPropertyActionListener value="#{account}" target="#{accountBean.selectedAccount}" />
                             </p:commandButton>
@@ -59,51 +58,43 @@
                     <p:dialog header="Detali informacija"  widgetVar="accountDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                         <p:outputPanel id="accountDetail">
 
-                            <div id="profile-wrapper">
-                                <div id="profile-container">
-                                    <h:form>
-                                        <h:panelGrid columns="2" columnClasses="column" cellpadding="15" >
-                                            <p:graphicImage value="#{imageStreamer.oneImage}" class="profile-image-container" >
-                                                <f:param name="id" value="#{accountBean.selectedAccount.photoImageid.id}" />
-                                            </p:graphicImage>
+                            <h:panelGrid styleClass="panelGridCenter" columns="2" columnClasses="column" cellpadding="15" >
+                                <p:graphicImage value="#{imageStreamer.oneImage}" class="profile-image-container" >
+                                    <f:param name="id" value="#{accountBean.selectedAccount.photoImageid.id}" />
+                                </p:graphicImage>
 
-                                            <h:panelGrid columns="2" columnClasses="column" cellpadding="5" >
-                                                <p:outputLabel id="profile-column-2" value="#{accountBean.selectedAccount.firstName}"/>
-                                                <p:outputLabel value="#{accountBean.selectedAccount.lastName}"/>
+                                <h:panelGrid columns="2" columnClasses="column" cellpadding="5" >
+                                    <h3 style="text-align: center">#{accountBean.selectedAccount.firstName} #{accountBean.selectedAccount.lastName}</h3>
+                                    <p:outputLabel value=" "/> 
 
-                                                <p:outputLabel value="#{accountBean.selectedAccount.city}"/>
-                                                <p:outputLabel value=""/>
+                                    <p:outputLabel value="Narys nuo: " />
+                                    <p:outputLabel value="#{accountBean.selectedAccount.memberSince}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd"/>
+                                    </p:outputLabel>
 
-                                                <p:outputLabel value="Narys nuo: " />
-                                                <p:outputLabel value="#{accountBean.selectedAccount.memberSince}">
-                                                    <f:convertDateTime pattern="yyyy-MM-dd"/>
-                                                </p:outputLabel>
+                                    <p:outputLabel value="Gimimo data: " />
+                                    <p:outputLabel value="#{accountBean.selectedAccount.dateOfBirth}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd"/>
+                                    </p:outputLabel>
 
-                                                <p:outputLabel value="Gimimo data: " />
-                                                <p:outputLabel value="#{accountBean.selectedAccount.dateOfBirth}">
-                                                    <f:convertDateTime pattern="yyyy-MM-dd"/>
-                                                </p:outputLabel>
+                                    <p:outputLabel value="Tel. nr.: " class="icon-phone"/>
+                                    <p:outputLabel value="+370 #{accountBean.selectedAccount.phoneNum}"/>
 
-                                                <p:outputLabel value="Tel. nr.: " class="icon-phone"/>
-                                                <p:outputLabel value="+370 #{accountBean.selectedAccount.phoneNum}"/>
+                                    <p:outputLabel value="El. paštas: " class="icon-mail-alt"/>
+                                    <p:outputLabel value="#{accountBean.selectedAccount.email}"/>
 
-                                                <p:outputLabel value="El. paštas: " class="icon-mail-alt"/>
-                                                <p:outputLabel value="#{accountBean.selectedAccount.email}"/>
+                                    <p:outputLabel value="Gyvenamoji vieta: "/>
+                                    <p:outputLabel value="#{accountBean.selectedAccount.city}"/>
 
-                                                <p:outputLabel value="Apie save:"  />
-                                                <p:scrollPanel mode="native" class="profile-description">
-                                                    #{accountBean.selectedAccount.description}
-                                                </p:scrollPanel>
-                                            </h:panelGrid>
-                                        </h:panelGrid>
-                                    </h:form> 
-                                </div>     
-                            </div>
+                                    <p:outputLabel value="Apie save:"  />
+                                    <p:scrollPanel mode="native" class="profile-description writeTextPadding">
+                                        #{accountBean.selectedAccount.description}
+                                    </p:scrollPanel>
+                                </h:panelGrid>
+                            </h:panelGrid>
 
                         </p:outputPanel>
                     </p:dialog>
-
-
 
                 </div>
 
