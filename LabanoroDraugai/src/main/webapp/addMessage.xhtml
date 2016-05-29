@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <link rel="shortcut icon" href="resources/img/favicon.ico"/>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>Labanoro draugai</title>
+        </f:facet>
+        <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body>
+        <h:form id="form">     
+            <div id="page">
+                <div id="header-container">
+                    <ui:include src="header.xhtml" />         
+                </div>
+
+                <div id="menu-container">
+                    <ui:include src="menu.xhtml" />
+                </div>
+
+                <div id="content-container">
+                    
+                            <h:form>
+                                <p:messages id="messages" autoUpdate="true" closable="true" />
+                            </h:form>
+
+                            <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="testt456">
+
+                                    <p:outputLabel value="Skelbimas" />
+                                    <p:inputTextarea id="description" rows="10" cols="40" value="#{addMessageBean.message}" counter="display" required="true" requiredMessage="Įrašykite apibūdinimą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
+                                    <p:message for="description" display="icon" />
+                                    <p:outputLabel value=" "/>
+                                    <h:outputText id="display" />
+                                    <p:outputLabel value=" "/>
+
+
+
+                                    <p:commandButton styleClass="buttonRight" value="Pridėti skelbimą" action="#{addMessageBean.addMessage()}" id="withIcon" type="submit" ajax="false" validateClient="true" icon="ui-icon-disk" update="list"/>
+
+                            </h:panelGrid>
+
+                            
+                </div>
+
+
+                <div id="footer-container" >
+                    <ui:include src="footer.xhtml" />
+                </div>
+            </div>    
+        </h:form> 
+    </h:body>   
+</html>
+

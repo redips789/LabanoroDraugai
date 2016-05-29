@@ -32,7 +32,7 @@
                                 <p:messages id="messages" autoUpdate="true" closable="true" />
                             </h:form>
 
-                            <p:dataTable id="list" value="#{showMessageBean.messagesList}" var="message" rows="10"
+                    <p:dataTable id="list" value="#{removeMessageBean.messagesList}" var="message" rows="10"
                                          sortBy="#{message.date}"
                                  paginator="true"
                                  paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -64,6 +64,15 @@
                                     </p:outputLabel>
                                 </p:column>
                                 
+                                <p:column style="width:60px" headerText="Pašalinti skelbimą">
+                                    <p:commandButton action="#{removeMessageBean.removeMessage(message.id)}" icon="fa fa-trash-o" title="Pašalinti" update="list" >
+                                        <p:confirm header="Patvirtinimas" message="Ar tikrai norite pašalinti šį skelbimą?" icon="ui-icon-alert" />
+                                    </p:commandButton>
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <p:commandButton title="Pašalinti" value="Taip" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  />
+                                        <p:commandButton title="Pašalinti" value="Ne" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </p:confirmDialog>
+                                </p:column>
                             </p:dataTable>
 
                 </div>
@@ -76,4 +85,5 @@
         </h:form> 
     </h:body>   
 </html>
+
 
