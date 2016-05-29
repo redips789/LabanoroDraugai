@@ -28,23 +28,32 @@
                 <div id="content-container">
                     <div id="profile-wrapper">
                         <div id="profile-container">
+                            
+                            <h:form>
+                                <p:messages id="messages" autoUpdate="true" closable="true" />
+                            </h:form>
 
+                            <input type="hidden" name="setableValue" value=""/>
+                            <input type="hidden" name="superTesting" value="#{stripePaymentBean.stripePk}"/>
 
                             <p:dataTable id="list" value="#{stripePaymentBean.feeList}" var="fee" emptyMessage="Nėra galimybės prikti taškų" >
                                 <f:facet name="header">
                                     Taškų pirkimas
                                 </f:facet>
-
+                                
                                 <p:column headerText="Taškai">
-                                    <h:outputText value="#{fee.points}" /> 
+                                    <h:outputText id="ha" value="#{fee.points}" /> 
+                                    <input type="hidden" name="#{fee.id}points" value="#{fee.points}"/>
                                 </p:column>
 
                                 <p:column headerText="Kaina">
-                                    <h:outputText value="#{fee.amount}" />
+                                    <h:outputText id="haha" value="#{fee.amount} €" />
+                                    <input type="hidden" name="#{fee.id}amount" value="#{fee.amount}"/>
                                 </p:column>
 
                                 <p:column headerText="Aprašymas">
-                                    <h:outputText value="#{fee.description}" />
+                                    <h:outputText id="hahaha" value="#{fee.description}" />
+                                    <input type="hidden" name="#{fee.id}description" value="#{fee.description}"/>
                                 </p:column>
 
                                 <p:column style="width:60px">
@@ -52,11 +61,10 @@
                                     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
                                     <script type ="text/javascript">
                                         var handler = StripeCheckout.configure({
-                                            key: 'pk_test_hNRIQppTqEFs6nKXnuvgakxp',
+                                            key: document.getElementsByName("superTesting")[0].value,
                                             locale: 'auto',
                                             token: function (token) {
-                                                console.log(token);
-                                                var feeID = #{fee.id}
+                                                var feeID = document.getElementsByName("setableValue")[0].value;
                                                 passToJSFManagedBean([
                                                     {
                                                         name: 'stripeToken',
@@ -72,9 +80,10 @@
                                             }
                                         });
 
-                                        function tryPay() {
-                                            var amount = #{fee.amount * 100};
-                                            var pointss  = #{fee.points};
+                                        function tryPay(fee) {
+                                            var amount = document.getElementsByName(fee+"amount")[0].value *100;
+                                            var pointss  = document.getElementsByName(fee+"points")[0].value;
+                                            document.getElementsByName("setableValue")[0].value = fee;
                                             handler.open({
                                                 name: 'Labanoro draugai',
                                                 description: ' Perkami taškai: '+pointss,
@@ -89,7 +98,7 @@
                                     </script>
                                         <p:remoteCommand name="passToJSFManagedBean" id="passToJSFManagedBeancmd"
                                                          action="#{stripePaymentBean.chargeCard}" />  
-                                    <p:commandButton id="customButton" onclick="tryPay()" icon="ui-icon-cart"/>
+                                        <p:commandButton id="customButton" onclick="tryPay(#{fee.id})" icon="ui-icon-cart"/>
                                 </p:column>
                             </p:dataTable>
                         </div>
