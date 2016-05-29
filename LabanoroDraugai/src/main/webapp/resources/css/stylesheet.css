@@ -86,18 +86,23 @@ body {
     width: 10em;
 }
 
+
 #footer-container {
-    clear: both;
-    padding: 1px;
-    margin-top: 3px;
-    text-align: center;
-    background-image: url(../img/Banner.jpg);
-    font-size: 1.2em;
-    color: whitesmoke;
-    position:absolute;
+   clear: both;
+   padding-top: 1px;
+   padding-bottom: 1px;
+   text-align: center;
+   vertical-align: middle;
+   background-image: url(../img/Banner.jpg);
+   font-size: 1.1em;
+   color: whitesmoke;
+   height:3em;
+   position: fixed ;
     bottom:0;
     width:100%;
 }
+
+
 
 #menu {
     font-size: 0.9em;
