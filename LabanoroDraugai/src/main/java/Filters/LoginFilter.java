@@ -63,6 +63,8 @@ public class LoginFilter implements Filter {
         String summerhouseEditURI = request.getContextPath() + "/summerhouseEdit.xhtml";
         String homeURL = request.getContextPath() + "/home.xhtml";
         String confirmPaymentsURI = request.getContextPath() + "/confirmPayments.xhtml";
+        String myServicesURI = request.getContextPath() + "/myServices.xhtml";
+        String servicesURI = request.getContextPath() + "/services.xhtml";
         int indexOfPay = request.getRequestURI().indexOf("payMembershipFee");
         int indexOfRes = request.getRequestURI().indexOf("resources");
 
@@ -96,6 +98,8 @@ public class LoginFilter implements Filter {
         boolean stripePaymentRequest = request.getRequestURI().equals(stripePaymentURI);
         boolean summerhouseEditRequest = request.getRequestURI().equals(summerhouseEditURI);
         boolean confirmPaymentsRequest = request.getRequestURI().equals(confirmPaymentsURI);
+        boolean myServicesRequest = request.getRequestURI().equals(myServicesURI);
+        boolean servicesRequest = request.getRequestURI().equals(servicesURI);
         boolean admin = false;
         boolean candidate = false;
         boolean member = false;
@@ -135,7 +139,9 @@ public class LoginFilter implements Filter {
                 chain.doFilter(request, response);
             } else if (registrationRequest) {
                 chain.doFilter(request, response);
-            } else if (confirmPaymentsRequest && admin) {
+            } else if (confirmPaymentsRequest  && admin) {
+                chain.doFilter(request, response);
+            } else if ((myServicesRequest || servicesRequest)&& (admin || member)) {
                 chain.doFilter(request, response);
             } else {
                 response.sendRedirect(pageNotFoundURL);
