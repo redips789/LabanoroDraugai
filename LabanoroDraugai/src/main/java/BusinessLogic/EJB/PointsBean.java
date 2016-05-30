@@ -105,7 +105,7 @@ public class PointsBean {
         if (account.getNextPayment().before(Calendar.getInstance().getTime())) {
             return false;
         } else {
-            Message.addWarningMessage("Mokėjimas jau buvo atliktas.");
+            Message.addWarningMessage("Metinis klubo nario mokestis jau buvo sumokėtas.");
             return true;
         }
     }
