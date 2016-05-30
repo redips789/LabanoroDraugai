@@ -30,7 +30,7 @@
                         <p:messages id="messages" autoUpdate="true" closable="true" />
                     </h:form>
 
-                    <p:dataTable id="list" sortBy="#{reservation.startDate}" value="#{mySummerhouses.myReservations}" var="reservation" emptyMessage="Rezervacijų nėra" >
+                    <p:dataTable id="list" value="#{mySummerhouses.myReservations}" var="reservation" emptyMessage="Rezervacijų nėra" >
                         <f:facet name="header">
                             Mano rezervuoti vasarnamiai
                         </f:facet>

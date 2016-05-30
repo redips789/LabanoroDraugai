@@ -90,44 +90,44 @@
                                          styleClass="buttonCenter"/>
                     </div>
 
-                        <div class="recTable textRec">
-                            <h:outputText  value="Gauti rekomendacijų prašymai" rendered="#{accountBean.notCandidate}"></h:outputText>
-                        </div>
-                        <p:dataTable id="checkboxDT" var="giver"    
-                                     styleClass="recTable"
-                                     value="#{recommendationBean.giverList}" 
-                                     selection="#{recommendationBean.selectedCandidates}" 
-                                     rowKey="#{giver.recommendationPK.receiverAccountid}" 
-                                     rendered="#{accountBean.notCandidate}" emptyMessage="Rekomendacijų nėra.">
+                    <div class="recTable textRec">
+                        <h:outputText  value="Gauti rekomendacijų prašymai" rendered="#{accountBean.notCandidate}"></h:outputText>
+                    </div>
+                    <p:dataTable id="checkboxDT" var="giver"    
+                                 styleClass="recTable"
+                                 value="#{recommendationBean.giverList}" 
+                                 selection="#{recommendationBean.selectedCandidates}" 
+                                 rowKey="#{giver.recommendationPK.receiverAccountid}" 
+                                 rendered="#{accountBean.notCandidate}" emptyMessage="Rekomendacijų nėra.">
 
-                            <p:column headerText="Kandidatas" styleClass="leftColumn">
-                                <h:outputText value="#{accountBean.findMember(giver.recommendationPK.receiverAccountid)}"/>
-                            </p:column>
-                            <p:column headerText="Gauta" styleClass="centerColumn">
-                                <h:outputText value="#{recommendationBean.showDate(giver.sendDate)}"/>
-                            </p:column>
-                            <p:column  styleClass="check" 
-                                       selectionMode="multiple" 
-                                       rendered="#{recommendationBean.giverList.size()!=0}"/>
-                        </p:dataTable> 
+                        <p:column headerText="Kandidatas" styleClass="leftColumn">
+                            <h:outputText value="#{accountBean.findMember(giver.recommendationPK.receiverAccountid)}"/>
+                        </p:column>
+                        <p:column headerText="Gauta" styleClass="centerColumn">
+                            <h:outputText value="#{recommendationBean.showDate(giver.sendDate)}"/>
+                        </p:column>
+                        <p:column  styleClass="check" 
+                                   selectionMode="multiple" 
+                                   rendered="#{recommendationBean.giverList.size()!=0}"/>
+                    </p:dataTable> 
                     <h:panelGrid styleClass="recTable" columns="2">
-                            <p:commandButton rendered="#{recommendationBean.giverList.size()!=0}" 
-                                             styleClass="align-on-right edit-profile-button-width"
-                                             value="Patvirtinti" 
-                                             widgetVar="startButton2"
-                                             onclick="PF('startButton2').disable();PF('startButton3').disable()" 
-                                             oncomplete="PF('startButton2').enable();PF('startButton3').enable()"
-                                             update="checkboxDT"
-                                             action="#{recommendationBean.confirmRecommendation}" />
-                            <p:commandButton rendered="#{recommendationBean.giverList.size()!=0}" 
-                                             styleClass="align-on-left edit-profile-button-width"                                         
-                                             value="Atmesti" 
-                                             widgetVar="startButton3"
-                                             onclick="PF('startButton3').disable();PF('startButton2').disable()" 
-                                             oncomplete="PF('startButton3').enable();PF('startButton2').enable()"
-                                             update="checkboxDT"
-                                             action="#{recommendationBean.rejectRecommendation}" />
-                        </h:panelGrid>
+                        <p:commandButton rendered="#{recommendationBean.giverList.size()!=0}" 
+                                         styleClass="align-on-right edit-profile-button-width"
+                                         value="Patvirtinti" 
+                                         widgetVar="startButton2"
+                                         onclick="PF('startButton2').disable();PF('startButton3').disable()" 
+                                         oncomplete="PF('startButton2').enable();PF('startButton3').enable()"
+                                         update="checkboxDT"
+                                         action="#{recommendationBean.confirmRecommendation}" />
+                        <p:commandButton rendered="#{recommendationBean.giverList.size()!=0}" 
+                                         styleClass="align-on-left edit-profile-button-width"                                         
+                                         value="Atmesti" 
+                                         widgetVar="startButton3"
+                                         onclick="PF('startButton3').disable();PF('startButton2').disable()" 
+                                         oncomplete="PF('startButton3').enable();PF('startButton2').enable()"
+                                         update="checkboxDT"
+                                         action="#{recommendationBean.rejectRecommendation}" />
+                    </h:panelGrid>
 
                 </div>
 
