@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <link rel="shortcut icon" href="resources/img/favicon.ico"/>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>Labanoro draugai</title>
+        </f:facet>
+        <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    
+    <h:body>
+        <h:form id="form" enctype="multipart/form-data">
+
+            <div id="page">
+                <div id="header-container">
+                    <ui:include src="header.xhtml" />         
+                </div>
+
+                <div id="menu-container">
+                    <ui:include src="menu.xhtml" />
+                </div>
+                <div id="content-container">
+                    <div class="panelGridCenter" style="width: 40%">
+                        <h:form>
+                            <p:messages id="messages" autoUpdate="true" closable="true" />
+                        </h:form>
+                    </div>
+
+                    <h:panelGrid styleClass="panelGridCenter" columns="3" columnClasses="column" cellpadding="5">
+
+                        <p:outputLabel value="Pavadinimas:" />
+                        <p:inputText id="title" value="#{addServiceBean.service.title}" size="30" required="false" requiredMessage="Įrašykite pavadinimą" maxlength="29"/>
+                        <p:message for="title" display="icon" />
+
+                        <p:outputLabel value="Kaina:" />
+                        <p:inputText id="price" value="#{addServiceBean.service.cost}" size="30" required="false" requiredMessage="Įrašykite kainą" onkeyup="this.value = this.value.replace(/[^\d]/, '')" maxlength="29"/>
+                        <p:message for="price" display="icon" />
+
+                        <p:outputLabel value="Galiojimo pradžia:" />
+                        <p:calendar id="validityStart" yearRange="c-100:c"  value="#{addServiceBean.service.validityStart}" required="false" size="30" requiredMessage="Įrašykite galiojimo pradžią" locale="de" navigator="true" pattern="yyyy-MM-dd">
+                        </p:calendar>
+                        <p:message for="validityStart" display="icon" />
+
+                        <p:outputLabel value="Galiojimo pabaiga:" />
+                        <p:calendar id="validityEnd" yearRange="c-100:c"  value="#{addServiceBean.service.validityEnd}" required="false" size="30" requiredMessage="Įrašykite galiojimo pabaigą" locale="de" navigator="true" pattern="yyyy-MM-dd">
+                        </p:calendar>
+                        <p:message for="validityEnd" display="icon" />
+
+                        <p:outputLabel value="Aprašymas:" />
+                        <p:inputTextarea id="description" rows="10" cols="30" value="#{addServiceBean.service.description}" counter="display" required="false" requiredMessage="Įrašykite savo aprašymą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
+                        <p:message for="description" display="icon" />
+                        <p:outputLabel value=" "/>
+                        <h:outputText id="display" />
+                        <p:outputLabel value=" "/>
+                        <p:outputLabel value=" "/>
+
+                    </h:panelGrid>
+
+                    <h:panelGrid styleClass="panelGridCenter" columns="2" columnClasses="column" cellpadding="11">                                 
+                        <p:commandButton class="edit-profile-button-width" type="submit" ajax="false" value="Išsaugoti" action="#{addServiceBean.saveService()}" validateClient="true" />
+                        <p:button class="edit-profile-button-width" value="Atšaukti"  outcome="services.xhtml" />
+                    </h:panelGrid>
+                </div>
+                <div id="footer-container" >
+                    <ui:include src="footer.xhtml" />
+                </div>
+
+            </div>
+
+        </h:form>
+    </h:body>
+</html>
+
+

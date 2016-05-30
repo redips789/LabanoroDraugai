@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <link rel="shortcut icon" href="resources/img/favicon.ico"/>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>Labanoro draugai</title>
+        </f:facet>
+        <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <h:form id="form" enctype="multipart/form-data">
+
+            <div id="page">
+                <div id="header-container">
+                    <ui:include src="header.xhtml" />         
+                </div>
+
+                <div id="menu-container">
+                    <ui:include src="menu.xhtml" />
+                </div>
+                
+                <div id="content-container">
+                    
+                    <p:dataTable var="service" value="#{servicesBean.services}" scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="300" styleClass="table">
+                            <p:column headerText="Pavadinimas" footerText="Pavadinimas">
+                                <h:outputText value="#{service.title}" />
+                            </p:column>
+                        
+                            <p:column style="text-align: center" headerText="Dienos kaina" footerText="Kaina (Eur.)">
+                                <h:outputText value="#{service.cost} €" />
+                            </p:column>
+                            
+                            <p:column headerText="Pašalinti" style="width:60px; text-align: center">
+                            <p:commandButton id="delete" 
+                                             action="#{editServiceBean.deleteService()}" 
+                                icon="fa fa-trash-o" 
+                                title="Pašalinti paslaugą"
+                                ajax="true">
+                                                
+                                <p:confirm header="Patvirtinimas" 
+                                           message="Ar tikrai norite ištrinti #{service.title} paslaugą?" 
+                                    icon="fa fa-exclamation-triangle"/>
+                                <f:param name="title" value="#{service.title}" />
+                            </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+
+                </div>
+                <div id="footer-container" >
+                    <ui:include src="footer.xhtml" />
+                </div>
+
+            </div>
+            
+            <p:confirmDialog  global="true" showEffect="fade">
+                <h:panelGrid columns="2" styleClass="panelGridCenter">
+                    <p:commandButton style="width: 4em" value="Taip" styleClass="ui-confirmdialog-yes"/>
+                    <p:commandButton style="width: 4em" value="Ne" styleClass="ui-confirmdialog-no" />                   
+                </h:panelGrid>          
+            </p:confirmDialog>
+
+        </h:form>
+    </h:body>
+</html>
+
+
+
