@@ -15,22 +15,22 @@
 
             <p:menubar>
                 <p:submenu  label="Vasarnamiai" rendered="#{accountBean.notCandidate}">
-                    <p:menuitem value="Mano rezervuoti" outcome="mySummerhouses" />
                     <p:menuitem value="Visi" outcome="summerhouse" />
+                    <p:menuitem value="Mano rezervuoti" outcome="mySummerhouses" />                   
                 </p:submenu>
                 
                 <p:submenu  label="Paslaugos" rendered="#{accountBean.notCandidate}">
-                    <p:menuitem value="Mano rezervuotos" outcome="myServices" />
                     <p:menuitem value="Visos" outcome="services" />
+                    <p:menuitem value="Mano rezervuotos" outcome="myServices" />                 
+                </p:submenu>
+                
+                 <p:submenu  label="Skelbimai" rendered="#{accountBean.notCandidate}">
+                    <p:menuitem value="Pridėti skelbimą" action="addMessage?faces-redirect=true" />
+                    <p:menuitem value="Pašalinti skelbimą" action="removeMessage?faces-redirect=true" rendered="#{accountBean.admin}" />
                 </p:submenu>
 
                 <p:menuitem value="Klubo nariai" outcome="membersReview" rendered="#{accountBean.notCandidate}"/>
                 <p:menuitem value="Rekomendacijos" outcome="recommendation"/>
-                
-                <p:submenu  label="Skelbimai" rendered="#{accountBean.notCandidate}">
-                    <p:menuitem value="Pridėti skelbimą" action="addMessage?faces-redirect=true" />
-                    <p:menuitem value="Pašalinti skelbimą" action="removeMessage?faces-redirect=true" rendered="#{accountBean.admin}" />
-                </p:submenu>
 
                 <p:submenu label="Nustatymai">
                     <p:menuitem value="Paskyra" action="myProfile?faces-redirect=true" ajax="false"/>

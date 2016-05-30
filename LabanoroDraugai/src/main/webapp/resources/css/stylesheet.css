@@ -35,6 +35,14 @@ body {
     padding: 1.5em 8em 5em 8em;
 }
 
+.textRec{
+    font-size: 1.2em;
+    font-weight: bolder;
+    text-align: center; 
+    margin: 1em 0em;
+}
+
+
 .panelGridCenter{
     margin: 0 auto;
 }
@@ -44,14 +52,11 @@ body {
 }
 
 .recTable {
-    width: 70%;
-    margin-top: 1.5em;
-    margin-bottom: 1.5em;
-    padding-top: 0.5em;
+    width: 65%;
 }
 
 .recInfo {
-    margin-top: 1.5em;
+    margin-top: 3.5em;
     margin-bottom: 1.5em;
     float: right;
     width: 20%;
@@ -83,21 +88,19 @@ body {
 }
 
 .leftColumn {
-    width: 10em;
+    width: 10.5em;
 }
 
 
 #footer-container {
-   clear: both;
-   padding-top: 1px;
-   padding-bottom: 1px;
-   text-align: center;
-   vertical-align: middle;
-   background-image: url(../img/Banner.jpg);
-   font-size: 1.1em;
-   color: whitesmoke;
-   height:3em;
-   position: fixed ;
+    clear: both;
+    text-align: center;
+    vertical-align: middle;
+    background-image: url(../img/Banner.jpg);
+    font-size: 1.1em;
+    color: whitesmoke;
+    height:50px;
+    position: fixed ;
     bottom:0;
     width:100%;
 }
@@ -197,4 +200,8 @@ body {
 
 .writeTextPadding{
     padding: 0.3em
+}
+
+.tableMargin{
+    margin-bottom: 2.5em;
 }

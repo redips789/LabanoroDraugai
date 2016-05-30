@@ -45,7 +45,7 @@
                             <h:outputText value="#{reservation.serviceId.description}" />
                         </p:column>
 
-                        <p:column headerText="Dienos kaina">
+                        <p:column headerText="Dienos kaina" style="text-align: center">
                             <h:outputText value="#{reservation.cost}" />
                         </p:column>
 
@@ -53,19 +53,19 @@
                             <h:outputText value="#{reservation.note}" />
                         </p:column>
 
-                        <p:column headerText="Rezervuota nuo">
+                        <p:column headerText="Rezervuota nuo" style="text-align: center">
                             <p:outputLabel value="#{reservation.startDate}">
                                 <f:convertDateTime pattern="yyyy-MM-dd" />
                             </p:outputLabel>
                         </p:column>
 
-                        <p:column headerText="Rezervuota iki">
+                        <p:column headerText="Rezervuota iki" style="text-align: center">
                             <p:outputLabel value="#{reservation.endDate}">
                                 <f:convertDateTime pattern="yyyy-MM-dd" />
                             </p:outputLabel>
                         </p:column>
 
-                        <p:column style="width:60px">
+                        <p:column style="width:60px; text-align: center">
                             <p:commandButton action="#{myServicesBean.cancelReservation(reservation)}" icon="fa fa-trash-o" title="Atšaukti užsakymą" update=":form:list" >
                                 <p:confirm header="Patvirtinimas" message="Ar tikrai norite atšaukti šios paslaugos užsakymą?" icon="fa fa-exclamation-triangle" />
                             </p:commandButton>

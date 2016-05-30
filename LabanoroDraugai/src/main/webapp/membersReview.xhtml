@@ -29,7 +29,6 @@
                 <div id="content-container">     
 
                     <p:dataTable id="basicDT" var="account" value="#{accountBean.accountList}" rows="10"
-                                 sortBy="#{account.lastName}"
                                  paginator="true"
                                  paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
@@ -49,7 +48,7 @@
                         <p:column headerText="Miestas">
                             <h:outputText value="#{account.city}" />
                         </p:column>
-                        <p:column style="width:60px; text-align: center">
+                        <p:column headerText="Info" style="width:60px; text-align: center">
                             <p:commandButton id="thistableid"  update=":form:accountDetail" oncomplete="PF('accountDialog').show()" icon="ui-icon-search" title="Peržiūrėti">
                                 <f:setPropertyActionListener value="#{account}" target="#{accountBean.selectedAccount}" />
                             </p:commandButton>

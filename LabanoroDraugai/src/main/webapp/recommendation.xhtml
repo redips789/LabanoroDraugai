@@ -36,8 +36,10 @@
                     </p:panelGrid>
 
 
-                    <p:panelGrid columns="2" styleClass="recTable" rendered="#{accountBean.candidate}">
-                        <f:facet name="header">Rekomendacijos prašymo forma</f:facet>
+                    <div class="recTable textRec">
+                        <h:outputText  value="Rekomendacijos prašymo forma" rendered="#{accountBean.candidate}"></h:outputText>
+                    </div>
+                    <p:panelGrid columns="2" styleClass="recTable tableMargin" rendered="#{accountBean.candidate}">
                         <p:inputText id="gmail" value="#{recommendationBean.email}" placeholder="El. paštas" size="30" maxlength="49"/>
                         <p:commandButton update="gmail, display" 
                                          action="#{recommendationBean.addRecommendation}" 
@@ -49,13 +51,16 @@
                         </p:commandButton>
                     </p:panelGrid>
 
-                    <p:dataTable id="display" styleClass="recTable" 
+
+                    <div class="recTable textRec">
+                        <h:outputText  value="Išsiųsti rekomendacijų prašymai" rendered="#{accountBean.candidate}"></h:outputText>
+                    </div>
+                    <p:dataTable id="display" styleClass="recTable tableMargin" 
                                  var="receiver" 
                                  value="#{recommendationBean.receiverList}" 
                                  rendered="#{accountBean.candidate}" 
                                  emptyMessage="Rekomendacijų nėra.">
 
-                        <f:facet name="header">Išsiųsti rekomendacijų prašymai</f:facet>
                         <p:column headerText="Klubo narys">
                             <h:outputText value="#{accountBean.findMember(receiver.recommendationPK.giverAccountid)}" />
                         </p:column>
@@ -72,40 +77,42 @@
                         </f:facet>
                     </p:dataTable>     
 
-                    <p:panelGrid columns="2" styleClass="recTable" rendered="#{accountBean.notCandidate}">
-                        <f:facet name="header">Pakviesk draugą!</f:facet>
-                        <p:inputText id="email" value="#{recommendationBean.email}" placeholder="El. paštas" size="30" maxlength="49"/>
+                    <div style="float: right; margin-top: 2.5em">                       
+                        <p:inputText id="email" value="#{recommendationBean.email}" placeholder="El. paštas" size="30" maxlength="49" rendered="#{accountBean.notCandidate}"/>
                         <p:commandButton update="email" 
-                                         value="Siųsti"  
+                                         style="margin-top: 1em"
+                                         value="Pakviesti draugą"  
                                          widgetVar="startButton1"
                                          actionListener="#{recommendationBean.inviteFriend()}"
                                          onclick="PF('startButton1').disable()" 
                                          oncomplete="PF('startButton1').enable()"
                                          rendered="#{accountBean.notCandidate}"
                                          styleClass="buttonCenter"/>
-                        <f:facet name="footer">Info: Jei siuntimas užtrunka, šiek tiek palaukite!</f:facet>
-                    </p:panelGrid>
+                    </div>
 
-                    <p:dataTable id="checkboxDT" var="giver" 
-                                 styleClass="recTable" 
-                                 value="#{recommendationBean.giverList}" 
-                                 selection="#{recommendationBean.selectedCandidates}" 
-                                 rowKey="#{giver.recommendationPK.receiverAccountid}" 
-                                 rendered="#{accountBean.notCandidate}" emptyMessage="Rekomendacijų nėra.">
+                        <div class="recTable textRec">
+                            <h:outputText  value="Gauti rekomendacijų prašymai" rendered="#{accountBean.notCandidate}"></h:outputText>
+                        </div>
+                        <p:dataTable id="checkboxDT" var="giver"    
+                                     styleClass="recTable"
+                                     value="#{recommendationBean.giverList}" 
+                                     selection="#{recommendationBean.selectedCandidates}" 
+                                     rowKey="#{giver.recommendationPK.receiverAccountid}" 
+                                     rendered="#{accountBean.notCandidate}" emptyMessage="Rekomendacijų nėra.">
 
-                        <f:facet name="header">Gauti rekomendacijų prašymai</f:facet>
-                        <p:column headerText="Kandidatas" styleClass="leftColumn">
-                            <h:outputText value="#{accountBean.findMember(giver.recommendationPK.receiverAccountid)}"/>
-                        </p:column>
-                        <p:column headerText="Gauta" styleClass="centerColumn">
-                            <h:outputText value="#{recommendationBean.showDate(giver.sendDate)}"/>
-                        </p:column>
-                        <p:column  styleClass="check" 
-                                   selectionMode="multiple" 
-                                   rendered="#{recommendationBean.giverList.size()!=0}"/>
-                        <f:facet name="footer">
+                            <p:column headerText="Kandidatas" styleClass="leftColumn">
+                                <h:outputText value="#{accountBean.findMember(giver.recommendationPK.receiverAccountid)}"/>
+                            </p:column>
+                            <p:column headerText="Gauta" styleClass="centerColumn">
+                                <h:outputText value="#{recommendationBean.showDate(giver.sendDate)}"/>
+                            </p:column>
+                            <p:column  styleClass="check" 
+                                       selectionMode="multiple" 
+                                       rendered="#{recommendationBean.giverList.size()!=0}"/>
+                        </p:dataTable> 
+                    <h:panelGrid styleClass="recTable" columns="2">
                             <p:commandButton rendered="#{recommendationBean.giverList.size()!=0}" 
-                                             styleClass="button"                              
+                                             styleClass="align-on-right edit-profile-button-width"
                                              value="Patvirtinti" 
                                              widgetVar="startButton2"
                                              onclick="PF('startButton2').disable();PF('startButton3').disable()" 
@@ -113,16 +120,14 @@
                                              update="checkboxDT"
                                              action="#{recommendationBean.confirmRecommendation}" />
                             <p:commandButton rendered="#{recommendationBean.giverList.size()!=0}" 
-                                             styleClass="button"                                         
+                                             styleClass="align-on-left edit-profile-button-width"                                         
                                              value="Atmesti" 
                                              widgetVar="startButton3"
                                              onclick="PF('startButton3').disable();PF('startButton2').disable()" 
                                              oncomplete="PF('startButton3').enable();PF('startButton2').enable()"
                                              update="checkboxDT"
                                              action="#{recommendationBean.rejectRecommendation}" />
-                        </f:facet>
-                    </p:dataTable> 
-
+                        </h:panelGrid>
 
                 </div>
 

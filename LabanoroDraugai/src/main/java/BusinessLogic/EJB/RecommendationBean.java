@@ -289,7 +289,7 @@ public class RecommendationBean implements Serializable {
         else if (min_rec >=2 && min_rec <=9) message = message.concat(" rekomendacijų prašymus. ");
         else message = message.concat(" rekomendacijų prašymų. ");
         message = message.concat("Didžiausias rekomendacijų prašymų skaičius - "+max_rec+". ");
-        message = message.concat("Klubo nariu tapsite tik tada, kai minimalus skaičius Jūsų     išsiųstų prašymų bus patvirtinti.");
+        message = message.concat("Klubo nariu tapsite tik tada, kai minimalus skaičius Jūsų     išsiųstų prašymų bus patvirtintas.");
         return message;
     }
     

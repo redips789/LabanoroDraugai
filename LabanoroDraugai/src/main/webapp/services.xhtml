@@ -31,10 +31,9 @@
                     <p:dataTable id="basicDT" var="service" value="#{servicesBean.services}" rows="10"
                                  sortBy="#{service.cost}"
                                  paginator="true"
-                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
-                                 emptyMessage="Paslaugų nėra"
-                                 style="text-align: center">
+                                 emptyMessage="Paslaugų nėra">
 
                         <p:column headerText="Pavadinimas">
                             <h:outputText value="#{service.title}" />
@@ -42,22 +41,23 @@
                         <p:column headerText="Aprašymas">
                             <h:outputText value="#{service.description}"/>
                         </p:column>
-                        <p:column headerText="Dienos kaina (Eur.)">
+                        <p:column headerText="Dienos kaina (Eur.)" style="text-align: center">
                             <h:outputText value="#{service.cost}" />
                         </p:column>
-                        <p:column headerText="Galima nuo">
+                        <p:column headerText="Galima nuo" style="text-align: center">
                             <h:outputText value="#{service.validityStart}">
                                 <f:convertDateTime pattern="yyyy-MM-dd"/>      
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Galima iki">
+                        <p:column headerText="Galima iki" style="text-align: center">
                             <h:outputText value="#{service.validityEnd}">
                                 <f:convertDateTime pattern="yyyy-MM-dd"/>      
                             </h:outputText>
                         </p:column>
-                        <p:column style="width:60px">
+                        <p:column style="width:60px; text-align: center">
                             <p:commandButton icon="ui-icon-disk" 
                                              type="submit" 
+                                             title="Užsakyti"
                                              update=":form:reservation"
                                              action="#{serviceReservationBean.showfirstDialog()}"
                                              disabled="#{!serviceReservationBean.canReserveService()}">
@@ -80,13 +80,17 @@
                             <p:messages id="messages" autoUpdate="true" closable="true" />
                         </h:form>
 
-                        <div id="profile-wrapper">
-                            <div id="profile-container">
-                                <h:panelGrid columns="1" columnClasses="column" cellpadding="1">
-                                    <p:spacer height="10" />
-                                    <p:outputLabel value="#{serviceReservationBean.service.title}"/>
-                                    <p:outputLabel value="Nurodykite rezervacijos laikotarpį" />
-                                    <h:panelGrid columns="2" columnClasses="column" cellpadding="11">
+                        <div id="content-container">
+                                    <h:form id="second">
+                                        <p:messages id="messages" autoUpdate="true" closable="true" />
+                                    </h:form>
+                            <div style="text-align: center">
+                                <h3>#{serviceReservationBean.service.title}</h3>
+                                        <h4>Nurodykite rezervacijos laikotarpį</h4>
+                                    </div>
+                            <p:spacer height="10" />
+
+                                    <h:panelGrid styleClass="panelGridCenter" columns="2" columnClasses="column" cellpadding="11">
                                         <p:outputLabel value="Nuo:" />
                                         <p:calendar id="from" 
                                                     value="#{serviceReservationBean.reservation.startDate}"
@@ -101,24 +105,21 @@
                                                     size="11"/>
 
                                         <p:outputLabel value="Nurodykite pastabas (Pvz. Paslaugų ar žmonių kiekį)" /> 
-                                        <p:inputTextarea id="note" rows="5" cols="30" value="#{serviceReservationBean.reservation.note}" counter="display" maxlength="50" counterTemplate="Liko simbolių: {0}"/>
+                                        <p:inputTextarea id="note" rows="7" cols="20" value="#{serviceReservationBean.reservation.note}" counter="display" maxlength="50" counterTemplate="Liko simbolių: {0}"/>
                                         <p:message for="note" display="icon" />
                                         <h:outputText id="display" />
 
+                                    </h:panelGrid>
+                            <h:panelGrid styleClass="panelGridCenter" columns="2" cellpadding="10">
                                         <p:commandButton class="edit-profile-button-width" 
                                                          value="Atšaukti" 
                                                          type="submit" 
-                                                         icon="ui-icon-cancel"
                                                          action="#{serviceReservationBean.hideFirstDialog()}"/>
                                         <p:commandButton class="edit-profile-button-width" 
                                                          type="submit" 
                                                          value="Užsakyti" 
-                                                         icon="ui-icon-disk" 
                                                          action="#{serviceReservationBean.saveReservation()}"/>
-
-                                    </h:panelGrid>
-                                </h:panelGrid>
-                            </div>
+                                        </h:panelGrid>
                         </div>
                     </p:dialog>
 

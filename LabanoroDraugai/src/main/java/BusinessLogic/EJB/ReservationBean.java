@@ -283,7 +283,7 @@ public class ReservationBean implements Serializable {
                     this.showSecondDialog();
                 }
                 else{
-                    Message.addErrorMessage("Pasirinkite mažesnį savaičių skaičių, nes viršijamas rezevacijos limitas!");
+                    Message.addErrorMessage("Pasirinkite mažesnį savaičių skaičių, nes viršijamas rezervacijos limitas!");
                 }
             }
             else {

@@ -48,7 +48,7 @@
                         <p:column headerText="Miestas">
                             <h:outputText value="#{account.city}" />
                         </p:column>
-                        <p:column style="width:60px; text-align: center">
+                        <p:column headerText="Skirti" style="width:60px; text-align: center">
                             <p:commandButton id="thistableid"  update=":form:accountDetail" oncomplete="PF('accountDialog').show()" icon="fa fa-trophy" title="Skirti taškus">
                                 <f:setPropertyActionListener value="#{account}" target="#{accountBean.selectedAccount}" />
                             </p:commandButton>
