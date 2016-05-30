@@ -35,19 +35,19 @@
                             <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="testt456">
 
                                     <p:outputLabel value="Kaina:" /> 
-                                    <p:inputText id="lastname" value="#{addRemovePaymentsBean.amount}" size="30" required="true" requiredMessage="Įrašykite kainą" maxlength="29" />
+                                    <p:inputText id="lastname" value="#{addRemovePaymentsBean.amount}" size="30" required="#{not empty param.includeInSave}" requiredMessage="Įrašykite kainą" maxlength="29" />
                                     <p:message for="lastname" display="icon" />
 
 
 
                                     <p:outputLabel value="Taškai:" />
-                                    <p:inputText id="city" value="#{addRemovePaymentsBean.points}" size="30" required="true" requiredMessage="Įrašykite taškus" maxlength="49"/>
+                                    <p:inputText id="city" value="#{addRemovePaymentsBean.points}" size="30" required="#{not empty param.includeInSave}" requiredMessage="Įrašykite taškus" maxlength="49"/>
                                     <p:message for="city" display="icon" />
 
 
 
                                     <p:outputLabel value="Aprašymas:" />
-                                    <p:inputTextarea id="description" rows="10" cols="20" value="#{addRemovePaymentsBean.description}" counter="display" required="true" requiredMessage="Įrašykite apibūdinimą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
+                                    <p:inputTextarea id="description" rows="10" cols="20" value="#{addRemovePaymentsBean.description}" counter="display" required="#{not empty param.includeInSave}" requiredMessage="Įrašykite apibūdinimą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
                                     <p:message for="description" display="icon" />
                                     <p:outputLabel value=" "/>
                                     <h:outputText id="display" />
@@ -55,7 +55,9 @@
 
 
 
-                                    <p:commandButton styleClass="buttonRight" value="Išsaugoti mokestį" action="#{addRemovePaymentsBean.addFee()}" id="withIcon" type="submit" ajax="false" validateClient="true" icon="ui-icon-disk" update="list"/>
+                                    <p:commandButton styleClass="buttonRight" value="Išsaugoti mokestį" action="#{addRemovePaymentsBean.addFee()}" id="withIcon" type="submit" ajax="false" validateClient="true" icon="ui-icon-disk" update="list">
+                                        <f:param name="includeInSave" value="true" />
+                                    </p:commandButton>
 
                             </h:panelGrid>
 
