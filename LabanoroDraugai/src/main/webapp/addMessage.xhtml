@@ -35,7 +35,7 @@
                             <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="testt456">
 
                                     <p:outputLabel value="Skelbimas" />
-                                    <p:inputTextarea id="description" rows="10" cols="40" value="#{addMessageBean.message}" counter="display" required="true" requiredMessage="Įrašykite apibūdinimą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
+                                    <p:inputTextarea id="description" rows="10" cols="40" value="#{addMessageBean.message}" counter="display" required="#{not empty param.includeInSave}" requiredMessage="Įrašykite skelbimą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
                                     <p:message for="description" display="icon" />
                                     <p:outputLabel value=" "/>
                                     <h:outputText id="display" />
@@ -43,7 +43,9 @@
 
 
 
-                                    <p:commandButton styleClass="buttonRight" value="Pridėti skelbimą" action="#{addMessageBean.addMessage()}" id="withIcon" type="submit" ajax="false" validateClient="true" icon="ui-icon-disk" update="list"/>
+                                    <p:commandButton styleClass="buttonRight" value="Pridėti skelbimą" action="#{addMessageBean.addMessage()}" id="withIcon" type="submit" ajax="false" validateClient="true" icon="ui-icon-disk" update="list">
+                                        <f:param name="includeInSave" value="true" />
+                                    </p:commandButton>
 
                             </h:panelGrid>
 
