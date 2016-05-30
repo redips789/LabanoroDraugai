@@ -65,6 +65,9 @@ public class LoginFilter implements Filter {
         String confirmPaymentsURI = request.getContextPath() + "/confirmPayments.xhtml";
         String myServicesURI = request.getContextPath() + "/myServices.xhtml";
         String servicesURI = request.getContextPath() + "/services.xhtml";
+        String addMessageURI = request.getContextPath() + "/addMessage.xhtml";
+        String removeMessageURI = request.getContextPath() + "/removeMessage.xhtml";
+        String addPaymentsURI = request.getContextPath() + "/addPayments.xhtml";
         int indexOfPay = request.getRequestURI().indexOf("payMembershipFee");
         int indexOfRes = request.getRequestURI().indexOf("resources");
 
@@ -100,6 +103,9 @@ public class LoginFilter implements Filter {
         boolean confirmPaymentsRequest = request.getRequestURI().equals(confirmPaymentsURI);
         boolean myServicesRequest = request.getRequestURI().equals(myServicesURI);
         boolean servicesRequest = request.getRequestURI().equals(servicesURI);
+        boolean addMessageRequest = request.getRequestURI().equals(addMessageURI);
+        boolean removeMessageRequest = request.getRequestURI().equals(removeMessageURI);
+        boolean addPaymentsRequest = request.getRequestURI().equals(addPaymentsURI);
         boolean admin = false;
         boolean candidate = false;
         boolean member = false;
@@ -139,9 +145,9 @@ public class LoginFilter implements Filter {
                 chain.doFilter(request, response);
             } else if (registrationRequest) {
                 chain.doFilter(request, response);
-            } else if (confirmPaymentsRequest  && admin) {
+            } else if ((confirmPaymentsRequest || removeMessageRequest || addPaymentsRequest) && admin) {
                 chain.doFilter(request, response);
-            } else if ((myServicesRequest || servicesRequest)&& (admin || member)) {
+            } else if ((myServicesRequest || servicesRequest || addMessageRequest) && (admin || member)) {
                 chain.doFilter(request, response);
             } else {
                 response.sendRedirect(pageNotFoundURL);
