@@ -27,6 +27,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -35,7 +36,7 @@ import javax.inject.Named;
  * @author darbas
  */
 @Named(value = "registrationBean")
-@RequestScoped
+@ViewScoped
 public class RegistrationBean implements Serializable {
 
     @Inject
