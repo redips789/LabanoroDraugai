@@ -51,29 +51,30 @@
 
                     <h:form id="sh">
                         <p:dataScroller id="list" value="#{summerhouseBean.summerhouses}" var="summerhouse" chunkSize="10">
+                            
 
-                            <h:panelGrid columns="2" style="width:80%;" columnClasses="column" >
-                                <p:graphicImage style="float: left; clear: both" value="#{imageStreamer.oneImage}" class="summerhouse-image-container" >
+                            <h:panelGrid id="jonas" columns="2" >
+                                <h:panelGrid columns="1" style="width:40em;"> 
+                                <p:graphicImage value="#{imageStreamer.oneImage}" class="summerhouse-image-container" >
                                     <f:param name="id" value="#{summerhouse.photoImageid.id}" />
                                 </p:graphicImage> 
+                                </h:panelGrid>
 
-                                <p:outputPanel>
-                                    <h:panelGrid columns="2" cellpadding="5">
-                                        <h:outputText value="Pavadinimas:" />
-                                        <h:outputText value="#{summerhouse.title}" style="font-weight: bold"/>
+                                    <h:panelGrid  columnClasses="column" columns="2" cellpadding="5">
+                                        <p:outputLabel style="text-align: center;" value="Pavadinimas:" />
+                                        <p:outputLabel value="#{summerhouse.title}" style="font-weight: bold"/>
 
-                                        <h:outputText value="Miegamų vietų skaičius:" />
-                                        <h:outputText value="#{summerhouse.beds}" style="font-weight: bold"/>
+                                        <p:outputLabel value="Miegamų vietų skaičius:" />
+                                        <p:outputLabel value="#{summerhouse.beds}" style="font-weight: bold"/>
 
-                                        <h:outputText value="Kaina (tšk):" />
-                                        <h:outputText value="#{summerhouse.cost}" style="font-weight: bold"/>
+                                        <p:outputLabel value="Kaina (tšk):" />
+                                        <p:outputLabel value="#{summerhouse.cost}" style="font-weight: bold"/>
 
                                         <p:button outcome="summerhouseMoreDetails" value="Plačiau" >
                                             <f:param name="id" value="#{summerhouse.id}" />
                                         </p:button>
 
                                     </h:panelGrid>
-                                </p:outputPanel>
 
                             </h:panelGrid>
                             <p:separator />
