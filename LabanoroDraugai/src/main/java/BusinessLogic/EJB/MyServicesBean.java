@@ -71,14 +71,13 @@ public class MyServicesBean implements Serializable {
             Date today = calendar.getTime();
 
             if (today.after(reservationEnd)) {
-                System.out.println("atejau i rezervacijos atsaukt negalima");
+                Message.addErrorMessage("Rezervacijos atšaukti nebegalima!");
                 return;
             }
 
             ServiceReservationCRUD.removeReservation(reservation);
             myReservations.remove(reservation);
             Message.addSuccessMessage("Rezervacija atšaukta");
-
         } catch(Exception ex) {
              Message.addErrorMessage("Nesijaudinkite, bet įvyko klaida. Paslauga nebuvo atšaukta. Bandykite dar kartą.");
         }
