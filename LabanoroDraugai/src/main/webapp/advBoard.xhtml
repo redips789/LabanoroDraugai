@@ -42,15 +42,15 @@
                                     Skelbimų lenta
                                 </f:facet>
 
-                                <p:column headerText="Statusas" style="width:130px;">
+                                <p:column headerText="Statusas" style="width:120px;">
                                     <h:outputText value="#{message.accountId.status}" /> 
                                 </p:column>
                                 
-                                <p:column headerText="Vardas" style="width:130px;">
+                                <p:column headerText="Vardas" style="width:120px;">
                                     <h:outputText value="#{message.accountId.firstName}" /> 
                                 </p:column>
 
-                                <p:column headerText="Pavardė" style="width:130px;">
+                                <p:column headerText="Pavardė" style="width:120px;">
                                     <h:outputText value="#{message.accountId.lastName}" />
                                 </p:column>
 
@@ -58,7 +58,7 @@
                                     <h:outputText value="#{message.message}" />
                                 </p:column>
 
-                                <p:column headerText="Data" style="width:120px;">
+                                <p:column headerText="Data" style="width:120px; text-align: center">
                                     <p:outputLabel value="#{message.date}">
                                         <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
                                     </p:outputLabel>

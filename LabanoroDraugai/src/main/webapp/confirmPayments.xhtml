@@ -37,11 +37,11 @@
                                     Esami mokėjimai
                                 </f:facet>
 
-                                <p:column headerText="Vardas">
+                                <p:column headerText="Vardas" style="width:120px;">
                                     <h:outputText value="#{paidFees.accountId.firstName}" /> 
                                 </p:column>
 
-                                <p:column headerText="Pavardė">
+                                <p:column headerText="Pavardė" style="width:120px;">
                                     <h:outputText value="#{paidFees.accountId.lastName}" />
                                 </p:column>
 
@@ -49,26 +49,22 @@
                                     <h:outputText value="#{paidFees.accountId.email}" />
                                 </p:column>
                                 
-                                <p:column headerText="Mokėta suma">
+                                <p:column headerText="Mokėta suma" style="width:80px; text-align: center">
                                     <h:outputText value="#{paidFees.fee.amount} €" />
                                 </p:column>
                                 
-                                <p:column headerText="Pirkti taškai">
+                                <p:column headerText="Pirkti taškai" style="width:80px; text-align: center">
                                     <h:outputText value="#{paidFees.fee.points}" />
                                 </p:column>
-                                
-                                <p:column headerText="Aprašymas">
-                                    <h:outputText value="#{paidFees.fee.description}" />
-                                </p:column>
 
-                                <p:column headerText="Mokėjimo data">
+                                <p:column headerText="Mokėjimo data" style="width:120px; text-align: center">
                                     <p:outputLabel value="#{paidFees.paidDate}">
                                         <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
                                     </p:outputLabel>
 
                                 </p:column>
 
-                                <p:column style="width:60px" headerText="Patvirtinti mokėjimą">
+                                <p:column headerText="Patvirtinti" style="width:60px; text-align: center">
                                     <p:commandButton action="#{confirmPaymentsBean.confirmPayment(paidFees.id)}" icon="ui-icon-check" title="Mokėti" update="list" >
                                         <p:confirm header="Patvirtinimas" message="Ar tikrai norite patvirtinti šį mokėjimą?" icon="ui-icon-alert" />
                                     </p:commandButton>
@@ -78,7 +74,7 @@
                                     </p:confirmDialog>
                                 </p:column>
                                 
-                                <p:column style="width:60px" headerText="Atmesti mokėjimą">
+                                <p:column headerText="Atmesti" style="width:60px; text-align: center">
                                     <p:commandButton action="#{confirmPaymentsBean.cancelPayment(paidFees.id)}" icon="fa fa-trash-o" title="Atšaukti" update="list" >
                                         <p:confirm header="Patvirtinimas" message="Ar tikrai norite nepatvirtinti šio mokėjimo?" icon="ui-icon-alert" />
                                     </p:commandButton>

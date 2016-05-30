@@ -65,7 +65,7 @@ public class AddMessageBean {
             
             messagesCRUD.addMessages(messages);
             Message.addSuccessMessage("Žinutė pridėta sėkmingai");
-            return "home?faces-redirect=true";
+            return "advBoard?faces-redirect=true";
         } catch (Exception ex) {
             Message.addErrorMessage("Nepavyko pridėti Jūsų žinutės");
             return "addMessage?faces-redirect=true";

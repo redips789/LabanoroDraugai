@@ -61,16 +61,16 @@
 
                             </h:panelGrid>
 
-                            <p:dataTable id="list" value="#{addRemovePaymentsBean.feeList}" var="fee" emptyMessage="Mokėjimų nėra" >
+                            <p:dataTable id="list" value="#{addRemovePaymentsBean.feeList}" var="fee" emptyMessage="Mokėjimų nėra">
                                 <f:facet name="header">
                                     Mokėjimai
                                 </f:facet>
 
-                                <p:column headerText="Kaina:">
+                                <p:column headerText="Kaina:" style="width:80px; text-align: center">
                                     <h:outputText value="#{fee.amount} €" />
                                 </p:column>
 
-                                <p:column headerText="Taškai:">
+                                <p:column headerText="Taškai:" style="width:80px; text-align: center">
                                     <h:outputText value="#{fee.points}" />
                                 </p:column>
 
@@ -78,8 +78,8 @@
                                     <h:outputText value="#{fee.description}" />
                                 </p:column>
 
-                                <p:column style="width:60px" headerText="Pašalinti mokėjimą">
-                                    <p:commandButton action="#{addRemovePaymentsBean.removeFee(fee.id)}" icon="fa fa-trash-o" title="Pašalinti" update="list" >
+                                <p:column headerText="Pašalinti" style="width:60px; text-align: center">
+                                    <p:commandButton action="#{addRemovePaymentsBean.removeFee(fee.id)}" icon="fa fa-trash-o" title="Pašalinti" update="list">
                                         <p:confirm header="Patvirtinimas" message="Ar tikrai norite pašalinti šį mokėjimą?" icon="ui-icon-alert" />
                                     </p:commandButton>
                                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

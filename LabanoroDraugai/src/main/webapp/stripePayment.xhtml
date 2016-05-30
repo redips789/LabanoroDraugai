@@ -40,12 +40,12 @@
                                     Taškų pirkimas
                                 </f:facet>
                                 
-                                <p:column headerText="Taškai">
+                                <p:column headerText="Taškai" style="width:80px; text-align: center">
                                     <h:outputText id="ha" value="#{fee.points}" /> 
                                     <input type="hidden" name="#{fee.id}points" value="#{fee.points}"/>
                                 </p:column>
 
-                                <p:column headerText="Kaina">
+                                <p:column headerText="Kaina" style="width:80px; text-align: center">
                                     <h:outputText id="haha" value="#{fee.amount} €" />
                                     <input type="hidden" name="#{fee.id}amount" value="#{fee.amount}"/>
                                 </p:column>
@@ -55,7 +55,7 @@
                                     <input type="hidden" name="#{fee.id}description" value="#{fee.description}"/>
                                 </p:column>
 
-                                <p:column style="width:60px" headerText="Mokėti">
+                                <p:column style="width:60px; text-align: center" headerText="Pirkti">
                                     <script src="https://checkout.stripe.com/checkout.js"></script>
                                     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
                                     <script type ="text/javascript">
