@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <link rel="shortcut icon" href="resources/img/favicon.ico"/>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>Labanoro draugai</title>
+        </f:facet>
+        <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body>
+        <h:form id="form">     
+            <div id="page">
+                <div id="header-container">
+                    <ui:include src="header.xhtml" />         
+                </div>
+
+                <div id="menu-container">
+                    <ui:include src="menu.xhtml" />
+                </div>
+
+                <div id="content-container">
+                    
+                            <h:form>
+                                <p:messages id="messages" autoUpdate="true" closable="true" />
+                            </h:form>
+
+                            <p:dataTable id="list" value="#{showMessageBean.messagesList}" var="message" rows="10"
+                                         sortBy="#{message.date}"
+                                 paginator="true"
+                                 paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 emptyMessage="Skelbimų nėra" >
+                                <f:facet name="header">
+                                    Skelbimų lenta
+                                </f:facet>
+
+                                <p:column headerText="Statusas" style="width:130px;">
+                                    <h:outputText value="#{message.accountId.status}" /> 
+                                </p:column>
+                                
+                                <p:column headerText="Vardas" style="width:130px;">
+                                    <h:outputText value="#{message.accountId.firstName}" /> 
+                                </p:column>
+
+                                <p:column headerText="Pavardė" style="width:130px;">
+                                    <h:outputText value="#{message.accountId.lastName}" />
+                                </p:column>
+
+                                <p:column headerText="Skelbimas" >
+                                    <h:outputText value="#{message.message}" />
+                                </p:column>
+
+                                <p:column headerText="Data" style="width:120px;">
+                                    <p:outputLabel value="#{message.date}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+                                    </p:outputLabel>
+                                </p:column>
+                                
+                            </p:dataTable>
+
+                </div>
+
+
+                <div id="footer-container" >
+                    <ui:include src="footer.xhtml" />
+                </div>
+            </div>    
+        </h:form> 
+    </h:body>   
+</html>
+
