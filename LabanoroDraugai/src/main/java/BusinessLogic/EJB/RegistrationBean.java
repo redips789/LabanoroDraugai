@@ -24,6 +24,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -34,7 +35,7 @@ import javax.inject.Named;
  * @author darbas
  */
 @Named(value = "registrationBean")
-@SessionScoped
+@RequestScoped
 public class RegistrationBean implements Serializable {
 
     @Inject
