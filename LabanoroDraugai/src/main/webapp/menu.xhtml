@@ -14,6 +14,7 @@
         <div id="menu" style="color: red;"> 
 
             <p:menubar>
+                <p:menuitem icon="fa fa-home" outcome="home" title="Pagrindinis" />
                 <p:submenu  label="Vasarnamiai" rendered="#{accountBean.notCandidate}">
                     <p:menuitem value="Visi" outcome="summerhouse" />
                     <p:menuitem value="Mano rezervuoti" outcome="mySummerhouses" />                   
@@ -27,6 +28,7 @@
                  <p:submenu  label="Skelbimai" rendered="#{accountBean.notCandidate}">
                     <p:menuitem value="Pridėti skelbimą" action="addMessage?faces-redirect=true" />
                     <p:menuitem value="Pašalinti skelbimą" action="removeMessage?faces-redirect=true" rendered="#{accountBean.admin}" />
+                    <p:menuitem value="Skelbimų lenta" action="advBoard?faces-redirect=true" />
                 </p:submenu>
 
                 <p:menuitem value="Klubo nariai" outcome="membersReview" rendered="#{accountBean.notCandidate}"/>
