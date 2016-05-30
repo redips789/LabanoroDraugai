@@ -52,7 +52,7 @@ public class Services implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 30)
+    @Size(min = 0, max = 30)
     @Column(name = "TITLE")
     private String title;
     @Size(max = 250)

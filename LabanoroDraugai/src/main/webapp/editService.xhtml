@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <link rel="shortcut icon" href="resources/img/favicon.ico"/>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>Labanoro draugai</title>
+        </f:facet>
+        <link href="resources/css/stylesheet.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <h:form id="form" enctype="multipart/form-data">
+
+            <div id="page">
+                <div id="header-container">
+                    <ui:include src="header.xhtml" />         
+                </div>
+
+                <div id="menu-container">
+                    <ui:include src="menu.xhtml" />
+                </div>
+                <div id="content-container">
+                    <p:dataTable style="width:40%" var="service" value="#{servicesBean.services}" scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="300" styleClass="table">
+                        <p:column headerText="Pavadinimas" footerText="Pavadinimas">
+                            <h:outputText value="#{service.title}"/>
+                        </p:column>
+
+                        <p:column headerText="Redaguoti" styleClass="centerColumn" style="width:80px">
+                            <p:button id="button" outcome="serviceEdit" icon="fa fa-edit">
+                                <f:param name="title" value="#{service.title}" />
+                            </p:button>
+                        </p:column>
+                    </p:dataTable>                     
+                </div>
+                <div id="footer-container" >
+                    <ui:include src="footer.xhtml" />
+                </div>
+
+            </div>
+
+        </h:form>
+    </h:body>
+</html>
+

@@ -71,6 +71,7 @@ public class LoginFilter implements Filter {
         String addServiceURI = request.getContextPath() + "/addService.xhtml";
         String editServiceURI = request.getContextPath() + "/editService.xhtml";
         String deleteServiceURI = request.getContextPath() + "/deleteService.xhtml";
+        String serviceEditURI = request.getContextPath() + "/serviceEdit.xhtml";
         String advBoardURI = request.getContextPath() + "/advBoard.xhtml";
         int indexOfPay = request.getRequestURI().indexOf("payMembershipFee");
         int indexOfRes = request.getRequestURI().indexOf("resources");
@@ -113,6 +114,7 @@ public class LoginFilter implements Filter {
         boolean addServiceRequest = request.getRequestURI().equals(addServiceURI);
         boolean editServiceRequest = request.getRequestURI().equals(editServiceURI);
         boolean deleteServiceRequest = request.getRequestURI().equals(deleteServiceURI);
+        boolean serviceEditRequest = request.getRequestURI().equals(serviceEditURI);
         boolean advBoardRequest = request.getRequestURI().equals(advBoardURI);
         boolean admin = false;
         boolean candidate = false;
@@ -153,7 +155,7 @@ public class LoginFilter implements Filter {
                 chain.doFilter(request, response);
             } else if (registrationRequest) {
                 chain.doFilter(request, response);
-            } else if ((confirmPaymentsRequest || removeMessageRequest || addPaymentsRequest || addServiceRequest || editServiceRequest || deleteServiceRequest) && admin) {
+            } else if ((confirmPaymentsRequest || removeMessageRequest || addPaymentsRequest || addServiceRequest || editServiceRequest || deleteServiceRequest || serviceEditRequest) && admin) {
                 chain.doFilter(request, response);
             } else if ((myServicesRequest || servicesRequest || addMessageRequest || advBoardRequest) && (admin || member)) {
                 chain.doFilter(request, response);

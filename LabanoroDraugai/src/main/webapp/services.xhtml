@@ -41,8 +41,8 @@
                         <p:column headerText="Aprašymas">
                             <h:outputText value="#{service.description}"/>
                         </p:column>
-                        <p:column headerText="Dienos kaina (Eur.)" style="text-align: center">
-                            <h:outputText value="#{service.cost}" />
+                        <p:column headerText="Dienos kaina" style="text-align: center">
+                            <h:outputText value="#{service.cost}  €"/>
                         </p:column>
                         <p:column headerText="Galima nuo" style="text-align: center">
                             <h:outputText value="#{service.validityStart}">
@@ -54,7 +54,7 @@
                                 <f:convertDateTime pattern="yyyy-MM-dd"/>      
                             </h:outputText>
                         </p:column>
-                        <p:column style="width:60px; text-align: center">
+                        <p:column headerText="Užsakyti" style="width:60px; text-align: center">
                             <p:commandButton icon="ui-icon-disk" 
                                              type="submit" 
                                              title="Užsakyti"
@@ -75,10 +75,6 @@
                               width="700" 
                               closable="false" 
                               resizable="false">
-
-                        <h:form>
-                            <p:messages id="messages" autoUpdate="true" closable="true" />
-                        </h:form>
 
                         <div id="content-container">
                                     <h:form id="second">

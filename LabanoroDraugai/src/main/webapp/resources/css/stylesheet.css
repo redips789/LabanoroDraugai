@@ -125,6 +125,13 @@ body {
     /*margin-left: -76px*/
 }
 
+.summerhouse-image-container {
+    width: 400px;
+    height: 300px;
+    overflow:hidden;
+    /*margin-left: -76px*/
+}
+
 #profile-wrapper{ 
     margin-top: 1.5em;
     margin-bottom: 1.5em;

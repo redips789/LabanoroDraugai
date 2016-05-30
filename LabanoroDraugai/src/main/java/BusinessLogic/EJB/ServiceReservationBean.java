@@ -94,15 +94,17 @@ public class ServiceReservationBean implements Serializable {
     public void saveReservation() {
         try {
             if (reservation.getStartDate() != null && reservation.getEndDate() != null) {
-
-                reservation.setAccountId(account);
-                reservation.setServiceId(service);
-                reservation.setCost(service.getCost());
-                serviceReservationCRUD.insertReservation(reservation);
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sveikiname", "Paslauga užsakyta!");
-                RequestContext.getCurrentInstance().showMessageInDialog(message);
-                this.hideFirstDialog();
-
+                if (!reservation.getStartDate().after(reservation.getEndDate())) {
+                    reservation.setAccountId(account);
+                    reservation.setServiceId(service);
+                    reservation.setCost(service.getCost());
+                    serviceReservationCRUD.insertReservation(reservation);
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sveikiname", "Paslauga užsakyta!");
+                    RequestContext.getCurrentInstance().showMessageInDialog(message);
+                    this.hideFirstDialog();
+                } else {
+                    Message.addErrorMessage("Nurodykite teisingas datas!");
+                }
             } else {
                 Message.addErrorMessage("Įveskite rezervacijos pradžios ir pabaigos datas!");
             }

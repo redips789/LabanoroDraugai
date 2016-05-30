@@ -27,56 +27,58 @@
                 </div>
 
                 <div id="content-container">
-                            <h:form> 
+                    <h:form> 
 
-                                <h:panelGrid columns="12" style="margin-bottom:10px" cellpadding="5">
+                        <h:panelGrid columns="14" style="margin-bottom:10px" cellpadding="5">
 
-                                    <p:outputLabel for="priceFrom" value="Kaina nuo:"/>                        
-                                    <p:inputText id="priceFrom" value="#{summerhouseBean.priceFrom}" placeholder="Kaina nuo" type="number" style="width: 70px"/>
-                                    <p:outputLabel for="priceTo" value="iki:"/>
-                                    <p:inputText id="priceTo" value="#{summerhouseBean.priceTo}" placeholder="Kaina iki" type="number" style="width: 70px"/>
-                                    <p:outputLabel for="bedsFrom" value="Vietų skaičius nuo:"/>
-                                    <p:inputText id="bedsFrom" value="#{summerhouseBean.bedsFrom}" placeholder="Vietų nuo" type="number" style="width: 70px"/>
-                                    <p:outputLabel for="bedsTo" value="iki:"/>
-                                    <p:inputText id="bedsTo" value="#{summerhouseBean.bedsTo}" placeholder="Vietų iki" type="number" style="width: 70px"/>                        
-                                    <p:outputLabel for="availableFrom" value="Laisvas nuo:"/>            
-                                    <p:calendar id="availableFrom" value="#{summerhouseBean.availableFrom}" placeholder="Laisvas nuo" size="10"/>
-                                    <p:outputLabel for="availableTo" value="iki:"/>
-                                    <p:calendar id="availableTo" value="#{summerhouseBean.availableTo}" placeholder="Laisvas iki" size="10"/>
+                            <p:outputLabel for="priceFrom" value="Kaina nuo:"/>                        
+                            <p:inputText id="priceFrom" value="#{summerhouseBean.priceFrom}" placeholder="Kaina nuo" type="number" style="width: 70px"/>
+                            <p:outputLabel for="priceTo" value="iki:"/>
+                            <p:inputText id="priceTo" value="#{summerhouseBean.priceTo}" placeholder="Kaina iki" type="number" style="width: 70px"/>
+                            <p:outputLabel for="bedsFrom" value="Vietų nuo:"/>
+                            <p:inputText id="bedsFrom" value="#{summerhouseBean.bedsFrom}" placeholder="Vietų nuo" type="number" style="width: 70px"/>
+                            <p:outputLabel for="bedsTo" value="iki:"/>
+                            <p:inputText id="bedsTo" value="#{summerhouseBean.bedsTo}" placeholder="Vietų iki" type="number" style="width: 70px"/>                        
+                            <p:outputLabel for="availableFrom" value="Laisvas nuo:"/>            
+                            <p:calendar id="availableFrom" value="#{summerhouseBean.availableFrom}" placeholder="Laisvas nuo" size="10"/>
+                            <p:outputLabel for="availableTo" value="iki:"/>
+                            <p:calendar id="availableTo" value="#{summerhouseBean.availableTo}" placeholder="Laisvas iki" size="10"/>
 
-                                </h:panelGrid>
-                                <p:commandButton value="Atšaukti" icon="ui-icon-cancel" action="#{summerhouseBean.recoverSummerhouses()}" update=":form:sh:list"/>
-                                <p:commandButton value="Filtruoti" icon="ui-icon-search" action="#{summerhouseBean.filterSummerhouses()}" update=":form:sh:list" />
-                            </h:form>
+                            <p:commandButton value="Filtruoti" action="#{summerhouseBean.filterSummerhouses()}" update=":form:sh:list" />
+                            <p:commandButton value="Atšaukti" action="#{summerhouseBean.recoverSummerhouses()}" update=":form:sh:list"/>
+                        </h:panelGrid>
+                    </h:form>
 
-                            <h:form id="sh">
-                                <p:dataScroller id="list" value="#{summerhouseBean.summerhouses}" var="summerhouse" chunkSize="5">
+                    <h:form id="sh">
+                        <p:dataScroller id="list" value="#{summerhouseBean.summerhouses}" var="summerhouse" chunkSize="10">
 
-                                    <h:panelGrid columns="2" style="width:1000px" >
-                                        <p:graphicImage value="#{imageStreamer.oneImage}" class="profile-image-container" >
-                                            <f:param name="id" value="#{summerhouse.photoImageid.id}" />
-                                        </p:graphicImage> 
+                            <h:panelGrid columns="2" style="width:80%;" columnClasses="column" >
+                                <p:graphicImage style="float: left; clear: both" value="#{imageStreamer.oneImage}" class="summerhouse-image-container" >
+                                    <f:param name="id" value="#{summerhouse.photoImageid.id}" />
+                                </p:graphicImage> 
 
-                                        <p:outputPanel>
-                                            <h:panelGrid columns="2" cellpadding="5">
-                                                <h:outputText value="Pavadinimas:" />
-                                                <h:outputText value="#{summerhouse.title}" style="font-weight: bold"/>
+                                <p:outputPanel>
+                                    <h:panelGrid columns="2" cellpadding="5">
+                                        <h:outputText value="Pavadinimas:" />
+                                        <h:outputText value="#{summerhouse.title}" style="font-weight: bold"/>
 
-                                                <h:outputText value="Miegamų vietų skaičius:" />
-                                                <h:outputText value="#{summerhouse.beds}" style="font-weight: bold"/>
+                                        <h:outputText value="Miegamų vietų skaičius:" />
+                                        <h:outputText value="#{summerhouse.beds}" style="font-weight: bold"/>
 
-                                                <h:outputText value="Kaina (tšk):" />
-                                                <h:outputText value="#{summerhouse.cost}" style="font-weight: bold"/>
+                                        <h:outputText value="Kaina (tšk):" />
+                                        <h:outputText value="#{summerhouse.cost}" style="font-weight: bold"/>
 
-                                                <p:button outcome="summerhouseMoreDetails" value="Plačiau" icon="ui-icon-star">
-                                                    <f:param name="id" value="#{summerhouse.id}" />
-                                                </p:button>
+                                        <p:button outcome="summerhouseMoreDetails" value="Plačiau" >
+                                            <f:param name="id" value="#{summerhouse.id}" />
+                                        </p:button>
 
-                                            </h:panelGrid>
-                                        </p:outputPanel>
                                     </h:panelGrid>
-                                </p:dataScroller>
-                            </h:form>   
+                                </p:outputPanel>
+
+                            </h:panelGrid>
+                            <p:separator />
+                        </p:dataScroller>
+                    </h:form>   
                 </div>
 
                 <div id="footer-container" >

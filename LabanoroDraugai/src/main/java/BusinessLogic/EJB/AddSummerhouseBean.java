@@ -5,35 +5,21 @@
  */
 package BusinessLogic.EJB;
 
-import DataAccess.EJB.AccountCRUD;
 import DataAccess.EJB.ImageCRUD;
-import DataAccess.EJB.SettingsCRUD;
 import DataAccess.EJB.SummerhouseCRUD;
-import DataAccess.JPA.Account;
 import DataAccess.JPA.Image;
-import DataAccess.JPA.Settings;
 import DataAccess.JPA.Summerhouse;
 import Messages.Message;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
-import java.util.Calendar;
-//import java.util.Date;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import org.primefaces.model.UploadedFile;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.commons.io.IOUtils;
-import org.primefaces.context.RequestContext;
 
 /**
  *

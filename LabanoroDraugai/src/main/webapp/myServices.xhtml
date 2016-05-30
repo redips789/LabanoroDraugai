@@ -46,7 +46,7 @@
                         </p:column>
 
                         <p:column headerText="Dienos kaina" style="text-align: center">
-                            <h:outputText value="#{reservation.cost}" />
+                            <h:outputText value="#{reservation.cost} €" />
                         </p:column>
 
                         <p:column headerText="Pastabos">
@@ -65,7 +65,7 @@
                             </p:outputLabel>
                         </p:column>
 
-                        <p:column style="width:60px; text-align: center">
+                        <p:column headerText="Atšaukti" style="width:60px; text-align: center">
                             <p:commandButton action="#{myServicesBean.cancelReservation(reservation)}" icon="fa fa-trash-o" title="Atšaukti užsakymą" update=":form:list" >
                                 <p:confirm header="Patvirtinimas" message="Ar tikrai norite atšaukti šios paslaugos užsakymą?" icon="fa fa-exclamation-triangle" />
                             </p:commandButton>

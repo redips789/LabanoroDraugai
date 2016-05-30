@@ -18,16 +18,43 @@ import static javax.persistence.SynchronizationType.UNSYNCHRONIZED;
  *
  * @author Liudas
  */
-
 @Stateless
 public class ServicesCRUD {
-    
+
     @PersistenceContext(type = TRANSACTION, synchronization = UNSYNCHRONIZED)
     private EntityManager em;
-    
+
     public List<Services> findAllServices() {
         Query query = em.createQuery("SELECT s FROM Services s");
         return (List<Services>) query.getResultList();
     }
-    
+
+    public void insertService(Services service) {
+        em.persist(service);
+        em.joinTransaction();
+        em.flush();
+    }
+
+    public void deleteService(Services service) {
+        em.remove(em.merge(service));
+        em.joinTransaction();
+        em.flush();
+    }
+
+    public Services updateService(Services service) {
+        Services b = em.merge(service); // reference to another object than the one passed in when the object was already loaded in the current context.
+        em.joinTransaction();
+        em.flush();
+        return b;
+    }
+
+    public Services findByTitle(String title) {
+        try {
+            Services query = (Services) em.createQuery("SELECT s FROM Services s WHERE s.title = :title").setParameter("title", title).getSingleResult();
+            return query;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }
