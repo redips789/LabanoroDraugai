@@ -55,7 +55,7 @@
 
 
 
-                                    <p:commandButton styleClass="buttonRight" value="Išsaugoti mokestį" action="#{addRemovePaymentsBean.addFee()}" id="withIcon" type="submit" ajax="false" validateClient="true" icon="ui-icon-disk" update="list"/>
+                                    <p:commandButton process="@this" styleClass="buttonRight" value="Išsaugoti mokestį" action="#{addRemovePaymentsBean.addFee()}" id="withIcon" type="submit" ajax="false" validateClient="true" icon="ui-icon-disk" update="list"/>
 
                             </h:panelGrid>
 
