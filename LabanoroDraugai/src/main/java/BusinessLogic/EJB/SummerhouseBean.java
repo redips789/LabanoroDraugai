@@ -68,6 +68,12 @@ public class SummerhouseBean implements Serializable {
     }
     
     public void recoverSummerhouses() {
+        priceFrom = 0;
+        priceTo = 0;
+        bedsFrom = 0;
+        bedsTo = 0;
+        availableFrom = null;
+        availableTo = null;
         summerhouses = summerhouseCRUD.findAllSummerhouses();
     }
     
