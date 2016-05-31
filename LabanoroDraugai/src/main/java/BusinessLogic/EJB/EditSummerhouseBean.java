@@ -74,10 +74,10 @@ public class EditSummerhouseBean implements Serializable {
             Summerhouse temp = summerhouseCRUD.findByTitle(detailedSummerhouse.getTitle());
             if (detailedSummerhouse.getValidityStart().after(detailedSummerhouse.getValidityEnd())) {
 
-                Message.addErrorMessage("Įvestos blogos datos");
+                Message.addErrorMessage("Įvedėte neteisingą informaciją - rezervacijos pabaigos data yra ankstesnė negu pradžios");
             } else if (temp != null && detailedSummerhouse.getId() != temp.getId()) {
 
-                Message.addErrorMessage("Vasarnamis su tokiu pavadinimu jau egzistuoja");
+                Message.addErrorMessage("Įvedėte neteisingą informaciją - toks vasarnamio pavadinimas jau egzistuoja");
             } else {
                 if (!"".equals(this.file.getFileName())) {
                     Image image = new Image();
