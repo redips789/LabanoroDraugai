@@ -74,7 +74,7 @@ public class EditSummerhouseBean implements Serializable {
             Summerhouse temp = summerhouseCRUD.findByTitle(detailedSummerhouse.getTitle());
             if (detailedSummerhouse.getValidityStart().after(detailedSummerhouse.getValidityEnd())) {
 
-                Message.addErrorMessage("Kvaily, datas geras nurodyk");
+                Message.addErrorMessage("Įvestos blogos datos");
             } else if (temp != null && detailedSummerhouse.getId() != temp.getId()) {
 
                 Message.addErrorMessage("Vasarnamis su tokiu pavadinimu jau egzistuoja");
