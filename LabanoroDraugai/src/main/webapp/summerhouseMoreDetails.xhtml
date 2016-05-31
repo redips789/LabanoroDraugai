@@ -77,8 +77,6 @@
                                 <f:viewParam name="id" value="#{summerhouseDetails.id}" />
                             </f:metadata>
 
-
-
                             <p:panel id="basic" header="#{summerhouseDetails.detailedSummerhouse.title}">
 
                                 <h:panelGrid columns="3" columnClasses="column" cellpadding="5" styleClass="panelGridCenter">  
@@ -149,7 +147,8 @@
                                         <p:spinner id="minMax" 
                                                    value="#{reservationBean.weeks}" 
                                                    min="1" 
-                                                   max="30" 
+                                                   max="30"
+                                                   onkeyup="this.value = this.value.replace(/[^\d]/, '')"
                                                    size="10"/>                                                            
 
                                         <p:outputLabel value="" /> 

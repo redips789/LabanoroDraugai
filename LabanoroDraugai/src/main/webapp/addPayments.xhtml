@@ -28,11 +28,13 @@
 
                 <div id="content-container">
                     
-                            <h:form>
-                                <p:messages id="messages" autoUpdate="true" closable="true" />
-                            </h:form>
+                           <div class="panelGridCenter" style="width: 50%">
+                                <h:form>
+                                    <p:messages id="messages" autoUpdate="true" closable="true" />
+                                </h:form>
+                            </div>
 
-                            <h:panelGrid columns="3" columnClasses="column" cellpadding="5" id="testt456">
+                    <h:panelGrid styleClass="panelGridCenter" columns="3" columnClasses="column" cellpadding="5" id="testt456">
 
                                     <p:outputLabel value="Kaina:" /> 
                                     <p:inputText id="lastname" value="#{addRemovePaymentsBean.amount}" size="30" required="#{not empty param.includeInSave}" requiredMessage="Įrašykite kainą" maxlength="29" />
@@ -47,19 +49,16 @@
 
 
                                     <p:outputLabel value="Aprašymas:" />
-                                    <p:inputTextarea id="description" rows="10" cols="20" value="#{addRemovePaymentsBean.description}" counter="display" required="#{not empty param.includeInSave}" requiredMessage="Įrašykite apibūdinimą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
+                                    <p:inputTextarea id="description" rows="8" cols="31" value="#{addRemovePaymentsBean.description}" counter="display" required="#{not empty param.includeInSave}" requiredMessage="Įrašykite apibūdinimą" maxlength="249" counterTemplate="Liko simbolių: {0}"/>
                                     <p:message for="description" display="icon" />
                                     <p:outputLabel value=" "/>
                                     <h:outputText id="display" />
                                     <p:outputLabel value=" "/>
-
-
-
-                                    <p:commandButton styleClass="buttonRight" value="Išsaugoti mokestį" action="#{addRemovePaymentsBean.addFee()}" id="withIcon" type="submit" ajax="false" validateClient="true" icon="ui-icon-disk" update="list">
+                                    <p:outputLabel value=" "/>
+                                    <p:commandButton style="margin-bottom: 2em" styleClass="buttonRight" value="Išsaugoti mokestį" action="#{addRemovePaymentsBean.addFee()}" id="withIcon" type="submit" ajax="false" validateClient="true" update="list">
                                         <f:param name="includeInSave" value="true" />
-                                    </p:commandButton>
-
-                            </h:panelGrid>
+                                   </p:commandButton>
+                    </h:panelGrid>
 
                             <p:dataTable id="list" value="#{addRemovePaymentsBean.feeList}" var="fee" emptyMessage="Mokėjimų nėra">
                                 <f:facet name="header">
@@ -80,12 +79,15 @@
 
                                 <p:column headerText="Pašalinti" style="width:60px; text-align: center">
                                     <p:commandButton action="#{addRemovePaymentsBean.removeFee(fee.id)}" icon="fa fa-trash-o" title="Pašalinti" update="list">
-                                        <p:confirm header="Patvirtinimas" message="Ar tikrai norite pašalinti šį mokėjimą?" icon="ui-icon-alert" />
+                                        <p:confirm header="Patvirtinimas" message="Ar tikrai norite pašalinti šį mokėjimą?" icon="fa fa-exclamation-triangle" />
                                     </p:commandButton>
-                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                        <p:commandButton title="Pašalinti" value="Taip" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  />
-                                        <p:commandButton title="Pašalinti" value="Ne" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    <p:confirmDialog  global="true" showEffect="fade">
+                                        <h:panelGrid columns="2" styleClass="panelGridCenter">
+                                            <p:commandButton style="width: 4em" value="Taip" styleClass="ui-confirmdialog-yes"/>
+                                            <p:commandButton style="width: 4em" value="Ne" styleClass="ui-confirmdialog-no" />                   
+                                        </h:panelGrid>          
                                     </p:confirmDialog>
+
                                 </p:column>
 
                             </p:dataTable>

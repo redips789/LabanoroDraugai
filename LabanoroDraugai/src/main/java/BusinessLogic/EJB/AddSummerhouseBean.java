@@ -56,7 +56,7 @@ public class AddSummerhouseBean implements Serializable {
                 return "addSummerhouse?faces-redirect=false";
             } else if (summerhouse.getValidityStart().after(summerhouse.getValidityEnd())) {
 
-                Message.addErrorMessage("Kvaily, datas geras nurodyk");
+                Message.addErrorMessage("Įvestos blogos datos");
                 return "addSummerhouse?faces-redirect=false";
             } else if (summerhouseCRUD.findByTitle(summerhouse.getTitle()) != null) {
 

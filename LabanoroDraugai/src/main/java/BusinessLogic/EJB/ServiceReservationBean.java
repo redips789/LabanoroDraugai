@@ -61,9 +61,12 @@ public class ServiceReservationBean implements Serializable {
 
     public boolean canReserveService() {
         int isPaid = this.compareWithToday(accountCRUD.findAccountById(loginBean.getId()).getNextPayment());
+        
         if (isPaid == -1) {
             this.setCanReserve(true);
         } else {
+            System.out.println("atejau kur reikia");
+            Message.addWarningMessage("Tik sumokėję metinį mokestį galėsite rezervuoti paslaugas!");
             this.setCanReserve(false);
         }
         return this.isCanReserve();
