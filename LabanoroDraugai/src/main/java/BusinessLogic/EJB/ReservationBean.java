@@ -122,7 +122,6 @@ public class ReservationBean implements Serializable {
     }
 
     public void setStartDate(Date startDate) {
-        System.out.println("setteris start date");
         this.startDate = startDate;
     }
 
@@ -210,7 +209,6 @@ public class ReservationBean implements Serializable {
                     reservation.setEndDate(this.endDate);
                     reservation.setCost(this.summerhouse.getCost()*weeks); // jei bus daugiau savaiciu, nebus taip paprasta (PAPRASTA :D - Kristina). Daugint reik, sunku:D -Laura           
                     reservationEjb.insertReservation(reservation);
-                    System.out.println("********************************IRASO rezrvacija");
                     
                     payForReservation(acc, 7*weeks, this.summerhouse.getCost()*weeks); // 
 
@@ -234,7 +232,6 @@ public class ReservationBean implements Serializable {
             }
         }
         catch (Exception pe) {
-            System.out.println("********************************" + pe);
             Message.addErrorMessage("Įvyko nenumatyta klaida. Bandykite dar kartą.");
         }
         return "";
