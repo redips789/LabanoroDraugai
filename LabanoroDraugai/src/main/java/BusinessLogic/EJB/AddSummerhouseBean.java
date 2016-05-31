@@ -56,11 +56,11 @@ public class AddSummerhouseBean implements Serializable {
                 return "addSummerhouse?faces-redirect=false";
             } else if (summerhouse.getValidityStart().after(summerhouse.getValidityEnd())) {
 
-                Message.addErrorMessage("Įvestos blogos datos");
+                Message.addErrorMessage("Įvedėte neteisingą informaciją - rezervacijos pabaigos data yra ankstesnė negu pradžios");
                 return "addSummerhouse?faces-redirect=false";
             } else if (summerhouseCRUD.findByTitle(summerhouse.getTitle()) != null) {
 
-                Message.addErrorMessage("Vasarnamis su tokiu pavadinimu jau egzistuoja");
+                Message.addErrorMessage("Įvedėte neteisingą informaciją - toks vasarnamio pavadinimas jau egzistuoja");
                 return "addSummerhouse?faces-redirect=false";
             } else if (!"".equals(this.file.getFileName())) {
                 Image image = new Image();
